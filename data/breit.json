@@ -1276,6 +1276,28 @@
       "occupancy": "87%"
     },
     {
+      "name": "Home Partners of America",
+      "sector": "Rental Housing",
+      "properties": 0,
+      "location": "Various",
+      "states": [],
+      "acquired": "Various",
+      "ownership": "Various",
+      "size": "22,606 units",
+      "occupancy": "98%"
+    },
+    {
+      "name": "Tricon - Single Family Rental",
+      "sector": "Rental Housing",
+      "properties": 0,
+      "location": "Various",
+      "states": [],
+      "acquired": "May 2024",
+      "ownership": "Various",
+      "size": "40,475 units",
+      "occupancy": "n/a"
+    },
+    {
       "name": "Ace Affordable Housing Portfolio",
       "sector": "Rental Housing",
       "properties": 329,
@@ -2474,10 +2496,10 @@
       "occupancy": "n/a"
     }
   ],
-  "investmentsNote": "The 10-Q lists 189 investments. 58 of them, holding 4,200 of the 4,530 properties, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+  "investmentsNote": "The 10-Q lists 191 investments. 60 of them, holding 4,200 of the 4,530 properties plus the single-family rental homes, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
   "thisQuarter": [
     "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
-    "Put $3.3 billion into data center development through its QTS platform, described as 100% pre-leased.",
+    "Put $3.3 billion (at BREIT's share) into data center development through its QTS platform, described as 100% pre-leased.",
     "Raised $1.1 billion from investors and repurchased $0.9 billion of shares and units."
   ],
   "howItWorks": {
@@ -2485,7 +2507,8 @@
     "asOf": "2026-06-30",
     "paragraphs": [
       "Shares are bought and sold back at a price based on the fund's net asset value, set each month.",
-      "Buybacks are capped at 2% of the fund's NAV per month and 5% per calendar quarter. Shares held under a year are bought back at 98% of the price."
+      "The plan limits buybacks to 2% of the fund's NAV per month and 5% per calendar quarter. Shares held under a year are bought back at 98% of the price.",
+      "The board can repurchase fewer shares than requested, or none. It has made exceptions to the limits in the past, and can modify or suspend the plan."
     ],
     "source": {
       "name": "BREIT 10-Q, Share Repurchase Plan",

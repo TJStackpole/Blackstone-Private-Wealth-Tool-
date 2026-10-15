@@ -16,22 +16,22 @@
   },
   "locationBasis": "region",
   "summary": {
-    "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+    "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly. The fund expects to redeem up to 3% of its units outstanding each quarter in total. Units held under two years pay a 5% early redemption deduction, and the general partner can modify or suspend the plan.",
     "stats": [
       {
         "label": "Net assets",
-        "value": "$5.6B",
-        "note": "the aggregator vehicle that holds all investments"
+        "value": "$5.2B",
+        "note": "BXINFRA U.S., which owns 94.5% of the aggregator that holds the investments ($5.6B with a parallel fund)"
       },
       {
         "label": "NAV per unit",
         "value": "$29.99",
-        "note": "Class I, Series I"
+        "note": "Transactional NAV, Class I, Series I"
       },
       {
         "label": "Investments",
         "value": "$6.07B",
-        "note": "at fair value, 107.9% of net assets"
+        "note": "at fair value, held by the aggregator: 107.9% of its net assets"
       },
       {
         "label": "Named holdings",
@@ -48,8 +48,8 @@
       "pct": 29.8
     },
     {
-      "key": "Diversified fund interests",
-      "label": "Diversified fund interests",
+      "key": "Various industries",
+      "label": "Various industries",
       "pct": 25.6
     },
     {
@@ -135,7 +135,7 @@
           "pct": 21.6
         }
       ],
-      "Diversified fund interests": [
+      "Various industries": [
         {
           "key": "Americas",
           "pct": 0.7
@@ -239,11 +239,11 @@
     "bySectorBasis": "Split of that sector's fair value across regions, from the schedule of investments."
   },
   "topHoldings": {
-    "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets. Equity and debt in the same company are combined.",
+    "basis": "Every holding the schedule of investments names, with its fair value as a share of the aggregator's $5.6B net assets. Equity and debt in the same company are combined.",
     "items": [
       {
         "name": "Infrastructure Investments L.P.",
-        "sector": "Diversified fund interests",
+        "sector": "Various industries",
         "geo": "Various",
         "fairValueMillions": 997.0,
         "pctOfNetAssets": 17.7,
@@ -272,7 +272,7 @@
       },
       {
         "name": "SP Ibex Acquisitions L.P.",
-        "sector": "Diversified fund interests",
+        "sector": "Various industries",
         "geo": "Various",
         "fairValueMillions": 378.8,
         "pctOfNetAssets": 6.7,
@@ -309,7 +309,7 @@
     ]
   },
   "notDisclosed": [
-    "What most holdings are: the largest are code-named entities such as 'Mercury Co-Invest L.P.' and 'Poseidon Holdco I L.P.'.",
+    "What most holdings do: the largest are listed under holding-company names, such as 'Mercury Co-Invest L.P.', that don't identify the business.",
     "32% of investments are grouped as 'Other investments' with no name.",
     "Any country, state or city."
   ],

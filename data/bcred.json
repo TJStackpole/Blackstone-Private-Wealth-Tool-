@@ -30,8 +30,8 @@
       },
       {
         "label": "Portfolio companies",
-        "value": "806",
-        "note": "$77.6B of investments at fair value"
+        "value": "653",
+        "note": "700 at Dec 31, 2025; $77.6B of investments at fair value"
       },
       {
         "label": "First lien loans",
@@ -136,7 +136,7 @@
     ]
   },
   "topHoldings": {
-    "basis": "The twelve largest borrowers, summing every loan and equity position in each company, with fair value as a share of net assets.",
+    "basis": "The twelve largest borrowers, summing every position listed under the same company name, with fair value as a share of net assets. The fund's Emerald joint venture ($1.56B) is left out because it is a joint venture, not a borrower.",
     "items": [
       {
         "name": "Dropbox, Inc.",
@@ -151,12 +151,6 @@
         "pctOfNetAssets": 3.71
       },
       {
-        "name": "BCRED Emerald JV LP - LP Interest",
-        "sector": "Joint venture",
-        "fairValueMillions": 1560.7,
-        "pctOfNetAssets": 3.65
-      },
-      {
         "name": "Guidehouse, Inc.",
         "sector": "Professional Services",
         "fairValueMillions": 1208.2,
@@ -166,19 +160,19 @@
         "name": "Magnesium BorrowerCo, Inc.",
         "sector": "Software",
         "fairValueMillions": 1190.6,
-        "pctOfNetAssets": 2.79
+        "pctOfNetAssets": 2.78
       },
       {
         "name": "Inovalon Holdings, Inc.",
         "sector": "IT Services",
         "fairValueMillions": 1190.4,
-        "pctOfNetAssets": 2.79
+        "pctOfNetAssets": 2.78
       },
       {
         "name": "Zendesk, Inc.",
         "sector": "Software",
         "fairValueMillions": 1102.5,
-        "pctOfNetAssets": 2.57
+        "pctOfNetAssets": 2.58
       },
       {
         "name": "Tennessee Bidco, Limited",
@@ -190,7 +184,7 @@
         "name": "Loar Group, Inc.",
         "sector": "Aerospace & Defense",
         "fairValueMillions": 963.0,
-        "pctOfNetAssets": 2.26
+        "pctOfNetAssets": 2.25
       },
       {
         "name": "Shelf Bidco, Ltd.",
@@ -209,6 +203,12 @@
         "sector": "Commercial Services & Supplies",
         "fairValueMillions": 882.9,
         "pctOfNetAssets": 2.06
+      },
+      {
+        "name": "Mantech International, CP",
+        "sector": "Professional Services",
+        "fairValueMillions": 878.8,
+        "pctOfNetAssets": 2.05
       }
     ]
   },
@@ -216,24 +216,26 @@
     "Where borrowers are headquartered. The filing reports country groups, so U.S. borrowers can't be placed on a state map."
   ],
   "thisQuarter": [
-    "Fifteen issuers, across 25 loans, were on non-accrual status (not paying interest as scheduled), up from nine at year-end."
+    "Investors asked to sell back more shares than the quarterly limit allowed, so requests were filled pro rata. The fund bought back 5.0% of shares ($2.20B at $23.65).",
+    "In the first quarter it bought back 7.0% of shares ($3.23B at $24.19), more than the 5% quarterly level.",
+    "Fifteen issuers, across 25 loans, were on non-accrual status, up from nine issuers across 16 loans at year-end. Non-accrual is the filing's term for loans where there is reasonable doubt that principal or interest will be collected in full."
   ],
   "howItWorks": {
     "title": "How this fund works",
     "asOf": "2026-06-30",
     "paragraphs": [
-      "The fund lends to private companies. 91% of its investments are first lien loans, meaning the fund is first in line to be repaid, and 99.8% of its performing loans carry a floating rate that moves with market rates.",
+      "The fund lends to private companies. 91% of its investments are first lien loans, which hold the most senior claim on a borrower's assets, and 99.8% of its performing loans carry a floating rate that moves with market rates.",
       "The share price (net asset value) is set every month.",
-      "Shares are bought back through quarterly tender offers at that quarter's NAV. Shares held for less than a year are bought back at 98% of NAV.",
-      "Per BCRED's offering terms, each quarterly offer is capped at 5% of shares outstanding. Requests above the cap are filled pro rata, and the board can change or pause the program."
+      "At the board's discretion, the fund may buy back up to 5% of its shares each quarter through tender offers, at that quarter's NAV. Shares held for less than a year are bought back at 98% of NAV.",
+      "When requests exceed the limit they are filled pro rata, as happened this quarter. The board can amend or suspend the program, and bought back more than 5% in the first quarter."
     ],
     "source": {
-      "name": "BCRED 10-Q (first three points); BCRED offering terms on bcred.com (last point)",
+      "name": "BCRED 10-Q, Share Repurchase Program",
       "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm"
     }
   },
   "website": {
-    "text": "BCRED's site describes its focus as floating rate, senior secured loans to large, performing companies in historically resilient sectors.",
+    "text": "BCRED's website describes its focus as floating-rate, senior secured loans to large, performing companies.",
     "source": {
       "name": "bcred.com",
       "url": "https://www.bcred.com/"

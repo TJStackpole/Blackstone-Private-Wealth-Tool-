@@ -16,17 +16,17 @@
   },
   "locationBasis": "region",
   "summary": {
-    "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+    "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly. The fund expects to redeem up to 3% of its units outstanding each quarter in total. Units held under two years pay a 5% early redemption deduction, and the general partner can modify or suspend the plan.",
     "stats": [
       {
         "label": "Net assets",
-        "value": "$17.3B",
-        "note": "the aggregator vehicle that holds all investments"
+        "value": "$14.2B",
+        "note": "BXPE U.S., which owns 83.7% of the aggregator that holds the investments ($17.3B with a parallel fund)"
       },
       {
         "label": "NAV per unit",
         "value": "$39.01",
-        "note": "Class I, Series I"
+        "note": "Transactional NAV, Class I, Series I"
       },
       {
         "label": "Corporate private equity",
@@ -263,7 +263,7 @@
     "bySectorBasis": "Split of that sector's equity holdings across regions, from the 10-Q's schedule of investments."
   },
   "topHoldings": {
-    "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets.",
+    "basis": "Every holding the schedule of investments names, with its fair value as a share of the aggregator's $17.3B net assets.",
     "items": [
       {
         "name": "Fortis Holdco L.P.",

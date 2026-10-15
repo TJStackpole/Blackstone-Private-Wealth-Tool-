@@ -70,12 +70,13 @@ def build_breit():
         if c[0].startswith("Total "):
             totals[c[0][6:]] = int(c[1].replace(",", ""))
             continue
-        if len(c) < 6 or not re.match(r"^[\d,]+$", c[1]):
+        if len(c) < 6 or not re.match(r"^([\d,]+|N/A(\(\d+\))?)$", c[1]):
             continue
         rows.append({
             "name": re.sub(r"\(\d+\)", "", c[0]).strip(),
             "sector": seg,
-            "properties": int(c[1].replace(",", "")),
+            # Single-family rental platforms report homes, not properties ("N/A" in the table).
+            "properties": int(c[1].replace(",", "")) if c[1][0].isdigit() else 0,
             "location": c[2],
             "states": sorted({s for s in re.findall(r"\b([A-Z]{2})\b", c[2]) if s in US_STATES}),
             "acquired": c[3],
@@ -144,10 +145,10 @@ def build_breit():
             "topStates": [{"state": "TX", "pct": 11}, {"state": "GA", "pct": 11}, {"state": "FL", "pct": 11}],
         },
         "investments": rows,
-        "investmentsNote": f"The 10-Q lists {len(rows)} investments. {len(unplaced)} of them, holding {sum(r['properties'] for r in unplaced):,} of the 4,530 properties, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+        "investmentsNote": f"The 10-Q lists {len(rows)} investments. {len(unplaced)} of them, holding {sum(r['properties'] for r in unplaced):,} of the 4,530 properties plus the single-family rental homes, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
         "thisQuarter": [
             "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
-            "Put $3.3 billion into data center development through its QTS platform, described as 100% pre-leased.",
+            "Put $3.3 billion (at BREIT's share) into data center development through its QTS platform, described as 100% pre-leased.",
             "Raised $1.1 billion from investors and repurchased $0.9 billion of shares and units.",
         ],
         "howItWorks": {
@@ -155,7 +156,8 @@ def build_breit():
             "asOf": "2026-06-30",
             "paragraphs": [
                 "Shares are bought and sold back at a price based on the fund's net asset value, set each month.",
-                "Buybacks are capped at 2% of the fund's NAV per month and 5% per calendar quarter. Shares held under a year are bought back at 98% of the price.",
+                "The plan limits buybacks to 2% of the fund's NAV per month and 5% per calendar quarter. Shares held under a year are bought back at 98% of the price.",
+                "The board can repurchase fewer shares than requested, or none. It has made exceptions to the limits in the past, and can modify or suspend the plan.",
             ],
             "source": {"name": "BREIT 10-Q, Share Repurchase Plan", "url": url},
         },
@@ -224,19 +226,26 @@ def strip_units(name):
     return re.sub(r"\s*\((?:[\d,]+ [Ss]hares|Outstanding Principal of \$[\d,]+)\)", "", name).strip()
 
 
+# Both funds' 10-Qs: "expects to periodically redeem up to 3% of its units outstanding per quarter", a 5% Early
+# Redemption Deduction for units held under two years, and the General Partner "may ... modify or suspend" the plan.
+REDEEM = "The fund expects to redeem up to 3% of its units outstanding each quarter in total. Units held under two years pay a 5% early redemption deduction, and the general partner can modify or suspend the plan."
+
 GEO_LABEL = {"Americas": "Americas", "EMEA": "Europe, Middle East & Africa", "APAC": "Asia-Pacific", "Various": "Various / multi-region"}
 
 
 def build_bxinfra(old):
     print("BX Infra")
     rows, tot = parse_aggregator("bxinfra-20260630.txt", 6_070_643)
-    for r in rows:  # footnote (f): "Fund investments are diversified and are not categorized to one industry."
+    for r in rows:  # The schedule's "Various" industry: fund interests (footnote f) plus a small debt line.
         if r["industry"] == "Various":
-            r["industry"] = "Diversified fund interests"
+            r["industry"] = "Various industries"
     lines = read("bxinfra-20260630.txt")
     agg_nav = [l for l in lines if l.startswith("Total Net Assets |")][2]
     agg_nav = num(agg_nav.split(" | ")[1]) / 1e6
     check(abs(agg_nav - 5.625905) < 1e-6, f"BX Infra aggregator net assets ${agg_nav:.2f}B")
+    us_nav = num([l for l in lines if l.startswith("Total Net Assets |")][1].split(" | ")[1]) / 1e6
+    check(abs(us_nav - 5.224553) < 1e-6, f"BX Infra U.S. net assets ${us_nav:.2f}B")
+    own = re.search(r"BXINFRA U\.S\. has an interest of ([\d.]+)%", "\n".join(lines)).group(1)
     ind = shares(rows, "industry", tot)
     geo = shares(rows, "geo", tot)
     named = {}
@@ -262,11 +271,11 @@ def build_bxinfra(old):
                    "entity": "Blackstone Infrastructure Strategies L.P.", "cik": "0002030772"},
         "locationBasis": "region",
         "summary": {
-            "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+            "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly. " + REDEEM,
             "stats": [
-                {"label": "Net assets", "value": f"${agg_nav:.1f}B", "note": "the aggregator vehicle that holds all investments"},
-                {"label": "NAV per unit", "value": "$29.99", "note": "Class I, Series I"},
-                {"label": "Investments", "value": f"${tot / 1e6:.2f}B", "note": "at fair value, 107.9% of net assets"},
+                {"label": "Net assets", "value": f"${us_nav:.1f}B", "note": f"BXINFRA U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)"},
+                {"label": "NAV per unit", "value": "$29.99", "note": "Transactional NAV, Class I, Series I"},
+                {"label": "Investments", "value": f"${tot / 1e6:.2f}B", "note": "at fair value, held by the aggregator: 107.9% of its net assets"},
                 {"label": "Named holdings", "value": str(len(top)), "note": "the rest are reported as 'Other investments'"},
             ],
         },
@@ -280,13 +289,13 @@ def build_bxinfra(old):
             "bySectorBasis": "Split of that sector's fair value across regions, from the schedule of investments.",
         },
         "topHoldings": {
-            "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets. Equity and debt in the same company are combined.",
+            "basis": f"Every holding the schedule of investments names, with its fair value as a share of the aggregator's ${agg_nav:.1f}B net assets. Equity and debt in the same company are combined.",
             "items": [{"name": d["name"], "sector": d["sector"], "geo": d["geo"],
                        "fairValueMillions": round(d["fv"] / 1000, 1), "pctOfNetAssets": round(d["pct"], 1),
                        **({"note": notes[d["name"]]} if d["name"] in notes else {})} for d in top],
         },
         "notDisclosed": [
-            "What most holdings are: the largest are code-named entities such as 'Mercury Co-Invest L.P.' and 'Poseidon Holdco I L.P.'.",
+            "What most holdings do: the largest are listed under holding-company names, such as 'Mercury Co-Invest L.P.', that don't identify the business.",
             f"{100 - sum(d['pct'] for d in top) / 107.9 * 100:.0f}% of investments are grouped as 'Other investments' with no name.",
             "Any country, state or city.",
         ],
@@ -308,6 +317,9 @@ def build_bxpe():
     agg_nav = [l for l in lines if l.startswith("Total Net Assets |")][2]
     agg_nav = num(agg_nav.split(" | ")[1]) / 1e6
     check(abs(agg_nav - 17.310207) < 1e-6, f"BXPE aggregator net assets ${agg_nav:.2f}B")
+    us_nav = num([l for l in lines if l.startswith("Total Net Assets |")][1].split(" | ")[1]) / 1e6
+    check(abs(us_nav - 14.228746) < 1e-6, f"BXPE U.S. net assets ${us_nav:.2f}B")
+    own = re.search(r"BXPE U\.S\. had an interest of ([\d.]+)% in the Aggregator", "\n".join(lines)).group(1)
     ind = shares(rows, "industry", tot)
     url = f"{EDGAR}/1930054/000193005426000016/bxpe-20260630.htm"
     named = [r for r in rows if not r["name"].startswith("Other ")]
@@ -320,10 +332,10 @@ def build_bxpe():
                    "entity": "Blackstone Private Equity Strategies Fund L.P.", "cik": "0001930054"},
         "locationBasis": "region",
         "summary": {
-            "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+            "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly. " + REDEEM,
             "stats": [
-                {"label": "Net assets", "value": f"${agg_nav:.1f}B", "note": "the aggregator vehicle that holds all investments"},
-                {"label": "NAV per unit", "value": "$39.01", "note": "Class I, Series I"},
+                {"label": "Net assets", "value": f"${us_nav:.1f}B", "note": f"BXPE U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)"},
+                {"label": "NAV per unit", "value": "$39.01", "note": "Transactional NAV, Class I, Series I"},
                 {"label": "Corporate private equity", "value": "58%", "note": "Growth 24%, Hybrid Capital 12%, Secondaries 3%, Debt 3%"},
                 {"label": "Named holdings", "value": str(len(named)), "note": "the rest are reported as 'Other investments'"},
             ],
@@ -359,7 +371,7 @@ def build_bxpe():
             "bySectorBasis": "Split of that sector's equity holdings across regions, from the 10-Q's schedule of investments.",
         },
         "topHoldings": {
-            "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets.",
+            "basis": f"Every holding the schedule of investments names, with its fair value as a share of the aggregator's ${agg_nav:.1f}B net assets.",
             "items": [{"name": strip_units(r["name"]), "sector": r["industry"], "geo": r["geo"],
                        "fairValueMillions": round(r["fv"] / 1000, 1), "pctOfNetAssets": r["pct"]}
                       for r in sorted(named, key=lambda r: -r["fv"])],
@@ -427,10 +439,19 @@ def build_bcred(old):
         geo.append({"key": keys[c[0]], "label": c[0], "pct": num(c[3])})
     check(abs(sum(g["pct"] for g in geo) - 100) < 0.2, "BCRED: geographic shares sum to 100%")
 
+    n_co, n_co_prior = [int(x) for x in next(l for l in lines if l.startswith("Number of portfolio companies |")).split(" | ")[1:3]]
+    # Rows of the share repurchase table: "Feb 2, 2026 | Mar 2, 2026 | shares | pct | % | $ | price | date | $ | amount | —"
+    tenders = [c for c in (l.split(" | ") for l in lines if re.match(r"^\w+ \d+, 2026 \| \w+ \d+, 2026 \| [\d,]+ \| [\d.]+ \| % \| \$ \|", l)) if len(c) >= 10]
+    # columns: start | deadline | shares | pct | % | $ | price | pricing date | $ | amount ($000) | remaining
+    tenders = list(dict.fromkeys(tuple(t) for t in tenders))  # the 10-Q prints this table twice (notes and Part II)
+    tenders = [{"pct": t[3], "price": t[6], "amount": num(t[9]) / 1e6} for t in tenders]
+    check(len(tenders) == 2, f"BCRED: two 2026 tender offers found ({[t['pct'] for t in tenders]})")
     nav = next(l for l in lines if l.startswith("Total net assets |"))
     nav = num(nav.split(" | ")[1]) / 1e6
     navps = next(l for l in lines if l.startswith("Net asset value per share |")).split(" | ")[2]
-    top = sorted(co.values(), key=lambda d: -d["fv"])[:12]
+    # The Emerald joint venture is an investment, not a borrower, so it's left out of the borrower ranking.
+    jv = next(d for d in co.values() if "Emerald JV" in d["name"])
+    top = sorted((d for d in co.values() if "JV" not in d["name"]), key=lambda d: -d["fv"])[:12]
     url = f"{EDGAR}/1803498/000180349826000048/bcred-20260630.htm"
 
     def label_ind(d):
@@ -450,7 +471,7 @@ def build_bcred(old):
             "stats": [
                 {"label": "Net assets", "value": f"${nav:.1f}B", "note": "down from $47.6B on Dec 31, 2025"},
                 {"label": "NAV per share", "value": f"${float(navps):.2f}", "note": "down from $24.79 on Dec 31, 2025"},
-                {"label": "Portfolio companies", "value": f"{len(co):,}", "note": f"${tot / 1e6:.1f}B of investments at fair value"},
+                {"label": "Portfolio companies", "value": f"{n_co:,}", "note": f"{n_co_prior:,} at Dec 31, 2025; ${tot / 1e6:.1f}B of investments at fair value"},
                 {"label": "First lien loans", "value": "91.0%", "note": "of investments; 99.8% of performing debt is floating rate"},
             ],
         },
@@ -462,29 +483,31 @@ def build_bcred(old):
             "items": [g | ({"note": "too small to show on the map"} if g["key"] == "BermudaCayman" else {}) for g in geo],
         },
         "topHoldings": {
-            "basis": "The twelve largest borrowers, summing every loan and equity position in each company, with fair value as a share of net assets.",
+            "basis": f"The twelve largest borrowers, summing every position listed under the same company name, with fair value as a share of net assets. The fund's Emerald joint venture (${jv['fv'] / 1e6:.2f}B) is left out because it is a joint venture, not a borrower.",
             "items": [{"name": d["name"], "sector": label_ind(d), "fairValueMillions": round(d["fv"] / 1000, 1),
-                       "pctOfNetAssets": round(d["pct"], 2)} for d in top],
+                       "pctOfNetAssets": round(d["fv"] / (nav * 1e6) * 100, 2)} for d in top],
         },
         "notDisclosed": [
             "Where borrowers are headquartered. The filing reports country groups, so U.S. borrowers can't be placed on a state map.",
         ],
         "thisQuarter": [
-            "Fifteen issuers, across 25 loans, were on non-accrual status (not paying interest as scheduled), up from nine at year-end.",
+            f"Investors asked to sell back more shares than the quarterly limit allowed, so requests were filled pro rata. The fund bought back {tenders[1]['pct']}% of shares (${tenders[1]['amount']:.2f}B at ${tenders[1]['price']}).",
+            f"In the first quarter it bought back {tenders[0]['pct']}% of shares (${tenders[0]['amount']:.2f}B at ${tenders[0]['price']}), more than the 5% quarterly level.",
+            "Fifteen issuers, across 25 loans, were on non-accrual status, up from nine issuers across 16 loans at year-end. Non-accrual is the filing's term for loans where there is reasonable doubt that principal or interest will be collected in full.",
         ],
         "howItWorks": {
             "title": "How this fund works",
             "asOf": "2026-06-30",
             "paragraphs": [
-                "The fund lends to private companies. 91% of its investments are first lien loans, meaning the fund is first in line to be repaid, and 99.8% of its performing loans carry a floating rate that moves with market rates.",
+                "The fund lends to private companies. 91% of its investments are first lien loans, which hold the most senior claim on a borrower's assets, and 99.8% of its performing loans carry a floating rate that moves with market rates.",
                 "The share price (net asset value) is set every month.",
-                "Shares are bought back through quarterly tender offers at that quarter's NAV. Shares held for less than a year are bought back at 98% of NAV.",
-                "Per BCRED's offering terms, each quarterly offer is capped at 5% of shares outstanding. Requests above the cap are filled pro rata, and the board can change or pause the program.",
+                "At the board's discretion, the fund may buy back up to 5% of its shares each quarter through tender offers, at that quarter's NAV. Shares held for less than a year are bought back at 98% of NAV.",
+                "When requests exceed the limit they are filled pro rata, as happened this quarter. The board can amend or suspend the program, and bought back more than 5% in the first quarter.",
             ],
-            "source": {"name": "BCRED 10-Q (first three points); BCRED offering terms on bcred.com (last point)", "url": url},
+            "source": {"name": "BCRED 10-Q, Share Repurchase Program", "url": url},
         },
         "website": {
-            "text": "BCRED's site describes its focus as floating rate, senior secured loans to large, performing companies in historically resilient sectors.",
+            "text": "BCRED's website describes its focus as floating-rate, senior secured loans to large, performing companies.",
             "source": {"name": "bcred.com", "url": "https://www.bcred.com/"},
         },
     }
