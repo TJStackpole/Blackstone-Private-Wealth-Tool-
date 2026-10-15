@@ -1,0 +1,61 @@
+{
+  "illustrative": true,
+  "asOf": "2026-10-15",
+  "framing": "Blackstone's 401(k) effort is a business line, not one public fund. It reaches retirement plans through partners such as Empower, inside professionally managed funds called collective investment trusts (CITs). There is no public, holding-by-holding fund to map, so this page is an educational lens. Every number on it is illustrative, not a real plan allocation.",
+  "sleeve": {
+    "minPct": 5,
+    "maxPct": 15,
+    "note": "Illustrative range for a private markets sleeve inside a target-date style mix. Real products set their own limits."
+  },
+  "glidePath": {
+    "farYears": 40,
+    "far": { "stocks": 80, "bonds": 5, "cash": 0, "private": 15 },
+    "near": { "stocks": 40, "bonds": 45, "cash": 10, "private": 5 }
+  },
+  "sleeveSources": [
+    { "layerId": "breit", "label": "Real Estate", "fund": "BREIT", "why": "Rent-paying buildings: apartments, warehouses, data centers." },
+    { "layerId": "bxinfra", "label": "Infrastructure", "fund": "BX Infra", "why": "Long-lived assets with contracted income: power, transport, digital." },
+    { "layerId": "bxpe", "label": "Private Equity", "fund": "BXPE", "why": "Ownership stakes in private companies held for years." },
+    { "layerId": "bcred", "label": "Private Credit", "fund": "BCRED", "why": "Loans to private companies, mostly senior secured and floating rate." }
+  ],
+  "explainers": [
+    {
+      "title": "Why private markets in a 401(k) at all",
+      "body": "Most big companies never list on a stock exchange, so a stocks-and-bonds-only plan skips a large part of the economy. A retirement account also has a long horizon, which suits investments that take years to pay off. The goal is diversification, not a bet."
+    },
+    {
+      "title": "How it gets there",
+      "body": "You would not pick a private fund yourself. A professionally managed fund, typically a collective investment trust offered through your plan, holds a small sleeve of private assets alongside ordinary stocks and bonds. The manager chooses the mix and rebalances it."
+    },
+    {
+      "title": "The trade-offs",
+      "body": "Private assets charge higher fees, are valued by appraisal rather than daily market prices, and cannot be sold quickly. The fund manager handles this by keeping the sleeve small and holding plenty of liquid assets around it, so day-to-day withdrawals are unaffected."
+    }
+  ],
+  "milestones": [
+    {
+      "date": "2025-05-14",
+      "title": "Empower launches a private markets program for 401(k) plans",
+      "summary": "The retirement plan provider says plans can add private equity, credit and real estate through collective investment trusts, with partners including Apollo, Goldman Sachs and PIMCO.",
+      "source": { "name": "Empower press release", "url": "https://www.empower.com/press-center/empower-offer-private-markets-investments-retirement-plans" }
+    },
+    {
+      "date": "2025-08-07",
+      "title": "Executive Order 14330: Democratizing Access to Alternative Assets for 401(k) Investors",
+      "summary": "Directs the Labor Department to re-examine its guidance on alternative assets in defined-contribution plans within 180 days.",
+      "source": { "name": "The White House", "url": "https://www.whitehouse.gov/presidential-actions/2025/08/democratizing-access-to-alternative-assets-for-401k-investors/" }
+    },
+    {
+      "date": "2025-08-12",
+      "title": "Labor Department withdraws its 2021 caution on private equity in 401(k)s",
+      "summary": "The Employee Benefits Security Administration rescinds a 2021 supplemental statement that had warned plan fiduciaries about private-market valuation and liquidity risks.",
+      "source": { "name": "PLANSPONSOR", "url": "https://www.plansponsor.com/dol-rescinds-biden-era-guidance-on-alternative-investments-in-401k-plans/" }
+    },
+    {
+      "date": "2026-01-14",
+      "title": "Empower adds Blackstone to its private markets program",
+      "summary": "Blackstone's private equity, credit, infrastructure and real estate strategies become available to Empower plans through collective investment trusts, where employers allow it.",
+      "source": { "name": "Empower press release", "url": "https://www.empower.com/press-center/empower-partners-blackstone-private-markets-investments" }
+    }
+  ]
+}

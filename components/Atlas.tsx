@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { DEFAULT_LAYER_ID, LAYERS } from "@/data/layers";
+import { DEFAULT_LAYER_ID, LAYERS, RETIREMENT } from "@/data/layers";
 import type { LayerId, ViewId } from "@/lib/types";
 import { stateName } from "@/lib/states";
 import { aggregateByState, filterBySector, hasSampleData, sectorMix } from "@/lib/aggregate";
@@ -15,6 +15,7 @@ import SectorChips from "./SectorChips";
 import SourceFooter from "./SourceFooter";
 import ThemeToggle from "./ThemeToggle";
 import SampleBadge from "./SampleBadge";
+import RetirementView from "./RetirementView";
 
 /** The whole page: header, tabs, chips, map, panel, footer. Every layer plugs into this. */
 export default function Atlas() {
@@ -83,6 +84,8 @@ export default function Atlas() {
 
       {viewId === "all" ? (
         <AllFundsView layers={LAYERS} onOpenLayer={changeLayer} />
+      ) : viewId === "retirement" ? (
+        <RetirementView data={RETIREMENT} layers={LAYERS} onOpenLayer={changeLayer} />
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_380px]">
           <section aria-label="Map" className="min-w-0">
@@ -159,7 +162,7 @@ export default function Atlas() {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      <SourceFooter data={viewId === "all" ? undefined : data} hasSample={hasSample} caveats={layer.caveats} />
+      <SourceFooter data={viewId === "all" || viewId === "retirement" ? undefined : data} hasSample={hasSample} caveats={layer.caveats} />
     </div>
   );
 }

@@ -83,3 +83,30 @@ export interface LayerDef {
   /** Extra caveats shown in the footer for this layer. */
   caveats?: string[];
 }
+
+/** Four-part mix, in percent, summing to 100. */
+export interface Mix {
+  stocks: number;
+  bonds: number;
+  cash: number;
+  private: number;
+}
+
+export interface Milestone {
+  date: string;
+  title: string;
+  summary: string;
+  source: Source;
+}
+
+/** Shape of /data/retirement.json. Everything here is illustrative. */
+export interface RetirementData {
+  illustrative: true;
+  asOf: string;
+  framing: string;
+  sleeve: { minPct: number; maxPct: number; note: string };
+  glidePath: { farYears: number; far: Mix; near: Mix };
+  sleeveSources: { layerId: LayerId; label: string; fund: string; why: string }[];
+  explainers: { title: string; body: string }[];
+  milestones: Milestone[];
+}

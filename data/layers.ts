@@ -3,7 +3,8 @@ import breit from "./breit.json";
 import bxinfra from "./bxinfra.json";
 import bxpe from "./bxpe.json";
 import bcred from "./bcred.json";
-import type { FundData } from "@/lib/types";
+import retirement from "./retirement.json";
+import type { FundData, RetirementData } from "@/lib/types";
 
 /**
  * The list of map layers. To add a fund in a later phase:
@@ -54,7 +55,7 @@ export const LAYERS: LayerDef[] = [
     fund: "401(k) lens",
     color: "#4A5568",
     colorDark: "#A0AEC0",
-    status: "coming-soon",
+    status: "active",
   },
 ];
 
@@ -65,3 +66,6 @@ export const LOCATION_BASIS_NOTE: Record<FundData["locationBasis"], string> = {
   property: "Mapped by where each property or asset is located.",
   headquarters: "Mapped by headquarters — a proxy, not where all operations sit.",
 };
+
+/** The retirement lens has no holdings to map; its content is illustrative. */
+export const RETIREMENT: RetirementData = retirement as RetirementData;
