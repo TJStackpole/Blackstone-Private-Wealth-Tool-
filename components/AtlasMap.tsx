@@ -19,6 +19,8 @@ export interface AtlasMapProps {
   onSelectMetro?: (abbr: string, metro: string) => void;
   /** Label used in tooltips and aria text, e.g. "BREIT". */
   fundLabel: string;
+  /** Small, non-interactive version for the All funds grid. */
+  compact?: boolean;
 }
 
 const WIDTH = 975;
@@ -34,7 +36,7 @@ interface TooltipState {
  * The US map. States shade by weight, metros sit on top as rings sized by weight.
  * Reused by every layer — it knows nothing about which fund it is drawing.
  */
-export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro, onSelectState, onSelectMetro, fundLabel }: AtlasMapProps) {
+export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro, onSelectState, onSelectMetro, fundLabel, compact = false }: AtlasMapProps) {
   const [tip, setTip] = useState<TooltipState | null>(null);
 
   const metros = useMemo(() => metroTotals([...byState.values()].flatMap((s) => s.metros)), [byState]);
@@ -56,7 +58,7 @@ export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro
         projectionConfig={{ scale: 1280 }}
         width={WIDTH}
         height={HEIGHT}
-        role="group"
+        role={compact ? "img" : "group"}
         aria-label={`Map of the United States shaded by ${fundLabel} weight per state`}
       >
         <StatePaths
@@ -67,10 +69,11 @@ export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro
           onHover={onMove}
           onLeave={() => setTip(null)}
           fundLabel={fundLabel}
+          compact={compact}
         />
         <g aria-hidden={!onSelectMetro} pointerEvents={onSelectMetro ? "auto" : "none"}>
           {metros.map((m) => {
-            const r = 3 + Math.sqrt(m.pct / Math.max(maxMetro, 0.1)) * 9;
+            const r = (compact ? 2 : 3) + Math.sqrt(m.pct / Math.max(maxMetro, 0.1)) * (compact ? 7 : 9);
             const dim = selectedState !== null && selectedState !== m.state;
             const isSelected = selectedState === m.state && selectedMetro === m.metro;
             return (
@@ -111,7 +114,7 @@ export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro
         </g>
       </ComposableMap>
 
-      {tip && (
+      {tip && !compact && (
         <div
           role="tooltip"
           className="pointer-events-none absolute z-10 min-w-36 rounded-card border border-line bg-bg-raised px-3 py-2 text-xs shadow-sm"
@@ -148,10 +151,11 @@ interface StatePathsProps {
   onHover: (abbr: string, e: React.MouseEvent) => void;
   onLeave: () => void;
   fundLabel: string;
+  compact: boolean;
 }
 
 /** Projects the state shapes once per projection and draws them. */
-function StatePaths({ byState, maxPct, selectedState, onSelectState, onHover, onLeave, fundLabel }: StatePathsProps) {
+function StatePaths({ byState, maxPct, selectedState, onSelectState, onHover, onLeave, fundLabel, compact }: StatePathsProps) {
   const { path } = useMapContext();
 
   const shapes = useMemo(
@@ -171,10 +175,11 @@ function StatePaths({ byState, maxPct, selectedState, onSelectState, onHover, on
       {shapes.map(({ fips, d, info }) => {
         const summary = byState.get(info.abbr);
         const pct = summary?.totalPct ?? 0;
-        const has = pct > 0;
-        const t = has && maxPct > 0 ? 0.18 + 0.82 * Math.sqrt(pct / maxPct) : 0;
+        const shaded = pct > 0;
+        const has = shaded && !compact; // interactive only in the full-size map
+        const t = shaded && maxPct > 0 ? 0.18 + 0.82 * Math.sqrt(pct / maxPct) : 0;
         const selected = selectedState === info.abbr;
-        const fill = has ? `color-mix(in oklab, var(--map-empty), var(--accent) ${Math.round(t * 100)}%)` : "var(--map-empty)";
+        const fill = shaded ? `color-mix(in oklab, var(--map-empty), var(--accent) ${Math.round(t * 100)}%)` : "var(--map-empty)";
         return (
           <path
             key={fips}
@@ -187,7 +192,7 @@ function StatePaths({ byState, maxPct, selectedState, onSelectState, onHover, on
             style={{
               fill,
               stroke: "var(--map-stroke)",
-              strokeWidth: 0.75,
+              strokeWidth: compact ? 1 : 0.75,
               cursor: has ? "pointer" : "default",
             }}
             onMouseEnter={(e) => onHover(info.abbr, e)}

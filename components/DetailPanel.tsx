@@ -302,6 +302,33 @@ function OverviewView({
         )}
       />
 
+      {data.howItWorks && (
+        <section aria-label={data.howItWorks.title} className="rounded-card border border-line bg-bg p-4">
+          <div className="mb-2 flex items-baseline justify-between gap-3">
+            <h3 className="font-serif text-base font-medium text-ink">{data.howItWorks.title}</h3>
+            <span className="tnum text-[11px] text-muted">Checked {formatDate(data.howItWorks.asOf)}</span>
+          </div>
+          <div className="space-y-2 text-xs leading-relaxed text-muted-strong">
+            {data.howItWorks.paragraphs.map((para) => (
+              <p key={para.slice(0, 40)}>{para}</p>
+            ))}
+          </div>
+          {data.howItWorks.source && (
+            <p className="mt-2 text-[11px] text-muted">
+              Source:{" "}
+              <a
+                href={data.howItWorks.source.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline decoration-line underline-offset-2 hover:text-ink"
+              >
+                {data.howItWorks.source.name}
+              </a>
+            </p>
+          )}
+        </section>
+      )}
+
       <p className="text-[11px] leading-relaxed text-muted">
         {LOCATION_BASIS_NOTE[data.locationBasis]}
       </p>

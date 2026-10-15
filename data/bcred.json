@@ -1,0 +1,117 @@
+{
+  "fund": "BCRED",
+  "assetClass": "Private Credit",
+  "asOf": "2026-06-30",
+  "source": {
+    "name": "SAMPLE — replace with the latest BCRED fact sheet or 10-Q",
+    "url": "https://www.bcred.com/"
+  },
+  "locationBasis": "headquarters",
+  "summary": {
+    "navBillions": null,
+    "headline": "BCRED is a non-traded fund that lends money directly to private companies, mostly through senior secured, floating-rate loans, and passes the interest on to investors. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each quarter."
+  },
+  "sectors": ["Software", "Healthcare", "Business Services", "Industrials", "Consumer", "Other"],
+  "howItWorks": {
+    "title": "How this fund works",
+    "asOf": "2026-10-15",
+    "paragraphs": [
+      "The fund makes loans to private companies. Most are senior secured, meaning the fund is first in line to be repaid and the loan is backed by the company's assets, and floating rate, meaning the interest the fund earns moves with market rates.",
+      "The share price (net asset value) is set once a month. Income is paid out as monthly distributions.",
+      "Getting money out is limited by design. The fund offers to buy back shares each quarter, up to 5% of shares outstanding. If investors ask to sell more than that, requests are filled pro rata, so everyone gets the same fraction of what they asked for. Shares held for less than a year are bought back at 98% of their value.",
+      "Each quarterly buyback is expected but not guaranteed. The board can change or pause the program."
+    ],
+    "source": {
+      "name": "BCRED offering terms (bcred.com)",
+      "url": "https://www.bcred.com/offering-terms/"
+    }
+  },
+  "holdings": [
+    {
+      "metro": "Bay Area", "state": "CA", "lat": 37.55, "lng": -122.05, "sector": "Software", "weightPct": 5.9, "note": "", "sample": true,
+      "companies": [
+        { "name": "Sample SaaS Borrower", "sector": "Software", "description": "Placeholder: a subscription software company with a senior secured loan.", "sample": true },
+        { "name": "Sample DevTools Inc.", "sector": "Software", "description": "Placeholder: a developer tools vendor.", "sample": true }
+      ]
+    },
+    {
+      "metro": "Austin", "state": "TX", "lat": 30.27, "lng": -97.74, "sector": "Software", "weightPct": 2.6, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Workflow Software", "sector": "Software", "description": "Placeholder: a business process software company.", "sample": true }]
+    },
+    {
+      "metro": "Boston", "state": "MA", "lat": 42.36, "lng": -71.06, "sector": "Software", "weightPct": 2.3, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Compliance Cloud", "sector": "Software", "description": "Placeholder: a regulatory compliance platform.", "sample": true }]
+    },
+    {
+      "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Software", "weightPct": 1.7, "note": "", "sample": true,
+      "companies": [{ "name": "Sample GovTech", "sector": "Software", "description": "Placeholder: a public-sector software provider.", "sample": true }]
+    },
+    {
+      "metro": "Nashville", "state": "TN", "lat": 36.16, "lng": -86.78, "sector": "Healthcare", "weightPct": 3.4, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Physician Group", "sector": "Healthcare", "description": "Placeholder: a physician practice management company.", "sample": true }]
+    },
+    {
+      "metro": "Philadelphia", "state": "PA", "lat": 39.95, "lng": -75.17, "sector": "Healthcare", "weightPct": 2.1, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Pharma Services", "sector": "Healthcare", "description": "Placeholder: a pharmaceutical services company.", "sample": true }]
+    },
+    {
+      "metro": "Minneapolis", "state": "MN", "lat": 44.98, "lng": -93.27, "sector": "Healthcare", "weightPct": 1.5, "note": "", "sample": true,
+      "companies": [{ "name": "Sample MedTech", "sector": "Healthcare", "description": "Placeholder: a medical technology company.", "sample": true }]
+    },
+    {
+      "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Business Services", "weightPct": 3.2, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Staffing Co.", "sector": "Business Services", "description": "Placeholder: a staffing and outsourcing firm.", "sample": true }]
+    },
+    {
+      "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Business Services", "weightPct": 2.4, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Facilities Services", "sector": "Business Services", "description": "Placeholder: a facilities management company.", "sample": true }]
+    },
+    {
+      "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Business Services", "weightPct": 2.0, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Insurance Brokerage", "sector": "Business Services", "description": "Placeholder: an insurance distribution business.", "sample": true }]
+    },
+    {
+      "metro": "Charlotte", "state": "NC", "lat": 35.23, "lng": -80.84, "sector": "Business Services", "weightPct": 1.3, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Payroll Services", "sector": "Business Services", "description": "Placeholder: a payroll and HR services firm.", "sample": true }]
+    },
+    {
+      "metro": "Cleveland", "state": "OH", "lat": 41.50, "lng": -81.69, "sector": "Industrials", "weightPct": 2.2, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Packaging Corp.", "sector": "Industrials", "description": "Placeholder: a packaging manufacturer.", "sample": true }]
+    },
+    {
+      "metro": "Houston", "state": "TX", "lat": 29.76, "lng": -95.37, "sector": "Industrials", "weightPct": 1.9, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Industrial Distributor", "sector": "Industrials", "description": "Placeholder: an industrial parts distributor.", "sample": true }]
+    },
+    {
+      "metro": "Milwaukee", "state": "WI", "lat": 43.04, "lng": -87.91, "sector": "Industrials", "weightPct": 1.1, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Machinery Co.", "sector": "Industrials", "description": "Placeholder: a specialty machinery maker.", "sample": true }]
+    },
+    {
+      "metro": "Los Angeles", "state": "CA", "lat": 34.05, "lng": -118.24, "sector": "Consumer", "weightPct": 2.0, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Restaurant Group", "sector": "Consumer", "description": "Placeholder: a restaurant franchisor.", "sample": true }]
+    },
+    {
+      "metro": "Denver", "state": "CO", "lat": 39.74, "lng": -104.99, "sector": "Consumer", "weightPct": 1.4, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Outdoor Brands", "sector": "Consumer", "description": "Placeholder: an outdoor products company.", "sample": true }]
+    },
+    {
+      "metro": "Miami–Fort Lauderdale", "state": "FL", "lat": 25.76, "lng": -80.19, "sector": "Consumer", "weightPct": 1.2, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Travel Services", "sector": "Consumer", "description": "Placeholder: a travel services company.", "sample": true }]
+    },
+    {
+      "metro": "New York City", "state": "NY", "lat": 40.71, "lng": -74.01, "sector": "Other", "weightPct": 3.0, "note": "", "sample": true,
+      "companies": [
+        { "name": "Sample Financial Data Co.", "sector": "Other", "description": "Placeholder: a financial data provider.", "sample": true },
+        { "name": "Sample Media Holdings", "sector": "Other", "description": "Placeholder: a media company.", "sample": true }
+      ]
+    },
+    {
+      "metro": "Seattle", "state": "WA", "lat": 47.61, "lng": -122.33, "sector": "Other", "weightPct": 1.3, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Logistics Tech", "sector": "Other", "description": "Placeholder: a logistics technology company.", "sample": true }]
+    },
+    {
+      "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Other", "weightPct": 0.9, "note": "", "sample": true,
+      "companies": [{ "name": "Sample Education Services", "sector": "Other", "description": "Placeholder: an education services company.", "sample": true }]
+    }
+  ]
+}

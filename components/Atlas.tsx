@@ -3,9 +3,10 @@
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { DEFAULT_LAYER_ID, LAYERS } from "@/data/layers";
-import type { LayerId } from "@/lib/types";
+import type { LayerId, ViewId } from "@/lib/types";
 import { stateName } from "@/lib/states";
 import { aggregateByState, filterBySector, hasSampleData, sectorMix } from "@/lib/aggregate";
+import AllFundsView from "./AllFundsView";
 import AtlasMap from "./AtlasMap";
 import DetailPanel from "./DetailPanel";
 import LayerSwitcher from "./LayerSwitcher";
@@ -17,7 +18,8 @@ import SampleBadge from "./SampleBadge";
 
 /** The whole page: header, tabs, chips, map, panel, footer. Every layer plugs into this. */
 export default function Atlas() {
-  const [layerId, setLayerId] = useState<LayerId>(DEFAULT_LAYER_ID);
+  const [viewId, setViewId] = useState<ViewId>(DEFAULT_LAYER_ID);
+  const layerId: LayerId = viewId === "all" ? DEFAULT_LAYER_ID : viewId;
   const [sector, setSector] = useState<string | null>(null);
   const [rawSelected, setSelectedState] = useState<string | null>(null);
   const [selectedMetro, setSelectedMetro] = useState<string | null>(null);
@@ -36,8 +38,8 @@ export default function Atlas() {
   );
   const hasSample = data ? hasSampleData(data.holdings) : false;
 
-  function changeLayer(id: LayerId) {
-    setLayerId(id);
+  function changeLayer(id: ViewId) {
+    setViewId(id);
     setSector(null);
     setSelectedState(null);
     setSelectedMetro(null);
@@ -75,11 +77,13 @@ export default function Atlas() {
           <ThemeToggle />
         </div>
         <div className="mt-5 border-b border-line">
-          <LayerSwitcher layers={LAYERS} activeId={layerId} onChange={changeLayer} />
+          <LayerSwitcher layers={LAYERS} activeId={viewId} onChange={changeLayer} allFundsAfter="bcred" />
         </div>
       </header>
 
-      {data ? (
+      {viewId === "all" ? (
+        <AllFundsView layers={LAYERS} onOpenLayer={changeLayer} />
+      ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_380px]">
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4">
@@ -155,7 +159,7 @@ export default function Atlas() {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      <SourceFooter data={data} hasSample={hasSample} caveats={layer.caveats} />
+      <SourceFooter data={viewId === "all" ? undefined : data} hasSample={hasSample} caveats={layer.caveats} />
     </div>
   );
 }

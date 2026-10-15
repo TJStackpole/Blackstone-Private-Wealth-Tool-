@@ -2,6 +2,7 @@ import type { LayerDef } from "@/lib/types";
 import breit from "./breit.json";
 import bxinfra from "./bxinfra.json";
 import bxpe from "./bxpe.json";
+import bcred from "./bcred.json";
 import type { FundData } from "@/lib/types";
 
 /**
@@ -44,7 +45,8 @@ export const LAYERS: LayerDef[] = [
     fund: "BCRED",
     color: "#9A6B2F",
     colorDark: "#D9B07A",
-    status: "coming-soon",
+    status: "active",
+    data: bcred as FundData,
   },
   {
     id: "retirement",

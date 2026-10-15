@@ -2,6 +2,9 @@
 
 export type LayerId = "breit" | "bxinfra" | "bxpe" | "bcred" | "retirement";
 
+/** Tabs are either one fund layer or the side-by-side "All funds" view. */
+export type ViewId = LayerId | "all";
+
 /** "property" = the asset itself sits here. "headquarters" = the company's HQ is here (a proxy). */
 export type LocationBasis = "property" | "headquarters";
 
@@ -59,7 +62,7 @@ export interface FundData {
   sectors: string[];
   holdings: Holding[];
   /** Optional plain-English block (used by later phases). */
-  howItWorks?: { title: string; asOf: string; paragraphs: string[] };
+  howItWorks?: { title: string; asOf: string; paragraphs: string[]; source?: Source };
   /** Optional third-party context, cited separately from the filing. */
   context?: ThirdPartyFact[];
 }
