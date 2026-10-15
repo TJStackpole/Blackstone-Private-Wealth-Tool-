@@ -34,10 +34,15 @@ export interface Holding {
   companies?: Company[];
 }
 
+/** A fact from outside the fund's own filings. Always cited on its own. */
 export interface ThirdPartyFact {
+  /** Sector this fact belongs to, e.g. "Data Centers". Omit to show it for the whole fund. */
+  appliesTo?: string;
   label: string;
   value: string;
+  asOf?: string;
   source: Source;
+  sample?: boolean;
 }
 
 export interface FundData {

@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import type { FundData, LayerDef } from "@/lib/types";
+import type { FundData, LayerDef, ThirdPartyFact } from "@/lib/types";
 import type { StateSummary } from "@/lib/aggregate";
-import { formatPct, metroTotals, sectorMix, sumPct, topStates } from "@/lib/aggregate";
+import { formatDate, formatPct, metroTotals, sectorMix, sumPct, topStates } from "@/lib/aggregate";
 import { stateName } from "@/lib/states";
 import { LOCATION_BASIS_NOTE } from "@/data/layers";
 import SampleBadge from "./SampleBadge";
@@ -47,7 +47,7 @@ export default function DetailPanel(props: Props) {
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={selectedState ?? "overview"}
+          key={`${props.layer.id}-${selectedState ?? "overview"}`}
           initial={reduce ? false : { opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, x: -8 }}
@@ -97,6 +97,40 @@ function Bars({ rows, total }: { rows: { label: string; pct: number; sample?: bo
       ))}
     </ul>
   );
+}
+
+/** Facts from outside the filings. Kept visually separate and cited on their own. */
+function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
+  if (facts.length === 0) return null;
+  return (
+    <section aria-label="Third-party context" className="rounded-card border border-dashed border-muted/60 bg-bg p-4">
+      <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">Context · not from fund filings</p>
+      <ul className="space-y-3">
+        {facts.map((f) => (
+          <li key={f.label} className="text-xs leading-relaxed">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-ink">{f.label}</span>
+              {f.appliesTo && <span className="rounded-full border border-line px-1.5 text-[10px] text-muted">{f.appliesTo}</span>}
+              {f.sample && <SampleBadge compact />}
+            </div>
+            <p className="mt-0.5 text-muted-strong">{f.value}</p>
+            <p className="mt-1 text-[11px] text-muted">
+              Source:{" "}
+              <a href={f.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
+                {f.source.name}
+              </a>
+              {f.asOf && <span className="tnum"> · {formatDate(f.asOf)}</span>}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+/** Which third-party facts apply right now: whole-fund facts, plus facts for sectors in view. */
+function relevantFacts(data: FundData, sectorsInView: string[]): ThirdPartyFact[] {
+  return (data.context ?? []).filter((f) => !f.appliesTo || sectorsInView.includes(f.appliesTo));
 }
 
 function OverviewView({ data, holdings, byState, activeSector, onSelectState, hasSample }: Props) {
@@ -156,6 +190,8 @@ function OverviewView({ data, holdings, byState, activeSector, onSelectState, ha
         <SectionTitle>{activeSector ? "Sector shown" : "Sector mix"}</SectionTitle>
         <Bars rows={mix.map((m) => ({ label: m.sector, pct: m.pct }))} total={mapped} />
       </section>
+
+      <ContextCard facts={relevantFacts(data, mix.map((m) => m.sector))} />
 
       <p className="text-[11px] leading-relaxed text-muted">{LOCATION_BASIS_NOTE[data.locationBasis]}</p>
     </div>
@@ -231,6 +267,8 @@ function StateView({
             <SectionTitle>By sector</SectionTitle>
             <Bars rows={sectors} total={summary.totalPct} />
           </section>
+
+          <ContextCard facts={relevantFacts(data, sectors.map((s) => s.label))} />
         </>
       )}
     </div>

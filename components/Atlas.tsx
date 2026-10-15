@@ -72,13 +72,8 @@ export default function Atlas() {
       {data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_380px]">
           <section aria-label="Map" className="min-w-0">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="mb-4">
               <SectorChips sectors={data.sectors} active={sector} onChange={(s) => setSector(s)} mix={fullMix} />
-              {hasSample && (
-                <div className="hidden sm:block">
-                  <SampleBadge />
-                </div>
-              )}
             </div>
             <div className="rounded-card border border-line bg-bg-raised p-2 sm:p-4">
               <AtlasMap
@@ -90,7 +85,10 @@ export default function Atlas() {
               />
               <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-line px-1 pt-3">
                 <Legend maxPct={maxPct} accent="var(--accent)" label={data.fund} />
-                <p className="text-[11px] text-muted">Tap, click, or press Enter on a state for detail.</p>
+                <div className="flex items-center gap-3">
+                  {hasSample && <SampleBadge />}
+                  <p className="text-[11px] text-muted">Tap, click, or press Enter on a state for detail.</p>
+                </div>
               </div>
             </div>
           </section>

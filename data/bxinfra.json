@@ -1,0 +1,58 @@
+{
+  "fund": "BX Infra",
+  "assetClass": "Infrastructure",
+  "asOf": "2026-06-30",
+  "source": {
+    "name": "SAMPLE — replace with the latest BX Infrastructure fact sheet or 10-Q",
+    "url": "https://www.bxinfra.com/"
+  },
+  "locationBasis": "property",
+  "summary": {
+    "navBillions": null,
+    "headline": "BX Infra is a non-traded fund that owns long-lived physical systems the economy runs on: data centers, power and energy assets, transport links, and fiber networks. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each quarter."
+  },
+  "sectors": ["Data Centers", "Power & Energy", "Transportation", "Digital/Fiber", "Other"],
+  "holdings": [
+    { "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Data Centers", "weightPct": 9.8, "note": "", "sample": true },
+    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Data Centers", "weightPct": 5.6, "note": "", "sample": true },
+    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Data Centers", "weightPct": 4.9, "note": "", "sample": true },
+    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Data Centers", "weightPct": 3.7, "note": "", "sample": true },
+    { "metro": "Columbus", "state": "OH", "lat": 39.96, "lng": -83.00, "sector": "Data Centers", "weightPct": 2.8, "note": "", "sample": true },
+    { "metro": "Hillsboro", "state": "OR", "lat": 45.52, "lng": -122.99, "sector": "Data Centers", "weightPct": 2.1, "note": "", "sample": true },
+    { "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Data Centers", "weightPct": 1.9, "note": "", "sample": true },
+
+    { "metro": "Houston", "state": "TX", "lat": 29.76, "lng": -95.37, "sector": "Power & Energy", "weightPct": 6.2, "note": "", "sample": true },
+    { "metro": "Oklahoma City", "state": "OK", "lat": 35.47, "lng": -97.52, "sector": "Power & Energy", "weightPct": 3.1, "note": "", "sample": true },
+    { "metro": "Pittsburgh", "state": "PA", "lat": 40.44, "lng": -79.99, "sector": "Power & Energy", "weightPct": 2.6, "note": "", "sample": true },
+    { "metro": "Denver", "state": "CO", "lat": 39.74, "lng": -104.99, "sector": "Power & Energy", "weightPct": 2.2, "note": "", "sample": true },
+    { "metro": "Albuquerque", "state": "NM", "lat": 35.08, "lng": -106.65, "sector": "Power & Energy", "weightPct": 1.4, "note": "", "sample": true },
+    { "metro": "Des Moines", "state": "IA", "lat": 41.59, "lng": -93.62, "sector": "Power & Energy", "weightPct": 1.1, "note": "", "sample": true },
+
+    { "metro": "Los Angeles", "state": "CA", "lat": 34.05, "lng": -118.24, "sector": "Transportation", "weightPct": 4.4, "note": "", "sample": true },
+    { "metro": "Northern New Jersey", "state": "NJ", "lat": 40.73, "lng": -74.17, "sector": "Transportation", "weightPct": 3.3, "note": "", "sample": true },
+    { "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Transportation", "weightPct": 2.4, "note": "", "sample": true },
+    { "metro": "Savannah", "state": "GA", "lat": 32.08, "lng": -81.09, "sector": "Transportation", "weightPct": 1.8, "note": "", "sample": true },
+    { "metro": "Memphis", "state": "TN", "lat": 35.15, "lng": -90.05, "sector": "Transportation", "weightPct": 1.2, "note": "", "sample": true },
+
+    { "metro": "Kansas City", "state": "MO", "lat": 39.10, "lng": -94.58, "sector": "Digital/Fiber", "weightPct": 2.7, "note": "", "sample": true },
+    { "metro": "Charlotte", "state": "NC", "lat": 35.23, "lng": -80.84, "sector": "Digital/Fiber", "weightPct": 2.3, "note": "", "sample": true },
+    { "metro": "Seattle", "state": "WA", "lat": 47.61, "lng": -122.33, "sector": "Digital/Fiber", "weightPct": 1.9, "note": "", "sample": true },
+    { "metro": "Nashville", "state": "TN", "lat": 36.16, "lng": -86.78, "sector": "Digital/Fiber", "weightPct": 1.3, "note": "", "sample": true },
+    { "metro": "Salt Lake City", "state": "UT", "lat": 40.76, "lng": -111.89, "sector": "Digital/Fiber", "weightPct": 1.0, "note": "", "sample": true },
+
+    { "metro": "Tampa", "state": "FL", "lat": 27.95, "lng": -82.46, "sector": "Other", "weightPct": 1.6, "note": "", "sample": true },
+    { "metro": "Minneapolis", "state": "MN", "lat": 44.98, "lng": -93.27, "sector": "Other", "weightPct": 0.9, "note": "", "sample": true }
+  ],
+  "context": [
+    {
+      "appliesTo": "Data Centers",
+      "label": "US data center electricity use, 2023",
+      "value": "About 176 TWh, roughly 4.4% of all US electricity. The same report projects 6.7% to 12% by 2028.",
+      "asOf": "2024-12-20",
+      "source": {
+        "name": "Lawrence Berkeley National Laboratory, 2024 United States Data Center Energy Usage Report (for the US Department of Energy)",
+        "url": "https://energyanalysis.lbl.gov/news/berkeley-lab-report-evaluates-increase-electricity-demand-data-centers"
+      }
+    }
+  ]
+}

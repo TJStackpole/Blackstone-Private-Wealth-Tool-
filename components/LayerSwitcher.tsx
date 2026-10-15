@@ -41,18 +41,14 @@ export default function LayerSwitcher({ layers, activeId, onChange }: Props) {
             tabIndex={active ? 0 : ready ? 0 : -1}
             onClick={() => ready && onChange(layer.id)}
             title={ready ? undefined : `${layer.label} — coming soon`}
-            style={active ? { ["--tab-accent" as string]: "var(--accent)" } : undefined}
+            style={{ ["--tab-light" as string]: layer.color, ["--tab-dark" as string]: layer.colorDark }}
             className={[
               "group relative flex shrink-0 flex-col items-start gap-0.5 rounded-t-md px-3 pb-2.5 pt-2 text-left transition-colors",
               active ? "text-ink" : ready ? "text-muted-strong hover:text-ink" : "cursor-default text-muted",
             ].join(" ")}
           >
             <span className="flex items-center gap-2 text-sm font-medium">
-              <span
-                aria-hidden
-                className="inline-block h-2 w-2 rounded-full"
-                style={{ background: ready ? "var(--accent)" : "var(--border)" }}
-              />
+              <span aria-hidden className={["inline-block h-2 w-2 rounded-full", ready ? "tab-dot" : "bg-line"].join(" ")} />
               {layer.label}
             </span>
             <span className="text-[11px] uppercase tracking-[0.08em] text-muted">
@@ -61,10 +57,9 @@ export default function LayerSwitcher({ layers, activeId, onChange }: Props) {
             <span
               aria-hidden
               className={[
-                "absolute inset-x-0 -bottom-px h-0.5 rounded-full transition-opacity",
+                "tab-dot absolute inset-x-0 -bottom-px h-0.5 rounded-full transition-opacity",
                 active ? "opacity-100" : "opacity-0",
               ].join(" ")}
-              style={{ background: "var(--accent)" }}
             />
           </button>
         );

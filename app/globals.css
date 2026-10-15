@@ -130,3 +130,11 @@ body {
   --accent: var(--layer-dark, #7fa3d1);
   --focus: var(--layer-dark, #7fa3d1);
 }
+
+/* Each tab carries its own layer color, in both themes. */
+.tab-dot {
+  background: var(--tab-light);
+}
+.dark .tab-dot {
+  background: var(--tab-dark);
+}
