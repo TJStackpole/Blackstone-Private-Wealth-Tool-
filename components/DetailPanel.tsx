@@ -75,8 +75,9 @@ export default function DetailPanel(props: Props) {
             key={`${props.layer.id}-${selectedState ?? "overview"}`}
             initial={reduce ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, x: -8 }}
-            transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
+            // Enter eases in; exit is near-instant so the old fund's data never lingers under a new tab.
+            exit={reduce ? { opacity: 1, transition: { duration: 0 } } : { opacity: 0, x: -8, transition: { duration: 0.1 } }}
+            transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0, 1] }}
           >
             {content}
           </motion.div>

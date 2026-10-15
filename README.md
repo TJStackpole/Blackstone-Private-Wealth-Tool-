@@ -3,7 +3,11 @@
 An interactive US map showing where retail private-markets funds invest, one fund at a time.
 Built from public filings as an independent prototype. **Not affiliated with Blackstone. Not investment advice.**
 
-The full build plan (five phases) is in `BUILD_PLAN.md`. Phase 1 (BREIT) is built.
+All five phases of `BUILD_PLAN.md` are built: BREIT, BX Infra, BXPE, BCRED, an All funds view, and the Retirement lens.
+Live: https://private-markets-atlas.netlify.app
+
+- `DEMO_GUIDE.md` — a five-minute walkthrough and honest answers to likely questions.
+- `CHECKLIST.md` — every phase's done checklist and how each item was verified.
 
 ## Run it on your computer
 
@@ -30,7 +34,7 @@ npm run build
 
 | Folder / file | What it is |
 | --- | --- |
-| `data/breit.json` | The fund's holdings. Every entry marked `"sample": true` is a placeholder, not a real holding. |
+| `data/*.json` | One file per fund, all the same shape. Every entry marked `"sample": true` is a placeholder, not a real holding. `retirement.json` holds the 401(k) lens text and milestones. |
 | `data/layers.ts` | The list of map layers (one per fund). Adding a fund = add one JSON file + one entry here. |
 | `components/` | The map, tabs, sector chips, detail panel, legend, and footer. |
 | `lib/` | Shared types and the math that rolls metros up into state totals. |
