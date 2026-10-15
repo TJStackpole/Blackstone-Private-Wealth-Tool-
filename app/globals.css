@@ -138,3 +138,8 @@ body {
 .dark .tab-dot {
   background: var(--tab-dark);
 }
+
+.metro-marker:focus-visible circle:first-child {
+  stroke: var(--text);
+  stroke-width: 2.5;
+}

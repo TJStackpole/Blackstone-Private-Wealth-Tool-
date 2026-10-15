@@ -20,6 +20,7 @@ export default function Atlas() {
   const [layerId, setLayerId] = useState<LayerId>(DEFAULT_LAYER_ID);
   const [sector, setSector] = useState<string | null>(null);
   const [rawSelected, setSelectedState] = useState<string | null>(null);
+  const [selectedMetro, setSelectedMetro] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const reduce = useReducedMotion();
 
@@ -39,11 +40,20 @@ export default function Atlas() {
     setLayerId(id);
     setSector(null);
     setSelectedState(null);
+    setSelectedMetro(null);
   }
 
   function selectState(abbr: string | null) {
     setSelectedState(abbr);
+    setSelectedMetro(null);
     if (abbr) setSheetOpen(true);
+  }
+
+  /** From a map dot: open that state and expand that metro's companies. */
+  function selectMetro(abbr: string, metro: string) {
+    setSelectedState(abbr);
+    setSelectedMetro(metro);
+    setSheetOpen(true);
   }
 
   // If a sector filter removes the selected state, fall back to the overview.
@@ -80,7 +90,9 @@ export default function Atlas() {
                 byState={byState}
                 maxPct={maxPct}
                 selectedState={selectedState}
+                selectedMetro={selectedMetro}
                 onSelectState={selectState}
+                onSelectMetro={data.locationBasis === "headquarters" ? selectMetro : undefined}
                 fundLabel={data.fund}
               />
               <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-line px-1 pt-3">
@@ -130,7 +142,9 @@ export default function Atlas() {
                   byState={byState}
                   activeSector={sector}
                   selectedState={selectedState}
+                  selectedMetro={selectedMetro}
                   onSelectState={selectState}
+                  onSelectMetro={setSelectedMetro}
                   hasSample={hasSample}
                 />
               </div>

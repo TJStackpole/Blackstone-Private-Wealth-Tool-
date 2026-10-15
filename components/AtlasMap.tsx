@@ -13,7 +13,10 @@ export interface AtlasMapProps {
   /** Largest state total, used to scale shading. */
   maxPct: number;
   selectedState: string | null;
+  selectedMetro?: string | null;
   onSelectState: (abbr: string | null) => void;
+  /** When set, metro dots are clickable (used for headquarters layers to show companies). */
+  onSelectMetro?: (abbr: string, metro: string) => void;
   /** Label used in tooltips and aria text, e.g. "BREIT". */
   fundLabel: string;
 }
@@ -31,7 +34,7 @@ interface TooltipState {
  * The US map. States shade by weight, metros sit on top as rings sized by weight.
  * Reused by every layer — it knows nothing about which fund it is drawing.
  */
-export default function AtlasMap({ byState, maxPct, selectedState, onSelectState, fundLabel }: AtlasMapProps) {
+export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro, onSelectState, onSelectMetro, fundLabel }: AtlasMapProps) {
   const [tip, setTip] = useState<TooltipState | null>(null);
 
   const metros = useMemo(() => metroTotals([...byState.values()].flatMap((s) => s.metros)), [byState]);
@@ -65,22 +68,43 @@ export default function AtlasMap({ byState, maxPct, selectedState, onSelectState
           onLeave={() => setTip(null)}
           fundLabel={fundLabel}
         />
-        <g aria-hidden pointerEvents="none">
+        <g aria-hidden={!onSelectMetro} pointerEvents={onSelectMetro ? "auto" : "none"}>
           {metros.map((m) => {
             const r = 3 + Math.sqrt(m.pct / Math.max(maxMetro, 0.1)) * 9;
             const dim = selectedState !== null && selectedState !== m.state;
+            const isSelected = selectedState === m.state && selectedMetro === m.metro;
             return (
-              <Marker key={`${m.metro}-${m.state}`} coordinates={[m.lng, m.lat]}>
+              <Marker
+                key={`${m.metro}-${m.state}`}
+                coordinates={[m.lng, m.lat]}
+                role={onSelectMetro ? "button" : undefined}
+                tabIndex={onSelectMetro ? 0 : undefined}
+                aria-label={onSelectMetro ? `${m.metro}, ${m.state}: ${formatPct(m.pct)} of ${fundLabel}. Show companies.` : undefined}
+                style={onSelectMetro ? { cursor: "pointer", outline: "none" } : undefined}
+                onClick={(e) => {
+                  if (!onSelectMetro) return;
+                  e.stopPropagation();
+                  onSelectMetro(m.state, m.metro);
+                }}
+                onKeyDown={(e) => {
+                  if (!onSelectMetro) return;
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelectMetro(m.state, m.metro);
+                  }
+                }}
+                className={onSelectMetro ? "metro-marker" : undefined}
+              >
                 <circle
                   className="metro-dot"
                   r={r}
-                  fill="var(--bg)"
-                  fillOpacity={0.35}
+                  fill={isSelected ? "var(--accent)" : "var(--bg)"}
+                  fillOpacity={isSelected ? 0.9 : 0.35}
                   stroke="var(--accent)"
-                  strokeWidth={1.5}
+                  strokeWidth={isSelected ? 2 : 1.5}
                   opacity={dim ? 0.25 : 1}
                 />
-                <circle className="metro-dot" r={1.6} fill="var(--accent)" opacity={dim ? 0.25 : 1} />
+                <circle className="metro-dot" r={1.6} fill={isSelected ? "var(--bg)" : "var(--accent)"} opacity={dim ? 0.25 : 1} />
               </Marker>
             );
           })}
