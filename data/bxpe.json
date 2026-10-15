@@ -3,88 +3,286 @@
   "assetClass": "Private Equity",
   "asOf": "2026-06-30",
   "source": {
-    "name": "Placeholder data, no filing loaded yet (bxpe.com)",
-    "url": "https://www.bxpe.com/"
+    "name": "Blackstone Private Equity Strategies Fund Form 10-Q, quarter ended June 30, 2026 (filed Aug 13, 2026)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm"
   },
-  "locationBasis": "headquarters",
+  "filing": {
+    "form": "10-Q",
+    "period": "2026-06-30",
+    "filed": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+    "entity": "Blackstone Private Equity Strategies Fund L.P.",
+    "cik": "0001930054"
+  },
+  "locationBasis": "region",
   "summary": {
-    "navBillions": null,
-    "headline": "BXPE is a non-traded private equity fund that buys stakes in private companies alongside Blackstone's institutional funds, aiming to grow them over several years before selling. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each quarter."
+    "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+    "stats": [
+      {
+        "label": "Net assets",
+        "value": "$17.3B",
+        "note": "the aggregator vehicle that holds all investments"
+      },
+      {
+        "label": "NAV per unit",
+        "value": "$39.01",
+        "note": "Class I, Series I"
+      },
+      {
+        "label": "Corporate private equity",
+        "value": "58%",
+        "note": "Growth 24%, Hybrid Capital 12%, Secondaries 3%, Debt 3%"
+      },
+      {
+        "label": "Named holdings",
+        "value": "2",
+        "note": "the rest are reported as 'Other investments'"
+      }
+    ]
   },
-  "sectors": ["Technology", "Healthcare", "Industrials", "Consumer", "Financial Services", "Other"],
-  "holdings": [
+  "sectorBasis": "Share of fair value, as charted in the 10-Q. Rounded by the fund, so the total is 101%.",
+  "sectors": [
     {
-      "metro": "Bay Area", "state": "CA", "lat": 37.55, "lng": -122.05, "sector": "Technology", "weightPct": 6.8, "note": "", "sample": true,
-      "companies": [
-        { "name": "Sample Software Co.", "sector": "Technology", "description": "Placeholder: a subscription software business headquartered in the Bay Area.", "sample": true },
-        { "name": "Sample Cloud Services", "sector": "Technology", "description": "Placeholder: a cloud infrastructure provider.", "sample": true }
-      ]
+      "key": "Technology & Services",
+      "label": "Technology & Services",
+      "pct": 13
     },
     {
-      "metro": "Seattle", "state": "WA", "lat": 47.61, "lng": -122.33, "sector": "Technology", "weightPct": 3.1, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Data Platform", "sector": "Technology", "description": "Placeholder: an enterprise data analytics company.", "sample": true }]
+      "key": "Industrials",
+      "label": "Industrials",
+      "pct": 13
     },
     {
-      "metro": "Austin", "state": "TX", "lat": 30.27, "lng": -97.74, "sector": "Technology", "weightPct": 2.4, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Cybersecurity Inc.", "sector": "Technology", "description": "Placeholder: a cybersecurity software vendor.", "sample": true }]
+      "key": "Business Services",
+      "label": "Business Services",
+      "pct": 11
     },
     {
-      "metro": "Boston", "state": "MA", "lat": 42.36, "lng": -71.06, "sector": "Healthcare", "weightPct": 4.2, "note": "", "sample": true,
-      "companies": [
-        { "name": "Sample Life Sciences", "sector": "Healthcare", "description": "Placeholder: a clinical research services firm.", "sample": true },
-        { "name": "Sample Medical Devices", "sector": "Healthcare", "description": "Placeholder: a maker of surgical equipment.", "sample": true }
-      ]
+      "key": "Consumer",
+      "label": "Consumer",
+      "pct": 11
     },
     {
-      "metro": "Nashville", "state": "TN", "lat": 36.16, "lng": -86.78, "sector": "Healthcare", "weightPct": 3.0, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Health Services", "sector": "Healthcare", "description": "Placeholder: an outpatient care operator.", "sample": true }]
+      "key": "Software",
+      "label": "Software",
+      "pct": 10
     },
     {
-      "metro": "Minneapolis", "state": "MN", "lat": 44.98, "lng": -93.27, "sector": "Healthcare", "weightPct": 1.8, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Diagnostics", "sector": "Healthcare", "description": "Placeholder: a diagnostics laboratory network.", "sample": true }]
+      "key": "Energy",
+      "label": "Energy",
+      "pct": 9
     },
     {
-      "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Industrials", "weightPct": 3.6, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Industrial Group", "sector": "Industrials", "description": "Placeholder: a maker of building products.", "sample": true }]
+      "key": "Financial Services",
+      "label": "Financial Services",
+      "pct": 9
     },
     {
-      "metro": "Houston", "state": "TX", "lat": 29.76, "lng": -95.37, "sector": "Industrials", "weightPct": 2.7, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Energy Services", "sector": "Industrials", "description": "Placeholder: an industrial services provider.", "sample": true }]
+      "key": "Healthcare",
+      "label": "Healthcare",
+      "pct": 8
     },
     {
-      "metro": "Cleveland", "state": "OH", "lat": 41.50, "lng": -81.69, "sector": "Industrials", "weightPct": 1.5, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Components Corp.", "sector": "Industrials", "description": "Placeholder: a precision components manufacturer.", "sample": true }]
+      "key": "Media & Entertainment",
+      "label": "Media & Entertainment",
+      "pct": 7
     },
     {
-      "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Consumer", "weightPct": 2.9, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Consumer Brands", "sector": "Consumer", "description": "Placeholder: a packaged goods company.", "sample": true }]
+      "key": "Infrastructure",
+      "label": "Infrastructure",
+      "pct": 4
     },
     {
-      "metro": "Los Angeles", "state": "CA", "lat": 34.05, "lng": -118.24, "sector": "Consumer", "weightPct": 2.2, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Entertainment Co.", "sector": "Consumer", "description": "Placeholder: a live events and media company.", "sample": true }]
+      "key": "Debt & Other Securities",
+      "label": "Debt & Other Securities",
+      "pct": 3
     },
     {
-      "metro": "Denver", "state": "CO", "lat": 39.74, "lng": -104.99, "sector": "Consumer", "weightPct": 1.3, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Fitness Group", "sector": "Consumer", "description": "Placeholder: a fitness club operator.", "sample": true }]
+      "key": "Specialty Finance",
+      "label": "Specialty Finance",
+      "pct": 2
     },
     {
-      "metro": "New York City", "state": "NY", "lat": 40.71, "lng": -74.01, "sector": "Financial Services", "weightPct": 4.5, "note": "", "sample": true,
-      "companies": [
-        { "name": "Sample Insurance Services", "sector": "Financial Services", "description": "Placeholder: an insurance brokerage.", "sample": true },
-        { "name": "Sample Payments Inc.", "sector": "Financial Services", "description": "Placeholder: a payments processor.", "sample": true }
-      ]
-    },
-    {
-      "metro": "Charlotte", "state": "NC", "lat": 35.23, "lng": -80.84, "sector": "Financial Services", "weightPct": 1.9, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Wealth Partners", "sector": "Financial Services", "description": "Placeholder: a wealth management platform.", "sample": true }]
-    },
-    {
-      "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Other", "weightPct": 2.1, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Business Services", "sector": "Other", "description": "Placeholder: an outsourced business services firm.", "sample": true }]
-    },
-    {
-      "metro": "Miami–Fort Lauderdale", "state": "FL", "lat": 25.76, "lng": -80.19, "sector": "Other", "weightPct": 1.4, "note": "", "sample": true,
-      "companies": [{ "name": "Sample Logistics Holdings", "sector": "Other", "description": "Placeholder: a freight and logistics company.", "sample": true }]
+      "key": "Diversified",
+      "label": "Diversified",
+      "pct": 1
     }
+  ],
+  "geography": {
+    "level": "world-region",
+    "basis": "Regions as charted in the 10-Q, by fair value. The filing gives no country or state detail.",
+    "items": [
+      {
+        "key": "Americas",
+        "label": "Americas",
+        "pct": 77
+      },
+      {
+        "key": "EMEA",
+        "label": "Europe, Middle East & Africa",
+        "pct": 15
+      },
+      {
+        "key": "APAC",
+        "label": "Asia-Pacific",
+        "pct": 6
+      },
+      {
+        "key": "Various",
+        "label": "Debt & other securities",
+        "pct": 3,
+        "note": "not assigned to a region; not shown on the map"
+      }
+    ],
+    "bySector": {
+      "Industrials": [
+        {
+          "key": "Americas",
+          "pct": 99.9
+        },
+        {
+          "key": "APAC",
+          "pct": 0.1
+        }
+      ],
+      "Technology & Services": [
+        {
+          "key": "Americas",
+          "pct": 91.1
+        },
+        {
+          "key": "EMEA",
+          "pct": 1.3
+        },
+        {
+          "key": "APAC",
+          "pct": 7.6
+        }
+      ],
+      "Business Services": [
+        {
+          "key": "Americas",
+          "pct": 74.8
+        },
+        {
+          "key": "EMEA",
+          "pct": 13.5
+        },
+        {
+          "key": "APAC",
+          "pct": 11.7
+        }
+      ],
+      "Consumer": [
+        {
+          "key": "Americas",
+          "pct": 97.1
+        },
+        {
+          "key": "EMEA",
+          "pct": 2.4
+        },
+        {
+          "key": "APAC",
+          "pct": 0.5
+        }
+      ],
+      "Software": [
+        {
+          "key": "Americas",
+          "pct": 82.4
+        },
+        {
+          "key": "EMEA",
+          "pct": 17.6
+        }
+      ],
+      "Energy": [
+        {
+          "key": "Americas",
+          "pct": 95.2
+        },
+        {
+          "key": "EMEA",
+          "pct": 4.8
+        }
+      ],
+      "Financial Services": [
+        {
+          "key": "Americas",
+          "pct": 75.1
+        },
+        {
+          "key": "EMEA",
+          "pct": 16.6
+        },
+        {
+          "key": "APAC",
+          "pct": 8.3
+        }
+      ],
+      "Healthcare": [
+        {
+          "key": "Americas",
+          "pct": 84.6
+        },
+        {
+          "key": "EMEA",
+          "pct": 12.2
+        },
+        {
+          "key": "APAC",
+          "pct": 3.2
+        }
+      ],
+      "Media & Entertainment": [
+        {
+          "key": "Americas",
+          "pct": 7.8
+        },
+        {
+          "key": "EMEA",
+          "pct": 91.2
+        },
+        {
+          "key": "APAC",
+          "pct": 0.9
+        }
+      ],
+      "Infrastructure": [
+        {
+          "key": "Americas",
+          "pct": 34.1
+        },
+        {
+          "key": "APAC",
+          "pct": 65.9
+        }
+      ]
+    },
+    "bySectorBasis": "Split of that sector's equity holdings across regions, from the 10-Q's schedule of investments."
+  },
+  "topHoldings": {
+    "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets.",
+    "items": [
+      {
+        "name": "Fortis Holdco L.P.",
+        "sector": "Technology & Services",
+        "geo": "Americas",
+        "fairValueMillions": 1235.9,
+        "pctOfNetAssets": 7.1
+      },
+      {
+        "name": "Air Control Concepts Holdings, L.P.",
+        "sector": "Industrials",
+        "geo": "Americas",
+        "fairValueMillions": 866.8,
+        "pctOfNetAssets": 5.0
+      }
+    ]
+  },
+  "notDisclosed": [
+    "The names of all but two portfolio companies. The rest are grouped as 'Other investments' by sector and region.",
+    "Any country, state or city."
   ]
 }

@@ -5,65 +5,106 @@ export type LayerId = "breit" | "bxinfra" | "bxpe" | "bcred" | "retirement";
 /** Tabs are either one fund layer or the side-by-side "All funds" view. */
 export type ViewId = LayerId | "all";
 
-/** "property" = the asset itself sits here. "headquarters" = the company's HQ is here (a proxy). */
-export type LocationBasis = "property" | "headquarters";
-
 export interface Source {
   name: string;
   url: string;
 }
 
-export interface Company {
-  name: string;
-  sector: string;
-  description: string;
-  sample?: boolean;
+
+/** One slice of a breakdown: a sector, a region, a country group. */
+export interface Share {
+  key: string;
+  label: string;
+  /** Percent, as reported (or computed from the filing's own table). */
+  pct: number;
+  note?: string;
 }
 
-export interface Holding {
-  /** Metro name without state, e.g. "Dallas–Fort Worth". */
-  metro: string;
-  /** Two-letter state code, e.g. "TX". */
-  state: string;
-  lat: number;
-  lng: number;
-  sector: string;
-  /** Share of the fund, in percent (4.1 = 4.1%). */
-  weightPct: number;
+export interface Stat {
+  label: string;
+  value: string;
   note?: string;
-  /** True when this entry is a placeholder, not from a filing. */
-  sample?: boolean;
-  /** Later phases (BXPE, BCRED): disclosed companies headquartered here. */
-  companies?: Company[];
+}
+
+/** Which SEC filing the numbers came from. */
+export interface FilingRef {
+  form: string;
+  period: string;
+  filed: string;
+  url: string;
+  entity: string;
+  cik: string;
+}
+
+/**
+ * How far down the filing's geography goes, which decides how the layer is drawn.
+ * us-region: NCREIF U.S. regions (BREIT). world-region: Americas / EMEA / APAC. country-group: the filing's country groups.
+ */
+export type GeoLevel = "us-region" | "world-region" | "country-group";
+
+export interface Geography {
+  level: GeoLevel;
+  basis: string;
+  items: Share[];
+  /** Only BREIT: the largest states the filing names. */
+  topStates?: { state: string; pct: number }[];
+  /** Region split within each sector, where the filing's schedule allows it. */
+  bySector?: Record<string, { key: string; pct: number }[]>;
+  bySectorBasis?: string;
+}
+
+/** A named investment from BREIT's real estate table. */
+export interface PropertyInvestment {
+  name: string;
+  sector: string;
+  properties: number;
+  location: string;
+  states: string[];
+  acquired: string;
+  ownership: string;
+  size: string;
+  occupancy: string;
+}
+
+/** A holding the filing names, with its value. */
+export interface NamedHolding {
+  name: string;
+  sector: string;
+  geo?: string;
+  fairValueMillions: number;
+  pctOfNetAssets: number;
+  note?: string;
 }
 
 /** A fact from outside the fund's own filings. Always cited on its own. */
 export interface ThirdPartyFact {
-  /** Sector this fact belongs to, e.g. "Data Centers". Omit to show it for the whole fund. */
+  /** Sector this fact belongs to. Omit to show it for the whole fund. */
   appliesTo?: string;
   label: string;
   value: string;
   asOf?: string;
   source: Source;
-  sample?: boolean;
 }
 
 export interface FundData {
   fund: string;
   assetClass: string;
-  /** ISO date the figures are as of. */
+  /** Period end of the filing. */
   asOf: string;
   source: Source;
-  locationBasis: LocationBasis;
-  summary: {
-    navBillions: number | null;
-    headline: string;
-  };
-  sectors: string[];
-  holdings: Holding[];
-  /** Optional plain-English block (used by later phases). */
+  filing: FilingRef;
+  locationBasis: "property" | "region";
+  summary: { headline: string; stats: Stat[] };
+  sectorBasis: string;
+  sectors: Share[];
+  geography: Geography;
+  investments?: PropertyInvestment[];
+  investmentsNote?: string;
+  topHoldings?: { basis: string; items: NamedHolding[] };
+  thisQuarter?: string[];
+  notDisclosed: string[];
   howItWorks?: { title: string; asOf: string; paragraphs: string[]; source?: Source };
-  /** Optional third-party context, cited separately from the filing. */
+  website?: { text: string; source: Source };
   context?: ThirdPartyFact[];
 }
 

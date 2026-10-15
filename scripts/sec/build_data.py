@@ -1,0 +1,497 @@
+"""
+Build /data/{breit,bxinfra,bxpe,bcred}.json from the funds' SEC 10-Q filings.
+
+Usage:
+    scripts/sec/fetch_filings.sh ./filings          # downloads + converts to text
+    python3 -I scripts/sec/build_data.py ./filings data
+
+Every figure written here either
+  (a) is parsed from the filing text and reconciled against a total the filing prints, or
+  (b) is read from a chart image inside the same filing; those constants are marked CHART below
+      with the image file name, so they can be re-checked by eye.
+If a reconciliation fails the script stops instead of writing data.
+"""
+import json
+import os
+import re
+import sys
+
+FILINGS, OUT = sys.argv[1], sys.argv[2]
+EDGAR = "https://www.sec.gov/Archives/edgar/data"
+
+
+def read(name):
+    return open(os.path.join(FILINGS, name), encoding="utf-8").read().split("\n")
+
+
+def num(s):
+    return float(s.replace(",", "").replace("(", "-").replace(")", ""))
+
+
+def isnum(s):
+    return re.fullmatch(r"\(?[\d,]+(\.\d+)?\)?", s or "") is not None
+
+
+def check(ok, msg):
+    if not ok:
+        sys.exit(f"RECONCILIATION FAILED: {msg}")
+    print(f"  ok  {msg}")
+
+
+def write(name, obj):
+    path = os.path.join(OUT, name)
+    with open(path, "w") as f:
+        json.dump(obj, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    print(f"wrote {path}")
+
+
+US_STATES = set(
+    "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH "
+    "OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split()
+)
+
+# --------------------------------------------------------------------------------------------- BREIT
+def build_breit():
+    print("BREIT")
+    lines = read("breit-20260630.txt")
+    start = next(i for i, l in enumerate(lines) if l.startswith("Segment and Investment | Number of"))
+    rows, totals, seg = [], {}, None
+    for l in lines[start + 1:]:
+        if l.startswith("(1)"):
+            break
+        m = re.match(r"^([A-Za-z &/-]+):$", l.strip())
+        if m:
+            seg = m.group(1)
+            continue
+        if " | " not in l:
+            continue
+        c = [x.strip() for x in l.split(" | ")]
+        if c[0].startswith("Total "):
+            totals[c[0][6:]] = int(c[1].replace(",", ""))
+            continue
+        if len(c) < 6 or not re.match(r"^[\d,]+$", c[1]):
+            continue
+        rows.append({
+            "name": re.sub(r"\(\d+\)", "", c[0]).strip(),
+            "sector": seg,
+            "properties": int(c[1].replace(",", "")),
+            "location": c[2],
+            "states": sorted({s for s in re.findall(r"\b([A-Z]{2})\b", c[2]) if s in US_STATES}),
+            "acquired": c[3],
+            "ownership": re.sub(r"\(\d+\)", "", c[4]),
+            "size": c[5],
+            "occupancy": re.sub(r"^\(\d+\)$", "n/a", c[6]) if len(c) > 6 else "",
+        })
+    by_seg = {}
+    for r in rows:
+        by_seg[r["sector"]] = by_seg.get(r["sector"], 0) + r["properties"]
+    for k, v in totals.items():
+        if k == "Investments in Real Estate":
+            check(sum(by_seg.values()) == v, f"BREIT all properties {sum(by_seg.values())} == filing total {v}")
+        else:
+            check(by_seg.get(k) == v, f"BREIT {k} properties {by_seg.get(k)} == filing total {v}")
+    unplaced = [r for r in rows if not r["states"]]
+
+    # NAV table
+    nav_total = next(l for l in lines if l.startswith("Total | $ |") and l.count("|") == 3)
+    nav_total = num(nav_total.split(" | ")[2]) / 1e6  # $ thousands -> $ billions
+    class_i = next(l for l in lines if l.startswith("Class I Shares | $ |"))
+    class_i_nav = class_i.split(" | ")[-1]
+    check(abs(nav_total - 56.567757) < 1e-6, f"BREIT total NAV ${nav_total:.1f}B read from NAV table")
+
+    url = f"{EDGAR}/1662972/000166297226000111/breit-20260630.htm"
+    return {
+        "fund": "BREIT",
+        "assetClass": "Real Estate",
+        "asOf": "2026-06-30",
+        "source": {"name": "BREIT Form 10-Q, quarter ended June 30, 2026 (filed Aug 7, 2026)", "url": url},
+        "filing": {"form": "10-Q", "period": "2026-06-30", "filed": "2026-08-07", "url": url,
+                   "entity": "Blackstone Real Estate Income Trust, Inc.", "cik": "0001662972"},
+        "locationBasis": "property",
+        "summary": {
+            "headline": "BREIT is a non-traded real estate investment trust that owns income-producing property, mostly in the U.S. South and West. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each month or quarter.",
+            "stats": [
+                {"label": "Net asset value", "value": f"${nav_total:.1f}B", "note": "all share classes and operating partnership units"},
+                {"label": "NAV per share", "value": f"${float(class_i_nav):.2f}", "note": "Class I"},
+                {"label": "Properties", "value": "4,530", "note": "plus 63,081 single-family rental homes"},
+                {"label": "Real estate vs. debt", "value": "97% / 3%", "note": "share of investments at fair value"},
+            ],
+        },
+        # CHART breit-20260630_g3.jpg "Property Sector" (also stated in text for the top three)
+        "sectorBasis": "Share of real estate investments by asset value, as charted in the 10-Q.",
+        "sectors": [
+            {"key": "Rental Housing", "label": "Rental Housing", "pct": 42},
+            {"key": "Data Centers", "label": "Data Centers", "pct": 27},
+            {"key": "Industrial", "label": "Industrial", "pct": 20},
+            {"key": "Net Lease", "label": "Net Lease", "pct": 5},
+            {"key": "Office", "label": "Office", "pct": 2},
+            {"key": "Retail", "label": "Retail", "pct": 2},
+            {"key": "Hospitality", "label": "Hospitality", "pct": 2},
+        ],
+        "geography": {
+            "level": "us-region",
+            # CHART breit-20260630_g4.jpg "Region Concentration" (South/West/East also stated in text)
+            "basis": "Regions as defined by NCREIF, by asset value of real estate properties. The filing reports regions, plus the three largest states; it does not report other states.",
+            "items": [
+                {"key": "South", "label": "South", "pct": 35},
+                {"key": "West", "label": "West", "pct": 28},
+                {"key": "East", "label": "East", "pct": 20},
+                {"key": "Midwest", "label": "Midwest", "pct": 12},
+                {"key": "Non-US", "label": "Non-U.S. (Europe and Canada)", "pct": 5, "note": "not shown on the U.S. map"},
+            ],
+            # CHART breit-20260630_g5.jpg "Largest BREIT States"
+            "topStates": [{"state": "TX", "pct": 11}, {"state": "GA", "pct": 11}, {"state": "FL", "pct": 11}],
+        },
+        "investments": rows,
+        "investmentsNote": f"The 10-Q lists {len(rows)} investments. {len(unplaced)} of them, holding {sum(r['properties'] for r in unplaced):,} of the 4,530 properties, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+        "thisQuarter": [
+            "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
+            "Put $3.3 billion into data center development through its QTS platform, described as 100% pre-leased.",
+            "Raised $1.1 billion from investors and repurchased $0.9 billion of shares and units.",
+        ],
+        "howItWorks": {
+            "title": "How getting money out works",
+            "asOf": "2026-06-30",
+            "paragraphs": [
+                "Shares are bought and sold back at a price based on the fund's net asset value, set each month.",
+                "Buybacks are capped at 2% of the fund's NAV per month and 5% per calendar quarter. Shares held under a year are bought back at 98% of the price.",
+            ],
+            "source": {"name": "BREIT 10-Q, Share Repurchase Plan", "url": url},
+        },
+        "notDisclosed": [
+            "A value for each named investment.",
+            "Weights for any state other than the three largest.",
+            "Which cities hold the properties listed as 'Various'.",
+        ],
+    }
+
+
+# ------------------------------------------------------------------------------- BXINFRA / BXPE
+GEOS = {"Americas", "EMEA", "APAC", "Various"}
+
+
+def parse_aggregator(fname, expected_total):
+    lines = read(fname)
+    hdr = "Condensed Consolidated Schedule of Investments as of June 30, 2026 (Unaudited)"
+    start = next(i for i, l in enumerate(lines) if l.strip() == hdr)
+    end = next(i for i in range(start, len(lines)) if lines[i].startswith("Total Investments") and ("Investee" in lines[i] or "(Cost" in lines[i]))
+    ind, kind, rows = None, None, []
+    for l in lines[start:end]:
+        s = l.strip()
+        if " | " not in s:
+            if not s or s.startswith(("(", "Condensed", "Table", "BX", "See", "continued")) or s[0].isdigit():
+                continue
+            if re.match(r"^(Equity Investments|Debt Investments|Investments)", s):
+                kind = "Debt" if s.startswith("Debt") else "Equity"
+                continue
+            ind = re.sub(r"\s*\(\w\)$", "", s).replace(" and ", " & ")
+            continue
+        c = [x.strip() for x in s.split(" | ")]
+        if c[0].startswith(("Total", "Name of")):
+            continue
+        c = [re.sub(r"%$", "", x) for x in c if x not in ("$", "%")]
+        if len(c) < 4 or c[1] not in GEOS:
+            continue
+        rows.append({"name": re.sub(r"\s*\(\w\)", "", c[0]).strip(), "geo": c[1], "fv": num(c[2]),
+                     "pct": num(c[3]), "industry": ind, "kind": kind})
+    tot = sum(r["fv"] for r in rows)
+    check(abs(tot - expected_total) < 1, f"{fname}: schedule rows sum to {tot:,.0f} == filing total {expected_total:,.0f}")
+    return rows, tot
+
+
+def shares(rows, key, tot):
+    out = {}
+    for r in rows:
+        out[r[key]] = out.get(r[key], 0) + r["fv"]
+    return {k: round(v / tot * 100, 1) for k, v in sorted(out.items(), key=lambda kv: -kv[1])}
+
+
+def by_sector_geo(rows, sectors):
+    """For each industry, how its fair value splits across Americas / EMEA / APAC / Various."""
+    out = {}
+    for s in sectors:
+        sub = [r for r in rows if r["industry"] == s]
+        t = sum(r["fv"] for r in sub)
+        if t <= 0:
+            continue
+        out[s] = [{"key": g, "pct": round(sum(r["fv"] for r in sub if r["geo"] == g) / t * 100, 1)} for g in ["Americas", "EMEA", "APAC", "Various"]]
+        out[s] = [x for x in out[s] if x["pct"] > 0]
+    return out
+
+
+def strip_units(name):
+    return re.sub(r"\s*\((?:[\d,]+ [Ss]hares|Outstanding Principal of \$[\d,]+)\)", "", name).strip()
+
+
+GEO_LABEL = {"Americas": "Americas", "EMEA": "Europe, Middle East & Africa", "APAC": "Asia-Pacific", "Various": "Various / multi-region"}
+
+
+def build_bxinfra(old):
+    print("BX Infra")
+    rows, tot = parse_aggregator("bxinfra-20260630.txt", 6_070_643)
+    for r in rows:  # footnote (f): "Fund investments are diversified and are not categorized to one industry."
+        if r["industry"] == "Various":
+            r["industry"] = "Diversified fund interests"
+    lines = read("bxinfra-20260630.txt")
+    agg_nav = [l for l in lines if l.startswith("Total Net Assets |")][2]
+    agg_nav = num(agg_nav.split(" | ")[1]) / 1e6
+    check(abs(agg_nav - 5.625905) < 1e-6, f"BX Infra aggregator net assets ${agg_nav:.2f}B")
+    ind = shares(rows, "industry", tot)
+    geo = shares(rows, "geo", tot)
+    named = {}
+    for r in rows:
+        if r["name"].startswith("Other "):
+            continue
+        n = re.sub(r"L\.L\.C\.?$", "L.L.C.", strip_units(r["name"]))
+        d = named.setdefault(n, {"name": n, "sector": r["industry"], "geo": r["geo"], "fv": 0.0, "pct": 0.0, "kinds": set()})
+        d["fv"] += r["fv"]; d["pct"] += r["pct"]; d["kinds"].add(r["kind"])
+    notes = {
+        "Infrastructure Investments L.P.": "A fund interest. The filing says its holdings are 46% digital, 28% energy and 26% transportation.",
+        "SP Ibex Acquisitions L.P.": "Listed under 'Various' industries and geographies.",
+    }
+    top = sorted(named.values(), key=lambda d: -d["fv"])
+    url = f"{EDGAR}/2030772/000203077226000017/bxinfra-20260630.htm"
+    sectors = [{"key": k, "label": k, "pct": v} for k, v in ind.items()]
+    return {
+        "fund": "BX Infra",
+        "assetClass": "Infrastructure",
+        "asOf": "2026-06-30",
+        "source": {"name": "Blackstone Infrastructure Strategies Form 10-Q, quarter ended June 30, 2026 (filed Aug 11, 2026)", "url": url},
+        "filing": {"form": "10-Q", "period": "2026-06-30", "filed": "2026-08-11", "url": url,
+                   "entity": "Blackstone Infrastructure Strategies L.P.", "cik": "0002030772"},
+        "locationBasis": "region",
+        "summary": {
+            "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+            "stats": [
+                {"label": "Net assets", "value": f"${agg_nav:.1f}B", "note": "the aggregator vehicle that holds all investments"},
+                {"label": "NAV per unit", "value": "$29.99", "note": "Class I, Series I"},
+                {"label": "Investments", "value": f"${tot / 1e6:.2f}B", "note": "at fair value, 107.9% of net assets"},
+                {"label": "Named holdings", "value": str(len(top)), "note": "the rest are reported as 'Other investments'"},
+            ],
+        },
+        "sectorBasis": "Share of total investments at fair value, summed from the 10-Q's schedule of investments (equity and debt).",
+        "sectors": sectors,
+        "geography": {
+            "level": "world-region",
+            "basis": "Regions as reported in the schedule of investments: Americas, EMEA, APAC, or Various. The filing gives no country or state detail.",
+            "items": [{"key": k, "label": GEO_LABEL[k], "pct": v} | ({"note": "spans several regions; not shown on the map"} if k == "Various" else {}) for k, v in geo.items()],
+            "bySector": by_sector_geo(rows, list(ind.keys())),
+            "bySectorBasis": "Split of that sector's fair value across regions, from the schedule of investments.",
+        },
+        "topHoldings": {
+            "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets. Equity and debt in the same company are combined.",
+            "items": [{"name": d["name"], "sector": d["sector"], "geo": d["geo"],
+                       "fairValueMillions": round(d["fv"] / 1000, 1), "pctOfNetAssets": round(d["pct"], 1),
+                       **({"note": notes[d["name"]]} if d["name"] in notes else {})} for d in top],
+        },
+        "notDisclosed": [
+            "What most holdings are: the largest are code-named entities such as 'Mercury Co-Invest L.P.' and 'Poseidon Holdco I L.P.'.",
+            f"{100 - sum(d['pct'] for d in top) / 107.9 * 100:.0f}% of investments are grouped as 'Other investments' with no name.",
+            "Any country, state or city.",
+        ],
+        "context": [{
+            "appliesTo": "Digital Infrastructure",
+            "label": "US data center electricity use, 2023",
+            "value": "About 176 TWh, roughly 4.4% of all US electricity. The same report projects 6.7% to 12% by 2028.",
+            "asOf": "2024-12-20",
+            "source": {"name": "Lawrence Berkeley National Laboratory, 2024 United States Data Center Energy Usage Report (for the US Department of Energy)",
+                       "url": "https://energyanalysis.lbl.gov/news/berkeley-lab-report-evaluates-increase-electricity-demand-data-centers"},
+        }],
+    }
+
+
+def build_bxpe():
+    print("BXPE")
+    rows, tot = parse_aggregator("bxpe-20260630.txt", 17_193_030)
+    lines = read("bxpe-20260630.txt")
+    agg_nav = [l for l in lines if l.startswith("Total Net Assets |")][2]
+    agg_nav = num(agg_nav.split(" | ")[1]) / 1e6
+    check(abs(agg_nav - 17.310207) < 1e-6, f"BXPE aggregator net assets ${agg_nav:.2f}B")
+    ind = shares(rows, "industry", tot)
+    url = f"{EDGAR}/1930054/000193005426000016/bxpe-20260630.htm"
+    named = [r for r in rows if not r["name"].startswith("Other ")]
+    return {
+        "fund": "BXPE",
+        "assetClass": "Private Equity",
+        "asOf": "2026-06-30",
+        "source": {"name": "Blackstone Private Equity Strategies Fund Form 10-Q, quarter ended June 30, 2026 (filed Aug 13, 2026)", "url": url},
+        "filing": {"form": "10-Q", "period": "2026-06-30", "filed": "2026-08-13", "url": url,
+                   "entity": "Blackstone Private Equity Strategies Fund L.P.", "cik": "0001930054"},
+        "locationBasis": "region",
+        "summary": {
+            "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+            "stats": [
+                {"label": "Net assets", "value": f"${agg_nav:.1f}B", "note": "the aggregator vehicle that holds all investments"},
+                {"label": "NAV per unit", "value": "$39.01", "note": "Class I, Series I"},
+                {"label": "Corporate private equity", "value": "58%", "note": "Growth 24%, Hybrid Capital 12%, Secondaries 3%, Debt 3%"},
+                {"label": "Named holdings", "value": str(len(named)), "note": "the rest are reported as 'Other investments'"},
+            ],
+        },
+        # CHART bxpe-20260630_g4.jpg "Sector Breakdown (% of fair value)"
+        "sectorBasis": "Share of fair value, as charted in the 10-Q. Rounded by the fund, so the total is 101%.",
+        "sectors": [
+            {"key": "Technology & Services", "label": "Technology & Services", "pct": 13},
+            {"key": "Industrials", "label": "Industrials", "pct": 13},
+            {"key": "Business Services", "label": "Business Services", "pct": 11},
+            {"key": "Consumer", "label": "Consumer", "pct": 11},
+            {"key": "Software", "label": "Software", "pct": 10},
+            {"key": "Energy", "label": "Energy", "pct": 9},
+            {"key": "Financial Services", "label": "Financial Services", "pct": 9},
+            {"key": "Healthcare", "label": "Healthcare", "pct": 8},
+            {"key": "Media & Entertainment", "label": "Media & Entertainment", "pct": 7},
+            {"key": "Infrastructure", "label": "Infrastructure", "pct": 4},
+            {"key": "Debt & Other Securities", "label": "Debt & Other Securities", "pct": 3},
+            {"key": "Specialty Finance", "label": "Specialty Finance", "pct": 2},
+            {"key": "Diversified", "label": "Diversified", "pct": 1},
+        ],
+        "geography": {
+            "level": "world-region",
+            # CHART bxpe-20260630_g3.jpg "Regional Breakdown (% of fair value)"
+            "basis": "Regions as charted in the 10-Q, by fair value. The filing gives no country or state detail.",
+            "items": [
+                {"key": "Americas", "label": "Americas", "pct": 77},
+                {"key": "EMEA", "label": "Europe, Middle East & Africa", "pct": 15},
+                {"key": "APAC", "label": "Asia-Pacific", "pct": 6},
+                {"key": "Various", "label": "Debt & other securities", "pct": 3, "note": "not assigned to a region; not shown on the map"},
+            ],
+            "bySector": by_sector_geo([r for r in rows if r["kind"] == "Equity"], list(ind.keys())),
+            "bySectorBasis": "Split of that sector's equity holdings across regions, from the 10-Q's schedule of investments.",
+        },
+        "topHoldings": {
+            "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets.",
+            "items": [{"name": strip_units(r["name"]), "sector": r["industry"], "geo": r["geo"],
+                       "fairValueMillions": round(r["fv"] / 1000, 1), "pctOfNetAssets": r["pct"]}
+                      for r in sorted(named, key=lambda r: -r["fv"])],
+        },
+        "notDisclosed": [
+            "The names of all but two portfolio companies. The rest are grouped as 'Other investments' by sector and region.",
+            "Any country, state or city.",
+        ],
+    }
+
+
+# --------------------------------------------------------------------------------------------- BCRED
+def build_bcred(old):
+    print("BCRED")
+    lines = read("bcred-20260630.txt")
+    start = next(i for i, l in enumerate(lines) if l.strip() == "Condensed Consolidated Schedule of Investments")
+    end = next(i for i in range(start + 1, len(lines)) if lines[i].startswith("Total Investments - non-controlled/non-affiliated"))
+    co, industry = {}, None
+    for l in lines[start:end]:
+        s = l.strip()
+        if " | " not in s:
+            if s and not s.startswith(("(", "Condensed", "June", "Table", "Blackstone", "See")) and not isnum(s):
+                if not re.match(r"^(First Lien|Second Lien|Unsecured|Structured|Investments in|Equity|Total|Non-controlled|Controlled)", s):
+                    industry = re.sub(r"\s*\(continued\)$", "", s)
+            continue
+        c = [x.strip() for x in s.split(" | ")]
+        if c[0].startswith(("Total", "Investments (")):
+            continue
+        if c[-1] == "%":
+            c = c[:-1]
+        if len(c) < 4 or not (isnum(c[-1]) and isnum(c[-2])):
+            continue
+        fv, pct = num(c[-2]), num(c[-1])
+        name = re.sub(r"\s*\(\d+\)", "", c[0]).strip()
+        if "Cash" in name or pct > 100:
+            continue
+        d = co.setdefault(name, {"name": name, "industry": industry, "fv": 0.0, "pct": 0.0})
+        d["fv"] += fv
+        d["pct"] += pct
+    tot = sum(d["fv"] for d in co.values())
+    check(abs(tot - 77_649_107) < 5, f"BCRED: {len(co)} companies sum to {tot:,.0f} == filing total 77,649,107")
+
+    # Industry composition table (GICS), June 30, 2026 column
+    i0 = next(i for i, l in enumerate(lines) if l.startswith("The Company utilizes the Global Industry Classification Standard"))
+    gics = {}
+    for l in lines[i0:i0 + 120]:
+        if l.startswith("Total | 100.0"):
+            break
+        c = [x.strip() for x in l.split(" | ")]
+        if len(c) >= 2 and (isnum(c[1]) or c[1] == "—") and not c[0].startswith("June"):
+            gics[re.sub(r"\s*\(\d\)", "", c[0]).strip()] = 0.0 if c[1] == "—" else num(c[1])
+    check(abs(sum(gics.values()) - 100) < 1.0, f"BCRED: GICS industries sum to {sum(gics.values()):.1f}% (rounding)")
+    top_ind = sorted(gics.items(), key=lambda kv: -kv[1])[:10]
+    other = round(100 - sum(v for _, v in top_ind), 1)
+
+    # Geographic composition table
+    g0 = next(i for i, l in enumerate(lines) if l.startswith("The geographic composition of investments"))
+    geo = []
+    keys = {"United States": "US", "Europe": "Europe", "Bermuda/Cayman Islands": "BermudaCayman", "Canada": "Canada",
+            "Australia/New Zealand": "AusNZ", "Asia": "Asia"}
+    for l in lines[g0 + 3:g0 + 10]:
+        c = [x for x in (x.strip() for x in l.split(" | ")) if x not in ("$", "%")]
+        if c[0] == "Total":
+            break
+        geo.append({"key": keys[c[0]], "label": c[0], "pct": num(c[3])})
+    check(abs(sum(g["pct"] for g in geo) - 100) < 0.2, "BCRED: geographic shares sum to 100%")
+
+    nav = next(l for l in lines if l.startswith("Total net assets |"))
+    nav = num(nav.split(" | ")[1]) / 1e6
+    navps = next(l for l in lines if l.startswith("Net asset value per share |")).split(" | ")[2]
+    top = sorted(co.values(), key=lambda d: -d["fv"])[:12]
+    url = f"{EDGAR}/1803498/000180349826000048/bcred-20260630.htm"
+
+    def label_ind(d):
+        return "Joint venture" if "JV" in d["name"] else d["industry"]
+
+    hiw = old.get("howItWorks", {})
+    return {
+        "fund": "BCRED",
+        "assetClass": "Private Credit",
+        "asOf": "2026-06-30",
+        "source": {"name": "Blackstone Private Credit Fund Form 10-Q, quarter ended June 30, 2026 (filed Aug 12, 2026)", "url": url},
+        "filing": {"form": "10-Q", "period": "2026-06-30", "filed": "2026-08-12", "url": url,
+                   "entity": "Blackstone Private Credit Fund", "cik": "0001803498"},
+        "locationBasis": "region",
+        "summary": {
+            "headline": "BCRED is a non-traded business development company that lends directly to private companies, mostly through first lien, floating-rate loans. Investors buy shares at a monthly NAV, and the fund buys shares back through quarterly tender offers.",
+            "stats": [
+                {"label": "Net assets", "value": f"${nav:.1f}B", "note": "down from $47.6B on Dec 31, 2025"},
+                {"label": "NAV per share", "value": f"${float(navps):.2f}", "note": "down from $24.79 on Dec 31, 2025"},
+                {"label": "Portfolio companies", "value": f"{len(co):,}", "note": f"${tot / 1e6:.1f}B of investments at fair value"},
+                {"label": "First lien loans", "value": "91.0%", "note": "of investments; 99.8% of performing debt is floating rate"},
+            ],
+        },
+        "sectorBasis": "Industry (GICS) share of investments at fair value, from the 10-Q. The ten largest are shown; the rest are combined.",
+        "sectors": [{"key": k, "label": k, "pct": v} for k, v in top_ind] + [{"key": "All other industries", "label": "All other industries", "pct": other}],
+        "geography": {
+            "level": "country-group",
+            "basis": "Country groups exactly as the 10-Q reports them, by share of investments at fair value.",
+            "items": [g | ({"note": "too small to show on the map"} if g["key"] == "BermudaCayman" else {}) for g in geo],
+        },
+        "topHoldings": {
+            "basis": "The twelve largest borrowers, summing every loan and equity position in each company, with fair value as a share of net assets.",
+            "items": [{"name": d["name"], "sector": label_ind(d), "fairValueMillions": round(d["fv"] / 1000, 1),
+                       "pctOfNetAssets": round(d["pct"], 2)} for d in top],
+        },
+        "notDisclosed": [
+            "Where borrowers are headquartered. The filing reports country groups, so U.S. borrowers can't be placed on a state map.",
+        ],
+        "thisQuarter": [
+            "Fifteen issuers, across 25 loans, were on non-accrual status (not paying interest as scheduled), up from nine at year-end.",
+        ],
+        "howItWorks": {
+            "title": "How this fund works",
+            "asOf": "2026-06-30",
+            "paragraphs": [
+                "The fund lends to private companies. 91% of its investments are first lien loans, meaning the fund is first in line to be repaid, and 99.8% of its performing loans carry a floating rate that moves with market rates.",
+                "The share price (net asset value) is set every month.",
+                "Shares are bought back through quarterly tender offers at that quarter's NAV. Shares held for less than a year are bought back at 98% of NAV.",
+                "Per BCRED's offering terms, each quarterly offer is capped at 5% of shares outstanding. Requests above the cap are filled pro rata, and the board can change or pause the program.",
+            ],
+            "source": {"name": "BCRED 10-Q (first three points); BCRED offering terms on bcred.com (last point)", "url": url},
+        },
+        "website": {
+            "text": "BCRED's site describes its focus as floating rate, senior secured loans to large, performing companies in historically resilient sectors.",
+            "source": {"name": "bcred.com", "url": "https://www.bcred.com/"},
+        },
+    }
+
+
+if __name__ == "__main__":
+    old = {f: json.load(open(os.path.join(OUT, f + ".json"))) for f in ["bxinfra", "bcred"]}
+    data = {"breit": build_breit(), "bxinfra": build_bxinfra(old["bxinfra"]), "bxpe": build_bxpe(), "bcred": build_bcred(old["bcred"])}
+    for k, v in data.items():
+        write(f"{k}.json", v)

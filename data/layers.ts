@@ -7,10 +7,8 @@ import retirement from "./retirement.json";
 import type { FundData, RetirementData } from "@/lib/types";
 
 /**
- * The list of map layers. To add a fund in a later phase:
- *   1. drop its JSON into /data (same shape as breit.json)
- *   2. import it here and set `data` + status: "active"
- * Nothing else should need to change.
+ * The list of map layers. Fund data files are generated from SEC filings by scripts/sec/build_data.py.
+ * To add a fund: generate its JSON (same shape as the others), import it here, set `data` + status: "active".
  */
 export const LAYERS: LayerDef[] = [
   {
@@ -60,12 +58,6 @@ export const LAYERS: LayerDef[] = [
 ];
 
 export const DEFAULT_LAYER_ID = "breit";
-
-/** Caveat text chosen automatically from locationBasis. */
-export const LOCATION_BASIS_NOTE: Record<FundData["locationBasis"], string> = {
-  property: "Mapped by where each property or asset is located.",
-  headquarters: "Mapped by headquarters — a proxy, not where all operations sit.",
-};
 
 /** The retirement lens has no holdings to map; its content is illustrative. */
 export const RETIREMENT: RetirementData = retirement as RetirementData;

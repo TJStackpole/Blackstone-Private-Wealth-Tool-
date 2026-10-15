@@ -9,4 +9,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Project rules
 
 Read `BUILD_PLAN.md` before any change. Phases are built one at a time and only when the user says so.
-Never invent real holdings; anything not backed by a filing stays `"sample": true`.
+Never invent holdings or numbers. Fund data comes only from SEC filings via `scripts/sec/build_data.py`, which reconciles every total; say what a filing does not disclose instead of filling gaps.

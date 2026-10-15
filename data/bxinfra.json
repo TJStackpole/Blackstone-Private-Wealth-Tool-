@@ -3,49 +3,319 @@
   "assetClass": "Infrastructure",
   "asOf": "2026-06-30",
   "source": {
-    "name": "Placeholder data, no filing loaded yet (bxinfra.com)",
-    "url": "https://www.bxinfra.com/"
+    "name": "Blackstone Infrastructure Strategies Form 10-Q, quarter ended June 30, 2026 (filed Aug 11, 2026)",
+    "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm"
   },
-  "locationBasis": "property",
+  "filing": {
+    "form": "10-Q",
+    "period": "2026-06-30",
+    "filed": "2026-08-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+    "entity": "Blackstone Infrastructure Strategies L.P.",
+    "cik": "0002030772"
+  },
+  "locationBasis": "region",
   "summary": {
-    "navBillions": null,
-    "headline": "BX Infra is a non-traded fund that owns long-lived physical systems the economy runs on: data centers, power and energy assets, transport links, and fiber networks. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each quarter."
+    "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly and can ask to redeem up to 3% of units per quarter.",
+    "stats": [
+      {
+        "label": "Net assets",
+        "value": "$5.6B",
+        "note": "the aggregator vehicle that holds all investments"
+      },
+      {
+        "label": "NAV per unit",
+        "value": "$29.99",
+        "note": "Class I, Series I"
+      },
+      {
+        "label": "Investments",
+        "value": "$6.07B",
+        "note": "at fair value, 107.9% of net assets"
+      },
+      {
+        "label": "Named holdings",
+        "value": "9",
+        "note": "the rest are reported as 'Other investments'"
+      }
+    ]
   },
-  "sectors": ["Data Centers", "Power & Energy", "Transportation", "Digital/Fiber", "Other"],
-  "holdings": [
-    { "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Data Centers", "weightPct": 9.8, "note": "", "sample": true },
-    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Data Centers", "weightPct": 5.6, "note": "", "sample": true },
-    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Data Centers", "weightPct": 4.9, "note": "", "sample": true },
-    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Data Centers", "weightPct": 3.7, "note": "", "sample": true },
-    { "metro": "Columbus", "state": "OH", "lat": 39.96, "lng": -83.00, "sector": "Data Centers", "weightPct": 2.8, "note": "", "sample": true },
-    { "metro": "Hillsboro", "state": "OR", "lat": 45.52, "lng": -122.99, "sector": "Data Centers", "weightPct": 2.1, "note": "", "sample": true },
-    { "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Data Centers", "weightPct": 1.9, "note": "", "sample": true },
-
-    { "metro": "Houston", "state": "TX", "lat": 29.76, "lng": -95.37, "sector": "Power & Energy", "weightPct": 6.2, "note": "", "sample": true },
-    { "metro": "Oklahoma City", "state": "OK", "lat": 35.47, "lng": -97.52, "sector": "Power & Energy", "weightPct": 3.1, "note": "", "sample": true },
-    { "metro": "Pittsburgh", "state": "PA", "lat": 40.44, "lng": -79.99, "sector": "Power & Energy", "weightPct": 2.6, "note": "", "sample": true },
-    { "metro": "Denver", "state": "CO", "lat": 39.74, "lng": -104.99, "sector": "Power & Energy", "weightPct": 2.2, "note": "", "sample": true },
-    { "metro": "Albuquerque", "state": "NM", "lat": 35.08, "lng": -106.65, "sector": "Power & Energy", "weightPct": 1.4, "note": "", "sample": true },
-    { "metro": "Des Moines", "state": "IA", "lat": 41.59, "lng": -93.62, "sector": "Power & Energy", "weightPct": 1.1, "note": "", "sample": true },
-
-    { "metro": "Los Angeles", "state": "CA", "lat": 34.05, "lng": -118.24, "sector": "Transportation", "weightPct": 4.4, "note": "", "sample": true },
-    { "metro": "Northern New Jersey", "state": "NJ", "lat": 40.73, "lng": -74.17, "sector": "Transportation", "weightPct": 3.3, "note": "", "sample": true },
-    { "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Transportation", "weightPct": 2.4, "note": "", "sample": true },
-    { "metro": "Savannah", "state": "GA", "lat": 32.08, "lng": -81.09, "sector": "Transportation", "weightPct": 1.8, "note": "", "sample": true },
-    { "metro": "Memphis", "state": "TN", "lat": 35.15, "lng": -90.05, "sector": "Transportation", "weightPct": 1.2, "note": "", "sample": true },
-
-    { "metro": "Kansas City", "state": "MO", "lat": 39.10, "lng": -94.58, "sector": "Digital/Fiber", "weightPct": 2.7, "note": "", "sample": true },
-    { "metro": "Charlotte", "state": "NC", "lat": 35.23, "lng": -80.84, "sector": "Digital/Fiber", "weightPct": 2.3, "note": "", "sample": true },
-    { "metro": "Seattle", "state": "WA", "lat": 47.61, "lng": -122.33, "sector": "Digital/Fiber", "weightPct": 1.9, "note": "", "sample": true },
-    { "metro": "Nashville", "state": "TN", "lat": 36.16, "lng": -86.78, "sector": "Digital/Fiber", "weightPct": 1.3, "note": "", "sample": true },
-    { "metro": "Salt Lake City", "state": "UT", "lat": 40.76, "lng": -111.89, "sector": "Digital/Fiber", "weightPct": 1.0, "note": "", "sample": true },
-
-    { "metro": "Tampa", "state": "FL", "lat": 27.95, "lng": -82.46, "sector": "Other", "weightPct": 1.6, "note": "", "sample": true },
-    { "metro": "Minneapolis", "state": "MN", "lat": 44.98, "lng": -93.27, "sector": "Other", "weightPct": 0.9, "note": "", "sample": true }
+  "sectorBasis": "Share of total investments at fair value, summed from the 10-Q's schedule of investments (equity and debt).",
+  "sectors": [
+    {
+      "key": "Transportation Infrastructure",
+      "label": "Transportation Infrastructure",
+      "pct": 29.8
+    },
+    {
+      "key": "Diversified fund interests",
+      "label": "Diversified fund interests",
+      "pct": 25.6
+    },
+    {
+      "key": "Digital Infrastructure",
+      "label": "Digital Infrastructure",
+      "pct": 24.1
+    },
+    {
+      "key": "Infrastructure Services",
+      "label": "Infrastructure Services",
+      "pct": 4.7
+    },
+    {
+      "key": "Energy Infrastructure",
+      "label": "Energy Infrastructure",
+      "pct": 4.3
+    },
+    {
+      "key": "Consumer & Services",
+      "label": "Consumer & Services",
+      "pct": 3.6
+    },
+    {
+      "key": "Energy",
+      "label": "Energy",
+      "pct": 3.0
+    },
+    {
+      "key": "Real Estate",
+      "label": "Real Estate",
+      "pct": 1.8
+    },
+    {
+      "key": "Technology, Media & Entertainment",
+      "label": "Technology, Media & Entertainment",
+      "pct": 1.6
+    },
+    {
+      "key": "Industrials",
+      "label": "Industrials",
+      "pct": 0.9
+    },
+    {
+      "key": "Healthcare",
+      "label": "Healthcare",
+      "pct": 0.8
+    }
+  ],
+  "geography": {
+    "level": "world-region",
+    "basis": "Regions as reported in the schedule of investments: Americas, EMEA, APAC, or Various. The filing gives no country or state detail.",
+    "items": [
+      {
+        "key": "Americas",
+        "label": "Americas",
+        "pct": 58.9
+      },
+      {
+        "key": "Various",
+        "label": "Various / multi-region",
+        "pct": 25.9,
+        "note": "spans several regions; not shown on the map"
+      },
+      {
+        "key": "APAC",
+        "label": "Asia-Pacific",
+        "pct": 7.6
+      },
+      {
+        "key": "EMEA",
+        "label": "Europe, Middle East & Africa",
+        "pct": 7.5
+      }
+    ],
+    "bySector": {
+      "Transportation Infrastructure": [
+        {
+          "key": "Americas",
+          "pct": 78.4
+        },
+        {
+          "key": "EMEA",
+          "pct": 21.6
+        }
+      ],
+      "Diversified fund interests": [
+        {
+          "key": "Americas",
+          "pct": 0.7
+        },
+        {
+          "key": "Various",
+          "pct": 99.3
+        }
+      ],
+      "Digital Infrastructure": [
+        {
+          "key": "Americas",
+          "pct": 68.9
+        },
+        {
+          "key": "EMEA",
+          "pct": 0.1
+        },
+        {
+          "key": "APAC",
+          "pct": 31.1
+        }
+      ],
+      "Infrastructure Services": [
+        {
+          "key": "Americas",
+          "pct": 89.0
+        },
+        {
+          "key": "EMEA",
+          "pct": 3.4
+        },
+        {
+          "key": "APAC",
+          "pct": 1.5
+        },
+        {
+          "key": "Various",
+          "pct": 6.2
+        }
+      ],
+      "Energy Infrastructure": [
+        {
+          "key": "Americas",
+          "pct": 100.0
+        }
+      ],
+      "Consumer & Services": [
+        {
+          "key": "Americas",
+          "pct": 76.9
+        },
+        {
+          "key": "EMEA",
+          "pct": 23.1
+        }
+      ],
+      "Energy": [
+        {
+          "key": "Americas",
+          "pct": 100.0
+        }
+      ],
+      "Real Estate": [
+        {
+          "key": "Americas",
+          "pct": 100.0
+        }
+      ],
+      "Technology, Media & Entertainment": [
+        {
+          "key": "Americas",
+          "pct": 74.4
+        },
+        {
+          "key": "EMEA",
+          "pct": 4.2
+        },
+        {
+          "key": "APAC",
+          "pct": 4.2
+        },
+        {
+          "key": "Various",
+          "pct": 17.2
+        }
+      ],
+      "Industrials": [
+        {
+          "key": "Americas",
+          "pct": 100.0
+        }
+      ],
+      "Healthcare": [
+        {
+          "key": "Americas",
+          "pct": 100.0
+        }
+      ]
+    },
+    "bySectorBasis": "Split of that sector's fair value across regions, from the schedule of investments."
+  },
+  "topHoldings": {
+    "basis": "Every holding the schedule of investments names, with its fair value as a share of net assets. Equity and debt in the same company are combined.",
+    "items": [
+      {
+        "name": "Infrastructure Investments L.P.",
+        "sector": "Diversified fund interests",
+        "geo": "Various",
+        "fairValueMillions": 997.0,
+        "pctOfNetAssets": 17.7,
+        "note": "A fund interest. The filing says its holdings are 46% digital, 28% energy and 26% transportation."
+      },
+      {
+        "name": "Mercury Co-Invest L.P.",
+        "sector": "Transportation Infrastructure",
+        "geo": "Americas",
+        "fairValueMillions": 645.0,
+        "pctOfNetAssets": 11.5
+      },
+      {
+        "name": "Poseidon Holdco I L.P.",
+        "sector": "Transportation Infrastructure",
+        "geo": "Americas",
+        "fairValueMillions": 632.8,
+        "pctOfNetAssets": 11.2
+      },
+      {
+        "name": "Eucalyptus I HoldCo (CYM) L.P.",
+        "sector": "Digital Infrastructure",
+        "geo": "APAC",
+        "fairValueMillions": 454.7,
+        "pctOfNetAssets": 8.1
+      },
+      {
+        "name": "SP Ibex Acquisitions L.P.",
+        "sector": "Diversified fund interests",
+        "geo": "Various",
+        "fairValueMillions": 378.8,
+        "pctOfNetAssets": 6.7,
+        "note": "Listed under 'Various' industries and geographies."
+      },
+      {
+        "name": "Odyssey Holdco L.L.C.",
+        "sector": "Digital Infrastructure",
+        "geo": "Americas",
+        "fairValueMillions": 367.5,
+        "pctOfNetAssets": 6.5
+      },
+      {
+        "name": "Hieroglyphs L.P.",
+        "sector": "Transportation Infrastructure",
+        "geo": "EMEA",
+        "fairValueMillions": 290.7,
+        "pctOfNetAssets": 5.2
+      },
+      {
+        "name": "Aspen Holdco III L.P.",
+        "sector": "Digital Infrastructure",
+        "geo": "Americas",
+        "fairValueMillions": 289.1,
+        "pctOfNetAssets": 5.1
+      },
+      {
+        "name": "Poseidon Seller 3 L.L.C.",
+        "sector": "Transportation Infrastructure",
+        "geo": "Americas",
+        "fairValueMillions": 73.0,
+        "pctOfNetAssets": 1.3
+      }
+    ]
+  },
+  "notDisclosed": [
+    "What most holdings are: the largest are code-named entities such as 'Mercury Co-Invest L.P.' and 'Poseidon Holdco I L.P.'.",
+    "32% of investments are grouped as 'Other investments' with no name.",
+    "Any country, state or city."
   ],
   "context": [
     {
-      "appliesTo": "Data Centers",
+      "appliesTo": "Digital Infrastructure",
       "label": "US data center electricity use, 2023",
       "value": "About 176 TWh, roughly 4.4% of all US electricity. The same report projects 6.7% to 12% by 2028.",
       "asOf": "2024-12-20",

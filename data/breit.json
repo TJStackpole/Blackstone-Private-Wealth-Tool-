@@ -3,62 +3,2498 @@
   "assetClass": "Real Estate",
   "asOf": "2026-06-30",
   "source": {
-    "name": "Placeholder data, no filing loaded yet (breit.com)",
-    "url": "https://www.breit.com/"
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026 (filed Aug 7, 2026)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+  },
+  "filing": {
+    "form": "10-Q",
+    "period": "2026-06-30",
+    "filed": "2026-08-07",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "entity": "Blackstone Real Estate Income Trust, Inc.",
+    "cik": "0001662972"
   },
   "locationBasis": "property",
   "summary": {
-    "navBillions": null,
-    "headline": "BREIT is a non-traded real estate fund that buys and holds income-producing properties across the United States, mostly rental housing, warehouses, and data centers. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each month or quarter."
+    "headline": "BREIT is a non-traded real estate investment trust that owns income-producing property, mostly in the U.S. South and West. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each month or quarter.",
+    "stats": [
+      {
+        "label": "Net asset value",
+        "value": "$56.6B",
+        "note": "all share classes and operating partnership units"
+      },
+      {
+        "label": "NAV per share",
+        "value": "$14.53",
+        "note": "Class I"
+      },
+      {
+        "label": "Properties",
+        "value": "4,530",
+        "note": "plus 63,081 single-family rental homes"
+      },
+      {
+        "label": "Real estate vs. debt",
+        "value": "97% / 3%",
+        "note": "share of investments at fair value"
+      }
+    ]
   },
-  "sectors": ["Rental Housing", "Industrial", "Data Centers", "Hospitality", "Other"],
-  "holdings": [
-    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Industrial", "weightPct": 4.1, "note": "", "sample": true },
-    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Rental Housing", "weightPct": 3.6, "note": "", "sample": true },
-    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Data Centers", "weightPct": 1.2, "note": "", "sample": true },
-    { "metro": "Austin", "state": "TX", "lat": 30.27, "lng": -97.74, "sector": "Rental Housing", "weightPct": 2.4, "note": "", "sample": true },
-    { "metro": "Houston", "state": "TX", "lat": 29.76, "lng": -95.37, "sector": "Industrial", "weightPct": 2.0, "note": "", "sample": true },
-    { "metro": "San Antonio", "state": "TX", "lat": 29.42, "lng": -98.49, "sector": "Rental Housing", "weightPct": 1.1, "note": "", "sample": true },
-
-    { "metro": "Miami–Fort Lauderdale", "state": "FL", "lat": 25.76, "lng": -80.19, "sector": "Rental Housing", "weightPct": 3.9, "note": "", "sample": true },
-    { "metro": "Orlando", "state": "FL", "lat": 28.54, "lng": -81.38, "sector": "Rental Housing", "weightPct": 2.2, "note": "", "sample": true },
-    { "metro": "Orlando", "state": "FL", "lat": 28.54, "lng": -81.38, "sector": "Hospitality", "weightPct": 0.9, "note": "", "sample": true },
-    { "metro": "Tampa", "state": "FL", "lat": 27.95, "lng": -82.46, "sector": "Rental Housing", "weightPct": 1.8, "note": "", "sample": true },
-    { "metro": "Jacksonville", "state": "FL", "lat": 30.33, "lng": -81.66, "sector": "Industrial", "weightPct": 0.8, "note": "", "sample": true },
-
-    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Rental Housing", "weightPct": 3.1, "note": "", "sample": true },
-    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Industrial", "weightPct": 2.3, "note": "", "sample": true },
-    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Data Centers", "weightPct": 1.5, "note": "", "sample": true },
-
-    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Rental Housing", "weightPct": 2.6, "note": "", "sample": true },
-    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Data Centers", "weightPct": 1.7, "note": "", "sample": true },
-    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Industrial", "weightPct": 1.0, "note": "", "sample": true },
-
-    { "metro": "Los Angeles", "state": "CA", "lat": 34.05, "lng": -118.24, "sector": "Industrial", "weightPct": 2.9, "note": "", "sample": true },
-    { "metro": "Inland Empire", "state": "CA", "lat": 34.06, "lng": -117.30, "sector": "Industrial", "weightPct": 2.5, "note": "", "sample": true },
-    { "metro": "San Diego", "state": "CA", "lat": 32.72, "lng": -117.16, "sector": "Rental Housing", "weightPct": 1.3, "note": "", "sample": true },
-    { "metro": "Bay Area", "state": "CA", "lat": 37.55, "lng": -122.05, "sector": "Rental Housing", "weightPct": 1.1, "note": "", "sample": true },
-
-    { "metro": "Las Vegas", "state": "NV", "lat": 36.17, "lng": -115.14, "sector": "Hospitality", "weightPct": 2.8, "note": "", "sample": true },
-    { "metro": "Las Vegas", "state": "NV", "lat": 36.17, "lng": -115.14, "sector": "Rental Housing", "weightPct": 1.4, "note": "", "sample": true },
-
-    { "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Data Centers", "weightPct": 3.4, "note": "", "sample": true },
-    { "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Rental Housing", "weightPct": 0.9, "note": "", "sample": true },
-
-    { "metro": "Charlotte", "state": "NC", "lat": 35.23, "lng": -80.84, "sector": "Rental Housing", "weightPct": 1.6, "note": "", "sample": true },
-    { "metro": "Raleigh–Durham", "state": "NC", "lat": 35.84, "lng": -78.72, "sector": "Rental Housing", "weightPct": 1.2, "note": "", "sample": true },
-
-    { "metro": "Nashville", "state": "TN", "lat": 36.16, "lng": -86.78, "sector": "Rental Housing", "weightPct": 1.5, "note": "", "sample": true },
-    { "metro": "Denver", "state": "CO", "lat": 39.74, "lng": -104.99, "sector": "Rental Housing", "weightPct": 1.7, "note": "", "sample": true },
-    { "metro": "Seattle", "state": "WA", "lat": 47.61, "lng": -122.33, "sector": "Rental Housing", "weightPct": 1.4, "note": "", "sample": true },
-    { "metro": "Salt Lake City", "state": "UT", "lat": 40.76, "lng": -111.89, "sector": "Industrial", "weightPct": 0.8, "note": "", "sample": true },
-    { "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Industrial", "weightPct": 1.6, "note": "", "sample": true },
-    { "metro": "Columbus", "state": "OH", "lat": 39.96, "lng": -83.00, "sector": "Industrial", "weightPct": 0.7, "note": "", "sample": true },
-    { "metro": "Northern New Jersey", "state": "NJ", "lat": 40.73, "lng": -74.17, "sector": "Industrial", "weightPct": 1.9, "note": "", "sample": true },
-    { "metro": "New York City", "state": "NY", "lat": 40.71, "lng": -74.01, "sector": "Other", "weightPct": 1.0, "note": "", "sample": true },
-    { "metro": "Boston", "state": "MA", "lat": 42.36, "lng": -71.06, "sector": "Other", "weightPct": 0.8, "note": "", "sample": true },
-    { "metro": "Philadelphia", "state": "PA", "lat": 39.95, "lng": -75.17, "sector": "Industrial", "weightPct": 0.9, "note": "", "sample": true },
-    { "metro": "Minneapolis", "state": "MN", "lat": 44.98, "lng": -93.27, "sector": "Rental Housing", "weightPct": 0.6, "note": "", "sample": true },
-    { "metro": "Honolulu", "state": "HI", "lat": 21.31, "lng": -157.86, "sector": "Hospitality", "weightPct": 0.7, "note": "", "sample": true }
+  "sectorBasis": "Share of real estate investments by asset value, as charted in the 10-Q.",
+  "sectors": [
+    {
+      "key": "Rental Housing",
+      "label": "Rental Housing",
+      "pct": 42
+    },
+    {
+      "key": "Data Centers",
+      "label": "Data Centers",
+      "pct": 27
+    },
+    {
+      "key": "Industrial",
+      "label": "Industrial",
+      "pct": 20
+    },
+    {
+      "key": "Net Lease",
+      "label": "Net Lease",
+      "pct": 5
+    },
+    {
+      "key": "Office",
+      "label": "Office",
+      "pct": 2
+    },
+    {
+      "key": "Retail",
+      "label": "Retail",
+      "pct": 2
+    },
+    {
+      "key": "Hospitality",
+      "label": "Hospitality",
+      "pct": 2
+    }
+  ],
+  "geography": {
+    "level": "us-region",
+    "basis": "Regions as defined by NCREIF, by asset value of real estate properties. The filing reports regions, plus the three largest states; it does not report other states.",
+    "items": [
+      {
+        "key": "South",
+        "label": "South",
+        "pct": 35
+      },
+      {
+        "key": "West",
+        "label": "West",
+        "pct": 28
+      },
+      {
+        "key": "East",
+        "label": "East",
+        "pct": 20
+      },
+      {
+        "key": "Midwest",
+        "label": "Midwest",
+        "pct": 12
+      },
+      {
+        "key": "Non-US",
+        "label": "Non-U.S. (Europe and Canada)",
+        "pct": 5,
+        "note": "not shown on the U.S. map"
+      }
+    ],
+    "topStates": [
+      {
+        "state": "TX",
+        "pct": 11
+      },
+      {
+        "state": "GA",
+        "pct": 11
+      },
+      {
+        "state": "FL",
+        "pct": 11
+      }
+    ]
+  },
+  "investments": [
+    {
+      "name": "TA Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Gurnee, IL",
+      "states": [
+        "IL"
+      ],
+      "acquired": "Apr. 2017",
+      "ownership": "100%",
+      "size": "483 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Emory Point",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "May 2017",
+      "ownership": "100%",
+      "size": "750 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Nevada West Multifamily",
+      "sector": "Rental Housing",
+      "properties": 3,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "May 2017",
+      "ownership": "100%",
+      "size": "972 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "Mountain Gate & Trails Multifamily",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "June 2017",
+      "ownership": "100%",
+      "size": "539 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Elysian West Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "July 2017",
+      "ownership": "100%",
+      "size": "466 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "ACG II Multifamily",
+      "sector": "Rental Housing",
+      "properties": 3,
+      "location": "Various",
+      "states": [],
+      "acquired": "Sept. 2017",
+      "ownership": "94%",
+      "size": "740 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Olympus Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Jacksonville, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Nov. 2017",
+      "ownership": "95%",
+      "size": "480 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Amberglen West Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Hillsboro, OR",
+      "states": [
+        "OR"
+      ],
+      "acquired": "Nov. 2017",
+      "ownership": "100%",
+      "size": "396 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Aston Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Boerne, TX & Louisville, KY",
+      "states": [
+        "KY",
+        "TX"
+      ],
+      "acquired": "Various",
+      "ownership": "100%",
+      "size": "288 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Talavera and Flamingo Multifamily",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Dec. 2017",
+      "ownership": "100%",
+      "size": "674 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Montair Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Thornton, CO",
+      "states": [
+        "CO"
+      ],
+      "acquired": "Dec. 2017",
+      "ownership": "100%",
+      "size": "320 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Signature at Kendall Multifamily",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Miami, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Dec. 2017",
+      "ownership": "100%",
+      "size": "546 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Wave Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 3,
+      "location": "Various",
+      "states": [],
+      "acquired": "May 2018",
+      "ownership": "100%",
+      "size": "1,248 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "ACG III Multifamily",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Gresham, OR & Turlock, CA",
+      "states": [
+        "CA",
+        "OR"
+      ],
+      "acquired": "May 2018",
+      "ownership": "95%",
+      "size": "475 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Carroll Florida Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Jacksonville, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "May 2018",
+      "ownership": "100%",
+      "size": "320 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Solis at Flamingo",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "June 2018",
+      "ownership": "95%",
+      "size": "524 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Coyote Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 4,
+      "location": "Phoenix, AZ",
+      "states": [
+        "AZ"
+      ],
+      "acquired": "Aug. 2018",
+      "ownership": "100%",
+      "size": "1,016 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Avanti Apartments",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Dec. 2018",
+      "ownership": "100%",
+      "size": "414 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Gilbert Heritage Apartments",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Phoenix, AZ",
+      "states": [
+        "AZ"
+      ],
+      "acquired": "Feb. 2019",
+      "ownership": "90%",
+      "size": "256 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Roman Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 9,
+      "location": "Various",
+      "states": [],
+      "acquired": "Feb. 2019",
+      "ownership": "100%",
+      "size": "2,403 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Citymark Multifamily 2-Pack",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Lithia Springs, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Apr. 2019",
+      "ownership": "100%",
+      "size": "240 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Raider Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 4,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Various",
+      "ownership": "100%",
+      "size": "1,514 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Bridge II Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 4,
+      "location": "Various",
+      "states": [],
+      "acquired": "Various",
+      "ownership": "100%",
+      "size": "1,562 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Miami Doral 2-Pack",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Miami, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "May 2019",
+      "ownership": "100%",
+      "size": "720 units",
+      "occupancy": "96%"
+    },
+    {
+      "name": "Davis Multifamily 2-Pack",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Raleigh, NC & Jacksonville, FL",
+      "states": [
+        "FL",
+        "NC"
+      ],
+      "acquired": "May 2019",
+      "ownership": "100%",
+      "size": "454 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Slate Savannah",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Savannah, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "May 2019",
+      "ownership": "90%",
+      "size": "272 units",
+      "occupancy": "90%"
+    },
+    {
+      "name": "Amara at MetroWest",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Orlando, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "May 2019",
+      "ownership": "95%",
+      "size": "411 units",
+      "occupancy": "90%"
+    },
+    {
+      "name": "Edge Las Vegas",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "June 2019",
+      "ownership": "95%",
+      "size": "296 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "ACG IV Multifamily",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Woodland, CA & Puyallup, WA",
+      "states": [
+        "CA",
+        "WA"
+      ],
+      "acquired": "June 2019",
+      "ownership": "95%",
+      "size": "606 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Anson at the Lakes",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Charlotte, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "June 2019",
+      "ownership": "100%",
+      "size": "694 units",
+      "occupancy": "87%"
+    },
+    {
+      "name": "Edgewater at the Cove",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Oregon City, OR",
+      "states": [
+        "OR"
+      ],
+      "acquired": "Aug. 2019",
+      "ownership": "100%",
+      "size": "248 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Haven 124 Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Denver, CO",
+      "states": [
+        "CO"
+      ],
+      "acquired": "Sept. 2019",
+      "ownership": "100%",
+      "size": "562 units",
+      "occupancy": "84%"
+    },
+    {
+      "name": "Villages at McCullers Walk Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Raleigh, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Oct. 2019",
+      "ownership": "100%",
+      "size": "412 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Canopy at Citrus Park Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Largo, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Oct. 2019",
+      "ownership": "90%",
+      "size": "318 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Ridge Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Oct. 2019",
+      "ownership": "90%",
+      "size": "456 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "Evolve at Timber Creek Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Garner, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Nov. 2019",
+      "ownership": "100%",
+      "size": "304 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Arium Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Ocoee & Oviedo, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Dec. 2019",
+      "ownership": "100%",
+      "size": "700 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Acorn Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 14,
+      "location": "Various",
+      "states": [],
+      "acquired": "Feb. & May 2020",
+      "ownership": "98%",
+      "size": "5,964 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "Indigo West Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Orlando, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Mar. 2020",
+      "ownership": "100%",
+      "size": "456 units",
+      "occupancy": "89%"
+    },
+    {
+      "name": "Park & Market Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Raleigh, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Oct. 2020",
+      "ownership": "100%",
+      "size": "409 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "The Palmer Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Charlotte, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Oct. 2020",
+      "ownership": "90%",
+      "size": "318 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Jaguar Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 4,
+      "location": "Various",
+      "states": [],
+      "acquired": "Nov. & Dec. 2020",
+      "ownership": "100%",
+      "size": "1,671 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Cortona South Tampa Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Tampa, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Apr. 2021",
+      "ownership": "100%",
+      "size": "300 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Rosery Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Largo, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Apr. 2021",
+      "ownership": "100%",
+      "size": "224 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Encore Tessera Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Phoenix, AZ",
+      "states": [
+        "AZ"
+      ],
+      "acquired": "May 2021",
+      "ownership": "80%",
+      "size": "240 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Acorn 2.0 Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 13,
+      "location": "Various",
+      "states": [],
+      "acquired": "Various",
+      "ownership": "98%",
+      "size": "5,509 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Vue at Centennial Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "June 2021",
+      "ownership": "42%",
+      "size": "372 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Haven by Watermark Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Denver, CO",
+      "states": [
+        "CO"
+      ],
+      "acquired": "June 2021",
+      "ownership": "100%",
+      "size": "206 units",
+      "occupancy": "86%"
+    },
+    {
+      "name": "Legacy North Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Plano, TX",
+      "states": [
+        "TX"
+      ],
+      "acquired": "Aug. 2021",
+      "ownership": "100%",
+      "size": "1,675 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "The Brooke Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Aug. 2021",
+      "ownership": "100%",
+      "size": "537 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "One Boynton Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Boynton Beach, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Aug. 2021",
+      "ownership": "100%",
+      "size": "494 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Town Lantana Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Lantana, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Sept. 2021",
+      "ownership": "90%",
+      "size": "360 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Ring Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 12,
+      "location": "Various",
+      "states": [],
+      "acquired": "Sept. 2021",
+      "ownership": "100%",
+      "size": "3,030 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Villages at Pecan Grove Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Holly Springs, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Nov. 2021",
+      "ownership": "100%",
+      "size": "336 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Cielo Morrison Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Charlotte, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Nov. 2021",
+      "ownership": "90%",
+      "size": "419 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "FiveTwo at Highland Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Austin, TX",
+      "states": [
+        "TX"
+      ],
+      "acquired": "Nov. 2021",
+      "ownership": "90%",
+      "size": "390 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Roman 2.0 Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 17,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2021 & Jan. 2022",
+      "ownership": "100%",
+      "size": "5,580 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Kapilina Beach Homes Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Ewa Beach, HI",
+      "states": [
+        "HI"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "1,459 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "SeaTac Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Edgewood & Everett, WA",
+      "states": [
+        "WA"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "90%",
+      "size": "480 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Villages at Raleigh Beach Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Raleigh, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Jan. 2022",
+      "ownership": "100%",
+      "size": "392 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Raider 2.0 Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 3,
+      "location": "Las Vegas & Henderson, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Mar. & Apr. 2022",
+      "ownership": "100%",
+      "size": "1,390 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Dallas Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Irving & Fort Worth, TX",
+      "states": [
+        "TX"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "90%",
+      "size": "759 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Carlton at Bartram Park Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Jacksonville, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "100%",
+      "size": "750 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Overlook Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Malden & Revere, MA",
+      "states": [
+        "MA"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "100%",
+      "size": "1,386 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Harper Place at Bees Ferry Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Charleston, SC",
+      "states": [
+        "SC"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "100%",
+      "size": "195 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "Rapids Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 29,
+      "location": "Various",
+      "states": [],
+      "acquired": "May 2022",
+      "ownership": "100%",
+      "size": "8,526 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "8 Spruce Street Multifamily",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "New York, NY",
+      "states": [
+        "NY"
+      ],
+      "acquired": "May 2022",
+      "ownership": "100%",
+      "size": "900 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Pike Multifamily Portfolio",
+      "sector": "Rental Housing",
+      "properties": 31,
+      "location": "Various",
+      "states": [],
+      "acquired": "June 2022",
+      "ownership": "Various",
+      "size": "8,632 units",
+      "occupancy": "93%"
+    },
+    {
+      "name": "ACG V Multifamily",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Stockton, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Sept. 2022",
+      "ownership": "95%",
+      "size": "449 units",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Tricon - Multifamily",
+      "sector": "Rental Housing",
+      "properties": 12,
+      "location": "Various",
+      "states": [],
+      "acquired": "May 2024",
+      "ownership": "Various",
+      "size": "1,745 units",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Highroads MH",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Phoenix, AZ",
+      "states": [
+        "AZ"
+      ],
+      "acquired": "Apr. 2018",
+      "ownership": "99.6%",
+      "size": "86 units",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Southwest MH",
+      "sector": "Rental Housing",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "June 2018",
+      "ownership": "99.6%",
+      "size": "1,645 units",
+      "occupancy": "88%"
+    },
+    {
+      "name": "SVPAC MH",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Phoenix, AZ",
+      "states": [
+        "AZ"
+      ],
+      "acquired": "July 2018",
+      "ownership": "99.6%",
+      "size": "233 units",
+      "occupancy": "98%"
+    },
+    {
+      "name": "Riverest MH",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Tavares, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Dec. 2018",
+      "ownership": "99.6%",
+      "size": "130 units",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Florida MH 4-Pack",
+      "sector": "Rental Housing",
+      "properties": 4,
+      "location": "Various",
+      "states": [],
+      "acquired": "Apr. & July 2019",
+      "ownership": "99.6%",
+      "size": "799 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "Clearwater MHC 2-Pack",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Clearwater, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Mar. & Aug. 2020",
+      "ownership": "99.6%",
+      "size": "207 units",
+      "occupancy": "88%"
+    },
+    {
+      "name": "Legacy MH Portfolio",
+      "sector": "Rental Housing",
+      "properties": 5,
+      "location": "Various",
+      "states": [],
+      "acquired": "Apr. 2020",
+      "ownership": "99.6%",
+      "size": "1,387 units",
+      "occupancy": "88%"
+    },
+    {
+      "name": "May Manor MH",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Lakeland, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "June 2020",
+      "ownership": "99.6%",
+      "size": "297 units",
+      "occupancy": "75%"
+    },
+    {
+      "name": "Southeast MH Portfolio",
+      "sector": "Rental Housing",
+      "properties": 17,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2020",
+      "ownership": "99.6%",
+      "size": "4,945 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Courtly Manor MH",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Hialeah, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Oct. 2021",
+      "ownership": "99.6%",
+      "size": "525 units",
+      "occupancy": "100%"
+    },
+    {
+      "name": "EdR Student Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Athens, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Sept. 2018",
+      "ownership": "60%",
+      "size": "266 units",
+      "occupancy": "89%"
+    },
+    {
+      "name": "Mercury 3100 Student Housing",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Orlando, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Feb. 2021",
+      "ownership": "100%",
+      "size": "228 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Signal Student Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "Aug. 2021",
+      "ownership": "96%",
+      "size": "1,487 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "Standard at Fort Collins Student Housing",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Fort Collins, CO",
+      "states": [
+        "CO"
+      ],
+      "acquired": "Nov. 2021",
+      "ownership": "97%",
+      "size": "237 units",
+      "occupancy": "90%"
+    },
+    {
+      "name": "Intel Student Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 4,
+      "location": "Reno, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Various",
+      "ownership": "98%",
+      "size": "808 units",
+      "occupancy": "90%"
+    },
+    {
+      "name": "Signal 2.0 Student Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Buffalo, NY & Athens, GA",
+      "states": [
+        "GA",
+        "NY"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "97%",
+      "size": "366 units",
+      "occupancy": "96%"
+    },
+    {
+      "name": "Robin Student Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 5,
+      "location": "Various",
+      "states": [],
+      "acquired": "Mar. 2022",
+      "ownership": "98%",
+      "size": "1,137 units",
+      "occupancy": "87%"
+    },
+    {
+      "name": "Legacy on Rio Student Housing",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Austin, TX",
+      "states": [
+        "TX"
+      ],
+      "acquired": "Mar. 2022",
+      "ownership": "97%",
+      "size": "144 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Mark at Tucson Student Housing",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Mountain, AZ",
+      "states": [
+        "AZ"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "97%",
+      "size": "154 units",
+      "occupancy": "78%"
+    },
+    {
+      "name": "Legacy at Baton Rouge Student Housing",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Baton Rouge, LA",
+      "states": [
+        "LA"
+      ],
+      "acquired": "May 2022",
+      "ownership": "97%",
+      "size": "300 units",
+      "occupancy": "97%"
+    },
+    {
+      "name": "American Campus Communities",
+      "sector": "Rental Housing",
+      "properties": 144,
+      "location": "Various",
+      "states": [],
+      "acquired": "Aug. 2022",
+      "ownership": "69%",
+      "size": "31,132 units",
+      "occupancy": "87%"
+    },
+    {
+      "name": "Ace Affordable Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 329,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2021",
+      "ownership": "Various",
+      "size": "47,340 units",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Florida Affordable Housing Portfolio",
+      "sector": "Rental Housing",
+      "properties": 42,
+      "location": "Various",
+      "states": [],
+      "acquired": "Various",
+      "ownership": "100%",
+      "size": "10,801 units",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Palm Park Affordable Housing",
+      "sector": "Rental Housing",
+      "properties": 1,
+      "location": "Boynton Beach, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "May 2022",
+      "ownership": "100%",
+      "size": "160 units",
+      "occupancy": "97%"
+    },
+    {
+      "name": "Wasatch 2-Pack",
+      "sector": "Rental Housing",
+      "properties": 2,
+      "location": "Spring Valley, CA & Midvale, UT",
+      "states": [
+        "CA",
+        "UT"
+      ],
+      "acquired": "Oct. 2022",
+      "ownership": "100%",
+      "size": "350 units",
+      "occupancy": "91%"
+    },
+    {
+      "name": "D.C. Powered Shell Warehouse Portfolio",
+      "sector": "Data Centers",
+      "properties": 9,
+      "location": "Ashburn & Manassas, VA",
+      "states": [
+        "VA"
+      ],
+      "acquired": "June & Dec. 2019",
+      "ownership": "90%",
+      "size": "1,471 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Highpoint Powered Shell Portfolio",
+      "sector": "Data Centers",
+      "properties": 2,
+      "location": "Sterling, VA",
+      "states": [
+        "VA"
+      ],
+      "acquired": "June 2021",
+      "ownership": "100%",
+      "size": "434 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "QTS Data Centers",
+      "sector": "Data Centers",
+      "properties": 130,
+      "location": "Various",
+      "states": [],
+      "acquired": "Aug. 2021",
+      "ownership": "35.4%",
+      "size": "20,345 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Atlantic Powered Shell Portfolio",
+      "sector": "Data Centers",
+      "properties": 3,
+      "location": "Sterling, VA",
+      "states": [
+        "VA"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "100%",
+      "size": "792 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "HS Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 39,
+      "location": "Various",
+      "states": [],
+      "acquired": "Apr. 2017",
+      "ownership": "100%",
+      "size": "4,228 sq. ft.",
+      "occupancy": "97%"
+    },
+    {
+      "name": "Southeast Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 2,
+      "location": "Jacksonville, FL & La Vergne, TN",
+      "states": [
+        "FL",
+        "TN"
+      ],
+      "acquired": "Nov. 2017",
+      "ownership": "100%",
+      "size": "806 sq. ft.",
+      "occupancy": "50%"
+    },
+    {
+      "name": "Kraft Chicago Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 3,
+      "location": "Aurora, IL",
+      "states": [
+        "IL"
+      ],
+      "acquired": "Jan. 2018",
+      "ownership": "100%",
+      "size": "1,695 sq. ft.",
+      "occupancy": "69%"
+    },
+    {
+      "name": "Canyon Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 86,
+      "location": "Various",
+      "states": [],
+      "acquired": "Mar. 2018",
+      "ownership": "Various",
+      "size": "14,127 sq. ft.",
+      "occupancy": "93%"
+    },
+    {
+      "name": "HP Cold Storage Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "May 2018",
+      "ownership": "100%",
+      "size": "2,259 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Meridian Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 29,
+      "location": "Various",
+      "states": [],
+      "acquired": "Nov. 2018",
+      "ownership": "100%",
+      "size": "4,455 sq. ft.",
+      "occupancy": "85%"
+    },
+    {
+      "name": "Summit Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 6,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Dec. 2018",
+      "ownership": "100%",
+      "size": "440 sq. ft.",
+      "occupancy": "90%"
+    },
+    {
+      "name": "4500 Westport Drive",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Harrisburg, PA",
+      "states": [
+        "PA"
+      ],
+      "acquired": "Jan. 2019",
+      "ownership": "100%",
+      "size": "179 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Minneapolis Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 33,
+      "location": "Minneapolis, MN",
+      "states": [
+        "MN"
+      ],
+      "acquired": "Apr. 2019",
+      "ownership": "100%",
+      "size": "2,341 sq. ft.",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Atlanta Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 60,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "May 2019",
+      "ownership": "100%",
+      "size": "3,738 sq. ft.",
+      "occupancy": "90%"
+    },
+    {
+      "name": "Patriot Park Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 2,
+      "location": "Durham, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Sept. 2019",
+      "ownership": "100%",
+      "size": "323 sq. ft.",
+      "occupancy": "93%"
+    },
+    {
+      "name": "Denali Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 13,
+      "location": "Various",
+      "states": [],
+      "acquired": "Sept. 2019",
+      "ownership": "100%",
+      "size": "3,510 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Jupiter 12 Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 220,
+      "location": "Various",
+      "states": [],
+      "acquired": "Sept. 2019",
+      "ownership": "Various",
+      "size": "39,538 sq. ft.",
+      "occupancy": "93%"
+    },
+    {
+      "name": "2201 Main Street",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "San Diego, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Oct. 2019",
+      "ownership": "100%",
+      "size": "260 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Triangle Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 24,
+      "location": "Greensboro, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Jan. 2020",
+      "ownership": "100%",
+      "size": "2,554 sq. ft.",
+      "occupancy": "82%"
+    },
+    {
+      "name": "Midwest Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 24,
+      "location": "Various",
+      "states": [],
+      "acquired": "Feb. 2020",
+      "ownership": "100%",
+      "size": "5,539 sq. ft.",
+      "occupancy": "77%"
+    },
+    {
+      "name": "Pancal Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 8,
+      "location": "Various",
+      "states": [],
+      "acquired": "Feb. & Apr. 2020",
+      "ownership": "100%",
+      "size": "1,867 sq. ft.",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Diamond Industrial",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Pico Rivera, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Aug. 2020",
+      "ownership": "100%",
+      "size": "243 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Inland Empire Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 2,
+      "location": "Etiwanda & Fontana, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Sept. 2020",
+      "ownership": "100%",
+      "size": "404 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Shield Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 8,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2020",
+      "ownership": "100%",
+      "size": "1,384 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "7520 Georgetown Industrial",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Indianapolis, IN",
+      "states": [
+        "IN"
+      ],
+      "acquired": "Dec. 2020",
+      "ownership": "100%",
+      "size": "425 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "WC Infill Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 21,
+      "location": "Various",
+      "states": [],
+      "acquired": "Jan. & Aug. 2021",
+      "ownership": "85%",
+      "size": "2,064 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Vault Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 48,
+      "location": "Various",
+      "states": [],
+      "acquired": "Jan. 2021",
+      "ownership": "46%",
+      "size": "6,597 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Chicago Infill Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "Feb. 2021",
+      "ownership": "100%",
+      "size": "1,041 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Greensboro Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 19,
+      "location": "Various",
+      "states": [],
+      "acquired": "Apr. 2021",
+      "ownership": "100%",
+      "size": "2,068 sq. ft.",
+      "occupancy": "74%"
+    },
+    {
+      "name": "I-85 Southeast Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 4,
+      "location": "Various",
+      "states": [],
+      "acquired": "July & Aug. 2021",
+      "ownership": "100%",
+      "size": "739 sq. ft.",
+      "occupancy": "72%"
+    },
+    {
+      "name": "Alaska Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 27,
+      "location": "Various UK",
+      "states": [],
+      "acquired": "July & Oct. 2021",
+      "ownership": "22%",
+      "size": "8,735 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Capstone Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 2,
+      "location": "Brooklyn Park, MN",
+      "states": [
+        "MN"
+      ],
+      "acquired": "Sept. 2021",
+      "ownership": "100%",
+      "size": "219 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Winston Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 106,
+      "location": "Various",
+      "states": [],
+      "acquired": "Oct. 2021",
+      "ownership": "Various",
+      "size": "26,215 sq. ft.",
+      "occupancy": "97%"
+    },
+    {
+      "name": "Procyon Distribution Center Industrial",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Oct. 2021",
+      "ownership": "100%",
+      "size": "122 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Northborough Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 2,
+      "location": "Marlborough, MA",
+      "states": [
+        "MA"
+      ],
+      "acquired": "Oct. 2021",
+      "ownership": "100%",
+      "size": "600 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Coldplay Logistics Portfolio",
+      "sector": "Industrial",
+      "properties": 17,
+      "location": "Various Germany",
+      "states": [],
+      "acquired": "Oct. 2021",
+      "ownership": "10%",
+      "size": "1,742 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Canyon 2.0 Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 78,
+      "location": "Various",
+      "states": [],
+      "acquired": "Nov. 2021",
+      "ownership": "99%",
+      "size": "12,725 sq. ft.",
+      "occupancy": "90%"
+    },
+    {
+      "name": "Tropical Sloane Las Vegas Industrial",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Nov. 2021",
+      "ownership": "100%",
+      "size": "171 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Explorer Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 324,
+      "location": "Various",
+      "states": [],
+      "acquired": "Nov. 2021",
+      "ownership": "12%",
+      "size": "69,641 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Evergreen Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 11,
+      "location": "Various Europe",
+      "states": [],
+      "acquired": "Dec. 2021",
+      "ownership": "10%",
+      "size": "5,548 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Maplewood Industrial",
+      "sector": "Industrial",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "1,850 sq. ft.",
+      "occupancy": "95%"
+    },
+    {
+      "name": "Meadowland Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 3,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "1,138 sq. ft.",
+      "occupancy": "92%"
+    },
+    {
+      "name": "Bulldog Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 7,
+      "location": "Suwanee, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "512 sq. ft.",
+      "occupancy": "95%"
+    },
+    {
+      "name": "SLC NW Commerce Industrial",
+      "sector": "Industrial",
+      "properties": 3,
+      "location": "Salt Lake City, UT",
+      "states": [
+        "UT"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "529 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Bluefin Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 70,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2021",
+      "ownership": "23%",
+      "size": "10,811 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "73 Business Center Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Greensboro, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "217 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Amhurst Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 9,
+      "location": "Waukegan, IL",
+      "states": [
+        "IL"
+      ],
+      "acquired": "Mar. 2022",
+      "ownership": "100%",
+      "size": "1,280 sq. ft.",
+      "occupancy": "96%"
+    },
+    {
+      "name": "Shoals Logistics Center Industrial",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Austell, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "100%",
+      "size": "254 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Durham Commerce Center Industrial",
+      "sector": "Industrial",
+      "properties": 1,
+      "location": "Durham, NC",
+      "states": [
+        "NC"
+      ],
+      "acquired": "Apr. 2022",
+      "ownership": "100%",
+      "size": "132 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Mileway Industrial Portfolio",
+      "sector": "Industrial",
+      "properties": 1613,
+      "location": "Various Europe",
+      "states": [],
+      "acquired": "Various",
+      "ownership": "15%",
+      "size": "146,691 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Bellagio Net Lease",
+      "sector": "Net Lease",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "Nov. 2019",
+      "ownership": "49%",
+      "size": "8,507 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Cosmopolitan Net Lease",
+      "sector": "Net Lease",
+      "properties": 1,
+      "location": "Las Vegas, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "May 2022",
+      "ownership": "80%",
+      "size": "6,902 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Reliant Net Lease",
+      "sector": "Net Lease",
+      "properties": 305,
+      "location": "Various",
+      "states": [],
+      "acquired": "Various",
+      "ownership": "25%",
+      "size": "2,488 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "EmeryTech Office",
+      "sector": "Office",
+      "properties": 1,
+      "location": "Emeryville, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Oct. 2019",
+      "ownership": "100%",
+      "size": "234 sq. ft.",
+      "occupancy": "64%"
+    },
+    {
+      "name": "Coleman Highline Office",
+      "sector": "Office",
+      "properties": 1,
+      "location": "San Jose, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Oct. 2020",
+      "ownership": "100%",
+      "size": "357 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Atlanta Tech Center Office",
+      "sector": "Office",
+      "properties": 1,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "May 2021",
+      "ownership": "100%",
+      "size": "361 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Atlantic Complex Office",
+      "sector": "Office",
+      "properties": 3,
+      "location": "Toronto, Canada",
+      "states": [],
+      "acquired": "Nov. 2021",
+      "ownership": "97%",
+      "size": "259 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "One Manhattan West",
+      "sector": "Office",
+      "properties": 1,
+      "location": "New York, NY",
+      "states": [
+        "NY"
+      ],
+      "acquired": "Mar. 2022",
+      "ownership": "49%",
+      "size": "2,086 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "One Culver Office",
+      "sector": "Office",
+      "properties": 1,
+      "location": "Culver City, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Mar. 2022",
+      "ownership": "90%",
+      "size": "374 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Montreal Office Portfolio",
+      "sector": "Office",
+      "properties": 2,
+      "location": "Westmount & Montreal, QC",
+      "states": [],
+      "acquired": "Mar. 2022",
+      "ownership": "98%",
+      "size": "412 sq. ft.",
+      "occupancy": "94%"
+    },
+    {
+      "name": "Atlanta Tech Center 2.0 Office",
+      "sector": "Office",
+      "properties": 1,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "June 2022",
+      "ownership": "100%",
+      "size": "318 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Adare Office",
+      "sector": "Office",
+      "properties": 1,
+      "location": "Dublin, Ireland",
+      "states": [],
+      "acquired": "Aug. 2022",
+      "ownership": "75%",
+      "size": "517 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Hyatt Place UC Davis",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Davis, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Jan. 2017",
+      "ownership": "100%",
+      "size": "127 keys",
+      "occupancy": "65%"
+    },
+    {
+      "name": "Hyatt Place San Jose Downtown",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "San Jose, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "June 2017",
+      "ownership": "100%",
+      "size": "240 keys",
+      "occupancy": "74%"
+    },
+    {
+      "name": "Florida Select-Service 4-Pack",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Tampa, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "July 2017",
+      "ownership": "100%",
+      "size": "113 keys",
+      "occupancy": "82%"
+    },
+    {
+      "name": "Hyatt House Downtown Atlanta",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Aug. 2017",
+      "ownership": "100%",
+      "size": "150 keys",
+      "occupancy": "70%"
+    },
+    {
+      "name": "Boston/Worcester Select-Service 3-Pack",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Chelsea, MA",
+      "states": [
+        "MA"
+      ],
+      "acquired": "Oct. 2017",
+      "ownership": "100%",
+      "size": "140 keys",
+      "occupancy": "75%"
+    },
+    {
+      "name": "Henderson Select-Service 2-Pack",
+      "sector": "Hospitality",
+      "properties": 2,
+      "location": "Henderson, NV",
+      "states": [
+        "NV"
+      ],
+      "acquired": "May 2018",
+      "ownership": "100%",
+      "size": "228 keys",
+      "occupancy": "73%"
+    },
+    {
+      "name": "Orlando Select-Service 2-Pack",
+      "sector": "Hospitality",
+      "properties": 2,
+      "location": "Orlando, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "May 2018",
+      "ownership": "100%",
+      "size": "254 keys",
+      "occupancy": "82%"
+    },
+    {
+      "name": "Corporex Select Service Portfolio",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Rohnert Park, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Aug. 2018",
+      "ownership": "100%",
+      "size": "102 keys",
+      "occupancy": "76%"
+    },
+    {
+      "name": "Hampton Inn & Suites Federal Way",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Seattle, WA",
+      "states": [
+        "WA"
+      ],
+      "acquired": "Oct. 2018",
+      "ownership": "100%",
+      "size": "142 keys",
+      "occupancy": "75%"
+    },
+    {
+      "name": "Courtyard Kona",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Kailua-Kona, HI",
+      "states": [
+        "HI"
+      ],
+      "acquired": "Mar. 2019",
+      "ownership": "100%",
+      "size": "455 keys",
+      "occupancy": "74%"
+    },
+    {
+      "name": "Raven Select Service Portfolio",
+      "sector": "Hospitality",
+      "properties": 10,
+      "location": "Various",
+      "states": [],
+      "acquired": "June 2019",
+      "ownership": "100%",
+      "size": "1,291 keys",
+      "occupancy": "74%"
+    },
+    {
+      "name": "Urban 2-Pack",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Chicago, IL",
+      "states": [
+        "IL"
+      ],
+      "acquired": "July 2019",
+      "ownership": "100%",
+      "size": "337 keys",
+      "occupancy": "69%"
+    },
+    {
+      "name": "Hyatt Regency Atlanta",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Atlanta, GA",
+      "states": [
+        "GA"
+      ],
+      "acquired": "Sept. 2019",
+      "ownership": "100%",
+      "size": "1,260 keys",
+      "occupancy": "65%"
+    },
+    {
+      "name": "RHW Select Service Portfolio",
+      "sector": "Hospitality",
+      "properties": 6,
+      "location": "Colorado Springs, CO",
+      "states": [
+        "CO"
+      ],
+      "acquired": "Nov. 2019",
+      "ownership": "100%",
+      "size": "557 keys",
+      "occupancy": "71%"
+    },
+    {
+      "name": "Key West Select Service Portfolio",
+      "sector": "Hospitality",
+      "properties": 6,
+      "location": "Key West, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Oct. 2021",
+      "ownership": "100%",
+      "size": "519 keys",
+      "occupancy": "82%"
+    },
+    {
+      "name": "Sunbelt Select Service Portfolio",
+      "sector": "Hospitality",
+      "properties": 3,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "716 keys",
+      "occupancy": "71%"
+    },
+    {
+      "name": "HGI Austin University Select Service",
+      "sector": "Hospitality",
+      "properties": 1,
+      "location": "Austin, TX",
+      "states": [
+        "TX"
+      ],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "214 keys",
+      "occupancy": "68%"
+    },
+    {
+      "name": "Sleep Extended Stay Hotel Portfolio",
+      "sector": "Hospitality",
+      "properties": 195,
+      "location": "Various",
+      "states": [],
+      "acquired": "July 2022",
+      "ownership": "30%",
+      "size": "24,802 keys",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Halo Select Service Portfolio",
+      "sector": "Hospitality",
+      "properties": 7,
+      "location": "Various",
+      "states": [],
+      "acquired": "Aug. & Oct. 2022",
+      "ownership": "100%",
+      "size": "1,409 keys",
+      "occupancy": "78%"
+    },
+    {
+      "name": "Bakers Centre",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Philadelphia, PA",
+      "states": [
+        "PA"
+      ],
+      "acquired": "Mar. 2017",
+      "ownership": "100%",
+      "size": "238 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Plaza Del Sol Retail",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Burbank, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Oct. 2017",
+      "ownership": "100%",
+      "size": "167 sq. ft.",
+      "occupancy": "98%"
+    },
+    {
+      "name": "Vista Center",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Miami, FL",
+      "states": [
+        "FL"
+      ],
+      "acquired": "Aug. 2018",
+      "ownership": "100%",
+      "size": "89 sq. ft.",
+      "occupancy": "99%"
+    },
+    {
+      "name": "El Paseo Simi Valley",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Simi Valley, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "June 2019",
+      "ownership": "100%",
+      "size": "108 sq. ft.",
+      "occupancy": "97%"
+    },
+    {
+      "name": "Towne Center East",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Signal Hill, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Sept. 2019",
+      "ownership": "100%",
+      "size": "163 sq. ft.",
+      "occupancy": "99%"
+    },
+    {
+      "name": "Plaza Pacoima",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Pacoima, CA",
+      "states": [
+        "CA"
+      ],
+      "acquired": "Oct. 2019",
+      "ownership": "100%",
+      "size": "204 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "Canarsie Plaza",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Brooklyn, NY",
+      "states": [
+        "NY"
+      ],
+      "acquired": "Dec. 2019",
+      "ownership": "100%",
+      "size": "274 sq. ft.",
+      "occupancy": "100%"
+    },
+    {
+      "name": "SoCal Grocery Portfolio",
+      "sector": "Retail",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "Jan. 2020",
+      "ownership": "100%",
+      "size": "685 sq. ft.",
+      "occupancy": "96%"
+    },
+    {
+      "name": "Northeast Tower Center",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Philadelphia, PA",
+      "states": [
+        "PA"
+      ],
+      "acquired": "Aug. 2021",
+      "ownership": "100%",
+      "size": "301 sq. ft.",
+      "occupancy": "99%"
+    },
+    {
+      "name": "Southeast Retail Portfolio",
+      "sector": "Retail",
+      "properties": 6,
+      "location": "Various",
+      "states": [],
+      "acquired": "Oct. 2021",
+      "ownership": "50%",
+      "size": "1,228 sq. ft.",
+      "occupancy": "n/a"
+    },
+    {
+      "name": "Bingo Retail Portfolio",
+      "sector": "Retail",
+      "properties": 10,
+      "location": "Various",
+      "states": [],
+      "acquired": "Dec. 2021",
+      "ownership": "100%",
+      "size": "1,767 sq. ft.",
+      "occupancy": "98%"
+    },
+    {
+      "name": "Pike Retail Portfolio",
+      "sector": "Retail",
+      "properties": 29,
+      "location": "Various",
+      "states": [],
+      "acquired": "June 2022",
+      "ownership": "Various",
+      "size": "3,096 sq. ft.",
+      "occupancy": "96%"
+    },
+    {
+      "name": "Tricon-Retail",
+      "sector": "Retail",
+      "properties": 1,
+      "location": "Toronto, Canada",
+      "states": [],
+      "acquired": "May 2024",
+      "ownership": "12%",
+      "size": "31 sq. ft.",
+      "occupancy": "n/a"
+    }
+  ],
+  "investmentsNote": "The 10-Q lists 189 investments. 58 of them, holding 4,200 of the 4,530 properties, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+  "thisQuarter": [
+    "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
+    "Put $3.3 billion into data center development through its QTS platform, described as 100% pre-leased.",
+    "Raised $1.1 billion from investors and repurchased $0.9 billion of shares and units."
+  ],
+  "howItWorks": {
+    "title": "How getting money out works",
+    "asOf": "2026-06-30",
+    "paragraphs": [
+      "Shares are bought and sold back at a price based on the fund's net asset value, set each month.",
+      "Buybacks are capped at 2% of the fund's NAV per month and 5% per calendar quarter. Shares held under a year are bought back at 98% of the price."
+    ],
+    "source": {
+      "name": "BREIT 10-Q, Share Repurchase Plan",
+      "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+    }
+  },
+  "notDisclosed": [
+    "A value for each named investment.",
+    "Weights for any state other than the three largest.",
+    "Which cities hold the properties listed as 'Various'."
   ]
 }

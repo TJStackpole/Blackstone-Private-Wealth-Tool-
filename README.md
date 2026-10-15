@@ -1,6 +1,6 @@
 # Private Markets Atlas
 
-An interactive US map showing where retail private-markets funds invest, one fund at a time.
+An interactive map of where Blackstone's four retail private-markets funds (BREIT, BX Infra, BXPE, BCRED) invest, built from their latest SEC 10-Q filings.
 Built from public filings as an independent prototype. **Not affiliated with Blackstone. Not investment advice.**
 
 All five phases of `BUILD_PLAN.md` are built: BREIT, BX Infra, BXPE, BCRED, an All funds view, and the Retirement lens.
@@ -34,12 +34,19 @@ npm run build
 
 | Folder / file | What it is |
 | --- | --- |
-| `data/*.json` | One file per fund, all the same shape. Every entry marked `"sample": true` is a placeholder, not a real holding. `retirement.json` holds the 401(k) lens text and milestones. |
+| `data/*.json` | One file per fund, generated from SEC filings by `scripts/sec/build_data.py`. `retirement.json` holds the illustrative 401(k) lens. |
+| `scripts/sec/` | Downloads the filings from EDGAR and rebuilds the data, checking every total against the filing. |
 | `data/layers.ts` | The list of map layers (one per fund). Adding a fund = add one JSON file + one entry here. |
 | `components/` | The map, tabs, sector chips, detail panel, legend, and footer. |
 | `lib/` | Shared types and the math that rolls metros up into state totals. |
 
-## Loading real data
+## Updating the data each quarter
 
-Paste the latest fact sheet or quarterly report into Claude Code with the prompt in
-`BUILD_PLAN.md › LOADING REAL DATA`. Only entries backed by the document lose their `"sample": true` flag.
+```bash
+export SEC_USER_AGENT="Your Name you@example.com"   # SEC requires a contact for automated downloads
+scripts/sec/fetch_filings.sh ./filings              # update the accession numbers inside first
+python3 -I scripts/sec/build_data.py ./filings data
+npm run build
+```
+
+The build script stops if any total fails to reconcile with the filing.

@@ -3,73 +3,76 @@
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { DEFAULT_LAYER_ID, LAYERS, RETIREMENT } from "@/data/layers";
-import type { LayerId, ViewId } from "@/lib/types";
+import type { FundData, LayerId, Share, ViewId } from "@/lib/types";
 import { stateName } from "@/lib/states";
-import { aggregateByState, filterBySector, hasSampleData, sectorMix } from "@/lib/aggregate";
 import AllFundsView from "./AllFundsView";
-import AtlasMap from "./AtlasMap";
 import DetailPanel from "./DetailPanel";
 import LayerSwitcher from "./LayerSwitcher";
-import Legend from "./Legend";
+import MapKey from "./MapKey";
+import RetirementView from "./RetirementView";
 import SectorChips from "./SectorChips";
 import SourceFooter from "./SourceFooter";
 import ThemeToggle from "./ThemeToggle";
-import SampleBadge from "./SampleBadge";
-import RetirementView from "./RetirementView";
+import UsRegionMap from "./UsRegionMap";
+import WorldMap from "./WorldMap";
+
+/** Geography to draw: the whole fund, or the chosen sector's own split where the filing allows it. */
+export function geoFor(data: FundData, sector: string | null): { items: Share[]; split: boolean } {
+  const split = sector ? data.geography.bySector?.[sector] : undefined;
+  if (!split) return { items: data.geography.items, split: false };
+  const labelOf = (key: string) => data.geography.items.find((i) => i.key === key)?.label ?? (key === "Various" ? "Various / multi-region" : key);
+  return { items: split.map((s) => ({ key: s.key, label: labelOf(s.key), pct: s.pct })), split: true };
+}
+
+/** One sentence on what the map shows when a sector filter is on, because each filing allows something different. */
+function filterNote(data: FundData, sector: string | null, split: boolean): string | undefined {
+  if (!sector) return undefined;
+  const label = data.sectors.find((s) => s.key === sector)?.label ?? sector;
+  if (data.geography.level === "us-region")
+    return `Region shading covers all sectors; the filing doesn't split regions by sector. Dots and state lists show only ${label}.`;
+  if (split) return `Showing how ${label} splits across regions, from the schedule of investments.`;
+  if (data.geography.level === "country-group")
+    return `The filing doesn't split countries by industry, so the map shows the whole fund. The borrower list shows only ${label}.`;
+  return `The filing doesn't split ${label} by region, so the map shows the whole fund.`;
+}
 
 /** The whole page: header, tabs, chips, map, panel, footer. Every layer plugs into this. */
 export default function Atlas() {
   const [viewId, setViewId] = useState<ViewId>(DEFAULT_LAYER_ID);
   const layerId: LayerId = viewId === "all" ? DEFAULT_LAYER_ID : viewId;
   const [sector, setSector] = useState<string | null>(null);
-  const [rawSelected, setSelectedState] = useState<string | null>(null);
-  const [selectedMetro, setSelectedMetro] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const reduce = useReducedMotion();
 
   const layer = LAYERS.find((l) => l.id === layerId) ?? LAYERS[0];
   const data = layer.data;
 
-  const holdings = useMemo(() => (data ? filterBySector(data.holdings, sector) : []), [data, sector]);
-  const byState = useMemo(() => aggregateByState(holdings), [holdings]);
-  const maxPct = useMemo(() => Math.max(0, ...[...byState.values()].map((s) => s.totalPct)), [byState]);
-  const fullMix = useMemo(
-    () => (data ? Object.fromEntries(sectorMix(data.holdings, data.sectors).map((m) => [m.sector, m.pct])) : {}),
-    [data],
-  );
-  const hasSample = data ? hasSampleData(data.holdings) : false;
+  const { items: geoItems, split } = useMemo(() => (data ? geoFor(data, sector) : { items: [], split: false }), [data, sector]);
+  const chipSectors = useMemo(() => (data ? data.sectors.filter((s) => !s.key.startsWith("All other")) : []), [data]);
 
   function changeLayer(id: ViewId) {
     setViewId(id);
     setSector(null);
-    setSelectedState(null);
-    setSelectedMetro(null);
+    setSelected(null);
   }
 
-  function selectState(abbr: string | null) {
-    setSelectedState(abbr);
-    setSelectedMetro(null);
-    if (abbr) setSheetOpen(true);
+  function select(key: string | null) {
+    setSelected(key);
+    if (key) setSheetOpen(true);
   }
 
-  /** A filter that hides the selected state clears it, so clearing the filter later doesn't bring it back unasked. */
+  /** On world maps, a sector with no holdings in the selected region clears the selection. */
   function changeSector(next: string | null) {
     setSector(next);
-    if (rawSelected && data && !filterBySector(data.holdings, next).some((h) => h.state === rawSelected)) {
-      setSelectedState(null);
-      setSelectedMetro(null);
+    if (data && selected && data.geography.level !== "us-region") {
+      const after = geoFor(data, next).items.find((i) => i.key === selected);
+      if (!after || after.pct === 0) setSelected(null);
     }
   }
 
-  /** From a map dot: open that state and expand that metro's companies. */
-  function selectMetro(abbr: string, metro: string) {
-    setSelectedState(abbr);
-    setSelectedMetro(metro);
-    setSheetOpen(true);
-  }
-
-  // If a sector filter removes the selected state, fall back to the overview.
-  const selectedState = rawSelected && byState.has(rawSelected) ? rawSelected : null;
+  const selectedLabel =
+    data && selected ? (data.geography.level === "us-region" ? stateName(selected) : (geoItems.find((g) => g.key === selected)?.label ?? selected)) : null;
 
   return (
     <div
@@ -81,7 +84,7 @@ export default function Atlas() {
           <div>
             <h1 className="font-serif text-[26px] font-medium leading-none tracking-[-0.01em] sm:text-[30px]">Private Markets Atlas</h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-strong">
-              Where retail private-markets funds actually invest, one fund at a time, drawn from public filings.
+              Where Blackstone&apos;s retail private-markets funds invest, one fund at a time, drawn from their latest SEC filings.
             </p>
           </div>
           <ThemeToggle />
@@ -96,27 +99,37 @@ export default function Atlas() {
       ) : viewId === "retirement" ? (
         <RetirementView data={RETIREMENT} layers={LAYERS} onOpenLayer={changeLayer} />
       ) : data ? (
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4">
-              <SectorChips sectors={data.sectors} active={sector} onChange={changeSector} mix={fullMix} />
+              <SectorChips
+                sectors={chipSectors.map((s) => s.key)}
+                labels={Object.fromEntries(chipSectors.map((s) => [s.key, s.label]))}
+                active={sector}
+                onChange={changeSector}
+                mix={Object.fromEntries(chipSectors.map((s) => [s.key, s.pct]))}
+              />
             </div>
             <div className="rounded-card border border-line bg-bg-raised p-2 sm:p-4">
-              <AtlasMap
-                byState={byState}
-                maxPct={maxPct}
-                selectedState={selectedState}
-                selectedMetro={selectedMetro}
-                onSelectState={selectState}
-                onSelectMetro={data.locationBasis === "headquarters" ? selectMetro : undefined}
-                fundLabel={data.fund}
-              />
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-line px-1 pt-3">
-                <Legend maxPct={maxPct} accent="var(--accent)" label={data.fund} />
-                <div className="flex items-center gap-3">
-                  {hasSample && <SampleBadge />}
-                  <p className="text-[11px] text-muted">Tap, click, or press Enter on a state for detail.</p>
-                </div>
+              {data.geography.level === "us-region" ? (
+                <UsRegionMap data={data} sector={sector} selected={selected} onSelect={select} />
+              ) : (
+                <WorldMap
+                  level={data.geography.level}
+                  items={geoItems}
+                  selected={selected}
+                  onSelect={select}
+                  fundLabel={data.fund}
+                  ofWhat={split ? `${data.fund}'s ${data.sectors.find((s) => s.key === sector)?.label} holdings` : data.fund}
+                />
+              )}
+              <div className="mt-2 space-y-2 border-t border-line px-1 pt-3">
+                <MapKey data={data} items={geoItems} selected={selected} onSelect={select} filterNote={filterNote(data, sector, split)} />
+                <p className="text-[11px] text-muted">
+                  {data.geography.level === "us-region"
+                    ? "Tap, click, or press Enter on a state for the investments the filing lists there."
+                    : "Tap a region on the map, or use the buttons above, for detail."}
+                </p>
               </div>
             </div>
           </section>
@@ -137,9 +150,7 @@ export default function Atlas() {
             >
               <span className="mx-auto mb-2.5 h-1 w-10 rounded-full bg-line" aria-hidden />
               <span className="flex w-full items-center justify-between">
-                <span className="text-sm font-medium text-ink">
-                  {selectedState ? `${stateName(selectedState)} · ${data.fund}` : `${data.fund} overview`}
-                </span>
+                <span className="text-sm font-medium text-ink">{selectedLabel ? `${selectedLabel} · ${data.fund}` : `${data.fund} overview`}</span>
                 <span className="text-xs text-muted-strong">{sheetOpen ? "Hide" : "Show"}</span>
               </span>
             </button>
@@ -151,18 +162,7 @@ export default function Atlas() {
               transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0, 1] }}
             >
               <div className="px-5 pb-6 pt-1 lg:p-0">
-                <DetailPanel
-                  layer={layer}
-                  data={data}
-                  holdings={holdings}
-                  byState={byState}
-                  activeSector={sector}
-                  selectedState={selectedState}
-                  selectedMetro={selectedMetro}
-                  onSelectState={selectState}
-                  onSelectMetro={setSelectedMetro}
-                  hasSample={hasSample}
-                />
+                <DetailPanel layer={layer} data={data} sector={sector} selected={selected} onSelect={select} geoItems={geoItems} />
               </div>
             </motion.div>
           </aside>
@@ -171,7 +171,7 @@ export default function Atlas() {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      <SourceFooter data={viewId === "all" || viewId === "retirement" ? undefined : data} hasSample={hasSample} caveats={layer.caveats} />
+      <SourceFooter data={viewId === "all" || viewId === "retirement" ? undefined : data} />
     </div>
   );
 }
