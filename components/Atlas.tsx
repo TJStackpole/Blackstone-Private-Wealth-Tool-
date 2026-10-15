@@ -52,6 +52,15 @@ export default function Atlas() {
     if (abbr) setSheetOpen(true);
   }
 
+  /** A filter that hides the selected state clears it, so clearing the filter later doesn't bring it back unasked. */
+  function changeSector(next: string | null) {
+    setSector(next);
+    if (rawSelected && data && !filterBySector(data.holdings, next).some((h) => h.state === rawSelected)) {
+      setSelectedState(null);
+      setSelectedMetro(null);
+    }
+  }
+
   /** From a map dot: open that state and expand that metro's companies. */
   function selectMetro(abbr: string, metro: string) {
     setSelectedState(abbr);
@@ -90,7 +99,7 @@ export default function Atlas() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_380px]">
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4">
-              <SectorChips sectors={data.sectors} active={sector} onChange={(s) => setSector(s)} mix={fullMix} />
+              <SectorChips sectors={data.sectors} active={sector} onChange={changeSector} mix={fullMix} />
             </div>
             <div className="rounded-card border border-line bg-bg-raised p-2 sm:p-4">
               <AtlasMap
@@ -136,7 +145,7 @@ export default function Atlas() {
             </button>
             <motion.div
               id="sheet-body"
-              className="overflow-hidden lg:!h-auto"
+              className="overflow-hidden lg:!h-auto lg:overflow-visible"
               initial={false}
               animate={{ height: sheetOpen ? "auto" : 0 }}
               transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0, 1] }}

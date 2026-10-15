@@ -34,19 +34,11 @@ interface Props {
 export default function DetailPanel(props: Props) {
   const { selectedState, onSelectState } = props;
   const reduce = useReducedMotion();
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  // Move focus to the panel heading when a state is picked so keyboard users land on the details.
-  useEffect(() => {
-    if (selectedState) headingRef.current?.focus();
-  }, [selectedState]);
-
   const content = selectedState ? (
     <StateView
       key={selectedState}
       {...props}
       abbr={selectedState}
-      headingRef={headingRef}
     />
   ) : (
     <OverviewView key="overview" {...props} />
@@ -57,7 +49,7 @@ export default function DetailPanel(props: Props) {
       id={`panel-${props.layer.id}`}
       role="tabpanel"
       aria-label={`${props.layer.fund} details`}
-      className="panel-scroll relative flex max-h-[70vh] flex-col overflow-y-auto lg:max-h-none lg:overflow-visible"
+      className="panel-scroll relative flex max-h-[55vh] flex-col overflow-y-auto lg:max-h-none lg:overflow-visible"
     >
       {props.data.locationBasis === "headquarters" && (
         <div
@@ -342,13 +334,17 @@ function StateView({
   byState,
   abbr,
   activeSector,
-  headingRef,
   selectedMetro,
   onSelectMetro,
 }: Props & {
   abbr: string;
-  headingRef: React.RefObject<HTMLHeadingElement | null>;
 }) {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  // Focus the heading once this view is actually on screen (after the previous view's exit),
+  // so keyboard users land on the details instead of being dropped back to the page top.
+  useEffect(() => {
+    headingRef.current?.focus({ preventScroll: true });
+  }, []);
   const summary = byState.get(abbr);
   const metros = summary ? metroTotals(summary.metros) : [];
   const hqLayer = data.locationBasis === "headquarters";

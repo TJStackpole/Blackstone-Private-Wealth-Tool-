@@ -117,14 +117,17 @@ export default function AtlasMap({ byState, maxPct, selectedState, selectedMetro
       {tip && !compact && (
         <div
           role="tooltip"
-          className="pointer-events-none absolute z-10 min-w-36 rounded-card border border-line bg-bg-raised px-3 py-2 text-xs shadow-sm"
+          className="pointer-events-none absolute z-10 whitespace-nowrap rounded-card border border-line bg-bg-raised px-3 py-2 text-xs shadow-sm"
           style={{ left: tip.x + 14, top: tip.y + 14 }}
         >
           <div className="font-medium text-ink">{tipName}</div>
           {tipSummary ? (
             <div className="tnum mt-0.5 text-muted-strong">
               {formatPct(tipSummary.totalPct)} of {fundLabel}
-              <span className="text-muted"> · {tipSummary.metros.length === 1 ? "1 entry" : `${metroCount(tipSummary)} metros`}</span>
+              <span className="text-muted">
+                {" "}
+                · {metroCount(tipSummary)} {metroCount(tipSummary) === 1 ? "metro" : "metros"}
+              </span>
             </div>
           ) : (
             <div className="mt-0.5 text-muted">No mapped holdings</div>

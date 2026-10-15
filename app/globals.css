@@ -193,3 +193,33 @@ body {
   outline: 2px solid var(--focus);
   outline-offset: 6px;
 }
+
+/* Phones: fade the right edge of the tab strip so it's obvious there are more tabs to swipe to. */
+@media (max-width: 639px) {
+  .tab-strip::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(90deg, transparent, var(--bg));
+  }
+}
+
+/* Respect "reduce motion" everywhere, not only on the map. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Headings receive focus only so keyboard users land on new content; they need no ring. */
+h2[tabindex="-1"]:focus {
+  outline: none;
+}
