@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Design tokens (see BUILD_PLAN.md › Design System) ---- */
+:root {
+  --bg: #f7f5f0;
+  --bg-raised: #fbfaf7;
+  --text: #14161a;
+  --muted: #8a8f98;
+  --muted-strong: #5f656e;
+  --border: #e4e0d6;
+  --map-empty: #ece8df;
+  --map-stroke: #f7f5f0;
+  --accent: #1f3a5f;
+  --accent-contrast: #ffffff;
+  --focus: #1f3a5f;
+  --sample: #b45309;
+  --sample-bg: #fdf1e3;
+  --sample-border: #f0c89b;
+}
+
+:root.dark {
+  --bg: #0f1115;
+  --bg-raised: #15181d;
+  --text: #eceae4;
+  --muted: #8a8f98;
+  --muted-strong: #b3b8c1;
+  --border: #272b32;
+  --map-empty: #1c2027;
+  --map-stroke: #0f1115;
+  --accent: #7fa3d1;
+  --accent-contrast: #0f1115;
+  --focus: #9fc0e8;
+  --sample: #f3b26b;
+  --sample-bg: #2a1f10;
+  --sample-border: #5c4120;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-line: var(--border);
+  --color-map-empty: var(--map-empty);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-sample: var(--sample);
+  --color-sample-bg: var(--sample-bg);
+  --color-sample-border: var(--sample-border);
+  --font-serif: var(--font-fraunces), "Source Serif 4", Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --radius-card: 8px;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numbers line up in tables and lists. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keyboard focus: one consistent ring everywhere. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Map geographies are SVG paths; rings don't apply, so use the stroke. */
+.rsm-geography {
+  outline: none;
+  transition: fill 300ms ease, stroke 150ms ease;
+}
+.rsm-geography:focus-visible {
+  stroke: var(--focus);
+  stroke-width: 2.5;
+}
+.rsm-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.metro-dot {
+  transition: r 300ms ease, opacity 300ms ease, fill 300ms ease;
+}
+
+/* Thin, quiet scrollbar in the detail panel. */
+.panel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsm-geography,
+  .metro-dot {
+    transition: none;
+  }
+}
+
+.rsm-geography[role="button"]:hover {
+  filter: brightness(0.92);
+}
+.dark .rsm-geography[role="button"]:hover {
+  filter: brightness(1.15);
+}
+
+/* Each layer sets its own accent; the dark theme swaps to the lighter variant. */
+.atlas {
+  --accent: var(--layer-light, #1f3a5f);
+  --focus: var(--layer-light, #1f3a5f);
+}
+.dark .atlas {
+  --accent: var(--layer-dark, #7fa3d1);
+  --focus: var(--layer-dark, #7fa3d1);
+}

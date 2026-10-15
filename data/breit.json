@@ -1,0 +1,64 @@
+{
+  "fund": "BREIT",
+  "assetClass": "Real Estate",
+  "asOf": "2026-06-30",
+  "source": {
+    "name": "SAMPLE — replace with the latest BREIT fact sheet or 10-Q",
+    "url": "https://www.breit.com/"
+  },
+  "locationBasis": "property",
+  "summary": {
+    "navBillions": null,
+    "headline": "BREIT is a non-traded real estate fund that buys and holds income-producing properties across the United States, mostly rental housing, warehouses, and data centers. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each month or quarter."
+  },
+  "sectors": ["Rental Housing", "Industrial", "Data Centers", "Hospitality", "Other"],
+  "holdings": [
+    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Industrial", "weightPct": 4.1, "note": "", "sample": true },
+    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Rental Housing", "weightPct": 3.6, "note": "", "sample": true },
+    { "metro": "Dallas–Fort Worth", "state": "TX", "lat": 32.78, "lng": -96.80, "sector": "Data Centers", "weightPct": 1.2, "note": "", "sample": true },
+    { "metro": "Austin", "state": "TX", "lat": 30.27, "lng": -97.74, "sector": "Rental Housing", "weightPct": 2.4, "note": "", "sample": true },
+    { "metro": "Houston", "state": "TX", "lat": 29.76, "lng": -95.37, "sector": "Industrial", "weightPct": 2.0, "note": "", "sample": true },
+    { "metro": "San Antonio", "state": "TX", "lat": 29.42, "lng": -98.49, "sector": "Rental Housing", "weightPct": 1.1, "note": "", "sample": true },
+
+    { "metro": "Miami–Fort Lauderdale", "state": "FL", "lat": 25.76, "lng": -80.19, "sector": "Rental Housing", "weightPct": 3.9, "note": "", "sample": true },
+    { "metro": "Orlando", "state": "FL", "lat": 28.54, "lng": -81.38, "sector": "Rental Housing", "weightPct": 2.2, "note": "", "sample": true },
+    { "metro": "Orlando", "state": "FL", "lat": 28.54, "lng": -81.38, "sector": "Hospitality", "weightPct": 0.9, "note": "", "sample": true },
+    { "metro": "Tampa", "state": "FL", "lat": 27.95, "lng": -82.46, "sector": "Rental Housing", "weightPct": 1.8, "note": "", "sample": true },
+    { "metro": "Jacksonville", "state": "FL", "lat": 30.33, "lng": -81.66, "sector": "Industrial", "weightPct": 0.8, "note": "", "sample": true },
+
+    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Rental Housing", "weightPct": 3.1, "note": "", "sample": true },
+    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Industrial", "weightPct": 2.3, "note": "", "sample": true },
+    { "metro": "Atlanta", "state": "GA", "lat": 33.75, "lng": -84.39, "sector": "Data Centers", "weightPct": 1.5, "note": "", "sample": true },
+
+    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Rental Housing", "weightPct": 2.6, "note": "", "sample": true },
+    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Data Centers", "weightPct": 1.7, "note": "", "sample": true },
+    { "metro": "Phoenix", "state": "AZ", "lat": 33.45, "lng": -112.07, "sector": "Industrial", "weightPct": 1.0, "note": "", "sample": true },
+
+    { "metro": "Los Angeles", "state": "CA", "lat": 34.05, "lng": -118.24, "sector": "Industrial", "weightPct": 2.9, "note": "", "sample": true },
+    { "metro": "Inland Empire", "state": "CA", "lat": 34.06, "lng": -117.30, "sector": "Industrial", "weightPct": 2.5, "note": "", "sample": true },
+    { "metro": "San Diego", "state": "CA", "lat": 32.72, "lng": -117.16, "sector": "Rental Housing", "weightPct": 1.3, "note": "", "sample": true },
+    { "metro": "Bay Area", "state": "CA", "lat": 37.55, "lng": -122.05, "sector": "Rental Housing", "weightPct": 1.1, "note": "", "sample": true },
+
+    { "metro": "Las Vegas", "state": "NV", "lat": 36.17, "lng": -115.14, "sector": "Hospitality", "weightPct": 2.8, "note": "", "sample": true },
+    { "metro": "Las Vegas", "state": "NV", "lat": 36.17, "lng": -115.14, "sector": "Rental Housing", "weightPct": 1.4, "note": "", "sample": true },
+
+    { "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Data Centers", "weightPct": 3.4, "note": "", "sample": true },
+    { "metro": "Northern Virginia", "state": "VA", "lat": 38.95, "lng": -77.45, "sector": "Rental Housing", "weightPct": 0.9, "note": "", "sample": true },
+
+    { "metro": "Charlotte", "state": "NC", "lat": 35.23, "lng": -80.84, "sector": "Rental Housing", "weightPct": 1.6, "note": "", "sample": true },
+    { "metro": "Raleigh–Durham", "state": "NC", "lat": 35.84, "lng": -78.72, "sector": "Rental Housing", "weightPct": 1.2, "note": "", "sample": true },
+
+    { "metro": "Nashville", "state": "TN", "lat": 36.16, "lng": -86.78, "sector": "Rental Housing", "weightPct": 1.5, "note": "", "sample": true },
+    { "metro": "Denver", "state": "CO", "lat": 39.74, "lng": -104.99, "sector": "Rental Housing", "weightPct": 1.7, "note": "", "sample": true },
+    { "metro": "Seattle", "state": "WA", "lat": 47.61, "lng": -122.33, "sector": "Rental Housing", "weightPct": 1.4, "note": "", "sample": true },
+    { "metro": "Salt Lake City", "state": "UT", "lat": 40.76, "lng": -111.89, "sector": "Industrial", "weightPct": 0.8, "note": "", "sample": true },
+    { "metro": "Chicago", "state": "IL", "lat": 41.88, "lng": -87.63, "sector": "Industrial", "weightPct": 1.6, "note": "", "sample": true },
+    { "metro": "Columbus", "state": "OH", "lat": 39.96, "lng": -83.00, "sector": "Industrial", "weightPct": 0.7, "note": "", "sample": true },
+    { "metro": "Northern New Jersey", "state": "NJ", "lat": 40.73, "lng": -74.17, "sector": "Industrial", "weightPct": 1.9, "note": "", "sample": true },
+    { "metro": "New York City", "state": "NY", "lat": 40.71, "lng": -74.01, "sector": "Other", "weightPct": 1.0, "note": "", "sample": true },
+    { "metro": "Boston", "state": "MA", "lat": 42.36, "lng": -71.06, "sector": "Other", "weightPct": 0.8, "note": "", "sample": true },
+    { "metro": "Philadelphia", "state": "PA", "lat": 39.95, "lng": -75.17, "sector": "Industrial", "weightPct": 0.9, "note": "", "sample": true },
+    { "metro": "Minneapolis", "state": "MN", "lat": 44.98, "lng": -93.27, "sector": "Rental Housing", "weightPct": 0.6, "note": "", "sample": true },
+    { "metro": "Honolulu", "state": "HI", "lat": 21.31, "lng": -157.86, "sector": "Hospitality", "weightPct": 0.7, "note": "", "sample": true }
+  ]
+}
