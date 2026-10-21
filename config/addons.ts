@@ -50,7 +50,7 @@ export const ADDONS: AddonDef[] = [
     description: "How redemption limits work, each fund's terms, and what happens to a request when the limit is hit.",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
-    phase: 2,
+    phase: 3,
   },
 ];
 

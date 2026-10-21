@@ -17,7 +17,7 @@ interface Props {
   initialFund?: FundCode;
   initialAmount?: number;
   initialPreset?: Preset["id"];
-  /** Small version for the fund-panel drawer: amount only, no table. */
+  /** Small version for the fund-panel drawer: the preset is fixed, amount is the only input, no table. */
   compact?: boolean;
 }
 
@@ -60,22 +60,26 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div role="group" aria-label="Scenario" className="flex flex-wrap gap-2">
-          {PRESETS.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              aria-pressed={p.id === presetId}
-              onClick={() => setPresetId(p.id)}
-              className={[
-                "h-8 rounded-full border px-3 text-xs font-medium transition-colors",
-                p.id === presetId ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
-              ].join(" ")}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
+        {compact ? (
+          <p className="text-xs font-medium text-muted-strong">Scenario: {preset.label}</p>
+        ) : (
+          <div role="group" aria-label="Scenario" className="flex flex-wrap gap-2">
+            {PRESETS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                aria-pressed={p.id === presetId}
+                onClick={() => setPresetId(p.id)}
+                className={[
+                  "h-8 rounded-full border px-3 text-xs font-medium transition-colors",
+                  p.id === presetId ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
+                ].join(" ")}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        )}
         <IllustrativeBadge />
       </div>
       <p className="text-xs leading-relaxed text-muted">{preset.note}</p>
@@ -106,10 +110,10 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
       <figure className="space-y-2">
         <div className={compact ? "h-36" : "h-60"} role="img" aria-label={`Cumulative cash received over ${QUARTERS} quarters`}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chart} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -12 : 8 }}>
+            <LineChart data={chart} margin={{ top: 8, right: 12, bottom: 0, left: compact ? 0 : 8 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis dataKey="quarter" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} tickFormatter={(q: number) => (q === 0 ? "Ask" : `Q${q}`)} />
-              <YAxis domain={[0, Math.max(amount, 1)]} ticks={[0, 0.25, 0.5, 0.75, 1].map((f) => f * Math.max(amount, 1))} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={short} width={compact ? 44 : 56} />
+              <YAxis domain={[0, Math.max(amount, 1)]} ticks={[0, 0.25, 0.5, 0.75, 1].map((f) => f * Math.max(amount, 1))} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={short} width={compact ? 48 : 56} />
               <Tooltip formatter={(v) => money(Number(v))} labelFormatter={(q) => (Number(q) === 0 ? "At request" : `After quarter ${q}`)} contentStyle={{ background: "var(--bg-raised)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }} />
               <Line type="stepAfter" dataKey="cumulative" name="Cash received" stroke="var(--accent)" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={false} />
             </LineChart>

@@ -81,3 +81,13 @@ describe("Inputs", () => {
     expect(onChange).toHaveBeenLastCalledWith(100);
   });
 });
+
+describe("AddonChips drawer (Phase 3)", () => {
+  it("opens a labeled dialog with a Full view link once the add-on reaches Phase 3", () => {
+    render(<AddonChips fundId="bcred" addons={[{ ...liquidity, phase: 3 }]} />);
+    fireEvent.click(screen.getByRole("button", { name: "Liquidity" }));
+    const dialog = screen.getByRole("dialog", { name: "Liquidity Simulator" });
+    expect(dialog).toBeTruthy();
+    expect(screen.getByRole("link", { name: "Full view →" }).getAttribute("href")).toBe("/toolkit/liquidity?fund=BCRED");
+  });
+});

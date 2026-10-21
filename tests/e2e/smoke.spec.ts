@@ -47,3 +47,25 @@ test("Advisor Toolkit link opens the toolkit, and every enabled add-on opens", a
   }
   expect(problems).toEqual([]);
 });
+
+test("every fund panel's add-on chips open their drawer, and Escape closes it", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/");
+  for (const tab of ["Real Estate", "Infrastructure", "Private Equity", "Credit"]) {
+    await page.getByRole("tab", { name: new RegExp(tab) }).click();
+    const tools = page.getByRole("navigation", { name: "Advisor tools for this fund" });
+    const chips = tools.getByRole("button");
+    const n = await chips.count();
+    for (let i = 0; i < n; i++) {
+      await chips.nth(i).click();
+      const dialog = page.getByRole("dialog");
+      await expect(dialog).toBeVisible();
+      await expect(dialog.getByRole("link", { name: "Full view →" })).toBeVisible();
+      await expect(dialog.getByText(/ILLUSTRATIVE|SAMPLE|Source/i).first()).toBeVisible();
+      await noFallbacks(page);
+      await page.keyboard.press("Escape");
+      await expect(dialog).toHaveCount(0);
+    }
+  }
+  expect(problems).toEqual([]);
+});
