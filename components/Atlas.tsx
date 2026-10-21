@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { DEFAULT_LAYER_ID, LAYERS, RETIREMENT } from "@/data/layers";
 import type { FundData, LayerId, Share, ViewId } from "@/lib/types";
 import { stateName } from "@/lib/states";
@@ -87,7 +88,12 @@ export default function Atlas() {
               Where Blackstone&apos;s retail private-markets funds invest, one fund at a time, drawn from their latest SEC filings.
             </p>
           </div>
-          <ThemeToggle />
+          <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center">
+            <Link href="/toolkit" className="inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink">
+              Advisor Toolkit
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
         <div className="mt-5 border-b border-line">
           <LayerSwitcher layers={LAYERS} activeId={viewId} onChange={changeLayer} allFundsAfter="bcred" />

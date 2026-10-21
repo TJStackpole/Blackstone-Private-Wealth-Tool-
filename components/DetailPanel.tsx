@@ -7,6 +7,7 @@ import { formatDate, formatMoneyMillions, formatPct } from "@/lib/aggregate";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
+import AddonChips from "./addons/shared/AddonChips";
 
 interface Props {
   layer: LayerDef;
@@ -159,7 +160,7 @@ function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
 
 /* ---------------------------------------------------------------- overview */
 
-function Overview({ data, sector, geoItems, onSelect }: Props) {
+function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
   const facts = (data.context ?? []).filter((f) => !f.appliesTo || !sector || f.appliesTo === sector);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
   return (
@@ -178,6 +179,8 @@ function Overview({ data, sector, geoItems, onSelect }: Props) {
       </header>
 
       <Stats data={data} />
+
+      <AddonChips fundId={layer.id} />
 
       <section>
         <SectionTitle>Sector mix</SectionTitle>
