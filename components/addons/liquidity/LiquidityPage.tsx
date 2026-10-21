@@ -4,6 +4,7 @@ import { AsOfSource } from "@/components/addons/shared/Badges";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import HistoryTimeline from "./HistoryTimeline";
 import ProRataDemo from "./ProRataDemo";
+import Simulator from "./Simulator";
 import TermsTable from "./TermsTable";
 
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
@@ -39,6 +40,13 @@ export default function LiquidityPage() {
             </p>
           </div>
           <ProRataDemo />
+        </Section>
+
+        <Section title="What happens to a request" id="simulator">
+          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
+            Pick a fund and a scenario. The schedule shows, quarter by quarter, how much of a request would be paid and how much would still be invested.
+          </p>
+          <Simulator />
         </Section>
 
         <Section title="Each fund's terms" id="terms">
