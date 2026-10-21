@@ -1,11 +1,21 @@
+import Link from "next/link";
+import { findAddon } from "@/config/addons";
 import AddonShell from "@/components/addons/shared/AddonShell";
 import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import HistoryTimeline from "./HistoryTimeline";
+import LiquidityPrint from "./LiquidityPrint";
 import ProRataDemo from "./ProRataDemo";
-import Simulator from "./Simulator";
+import ReserveCheck from "./ReserveCheck";
 import TermsTable from "./TermsTable";
+import UrlSimulator from "./UrlSimulator";
+
+const SCRIPT = [
+  "These funds pay out on a schedule, up to a limit, not on demand like a mutual fund.",
+  "When many people ask at once, everyone gets the same share of their request, and the rest stays invested until the next window.",
+  "That has happened before: BREIT limited repurchases at times between late 2022 and early 2024, and BCRED prorated requests in the second and third quarters of 2026.",
+];
 
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
@@ -20,6 +30,7 @@ function Section({ title, children, id }: { title: string; children: React.React
 
 /** Add-on 4: how redemption limits work, each fund's terms, and what has happened before. */
 export default function LiquidityPage() {
+  const taxLens = findAddon("tax-lens");
   return (
     <AddonShell
       addonId="liquidity"
@@ -46,7 +57,22 @@ export default function LiquidityPage() {
           <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
             Pick a fund and a scenario. The schedule shows, quarter by quarter, how much of a request would be paid and how much would still be invested.
           </p>
-          <Simulator />
+          <UrlSimulator />
+          {taxLens && (
+            <p className="text-sm text-muted-strong">
+              <Link href="/toolkit/tax-lens" className="underline decoration-line underline-offset-4 hover:text-ink">
+                Redeeming early? See when cash arrives and when tax is due in the Tax Lens.
+              </Link>
+            </p>
+          )}
+        </Section>
+
+        <Section title="Will a redemption be needed?" id="reserve">
+          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
+            The question behind &ldquo;can I get out?&rdquo; is often &ldquo;will I need to?&rdquo; This compares the client&apos;s other liquid assets with what they
+            spend in a year.
+          </p>
+          <ReserveCheck />
         </Section>
 
         <Section title="Each fund's terms" id="terms">
@@ -62,13 +88,8 @@ export default function LiquidityPage() {
           <AsOfSource asOf={HISTORY.asOf} source={HISTORY.events[HISTORY.events.length - 1].source} />
         </Section>
 
-        <ClientScriptCard
-          points={[
-            "These funds pay out on a schedule, up to a limit, not on demand like a mutual fund.",
-            "When many people ask at once, everyone gets the same share of their request, and the rest stays invested until the next window.",
-            "That has happened before: BREIT limited repurchases at times between late 2022 and early 2024, and BCRED prorated requests in the second and third quarters of 2026.",
-          ]}
-        />
+        <ClientScriptCard points={SCRIPT} />
+        <LiquidityPrint points={SCRIPT} />
       </div>
     </AddonShell>
   );
