@@ -42,7 +42,17 @@ export const ALL_ADDON_IDS: AddonId[] = [
 ];
 
 /** Filled in as add-ons are built. */
-export const ADDONS: AddonDef[] = [];
+export const ADDONS: AddonDef[] = [
+  {
+    id: "liquidity",
+    name: "Liquidity Simulator",
+    shortName: "Liquidity",
+    description: "How redemption limits work, each fund's terms, and what happens to a request when the limit is hit.",
+    enabled: true,
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    phase: 1,
+  },
+];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
   return list.filter((a) => a.enabled);
