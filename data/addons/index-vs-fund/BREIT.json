@@ -1,0 +1,112 @@
+{
+  "fund": "BREIT",
+  "asOf": "2026-06-30",
+  "index": {
+    "name": "NCREIF Fund Index – Open End Diversified Core Equity (NFI-ODCE)",
+    "measures": "Returns of a group of large open-end private real estate funds that own mostly stabilized U.S. properties (25 funds in the Q2 2026 report).",
+    "feeBasis": "gross",
+    "feeText": "Gross of fees (NCREIF also publishes a net-of-fee figure as supplemental information).",
+    "levered": true,
+    "leverageText": "Includes the member funds' own borrowing: 27.1% leverage as of Q2 2026.",
+    "return": {
+      "value": 4.45,
+      "period": "1 year ended Jun 30, 2026",
+      "note": "Net-of-fee figure for the same year: 3.59%."
+    },
+    "sample": true,
+    "asOf": "2026-06-30",
+    "verify": "Figure found through the index provider's public release; confirm against the provider's current report before using it with clients.",
+    "source": {
+      "name": "NCREIF, NFI-ODCE Snapshot Report 2Q2026",
+      "url": "https://ncreif.org/__static/jdj5jdewjdl2y1lmnei2uvv3l0d1nk80/NFI-ODCE-Snapshot-Report-2Q2026.pdf"
+    }
+  },
+  "fundSide": {
+    "label": "Total return, by share class",
+    "returns": [
+      {
+        "shareClass": "I",
+        "value": 5.2,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+          "page": "Operating Results: Year-to-Date Total Return, without upfront selling commissions"
+        }
+      },
+      {
+        "shareClass": "S",
+        "value": 4.7,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+          "page": "Operating Results: Year-to-Date Total Return, without upfront selling commissions"
+        }
+      },
+      {
+        "shareClass": "D",
+        "value": 5.0,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+          "page": "Operating Results: Year-to-Date Total Return, without upfront selling commissions"
+        }
+      }
+    ],
+    "sample": false
+  },
+  "fees": {
+    "management": {
+      "value": 1.25,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+        "page": "Note 10: Related Party and Other Transactions"
+      }
+    },
+    "performance": {
+      "value": 12.5,
+      "hurdle": 5,
+      "label": "Performance participation",
+      "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark.",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+        "page": "Note 10: Related Party and Other Transactions"
+      }
+    },
+    "servicing": {
+      "I": 0,
+      "D": 0.25,
+      "S": 0.85,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+        "page": "Note 10: Related Party and Other Transactions (Class D rate from the 2025 Form 10-K)"
+      }
+    }
+  },
+  "leverage": {
+    "value": 44,
+    "text": "BREIT reported 44% leverage, measured its own way (debt net of cash over asset value).",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+      "page": "Liquidity and Capital Resources"
+    }
+  }
+}
