@@ -1,0 +1,108 @@
+{
+  "asOf": "2026-06-30",
+  "sample": false,
+  "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Net Asset Value: valuation of real estate"
+  },
+  "sections": [
+    {
+      "id": "appraised",
+      "title": "Appraised value vs. traded price",
+      "paragraphs": [
+        {
+          "text": "A listed REIT's shares trade all day, so its price moves with every change in mood. A private fund has no trading price. Its value per share is worked out from estimates of what its buildings, businesses or loans are worth.",
+          "source": null
+        },
+        {
+          "text": "Think of a house. Its online estimate doesn't drop 20% in a week the way a REIT stock can. The house didn't get safer; it just isn't priced every day.",
+          "source": null
+        },
+        {
+          "text": "BREIT sets its property values each month, based partly on values from independent appraisers, and an independent valuation advisor reviews them. Each property gets a fresh appraisal once a year, and BREIT notes that a new appraisal can differ materially from the last one.",
+          "source": {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+            "page": "Net Asset Value: valuation guidelines"
+          }
+        },
+        {
+          "text": "BX Infra and BXPE value their investments in full each quarter, with monthly updates in between based on the latest financial data, reviewed by independent valuation advisors.",
+          "source": {
+            "name": "BX Infra Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+            "page": "Net Asset Value: valuation policy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meaning",
+      "title": "What smoothing does, and doesn't, mean",
+      "paragraphs": [
+        {
+          "text": "Appraisals lean on recent sales and last period's value, so they move gradually. Ups and downs show up later and smaller than in a traded price. That's \"smoothing.\"",
+          "source": {
+            "name": "GPIF working paper on private real estate return smoothing (2023)",
+            "url": "https://www.gpif.go.jp/en/20230307_workingpaper_en.pdf"
+          }
+        },
+        {
+          "text": "Smoothing lowers measured volatility. It doesn't, by itself, lower the risk of the assets underneath: the same buildings priced on an exchange would bounce around more.",
+          "source": {
+            "name": "Hoesli, Oikarinen and Serrano, Robust Desmoothed Real Estate Returns (University of Aberdeen research portal)",
+            "url": "https://abdn.elsevierpure.com/en/publications/robust-desmoothed-real-estate-returns/"
+          }
+        },
+        {
+          "text": "Researchers \"desmooth\" appraisal-based returns to estimate what they'd look like if the assets traded. The most common method, from David Geltner, treats each period's appraised return as partly the true return and partly last period's appraised return, then works backward.",
+          "source": {
+            "name": "GPIF working paper on private real estate return smoothing (2023)",
+            "url": "https://www.gpif.go.jp/en/20230307_workingpaper_en.pdf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honest",
+      "title": "The honest answer",
+      "paragraphs": [
+        {
+          "text": "Smoothing can help. Investors who don't see a 20% drop on a screen are less likely to sell at the bottom, and a fund that isn't forced to sell into a falling market can wait for better prices.",
+          "source": null
+        },
+        {
+          "text": "It also means the reported value can lag reality. When many investors decide the value is too high, they ask to sell, and that shows up first in redemption requests, not in the value per share. BREIT's requests exceeded its limits in late 2022, and BCRED's did in mid-2026.",
+          "source": {
+            "name": "Liquidity Simulator: When the limits have applied",
+            "url": "/toolkit/liquidity#history"
+          }
+        },
+        {
+          "text": "Two things to watch: redemption requests compared with the fund's limits, and, where they exist, prices for fund shares or similar assets on the secondary market compared with the reported value.",
+          "source": null
+        }
+      ]
+    }
+  ],
+  "script": [
+    "The value of these funds comes from appraisals and models, not a stock-market price, so it moves more gradually than a traded REIT or stock.",
+    "That makes it look steadier than the assets underneath really are. If those same buildings traded every day, their price would bounce around more.",
+    "The upside is that investors are less tempted to sell at the worst moment. The thing to watch is whether lots of investors are asking for their money back, which can be an early sign the value is out of step."
+  ],
+  "objections": [
+    {
+      "q": "\"So the returns are fake?\"",
+      "a": "No. The cash flows, rents and profits are real, and so are the appraisals. What's different is timing: the value is updated gradually, so the swings are smaller and later than in a traded price. Over full cycles, appraised and traded values for similar assets tend to end up in a similar place."
+    },
+    {
+      "q": "\"Isn't this just hiding losses?\"",
+      "a": "It can delay them. If prices for similar assets fall, appraisals usually follow, but more slowly. That's why it helps to watch redemption requests and secondary-market prices alongside the reported value, not instead of it."
+    },
+    {
+      "q": "\"Then why not just buy a listed REIT?\"",
+      "a": "A listed REIT trades daily and can be sold at any time, at whatever the market pays that day. A private fund offers limited, scheduled liquidity at an appraised value. They suit different needs, and the price swings of the listed version are the cost of its daily liquidity."
+    }
+  ]
+}

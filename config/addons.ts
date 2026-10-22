@@ -70,6 +70,15 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT"],
     phase: 3,
   },
+  {
+    id: "smoothing",
+    name: "Why So Smooth?",
+    shortName: "Why so smooth",
+    description: "Why appraisal-based values move less than traded prices, what that does and doesn't mean for risk, and how to explain it.",
+    enabled: true,
+    appliesTo: ["BREIT", "BXINFRA"],
+    phase: 1,
+  },
 ];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
