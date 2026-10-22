@@ -15,7 +15,9 @@
     "source": {
       "name": "Index providers' licensed reports (not public)",
       "url": "https://www.cambridgeassociates.com/private-investment-benchmarks/"
-    }
+    },
+    "annual": null,
+    "leveragePct": null
   },
   "fundSide": {
     "label": "Total return based on NAV, by unit class (BXINFRA U.S.)",

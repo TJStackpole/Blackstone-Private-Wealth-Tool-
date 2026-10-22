@@ -19,7 +19,12 @@
     "source": {
       "name": "Cliffwater, CDLI mid-year 2026 release and CDLI fact page",
       "url": "https://cliffwater.com/files/cdli/docs/CDLI_Fact_Page.pdf"
-    }
+    },
+    "annual": {
+      "value": 7.7,
+      "period": "1 year ended Jun 30, 2026"
+    },
+    "leveragePct": 0
   },
   "fundSide": {
     "label": "Total return based on NAV, by share class",

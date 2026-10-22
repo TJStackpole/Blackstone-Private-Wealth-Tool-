@@ -19,7 +19,12 @@
     "source": {
       "name": "Cambridge Associates, U.S. Private Equity Benchmark Book, Q1 2026",
       "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/08/WEB-2026-Q1-USPE-Benchmark-Book.pdf"
-    }
+    },
+    "annual": {
+      "value": 6.42,
+      "period": "1 year ended Mar 31, 2026"
+    },
+    "leveragePct": null
   },
   "fundSide": {
     "label": "Total return based on NAV, by unit class (BXPE U.S.)",
