@@ -41,3 +41,14 @@ export const CLAIMS: Record<FundCode, FundClaims> = {
 };
 
 export const STATUS_LABEL: Record<Status, string> = { consistent: "Consistent", watch: "Worth watching", diverges: "Diverges" };
+
+const RANK: Record<Status, number> = { diverges: 0, watch: 1, consistent: 2 };
+
+/** The claims most worth raising first: anything that diverges, then anything worth watching, in file order within each. */
+export function topClaims(fc: FundClaims, n = 2): Claim[] {
+  return fc.claims
+    .map((c, i) => ({ c, i }))
+    .sort((a, b) => RANK[a.c.status] - RANK[b.c.status] || a.i - b.i)
+    .slice(0, n)
+    .map((x) => x.c);
+}

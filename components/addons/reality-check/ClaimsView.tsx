@@ -5,6 +5,8 @@ import type { FundCode } from "@/config/addons";
 import { CLAIMS } from "@/lib/addons/reality-check/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import FundTabs from "@/components/addons/shared/FundTabs";
+import PrintOnePager from "@/components/addons/shared/PrintOnePager";
+import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import { useFundParam } from "@/components/addons/shared/useFundParam";
 import ClaimCard from "./ClaimCard";
 import FreshnessBadge from "./FreshnessBadge";
@@ -23,12 +25,18 @@ function View({ initial }: { initial: FundCode }) {
         <FreshnessBadge asOf={oldest} />
         <span className="text-muted">Updated {d.updated}. New quarterly filings arrive about six weeks after each quarter ends.</span>
       </div>
-      <div className="space-y-3">
-        {d.claims.map((c) => (
-          <ClaimCard key={c.id} c={c} />
-        ))}
-      </div>
-      <p className="text-[11px] leading-relaxed text-muted">{d.note}</p>
+      <PrintOnePager title="Reality Check one-pager">
+        <div className="space-y-3 print:space-y-2">
+          <h2 className="hidden font-serif text-xl print:block">Reality Check: {FUNDS[fund].label}</h2>
+          {d.claims.map((c) => (
+            <ClaimCard key={c.id} c={c} />
+          ))}
+          <p className="text-[11px] leading-relaxed text-muted">{d.note}</p>
+          <p className="hidden border-t pt-1 text-[9px] print:block">
+            {ADDON_DISCLOSURE} Independent prototype built from public filings. Not affiliated with or endorsed by Blackstone.
+          </p>
+        </div>
+      </PrintOnePager>
     </div>
   );
 }

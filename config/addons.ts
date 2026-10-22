@@ -104,7 +104,7 @@ export const ADDONS: AddonDef[] = [
     description: "Each fund's stated objectives next to what its latest filing shows, with neutral, human-set labels and a freshness date.",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
-    phase: 2,
+    phase: 3,
   },
 ];
 
