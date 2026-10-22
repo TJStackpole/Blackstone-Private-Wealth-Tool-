@@ -1,22 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { GLIDE, MODEL } from "@/lib/addons/retirement-plus/data";
+import { PAPER_DEFAULTS } from "@/lib/addons/retirement-plus/defaults";
 import { contributionRate, mixAt, premiumSensitivity, projectRetirement, salaryAt, type LabParams } from "@/lib/addons/retirement-plus/model";
 
-const a = MODEL.assumptions;
-const base: LabParams = {
-  startAge: a.startAge.value,
-  retireAge: a.retireAge.value,
-  startSalary: a.startSalary.value,
-  raisePct: a.raisePct.value,
-  contribStartPct: a.contribStartPct.value,
-  contribEndPct: a.contribEndPct.value,
-  privatePct: a.privatePct.value,
-  publicReturnPct: 8.8,
-  premiumPct: { privateEquity: 5, privateRealAssets: 3, privateCredit: 2 },
-  privateFeePct: 0,
-  withdrawalPct: a.withdrawalPct.value,
-  rows: GLIDE.rows,
-};
+const base: LabParams = PAPER_DEFAULTS;
 
 describe("published glidepath", () => {
   it("totals 20% at every listed age, and the age-25 and age-65 rows match the plan", () => {
@@ -69,5 +56,13 @@ describe("projectRetirement", () => {
     expect(t[0].difference).toBeCloseTo(0, 6);
     expect(t.map((x) => x.difference)).toEqual([...t.map((x) => x.difference)].sort((x, y) => x - y));
     expect(t[2].difference).toBeCloseTo(projectRetirement({ ...base, premiumPct: { privateEquity: 2, privateRealAssets: 2, privateCredit: 2 } }).difference, 6);
+  });
+});
+
+describe("paper defaults", () => {
+  it("carry every worker assumption from the paper (p. 9), with no extra fees", () => {
+    for (const [k, v] of Object.entries(MODEL.assumptions)) expect(PAPER_DEFAULTS[k as keyof typeof MODEL.assumptions]).toBe(v.value);
+    expect(PAPER_DEFAULTS.privateFeePct).toBe(0);
+    expect(PAPER_DEFAULTS.rows).toBe(GLIDE.rows);
   });
 });
