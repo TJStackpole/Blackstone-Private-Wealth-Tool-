@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { FundData, LayerDef, NamedHolding, QuarterMove, Share, ThirdPartyFact } from "@/lib/types";
 import { formatDate, formatMoneyMillions, formatPct } from "@/lib/aggregate";
@@ -17,6 +17,8 @@ interface Props {
   /** State code (BREIT) or region / country-group key (other funds). */
   selected: string | null;
   onSelect: (key: string | null) => void;
+  /** Picks the sector filter; the Sector mix rows become buttons when it's given. */
+  onSector?: (sector: string | null) => void;
   /** Geography currently drawn on the map (overall, or the selected sector's split). */
   geoItems: Share[];
 }
@@ -89,6 +91,90 @@ function Bars({ rows, highlight }: { rows: Share[]; highlight?: string | null })
         );
       })}
     </ul>
+  );
+}
+
+/** The fund's sector mix, doubling as the sector filter: one sector at a time, "All sectors" clears it. */
+function SectorFilter({ rows, active, onSector }: { rows: Share[]; active: string | null; onSector: (s: string | null) => void }) {
+  const max = Math.max(...rows.map((r) => r.pct), 0.1);
+  return (
+    <div role="group" aria-label="Filter by sector">
+      <div className="mb-2 flex items-center justify-between gap-3 border-b border-line pb-2">
+        <h3 className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted-strong">Sector mix</h3>
+        <button
+          type="button"
+          aria-pressed={active === null}
+          onClick={() => onSector(null)}
+          className={[
+            "tap-sm inline-flex h-7 items-center rounded-full border px-2.5 text-xs font-medium transition-colors",
+            active === null ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
+          ].join(" ")}
+        >
+          All sectors
+        </button>
+      </div>
+      <ul className="-mx-2 space-y-0.5">
+        {rows.map((r) => {
+          const on = active === r.key;
+          const dim = active !== null && !on;
+          const body = (
+            <>
+              <span className="mb-1 flex items-baseline justify-between gap-3 text-xs">
+                <span className={["truncate", on ? "font-medium text-ink" : "text-ink"].join(" ")}>{r.label}</span>{" "}
+                <span className="tnum shrink-0 text-muted-strong">{formatPct(r.pct)}</span>
+              </span>
+              <span aria-hidden className="block h-1.5 w-full overflow-hidden rounded-full bg-map-empty">
+                <span className="block h-full rounded-full bg-accent transition-[width] duration-300" style={{ width: `${(r.pct / max) * 100}%` }} />
+              </span>
+            </>
+          );
+          // "All other …" is a remainder, not a sector the filing breaks out, so it can't be picked.
+          return (
+            <li key={r.key} className={["transition-opacity", dim ? "opacity-45" : ""].join(" ")}>
+              {r.key.startsWith("All other") ? (
+                <div className="px-2 py-1.5">{body}</div>
+              ) : (
+                <button
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onSector(on ? null : r.key)}
+                  className={["block w-full rounded-md px-2 py-1.5 text-left transition-colors hover:bg-bg", on ? "bg-bg ring-1 ring-accent/50" : ""].join(" ")}
+                >
+                  {body}
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+/** The same filter as the Sector mix, compact, for when a state or region is open. */
+function SectorSelect({ data, sector, onSector }: { data: FundData; sector: string | null; onSector: (s: string | null) => void }) {
+  const id = useId();
+  return (
+    <div className="flex items-center gap-2">
+      <label htmlFor={id} className="text-xs text-muted-strong">
+        Sector
+      </label>
+      <select
+        id={id}
+        value={sector ?? ""}
+        onChange={(e) => onSector(e.target.value || null)}
+        className="tap h-8 min-w-0 max-w-full rounded-full border border-line bg-bg-raised px-3 text-xs text-ink focus-visible:border-accent"
+      >
+        <option value="">All sectors</option>
+        {data.sectors
+          .filter((s) => !s.key.startsWith("All other"))
+          .map((s) => (
+            <option key={s.key} value={s.key}>
+              {s.label} · {formatPct(s.pct)}
+            </option>
+          ))}
+      </select>
+    </div>
   );
 }
 
@@ -209,7 +295,7 @@ function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
 
 /* ---------------------------------------------------------------- overview */
 
-function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
+function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) {
   const facts = (data.context ?? []).filter((f) => !f.appliesTo || !sector || f.appliesTo === sector);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
   return (
@@ -233,8 +319,14 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
       <AddonChips fundId={layer.id} />
 
       <section>
-        <SectionTitle>Sector mix</SectionTitle>
-        <Bars rows={data.sectors} highlight={sector} />
+        {onSector ? (
+          <SectorFilter rows={data.sectors} active={sector} onSector={onSector} />
+        ) : (
+          <>
+            <SectionTitle>Sector mix</SectionTitle>
+            <Bars rows={data.sectors} highlight={sector} />
+          </>
+        )}
         <Basis>{data.sectorBasis}</Basis>
       </section>
 
@@ -344,7 +436,7 @@ function SelectionView(props: Props & { selected: string }) {
 
 type ViewProps = Props & { selected: string; headingRef: React.RefObject<HTMLHeadingElement | null> };
 
-function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
+function StateView({ data, selected: abbr, sector, onSector, headingRef }: ViewProps) {
   const region = NCREIF_REGION[abbr];
   const regionShare = data.geography.items.find((i) => i.key === region);
   const top = data.geography.topStates?.find((t) => t.state === abbr);
@@ -364,6 +456,7 @@ function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
         <h2 ref={headingRef} tabIndex={-1} className="font-serif text-[32px] font-medium leading-[1.05] tracking-[-0.01em] text-ink">
           {stateName(abbr)}
         </h2>
+        {onSector && <SectorSelect data={data} sector={sector} onSector={onSector} />}
       </header>
 
       <dl className="grid grid-cols-2 gap-4 border-y border-line py-4">
@@ -416,7 +509,7 @@ function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
   );
 }
 
-function RegionView({ data, selected, sector, geoItems, headingRef }: ViewProps) {
+function RegionView({ data, selected, sector, onSector, geoItems, headingRef }: ViewProps) {
   const share = geoItems.find((g) => g.key === selected);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
   const holdings = (data.topHoldings?.items ?? []).filter((h) => h.geo === selected && (!sector || h.sector === sector));
@@ -432,6 +525,7 @@ function RegionView({ data, selected, sector, geoItems, headingRef }: ViewProps)
         <h2 ref={headingRef} tabIndex={-1} className="font-serif text-[32px] font-medium leading-[1.05] tracking-[-0.01em] text-ink">
           {share?.label ?? selected}
         </h2>
+        {onSector && <SectorSelect data={data} sector={sector} onSector={onSector} />}
       </header>
 
       <dl className="border-y border-line py-4">

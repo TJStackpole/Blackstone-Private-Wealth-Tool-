@@ -37,7 +37,7 @@ Each fund's filing discloses geography at a different level of detail, so each m
 8. **From the map.** On BCRED's panel, under **Advisor tools**, click **Liquidity**. A drawer slides in with a quick simulation: "you ask for $500,000; in a stressed quarter about half is paid, and the rest the next quarter if you ask again." Click **Full view**.
 9. **Liquidity Simulator.** Show **How the line works** (everyone in line gets the same fraction), then the presets. Scroll to **When the limits have applied**: BREIT 2022–2024 and BCRED in Q2 and Q3 2026, each linked to the filing or tender letter. Then the **reserve check**: "the question behind 'can I get out?' is 'will I need to?'"
 10. **Index-to-Fund.** Pick BCRED. The index (Cliffwater) made 3.0% in the half-year; Class I made 0.2%. The bridge shows why, step by step, and switching to Class S shows the servicing fee.
-11. **Theme Exposure.** Back on the map, click **AI & data centers** in the Theme row, then switch to Infrastructure: the theme carries over. In the toolkit, the look-through example (four funds plus Nvidia) lands at 27% in one theme. Show the case for and against, sourced on both sides.
+11. **Theme Exposure.** Back on the map, click **AI & data centers** under **Explore a theme**, then switch to Infrastructure: the theme carries over. In the toolkit, the look-through example (four funds plus Nvidia) lands at 27% in one theme. Show the case for and against, sourced on both sides.
 12. **Family Office mode.** On the toolkit page, flip the switch at the top right: the tools reorder for a family office. Drawdown vs. Evergreen prints as a one-page IC memo. Every tool page is written so it can be shared with a client as is: no advisor scripts.
 13. **Reality Check.** Each fund's own stated objectives next to its filing data. The labels are drafts for you to confirm; the code never sets them. The freshness badge shows the data is from June 30.
 
@@ -80,7 +80,7 @@ Every calculator is a small, tested function: same inputs, same answer. Each res
 BCRED prorated repurchases in two quarters (Q2 and Q3 2026), not three. And BX Infra's filing doesn't name AirTrunk; the related holding appears as "Eucalyptus I HoldCo (CYM) L.P." in Asia-Pacific digital infrastructure. The site sticks to what the filings say.
 
 **"Could a tool break the map?"**
-No. Each tool lives in its own folders, sits inside an error boundary, and has an on/off switch in `config/addons.ts`. The only changes to the map's own files are the toolkit link, the tool buttons in the panel, the Theme row, and the tour's link support, all listed in the README.
+No. Each tool lives in its own folders, sits inside an error boundary, and has an on/off switch in `config/addons.ts`. The only changes to the map's own files are the toolkit link, the tool buttons in the panel, the theme row, and the tour's link support, all listed in the README.
 
 ## Where things live
 

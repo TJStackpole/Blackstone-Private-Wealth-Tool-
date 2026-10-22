@@ -13,7 +13,6 @@ import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
 import RetirementView from "./RetirementView";
-import SectorChips from "./SectorChips";
 import SourceFooter from "./SourceFooter";
 import ThemeToggle from "./ThemeToggle";
 import UsRegionMap from "./UsRegionMap";
@@ -65,7 +64,6 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   const data = layer.data;
 
   const { items: geoItems, split } = useMemo(() => (data ? geoFor(data, sector) : { items: [], split: false }), [data, sector]);
-  const chipSectors = useMemo(() => (data ? data.sectors.filter((s) => !s.key.startsWith("All other")) : []), [data]);
 
   function changeLayer(id: ViewId) {
     setViewId(id);
@@ -164,13 +162,21 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4 space-y-3">
               <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} theme={theme} onTheme={setTheme} />
-              <SectorChips
-                sectors={chipSectors.map((s) => s.key)}
-                labels={Object.fromEntries(chipSectors.map((s) => [s.key, s.label]))}
-                active={sector}
-                onChange={changeSector}
-                mix={Object.fromEntries(chipSectors.map((s) => [s.key, s.pct]))}
-              />
+              {/* Sectors are picked in the panel's Sector mix; this says what the map is filtered to and clears it. */}
+              {sector && (
+                <p className="flex flex-wrap items-center gap-2 text-xs text-muted-strong" aria-live="polite">
+                  <span>
+                    Showing <span className="font-medium text-ink">{data.sectors.find((s) => s.key === sector)?.label ?? sector}</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => changeSector(null)}
+                    className="tap inline-flex h-7 items-center rounded-full border border-line bg-bg-raised px-2.5 text-xs font-medium text-muted-strong hover:text-ink"
+                  >
+                    Show all sectors
+                  </button>
+                </p>
+              )}
             </div>
             {lead ? (
               <div className="space-y-4">
@@ -235,7 +241,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
               transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0, 1] }}
             >
               <div className="px-5 pb-6 pt-1 lg:p-0">
-                <DetailPanel layer={layer} data={data} sector={sector} selected={selected} onSelect={select} geoItems={geoItems} />
+                <DetailPanel layer={layer} data={data} sector={sector} selected={selected} onSelect={select} onSector={changeSector} geoItems={geoItems} />
               </div>
             </motion.div>
           </aside>

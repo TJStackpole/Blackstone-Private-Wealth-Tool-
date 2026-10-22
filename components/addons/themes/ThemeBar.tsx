@@ -80,7 +80,7 @@ function Bar({ layerId, sector, onSector, theme: state, onTheme }: Props) {
   return (
     <div className="space-y-2" data-theme-bar>
       <div ref={row} role="group" aria-label="Filter by theme, across funds" className="edge-fade -mx-4 flex items-center gap-1.5 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
-        <span className="mr-1 shrink-0 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">Theme</span>
+        <span className="mr-1 shrink-0 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">Explore a theme</span>
         {THEMES.map((t) => {
           const on = t.id === state.id;
           return (
