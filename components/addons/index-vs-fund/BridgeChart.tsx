@@ -88,7 +88,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
             <XAxis type="number" tick={{ fill: "var(--muted)", fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} axisLine={{ stroke: "var(--border)" }} tickLine={false} domain={["auto", "auto"]} />
             <YAxis type="category" dataKey="name" width={compact ? 118 : 150} tick={{ fill: "var(--muted-strong)", fontSize: 12 }} axisLine={false} tickLine={false} />
             <ReferenceLine x={0} stroke="var(--muted)" />
-            <Bar dataKey="range" isAnimationActive={false} radius={2}>
+            <Bar dataKey="range" isAnimationActive={false} radius={2} activeBar={false}>
               {rows.map((r) => (
                 <Cell key={r.name} fill={r.kind === "total" ? "var(--accent)" : r.kind === "down" ? "var(--muted)" : "var(--accent)"} fillOpacity={r.kind === "up" ? 0.55 : 1} />
               ))}

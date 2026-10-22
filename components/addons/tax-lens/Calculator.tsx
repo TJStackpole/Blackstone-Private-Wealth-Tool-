@@ -60,8 +60,8 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
   ];
 
   return (
-    <div className={compact ? "space-y-5" : "grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]"}>
-      <div className="space-y-4">
+    <div className={compact ? "space-y-5" : "grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] print:block"}>
+      <div className="space-y-4 print:hidden">
         <NumberInput label="Amount invested" value={amount} onChange={setAmount} min={0} step={10000} prefix="$" />
         <PercentInput
           label="Federal income tax bracket"
@@ -129,7 +129,11 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         )}
       </div>
 
-      <div className="min-w-0 space-y-5">
+      <div className="min-w-0 space-y-5 print:space-y-3">
+        <p className="hidden text-xs print:block">
+          Inputs: {money(amount)} invested, Class {cls}, {rate}% payout, {roc}% return of capital, {bracket}% income bracket{qrd ? " (199A deduction applied)" : ""},{" "}
+          {cg}% capital gains, {state}% state, {years} years, {price}% price change per year.
+        </p>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs text-muted-strong">Consult a tax advisor. This is general education, not tax advice.</p>
           <IllustrativeBadge />
@@ -146,7 +150,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                 <CartesianGrid horizontal={false} stroke="var(--border)" />
                 <XAxis type="number" tickFormatter={short} tick={{ fill: "var(--muted)", fontSize: 11 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
                 <YAxis type="category" dataKey="name" width={compact ? 130 : 190} tick={{ fill: "var(--muted-strong)", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Bar dataKey="value" isAnimationActive={false} radius={2}>
+                <Bar dataKey="value" isAnimationActive={false} radius={2} activeBar={false}>
                   {bars.map((b) => (
                     <Cell key={b.name} fill={b.kind === "compare" ? "var(--muted)" : "var(--accent)"} fillOpacity={b.kind === "later" ? 0.6 : 1} />
                   ))}

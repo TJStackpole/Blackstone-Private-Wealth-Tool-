@@ -21,7 +21,7 @@ export default function LiquidityQuick({ fund }: QuickProps) {
       <Simulator initialFund={fund} initialPreset="stressed" compact />
       {tax?.enabled && tax.appliesTo.includes(fund) && (
         <Link href={`/toolkit/tax-lens?fund=${fund}`} className="block text-sm text-muted-strong underline decoration-line underline-offset-4 hover:text-ink">
-          Redeeming early? See when tax is due in the Tax Lens.
+          Redeeming early? See when cash arrives and when tax is due in the Tax Lens.
         </Link>
       )}
     </div>
