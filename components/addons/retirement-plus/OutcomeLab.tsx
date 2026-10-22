@@ -63,23 +63,26 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
         <p className="mt-1 text-sm text-muted-strong">The paper&apos;s answer first. Then change the assumptions and see how much it moves.</p>
       </div>
 
-      {/* The paper's published result, as a reference point. */}
-      <div className="grid gap-4 rounded-card border border-line bg-bg-raised p-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center sm:gap-8 sm:p-6">
+      {/* The headline is the paper's own published result; the tool's figures come after, as "your version". */}
+      <div className="grid gap-4 rounded-card border border-line bg-bg-raised p-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center sm:gap-8 sm:p-6" data-paper-headline>
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">The paper&apos;s worker at 65</p>
-          <p className="tnum mt-1 font-serif text-[34px] leading-none text-ink sm:text-[40px]">
-            <span className="text-muted-strong">{short(P.publicOnly)}</span>
-            <span aria-hidden className="mx-2 text-muted">→</span>
-            <span className="sr-only"> grows to </span>
-            {short(P.withPrivate)}
+          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">The paper&apos;s worker: yearly income in retirement</p>
+          <p className="tnum mt-1 font-serif text-[34px] leading-none text-ink sm:text-[44px]">
+            {short(P.incomeWithPrivate)}
+            <span className="mx-2 text-[22px] text-muted sm:text-[26px]">vs.</span>
+            <span className="text-muted-strong">{short(P.incomePublicOnly)}</span>
+            <span className="ml-2 font-sans text-sm text-muted">a year</span>
           </p>
-          <p className="tnum mt-2 text-sm text-muted-strong">
-            {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} a year in retirement, {P.incomeIncreasePct}% more per the paper
+          <p className="mt-2 text-sm text-muted-strong">
+            With a {MODEL.assumptions.privatePct.value}% private slice vs. public stocks and bonds only: about {P.incomeIncreasePct}% more a year.
+          </p>
+          <p className="tnum mt-1 text-xs text-muted">
+            Balance at 65: {short(P.withPrivate)} vs. {short(P.publicOnly)}.
           </p>
         </div>
         <div className="space-y-1.5 border-line text-xs leading-relaxed text-muted sm:border-l sm:pl-8">
           <p>
-            Public stocks and bonds only, vs. the same saver with a 20% private slice. <Cite source={P.source} />
+            Published result, not this tool&apos;s estimate. <Cite source={P.source} />
           </p>
           <p>{P.method}</p>
         </div>
@@ -237,34 +240,35 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                 </figcaption>
               </figure>
 
-              {/* Income bars */}
-              <div className="space-y-3">
-                <p className="text-xs font-medium text-muted-strong">Yearly income in retirement, at {params.withdrawalPct}% a year</p>
-                {[
-                  { label: "Public only", v: r.incomePublicOnly, cls: "bg-muted/60" },
-                  { label: "With private slice", v: r.incomeWithPrivate, cls: "bg-accent" },
-                ].map((b) => (
-                  <div key={b.label} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 sm:grid-cols-[140px_minmax(0,1fr)_auto]">
-                    <span className="text-xs text-muted-strong sm:order-none">{b.label}</span>
-                    <span className="col-span-2 row-start-2 h-3 overflow-hidden rounded-sm bg-bg-raised sm:col-span-1 sm:row-start-auto">
-                      <span className={`block h-full rounded-sm ${b.cls}`} style={{ width: `${Math.max(0, (b.v / incomeMax) * 100)}%` }} />
-                    </span>
-                    <span className="tnum text-right text-sm text-ink" data-lab={b.label === "Public only" ? "income-public" : "income-private"}>
-                      {short(b.v)}
-                    </span>
-                  </div>
-                ))}
-                {r.incomePublicOnly > 0 && (
-                <p className="tnum text-sm text-ink">
-                    About{" "}
-                    <strong className="font-semibold">{Math.abs(r.incomeIncreasePct).toFixed(0)}% {r.incomeIncreasePct >= 0 ? "more" : "less"}</strong> a year with the private slice.
+              {/* The tool's own income figures sit behind a toggle so they don't read as a second answer next to the paper's. */}
+              <MoreDetails summary="See how this changes with your inputs" hint={`Yearly income at ${params.withdrawalPct}% a year, from your version above`}>
+                <div className="space-y-3" data-lab-income>
+                  {[
+                    { label: "Public only", v: r.incomePublicOnly, cls: "bg-muted/60" },
+                    { label: "With private slice", v: r.incomeWithPrivate, cls: "bg-accent" },
+                  ].map((b) => (
+                    <div key={b.label} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 sm:grid-cols-[140px_minmax(0,1fr)_auto]">
+                      <span className="text-xs text-muted-strong sm:order-none">{b.label}</span>
+                      <span className="col-span-2 row-start-2 h-3 overflow-hidden rounded-sm bg-bg sm:col-span-1 sm:row-start-auto">
+                        <span className={`block h-full rounded-sm ${b.cls}`} style={{ width: `${Math.max(0, (b.v / incomeMax) * 100)}%` }} />
+                      </span>
+                      <span className="tnum text-right text-sm text-ink" data-lab={b.label === "Public only" ? "income-public" : "income-private"}>
+                        {short(b.v)}
+                      </span>
+                    </div>
+                  ))}
+                  {r.incomePublicOnly > 0 && (
+                    <p className="tnum text-sm text-ink">
+                      About{" "}
+                      <strong className="font-semibold">{Math.abs(r.incomeIncreasePct).toFixed(0)}% {r.incomeIncreasePct >= 0 ? "more" : "less"}</strong> a year with the private slice.
+                    </p>
+                  )}
+                  <p className="text-xs leading-relaxed text-muted">
+                    Why this differs from the paper&apos;s {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)}: the paper uses its own income method ({P.source.page}); this tool takes a plain{" "}
+                    {params.withdrawalPct}% of the balance each year. Social Security is left out, as in the paper.
                   </p>
-                )}
-                <p className="text-xs leading-relaxed text-muted">
-                  The paper reports {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} ({P.source.page}) using its own income method. A plain {MODEL.assumptions.withdrawalPct.value}% of its
-                  balances would be about {short(P.withPrivate * 0.04)} vs. {short(P.publicOnly * 0.04)}. Social Security is left out, as in the paper.
-                </p>
-              </div>
+                </div>
+              </MoreDetails>
             </>
           )}
         </div>

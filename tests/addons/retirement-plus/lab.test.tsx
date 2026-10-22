@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import OutcomeLab from "@/components/addons/retirement-plus/OutcomeLab";
 import { PAPER_DEFAULTS } from "@/lib/addons/retirement-plus/defaults";
+import { MODEL } from "@/lib/addons/retirement-plus/data";
 import { premiumSensitivity, projectRetirement } from "@/lib/addons/retirement-plus/model";
 import { signed, short } from "@/lib/addons/retirement-plus/format";
 
@@ -33,6 +34,17 @@ describe("Outcome Lab", () => {
     expect(screen.getByText(/not the paper.s model/i)).toBeTruthy();
     expect(field("Starting salary").value).toBe("52,000");
     expect((screen.getByRole("button", { name: "Reset to paper's assumptions" }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it("headlines the paper's published income; the tool's 4% income sits behind a toggle", () => {
+    render(<Harness />);
+    const head = document.querySelector("[data-paper-headline]")!.textContent!;
+    expect(head).toContain(`${short(MODEL.published.incomeWithPrivate)}vs.${short(MODEL.published.incomePublicOnly)}`);
+    const r = projectRetirement(PAPER_DEFAULTS);
+    expect(head).not.toContain(short(r.incomeWithPrivate));
+    const toggle = screen.getByText("See how this changes with your inputs").closest("details")!;
+    expect(toggle.open).toBe(false);
+    expect(toggle.querySelector('[data-lab="income-private"]')!.textContent).toBe(short(r.incomeWithPrivate));
   });
 
   it("the premium strip and the chart agree when all three premiums match a strip value", () => {
