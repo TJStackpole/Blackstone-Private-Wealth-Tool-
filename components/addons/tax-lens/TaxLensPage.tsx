@@ -1,3 +1,4 @@
+import Calculator from "./Calculator";
 import AddonShell from "@/components/addons/shared/AddonShell";
 import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
@@ -48,6 +49,13 @@ export default function TaxLensPage() {
             </a>
           </p>
           <WorkedExample />
+        </Section>
+
+        <Section title="Your numbers" id="calculator">
+          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
+            Change any input. Every figure on the right is computed from them; the defaults come from BREIT&apos;s filings and can be overwritten.
+          </p>
+          <Calculator />
         </Section>
 
         <Section title="How BREIT's payouts were classified" id="history">

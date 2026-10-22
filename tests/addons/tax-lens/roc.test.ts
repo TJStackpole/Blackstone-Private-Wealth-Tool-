@@ -76,3 +76,10 @@ describe("projectTax", () => {
     expect(r.afterTaxTotal).toBe(100_000);
   });
 });
+
+describe("cgRateFor", () => {
+  it("pairs an income bracket with a starting capital gains rate", async () => {
+    const { cgRateFor } = await import("@/components/addons/tax-lens/Calculator");
+    expect([cgRateFor(37), cgRateFor(35), cgRateFor(24), cgRateFor(12)]).toEqual([20, 15, 15, 0]);
+  });
+});
