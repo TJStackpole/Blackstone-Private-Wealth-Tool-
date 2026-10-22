@@ -16,7 +16,7 @@ export default function Sources({ sources, className = "" }: { sources: Source[]
             title={s.page ? `${s.name}, ${s.page}` : s.name}
             className="underline decoration-line underline-offset-2 hover:text-ink"
           >
-            {s.name.startsWith(PAPER) ? `Blackstone paper${s.page ? `, ${s.page}` : ""}` : s.name.split(",")[0]}
+            {s.name.startsWith(PAPER) ? `Blackstone paper (2026)${s.page ? `, ${s.page}` : ""}` : s.name.split(",")[0]}
           </a>
         </span>
       ))}

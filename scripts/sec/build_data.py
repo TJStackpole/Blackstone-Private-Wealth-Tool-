@@ -144,7 +144,8 @@ def build_breit():
             "states": sorted({s for s in re.findall(r"\b([A-Z]{2})\b", c[2]) if s in US_STATES}),
             "acquired": c[3],
             "ownership": re.sub(r"\(\d+\)", "", c[4]),
-            "size": c[5],
+            # The column is "Sq. Feet (in thousands)/Units/Keys": square feet are in thousands; units and keys are counts.
+            "size": re.sub(r"^([\d,]+) sq\. ft\.$", r"\1K sq. ft.", c[5]),
             "occupancy": re.sub(r"^\(\d+\)$", "n/a", c[6]) if len(c) > 6 else "",
         })
     by_seg = {}

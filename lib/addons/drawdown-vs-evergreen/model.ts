@@ -1,3 +1,5 @@
+import bxpe from "@/data/addons/index-vs-fund/BXPE.json";
+
 /** Inputs to the cash-drag comparison. Rates are percent a year. Both structures earn the same asset return. */
 export interface CompareParams {
   commitment: number;
@@ -104,6 +106,6 @@ export const DEFAULTS: CompareParams = {
   assetReturnPct: 9,
   drawdownFeePct: 1.75,
   drawdownFeeOnCommitment: true,
-  evergreenFeePct: 1.25,
+  evergreenFeePct: bxpe.fees.management.value,
   years: 10,
 };

@@ -8,7 +8,7 @@ import { short, signed } from "@/lib/addons/retirement-plus/format";
 import { fundFees } from "./FundFees";
 
 const P = MODEL.published;
-const names = (s: Source[]) => s.map((x) => (x.name.startsWith("Blackstone, Expanding") ? `Blackstone paper${x.page ? `, ${x.page}` : ""}` : x.name.split(",")[0])).join("; ");
+const names = (s: Source[]) => s.map((x) => (x.name.startsWith("Blackstone, Expanding") ? `Blackstone paper (2026)${x.page ? `, ${x.page}` : ""}` : x.name.split(",")[0])).join("; ");
 
 /** The 401(k) one-pager, per audience: the gap, the reader's Lab result, the premium table, three concerns, the disclosure. */
 export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab: LabParams }) {
@@ -31,7 +31,7 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
         <section>
           <h2 className="text-[11px] font-semibold">The gap</h2>
           <p>
-            Share of assets in private markets: {pensions.label} about {pensions.value}%, {dc.label} about {dc.value}% (Blackstone paper, {pensions.source.page}).
+            Share of assets in private markets: {pensions.label} about {pensions.value}%, {dc.label} about {dc.value}% (Blackstone paper (2026), {pensions.source.page}).
           </p>
         </section>
 
@@ -41,7 +41,7 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
             <span className="font-serif text-[15px]">
               {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} a year in retirement
             </span>{" "}
-            with a {MODEL.assumptions.privatePct.value}% private slice vs. public only, about {P.incomeIncreasePct}% more; {short(P.withPrivate)} vs. {short(P.publicOnly)} at 65 (Blackstone paper, {P.source.page}). {P.method}
+            with a {MODEL.assumptions.privatePct.value}% private slice vs. public only, about {P.incomeIncreasePct}% more; {short(P.withPrivate)} vs. {short(P.publicOnly)} at 65 (Blackstone paper (2026), {P.source.page}). {P.method}
           </p>
         </section>
 
@@ -111,6 +111,7 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
 
         <footer className="border-t pt-1.5 text-[9px]">
           <p>{ADDON_DISCLOSURE}</p>
+          <p>{MODEL.verify}</p>
           <p>
             Independent prototype built from public sources. Not affiliated with or endorsed by Blackstone. Explains concepts only; it does not suggest what to choose. Sources and
             the full paper: {P.source.url}

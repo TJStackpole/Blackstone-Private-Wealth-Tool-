@@ -90,11 +90,11 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
         <>
           <div className="no-print grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <NumberInput label="Commitment" value={commitment} onChange={setCommitment} min={0} step={500000} prefix="$" />
-            <PercentInput label="Called each year" value={perYear} onChange={setPerYear} help="25 means four equal calls. 100 means all on day one." />
+            <PercentInput label="Called each year" value={perYear} onChange={setPerYear} min={1} help="25 means four equal calls. 100 means all on day one." />
             <PercentInput label="Asset return, both (assumption)" value={assetReturn} onChange={setAssetReturn} />
             <PercentInput label="Yield on waiting cash (assumption)" value={cashYield} onChange={setCashYield} />
             <PercentInput label="Drawdown fee (assumption)" value={ddFee} onChange={setDdFee} help="Charged on the full commitment while money is being called, then on invested value." />
-            <PercentInput label="Evergreen fee" value={egFee} onChange={setEgFee} help="Default: BXPE's 1.25% management fee, from its 10-Q." />
+            <PercentInput label="Evergreen fee" value={egFee} onChange={setEgFee} help={`Default: BXPE's ${DEFAULTS.evergreenFeePct}% management fee, from its 10-Q.`} />
             <NumberInput label="Drawdown returns money from year" value={distStart} onChange={(v) => setDistStart(Math.round(v))} min={1} max={20} step={1} />
             <PercentInput label="Share of fund returned each year after that" value={distPct} onChange={setDistPct} />
           </div>

@@ -385,9 +385,10 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
 
 function SelectionView(props: Props & { selected: string }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  // Focus the heading once this view is on screen, so keyboard users land on the details.
+  // Focus the heading once this view is on screen, so keyboard users land on the details. Not inside the tour's
+  // live-view frame, where taking focus would stop the tour's own arrow keys.
   useEffect(() => {
-    headingRef.current?.focus({ preventScroll: true });
+    if (window.self === window.top) headingRef.current?.focus({ preventScroll: true });
   }, []);
   return props.data.geography.level === "us-region" ? <StateView {...props} headingRef={headingRef} /> : <RegionView {...props} headingRef={headingRef} />;
 }
@@ -420,7 +421,7 @@ function StateView({ data, selected: abbr, sector, onSector, headingRef }: ViewP
       <dl className="grid grid-cols-2 gap-4 border-y border-line py-4">
         <div>
           <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{stateName(abbr)}</dt>
-          <dd className="tnum font-serif text-2xl text-ink">{top ? formatPct(top.pct) : "Not reported"}</dd>
+          <dd className="tnum font-serif text-2xl text-ink">{top ? formatPct(top.pct) : "Not in filing"}</dd>
           <dd className="text-xs leading-snug text-muted">{top ? "of real estate; one of the three largest states" : "the filing gives no figure for this state"}</dd>
         </div>
         <div>

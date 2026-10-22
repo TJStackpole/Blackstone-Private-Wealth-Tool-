@@ -44,7 +44,7 @@ export default function FundActions({ layerId, data }: { layerId: LayerId; data:
     <div className="no-print space-y-3">
       <div className="flex flex-wrap items-center gap-2">
         {tp && (
-          <button type="button" className={btn} aria-expanded={open} aria-controls={id} onClick={() => setOpen((o) => !o)}>
+          <button type="button" className={btn} aria-expanded={open} aria-controls={open ? id : undefined} onClick={() => setOpen((o) => !o)}>
             Talking points
           </button>
         )}

@@ -112,7 +112,14 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   // A link ending in #id (the tour's "/?view=all#compare-h") lands on that part of the view once it has drawn.
   // Scrolls this window only, so inside the tour's frame the tour page itself stays put.
   useEffect(() => {
-    const el = window.location.hash.length > 1 ? document.getElementById(decodeURIComponent(window.location.hash.slice(1))) : null;
+    const raw = window.location.hash.slice(1);
+    let id = raw;
+    try {
+      id = decodeURIComponent(raw);
+    } catch {
+      // A malformed hash ("#100%") is just not an id on this page.
+    }
+    const el = id ? document.getElementById(id) : null;
     if (el) requestAnimationFrame(() => window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 16 }));
   }, []);
 

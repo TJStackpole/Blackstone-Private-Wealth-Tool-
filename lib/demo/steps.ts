@@ -18,7 +18,7 @@ export const STEPS: TourStep[] = [
     title: "Where four Blackstone funds invest",
     body: [
       "This site maps where Blackstone's four perpetual funds for individual investors put their money: real estate (BREIT), infrastructure (BX Infra), private equity (BXPE) and private credit (BCRED).",
-      "Every number comes from each fund's own SEC filing for the quarter ended June 30, 2026, and links back to it.",
+      "Every number comes from each fund's own SEC filings, mainly its 10-Q for the quarter ended June 30, 2026 and its 10-K, and links back to its source.",
     ],
     tryThis: "Click the fund tabs along the top to switch funds.",
     url: "/",
@@ -168,7 +168,7 @@ export const STEPS: TourStep[] = [
     title: "Built to be trusted",
     body: [
       "Every figure links to its source. The site never invents fund numbers, labels sample data and illustrations, and avoids advice wording.",
-      "Each tool page has a Print / Save as PDF button for a one-page handout. Dark mode is in the top corner, and every page works on a phone.",
+      "Each fund page and tool page has a Print / Save as PDF button for a one-page handout. Dark mode is in the top corner, and every page works on a phone.",
       "It's an independent prototype built from public filings, not affiliated with or endorsed by Blackstone.",
     ],
     url: "/?view=bcred",
@@ -181,7 +181,7 @@ export const SHORT_STEPS: TourStep[] = [
     chapter: "The map",
     title: "One fund, from its own filing",
     body: [
-      "Each fund has its own page: where the money is, the sector mix and the key numbers. Every figure comes from the fund's latest SEC filing, for the quarter ended June 30, 2026, and links back to it.",
+      "Each fund has its own page: where the money is, the sector mix and the key numbers. Every figure comes from the fund's own SEC filings, mainly its 10-Q for the quarter ended June 30, 2026, and links back to its source.",
     ],
     tryThis: "Click a state to see the investments the filing names there.",
     url: "/?view=breit",

@@ -48,6 +48,9 @@ export default function GapHero({ lede }: { lede: string }) {
         <p className="mt-2 text-xs text-muted">
           Share of assets in private markets. <Cite source={pensions.source} />
         </p>
+        <p className="mt-1 text-[11px] leading-snug text-muted" data-verify>
+          {GAP.verify}
+        </p>
       </figure>
     </section>
   );

@@ -12,5 +12,6 @@ describe("parseStart (links into the map)", () => {
     expect(parseStart("?view=nope&sector=Software")).toBeUndefined();
     expect(parseStart("?view=breit&sector=Not a sector&select=Nevada")).toEqual({ view: "breit" });
     expect(parseStart("?view=bxinfra&select=Mars")).toEqual({ view: "bxinfra" });
+    expect(parseStart("?view=breit&select=ZZ")).toEqual({ view: "breit" });
   });
 });

@@ -10,7 +10,7 @@ export default function Cite({ source, className = "" }: { source: PaperSource; 
       title={`${source.name}, ${source.page}`}
       className={`text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink ${className}`}
     >
-      Blackstone paper, {source.page}
+      Blackstone paper (2026), {source.page}
     </a>
   );
 }

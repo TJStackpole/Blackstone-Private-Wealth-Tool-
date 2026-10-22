@@ -4,7 +4,8 @@ import { useId, useMemo, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import type { FundCode } from "@/config/addons";
 import { FUNDS } from "@/lib/addons/shared/funds";
-import { THEMES } from "@/lib/addons/themes/tags";
+import { TAGS, THEMES } from "@/lib/addons/themes/tags";
+import { formatDate } from "@/lib/dates";
 import { UNTAGGED, isConcentrated, lookThrough, type OtherHolding } from "@/lib/addons/themes/lookthrough";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput, fieldClass as field } from "@/components/addons/shared/Inputs";
@@ -117,7 +118,7 @@ export default function LookThroughCalc({ compactFund }: { compactFund?: FundCod
             </ResponsiveContainer>
           </div>
           <figcaption className="text-xs leading-relaxed text-muted">
-            Each fund is split by its published sector weights (10-Q, June 30, 2026). Outside holdings count fully toward the theme you tag. Amounts stay on
+            Each fund is split by its published sector weights (10-Q, {formatDate(TAGS.asOf, "long")}). Outside holdings count fully toward the theme you tag. Amounts stay on
             this screen only; nothing is saved or sent.
           </figcaption>
         </figure>
