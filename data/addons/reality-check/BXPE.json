@@ -1,0 +1,68 @@
+{
+  "fund": "BXPE",
+  "sample": false,
+  "updated": "2026-10-21",
+  "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
+  "claims": [
+    {
+      "id": "bxpe-growth",
+      "claim": "Aims to deliver medium- to long-term capital appreciation.",
+      "claimSource": {
+        "name": "BXPE Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "Total return based on NAV, six months to June 30, 2026 (BXPE U.S., Class I Series I)",
+      "value": "13.69% (not annualized)",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+        "page": "Note 9: Financial Highlights"
+      },
+      "status": "consistent",
+      "context": "A single six-month period, in a strategy described as medium- to long-term. One period says little about the long run.",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "bxpe-income",
+      "claim": "To a lesser extent, aims to generate modest current income.",
+      "claimSource": {
+        "name": "BXPE Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "Net investment income per unit, six months to June 30, 2026",
+      "value": "−$0.01 (a small net investment loss); no distributions shown for the period",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+        "page": "Note 9: Financial Highlights"
+      },
+      "status": "watch",
+      "context": "Over this period, returns came from changes in value rather than income, which fits a fund where income is a secondary goal.",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "bxpe-liquidity",
+      "claim": "Structured with monthly, fully funded subscriptions and periodic redemptions.",
+      "claimSource": {
+        "name": "BXPE Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+        "page": "Item 1: Business"
+      },
+      "metric": "Unit Redemption Plan",
+      "value": "Expects to redeem up to 3% of units a quarter across the fund; 5% deduction on units held under two years; can be changed or suspended",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+        "page": "Unit Redemption Plan"
+      },
+      "status": "consistent",
+      "context": "Redemptions are periodic and limited, as described. The limit applies across the whole fund, so heavy requests would be prorated (see Liquidity Simulator).",
+      "statusSetBy": "draft"
+    }
+  ]
+}

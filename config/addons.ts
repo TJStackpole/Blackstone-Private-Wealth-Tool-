@@ -97,6 +97,15 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
+  {
+    id: "reality-check",
+    name: "Reality Check",
+    shortName: "Reality check",
+    description: "Each fund's stated objectives next to what its latest filing shows, with neutral, human-set labels and a freshness date.",
+    enabled: true,
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    phase: 1,
+  },
 ];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {

@@ -1,0 +1,68 @@
+{
+  "fund": "BXINFRA",
+  "sample": false,
+  "updated": "2026-10-21",
+  "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
+  "claims": [
+    {
+      "id": "bxinfra-return",
+      "claim": "Aims to deliver attractive risk-adjusted returns from both current income and long-term capital appreciation.",
+      "claimSource": {
+        "name": "BX Infra Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+        "page": "Item 1: Investment Objective"
+      },
+      "metric": "Total return based on NAV, six months to June 30, 2026 (BXINFRA U.S., Class I Series I)",
+      "value": "10.42% (not annualized)",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+        "page": "Note 10: Financial Highlights"
+      },
+      "status": "consistent",
+      "context": "A single six-month period for a fund that began investing recently. \"Risk-adjusted\" can't be judged from one period.",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "bxinfra-income",
+      "claim": "Current income is part of the return.",
+      "claimSource": {
+        "name": "BX Infra Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+        "page": "Item 1: Investment Objective"
+      },
+      "metric": "Net investment income vs. distributions per unit, six months to June 30, 2026 (Class I Series I)",
+      "value": "$0.43 earned; $0.44 distributed",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+        "page": "Note 10: Financial Highlights"
+      },
+      "status": "consistent",
+      "context": "Distributions were roughly in line with net investment income over the period; most of the return came from changes in value.",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "bxinfra-liquidity",
+      "claim": "Offers monthly subscriptions and periodic redemptions.",
+      "claimSource": {
+        "name": "BX Infra Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+        "page": "Item 1: Business"
+      },
+      "metric": "Unit Redemption Plan",
+      "value": "Expects to redeem up to 3% of units a quarter across the fund; 5% deduction on units held under two years; can be changed or suspended",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+        "page": "Unit Redemption Plan"
+      },
+      "status": "consistent",
+      "context": "Redemptions are periodic and limited, as described (see Liquidity Simulator).",
+      "statusSetBy": "draft"
+    }
+  ]
+}
