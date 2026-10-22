@@ -38,7 +38,7 @@ function CharacterBars({ fund }: { fund: OtherFund }) {
     </div>
   );
   return (
-    <figure className="space-y-3 rounded-card border border-line bg-bg-raised p-4 sm:p-5">
+    <figure className="space-y-3 rounded-card border border-line bg-bg-raised p-4 sm:p-5 print:space-y-1.5 print:p-2">
       <figcaption className="flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm font-medium text-ink">How each year&apos;s payout was taxed</span>
         <span className="flex items-center gap-3 text-[11px] text-muted-strong">
@@ -50,7 +50,7 @@ function CharacterBars({ fund }: { fund: OtherFund }) {
           </span>
         </span>
       </figcaption>
-      <ul className="space-y-3">
+      <ul className="space-y-3 print:space-y-1">
         {h.rows.map((r) => (
           <li key={r.year} className="space-y-1.5" aria-label={`${r.year}: ${FUNDS[fund].label} ${r.ordinaryPct}% ordinary income; BREIT ${breit[r.year]}% return of capital`}>
             <p className="tnum text-xs font-medium text-ink">
@@ -73,17 +73,17 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
   const f = TAX_FUNDS.funds[fund];
   const ex = f.example;
   return (
-    <div className="space-y-6" data-tax-fund={fund}>
+    <div className="space-y-6 print:space-y-2.5" data-tax-fund={fund}>
       <div>
         <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
           {FUNDS[fund].label} · {f.structure}
         </p>
-        <p className="mt-1 font-serif text-[26px] leading-tight text-ink">{f.summary}</p>
+        <p className="mt-1 font-serif text-[26px] leading-tight text-ink print:text-lg">{f.summary}</p>
       </div>
 
-      <ul className={compact ? "grid gap-2" : "grid gap-3 sm:grid-cols-3"}>
+      <ul className={compact ? "grid gap-2" : "grid gap-3 sm:grid-cols-3 print:grid-cols-3 print:gap-2"}>
         {f.tiles.map((t) => (
-          <li key={t.label} className="flex flex-col gap-1.5 rounded-card border border-line bg-bg-raised p-4">
+          <li key={t.label} className="flex flex-col gap-1.5 rounded-card border border-line bg-bg-raised p-4 print:gap-0.5 print:p-2">
             <span className="tnum font-serif text-[24px] leading-none text-ink">{t.value}</span>
             <span className="text-xs leading-snug text-muted-strong">{t.label}</span>
             <span className="mt-auto pt-1">
@@ -97,9 +97,9 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
       {!compact && f.steps && <Steps steps={f.steps} />}
 
       {!compact && (
-        <ul className="space-y-2.5">
+        <ul className="space-y-2.5 print:space-y-1">
           {f.points.map((p) => (
-            <li key={p.text} className="flex gap-3 text-sm leading-relaxed text-ink">
+            <li key={p.text} className="flex gap-3 text-sm leading-relaxed text-ink print:text-xs print:leading-snug">
               <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
               <span>
                 {p.text} <Src s={p.source} />
@@ -110,7 +110,7 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
       )}
 
       {ex && (
-        <div className="space-y-1.5 rounded-card border border-line p-4 sm:p-5">
+        <div className="space-y-1.5 rounded-card border border-line p-4 sm:p-5 print:p-2">
           <div className="flex items-center justify-between gap-2">
             <p className="text-sm font-medium text-ink">In round numbers</p>
             <IllustrativeBadge />
