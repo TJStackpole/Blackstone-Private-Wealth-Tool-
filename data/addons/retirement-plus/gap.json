@@ -1,0 +1,67 @@
+{
+  "asOf": "2026-01-01",
+  "sample": false,
+  "verify": "Figure as transcribed in BUILD_PLAN_401K.md from the paper; confirm against the paper's page before relying on it.",
+  "headline": {
+    "pensions": {
+      "value": 33,
+      "label": "U.S. pensions",
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 3",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "dc": {
+      "value": 0.1,
+      "label": "U.S. 401(k)-type plans",
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 3",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    }
+  },
+  "facts": [
+    {
+      "id": "workers",
+      "value": "100M+",
+      "label": "workers responsible for their own retirement outcomes",
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 3",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    {
+      "id": "public",
+      "value": "~50%",
+      "label": "fewer public companies than in 1996",
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 3",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    {
+      "id": "private",
+      "value": "~90%",
+      "label": "of companies with $250M+ in revenue are private",
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 3",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    {
+      "id": "correlation",
+      "value": "64%",
+      "label": "of years since 1976 saw stocks and bonds move in the same direction",
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 3",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    }
+  ]
+}

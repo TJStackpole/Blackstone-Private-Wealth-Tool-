@@ -254,3 +254,15 @@ h3 {
   -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent);
   mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent);
 }
+
+/* 401(k) tab: each private sleeve uses the color of the fund type it links to on the map. */
+.rp {
+  --pe: #7a2e2e;
+  --ra: #1e6f6a;
+  --pc: #9a6b2f;
+}
+.dark .rp {
+  --pe: #d98a8a;
+  --ra: #6fc3bc;
+  --pc: #d9b07a;
+}

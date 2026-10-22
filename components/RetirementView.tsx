@@ -14,6 +14,9 @@ import {
 import type { LayerDef, LayerId, Mix, RetirementData } from "@/lib/types";
 import { glideSeries, mixForYears } from "@/lib/glide";
 import { formatDate } from "@/lib/aggregate";
+import { findAddon } from "@/config/addons";
+import AddonBoundary from "./addons/shared/AddonBoundary";
+import RetirementPlus from "./addons/retirement-plus/RetirementPlus";
 
 interface Props {
   data: RetirementData;
@@ -52,6 +55,16 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
     const step = data.glidePath.farYears / 4;
     return [0, 1, 2, 3, 4].map((i) => Math.round(i * step));
   }, [data.glidePath.farYears]);
+
+  // The 401(k) tab upgrade (BUILD_PLAN_401K.md, Rule B): one slot. With the add-on off, this tab is exactly as before.
+  if (findAddon("retirement-plus"))
+    return (
+      <div id="panel-retirement" role="tabpanel" aria-label="Retirement lens">
+        <AddonBoundary addonId="retirement-plus">
+          <RetirementPlus onOpenLayer={onOpenLayer} />
+        </AddonBoundary>
+      </div>
+    );
 
   return (
     <div

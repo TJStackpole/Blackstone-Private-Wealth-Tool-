@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ADDONS, enabledAddons } from "@/config/addons";
+import { ADDONS, toolkitAddons } from "@/config/addons";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
 import { AudienceToggle } from "@/components/addons/shared/Audience";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function ToolkitHome() {
-  const list = enabledAddons(ADDONS);
+  const list = toolkitAddons(ADDONS);
   return (
     <div className="atlas mx-auto w-full max-w-[1100px] px-4 pb-16 pt-5 sm:px-6 lg:pt-7" style={{ ["--layer-light" as string]: "#4A5568", ["--layer-dark" as string]: "#A0AEC0" }}>
       <header className="mb-8 space-y-4">

@@ -11,7 +11,8 @@ export type AddonId =
   | "smoothing"
   | "themes"
   | "drawdown-vs-evergreen"
-  | "reality-check";
+  | "reality-check"
+  | "retirement-plus";
 
 /** Fund codes used by the add-ons. The Atlas's own layer ids map onto these in lib/addons/shared/funds.ts. */
 export type FundCode = "BREIT" | "BCRED" | "BXPE" | "BXINFRA";
@@ -28,6 +29,8 @@ export interface AddonDef {
   appliesTo: FundCode[];
   /** Highest phase completed. */
   phase: 1 | 2 | 3;
+  /** "tab" add-ons upgrade a map tab instead of having a Toolkit page or fund chips (e.g. the 401(k) tab). */
+  kind?: "tool" | "tab";
 }
 
 /** Every add-on id the plan defines, so pages can be pre-built for a static export. */
@@ -39,6 +42,7 @@ export const ALL_ADDON_IDS: AddonId[] = [
   "themes",
   "drawdown-vs-evergreen",
   "reality-check",
+  "retirement-plus",
 ];
 
 /** Filled in as add-ons are built. */
@@ -106,7 +110,22 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
+  {
+    id: "retirement-plus",
+    name: "401(k) tab upgrade",
+    shortName: "401(k)",
+    description: "The 401(k) tab's story, published glidepath, Outcome Lab and audience views.",
+    enabled: true,
+    appliesTo: [],
+    phase: 1,
+    kind: "tab",
+  },
 ];
+
+/** Enabled add-ons that have their own Toolkit page (not tab upgrades). */
+export function toolkitAddons(list: AddonDef[] = ADDONS): AddonDef[] {
+  return enabledAddons(list).filter((a) => a.kind !== "tab");
+}
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
   return list.filter((a) => a.enabled);

@@ -1,0 +1,91 @@
+{
+  "asOf": "2026-01-01",
+  "sample": false,
+  "verify": "Figure as transcribed in BUILD_PLAN_401K.md from the paper; confirm against the paper's page before relying on it.",
+  "assumptions": {
+    "startAge": {
+      "value": 25,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "retireAge": {
+      "value": 65,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "startSalary": {
+      "value": 52000,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "raisePct": {
+      "value": 4.5,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "contribStartPct": {
+      "value": 8.8,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "contribEndPct": {
+      "value": 12,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "privatePct": {
+      "value": 20,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    "withdrawalPct": {
+      "value": 4,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    }
+  },
+  "published": {
+    "publicOnly": 2800000,
+    "withPrivate": 3300000,
+    "incomePublicOnly": 126000,
+    "incomeWithPrivate": 156000,
+    "incomeIncreasePct": 23,
+    "source": {
+      "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+      "page": "p. 4",
+      "url": "https://www.blackstone.com/defined-contribution/"
+    },
+    "method": "Blackstone's own model using historical index returns from September 2004 to December 2025, not an actual fund or plan."
+  },
+  "notes": [
+    "Uses indices, not real funds: indices carry no fund-level fees or wrapper costs.",
+    "Private credit history before 2019 includes Blackstone's own estimate for leverage and fees.",
+    "Holds the 20% private slice for life, which assumes the plan can rebalance despite redemption limits.",
+    "Leaves out Social Security.",
+    "Different index choices or timing would change the result, as the paper itself notes."
+  ]
+}

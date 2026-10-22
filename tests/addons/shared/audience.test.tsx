@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { ADDONS, enabledAddons } from "@/config/addons";
+import { ADDONS, toolkitAddons } from "@/config/addons";
 import { FAMILY_OFFICE_FIRST, orderFor } from "@/lib/addons/shared/audience";
 import { AudienceProvider, AudienceToggle } from "@/components/addons/shared/Audience";
 
@@ -8,7 +8,7 @@ afterEach(cleanup);
 
 describe("Family Office mode", () => {
   it("leaves the advisor order alone and puts the three family-office tools first otherwise", () => {
-    const list = enabledAddons(ADDONS);
+    const list = toolkitAddons(ADDONS);
     expect(orderFor("advisor", list)).toEqual(list);
     const fo = orderFor("family-office", list).map((a) => a.id);
     const present = FAMILY_OFFICE_FIRST.filter((id) => list.some((a) => a.id === id));
