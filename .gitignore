@@ -43,3 +43,6 @@ next-env.d.ts
 # netlify
 .netlify
 reality-check.csv
+
+# SEC filings downloaded by npm run refresh-data
+/filings/
