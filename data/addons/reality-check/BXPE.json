@@ -1,7 +1,7 @@
 {
   "fund": "BXPE",
   "sample": false,
-  "updated": "2026-10-21",
+  "updated": "2026-10-22",
   "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
   "claims": [
     {
@@ -21,8 +21,8 @@
         "page": "Note 9: Financial Highlights"
       },
       "status": "consistent",
-      "context": "A single six-month period, in a strategy described as medium- to long-term. One period says little about the long run.",
-      "statusSetBy": "draft"
+      "statusSetBy": "draft",
+      "context": "A single six-month period, in a strategy described as medium- to long-term. One period says little about the long run."
     },
     {
       "id": "bxpe-income",
@@ -41,8 +41,8 @@
         "page": "Note 9: Financial Highlights"
       },
       "status": "watch",
-      "context": "Over this period, returns came from changes in value rather than income, which fits a fund where income is a secondary goal.",
-      "statusSetBy": "draft"
+      "statusSetBy": "draft",
+      "context": "Over this period, returns came from changes in value rather than income, which fits a fund where income is a secondary goal."
     },
     {
       "id": "bxpe-liquidity",
@@ -61,8 +61,8 @@
         "page": "Unit Redemption Plan"
       },
       "status": "consistent",
-      "context": "Redemptions are periodic and limited, as described. The limit applies across the whole fund, so heavy requests would be prorated (see Liquidity Simulator).",
-      "statusSetBy": "draft"
+      "statusSetBy": "draft",
+      "context": "Redemptions are periodic and limited, as described. The limit applies across the whole fund, so heavy requests would be prorated (see Liquidity Simulator)."
     }
   ]
 }

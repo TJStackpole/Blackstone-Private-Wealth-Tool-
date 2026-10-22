@@ -1,6 +1,7 @@
 import type { Claim } from "@/lib/addons/reality-check/data";
 import { STATUS_LABEL } from "@/lib/addons/reality-check/data";
 import { AsOfSource } from "@/components/addons/shared/Badges";
+import FreshnessBadge from "./FreshnessBadge";
 
 /** Status in neutral styling: a dot pattern, not red/green "pass/fail". */
 function StatusLabel({ c }: { c: Claim }) {
@@ -38,7 +39,10 @@ export default function ClaimCard({ c, compact = false }: { c: Claim; compact?: 
           <p className="text-xs text-muted-strong">{c.metric}</p>
           <p className="tnum text-sm font-medium text-ink">{c.value}</p>
           {!compact && <p className="text-sm leading-relaxed text-muted-strong">{c.context}</p>}
-          <AsOfSource asOf={c.asOf} source={c.source} />
+          <div className="flex flex-wrap items-center gap-2">
+            <FreshnessBadge asOf={c.asOf} />
+            <AsOfSource asOf={c.asOf} source={c.source} />
+          </div>
         </div>
       </div>
     </article>
