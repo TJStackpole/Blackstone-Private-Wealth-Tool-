@@ -4,12 +4,15 @@ An interactive map of where Blackstone's four retail private-markets funds (BREI
 Built from public filings as an independent prototype. **Not affiliated with Blackstone. Not investment advice.**
 
 All five phases of `BUILD_PLAN.md` are built: BREIT, BX Infra, BXPE, BCRED, an All funds view, and the Retirement lens.
-All seven add-ons in `BUILD_PLAN_ADDONS.md` are built (three phases each) as the **Advisor Toolkit**, plus a **guided tour** at `/demo`.
+All seven add-ons in `BUILD_PLAN_ADDONS.md` are built (three phases each) as the **Advisor Toolkit**, plus a **guided tour** at `/demo` (a six-step short tour by default; `/demo?tour=full` for all 17 steps).
 The **401(k) tab upgrade** in `BUILD_PLAN_401K.md` is built (three phases): see below.
 Live: https://private-markets-atlas.netlify.app
 
 - `DEMO_GUIDE.md` — a walkthrough for an interview or client meeting, and honest answers to likely questions.
 - `CHECKLIST.md` — every phase's done checklist and how each item was verified.
+- `MISSING_DATA.md` — figures the site shows as "Not in filing", and which document and section they would come from.
+
+**On every fund page:** a "Next update expected" month beside each as-of date (from the SEC schedule: a 10-Q about 45 days after each quarter-end, a 10-K about 90 days after December 31; `lib/schedule.ts`), and **Print / Save as PDF** for a one-page fund summary. **All funds** adds a comparison table (distribution rate, fees, repurchase limit, proration, minimum investment, NAV change), every cell from that fund's own filing (`data/compare.json`, built by `scripts/sec/build_data.py`).
 
 ## Advisor Toolkit (add-ons)
 
@@ -17,7 +20,7 @@ Live: https://private-markets-atlas.netlify.app
 | --- | --- | --- |
 | Liquidity Simulator | `/toolkit/liquidity` | Redemption limits, each fund's terms and history, a quarter-by-quarter simulator, and a reserve check |
 | Index-to-Fund Translator | `/toolkit/index-vs-fund` | A brochure's index next to each share class, and a step-by-step bridge between them |
-| Tax Lens | `/toolkit/tax-lens` | Return of capital: tax now vs. at sale, with BREIT's year-by-year figures |
+| Tax Lens | `/toolkit/tax-lens` | How each fund's payouts are taxed, from its own filings; for BREIT, return of capital: tax now vs. at sale, year by year |
 | Why So Smooth? | `/toolkit/smoothing` | Appraised vs. traded values, a desmoothing chart, and answers to common pushback |
 | Theme Exposure | `/toolkit/themes` | Themes across funds, a theme filter on the map, a client look-through, and sourced cases for and against |
 | Drawdown vs. Evergreen | `/toolkit/drawdown-vs-evergreen` | The two structures at a glance, a money-at-work model, and a one-page IC memo printout |
@@ -34,10 +37,10 @@ The Retirement tab, rebuilt around Blackstone's 2026 paper *Expanding Retirement
 | --- | --- |
 | The 0.1% problem | Pensions about 33% in private markets, 401(k)s about 0.1% (p. 3), and three reasons it matters |
 | The private slice changes with age | The published mix at ages 25 and 65 (p. 9), a straight line between them (stated on the page), and links to each asset type on the map |
-| Outcome Lab | The paper's worker (p. 9) with returns you can change, next to the paper's own result (p. 4); a 0–3% premium strip and the paper's caveats |
+| Outcome Lab | The paper's own result as the headline ($156k vs. $126k a year, p. 4), then its worker (p. 9) with returns you can change; the tool's 4%-of-balance income sits behind "See how this changes with your inputs"; a 0–3% premium strip and the paper's caveats |
 | How it would reach your 401(k) | Worker → plan menu → target date fund → private slice (p. 6) |
 | When many savers want out | What a rush of withdrawals does to the private share, with a link to the Liquidity Simulator |
-| Two-sided questions | Fees, liquidity, valuation, lawsuits, complexity: the concern and the response, each sourced |
+| Two-sided questions | Fees (each fund's own fees, from its own 10-Q), liquidity, valuation, lawsuits, complexity: the concern and the response, each sourced |
 | Rules and rulings so far | Dated milestones, each linked to its source |
 
 A **Worker | Employer** switch changes wording and order, never the numbers. **Print / Save as PDF** gives a one-page summary for either view, including the reader's own Lab result.

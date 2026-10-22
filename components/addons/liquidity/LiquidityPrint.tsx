@@ -3,6 +3,7 @@ import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { formatDate } from "@/lib/dates";
+import NextUpdate from "@/components/NextUpdate";
 
 /** One printed page: each fund's terms, the dated history and the disclosure. Hidden on screen. */
 export default function LiquidityPrint() {
@@ -11,7 +12,9 @@ export default function LiquidityPrint() {
       <div className="space-y-4 text-xs leading-snug">
         <div>
           <h2 className="font-serif text-xl">Liquidity: how these funds pay out</h2>
-          <p>Terms as of {formatDate(TERMS.asOf)}, from each fund&apos;s Form 10-Q. Illustrative; the offering documents control.</p>
+          <p>
+            Terms as of {formatDate(TERMS.asOf)}, from each fund&apos;s Form 10-Q. <NextUpdate asOf={TERMS.asOf} />. Illustrative; the offering documents control.
+          </p>
         </div>
         <table className="w-full border-collapse text-left">
           <thead>

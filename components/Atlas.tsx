@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { DEFAULT_LAYER_ID, LAYERS, RETIREMENT } from "@/data/layers";
@@ -10,6 +10,9 @@ import { formatPct } from "@/lib/aggregate";
 import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
+import FundPrint from "./FundPrint";
+import { FUND_CODE } from "@/lib/addons/shared/funds";
+import { PrintButton } from "@/components/addons/shared/PrintOnePager";
 import FundStats from "./FundStats";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
@@ -106,6 +109,12 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   // The browser tab names the view: "BCRED · Private Markets Atlas", "All funds · …", "Retirement · …".
   const viewTitle = viewId === "all" ? "All funds" : viewId === "retirement" ? "Retirement" : layer.fund;
   useDocumentTitle(`${viewTitle} · ${SITE_NAME}`);
+  // A link ending in #id (the tour's "/?view=all#compare-h") lands on that part of the view once it has drawn.
+  // Scrolls this window only, so inside the tour's frame the tour page itself stays put.
+  useEffect(() => {
+    const el = window.location.hash.length > 1 ? document.getElementById(decodeURIComponent(window.location.hash.slice(1))) : null;
+    if (el) requestAnimationFrame(() => window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 16 }));
+  }, []);
 
   // Credit funds lead with their borrowers; the map becomes a smaller section below them.
   const lead = !!data && holdingsLead(data);
@@ -177,6 +186,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
                   {data.fund} · {data.assetClass}
                 </p>
                 <FilingBadge data={data} />
+                <PrintButton className="ml-auto" />
               </div>
               <FundStats data={data} />
             </div>
@@ -269,6 +279,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       ) : (
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
+
+      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} code={FUND_CODE[layer.id]} />}
 
       <SourceFooter
         data={viewId === "all" || viewId === "retirement" ? undefined : data}

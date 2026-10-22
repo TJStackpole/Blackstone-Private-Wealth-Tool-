@@ -559,8 +559,138 @@ def build_bcred(old):
     }
 
 
+ADDON_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "addons")
+TENK = {
+    "BREIT": f"{EDGAR}/1662972/000166297226000032/breit-20251231.htm",
+    "BXINFRA": f"{EDGAR}/2030772/000119312526096453/d70902d10k.htm",
+    "BXPE": f"{EDGAR}/1930054/000119312526106084/d71061d10k.htm",
+}
+BCRED_Q3_LETTER = f"{EDGAR}/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm"
+
+
+def build_compare(funds):
+    """The side-by-side table: one row per question, one cell per fund, every cell from that fund's own filing.
+    A figure no filing gives is left as "Not in filing" with where it would come from (see MISSING_DATA.md)."""
+    print("Compare")
+    tenq = {k: funds[k]["source"]["url"] for k in funds}
+    q = lambda f, page: {"name": f"{f} Form 10-Q, quarter ended June 30, 2026", "url": tenq[f.replace(' ', '').upper()], "page": page}
+    k = lambda f, page: {"name": f"{f} Form 10-K, year ended December 31, 2025", "url": TENK[f.replace(' ', '').upper()], "page": page}
+    cells = {}
+
+    def pct(x):
+        return f"{x:.1f}%"
+
+    def signed(x):
+        return f"{'+' if x > 0 else '−' if x < 0 else ''}{abs(x):.1f}%"
+
+    # --- Distribution rate: latest declared Class I distribution, annualized, over the June 30 NAV per share/unit.
+    breit = read("breit-20260630.txt")
+    i = next(n for n, l in enumerate(breit) if l.strip() == "Three Months Ended June 30, 2026" and "Net distributions declared" in breit[n + 4])
+    b_dist = float(breit[i + 4].split(" | ")[2])
+    b_nav = float(next(l for l in breit if l.startswith("Class I Shares | $ |")).split(" | ")[-1])
+    b_nav_dec = float(next(l for l in read("breit-20251231.txt") if l.startswith("Class I Shares | $ |")).split(" | ")[-1])
+    check(abs(b_dist - 0.1659) < 1e-9, f"BREIT: Q2 Class I distribution ${b_dist}")
+
+    infra = read("bxinfra-20260630.txt")
+    j = next(n for n, l in enumerate(infra) if l.startswith("The following table presents a summary of the aggregate distributions declared and payable for the six months ended June 30, 2026") and "BXINFRA U.S." in l)
+    row = next(l for l in infra[j:j + 8] if re.match(r"^\w+ \d+, 2026 \| June 30, 2026", l))
+    x_dist = float(re.findall(r"\d+\.\d+", row.split(" | ", 3)[3])[0])
+    x_nav = float(next(l for l in infra if l.startswith("Series I | $ |")).split(" | ")[2])
+    x_nav_dec = float(next(l for l in read("bxinfra-10k.txt") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
+
+    pe = read("bxpe-20260630.txt")
+    pe_text = "\n".join(pe)
+    check("BXPE does not currently intend to declare distributions" in pe_text, "BXPE: no distributions (filing says so)")
+    p_nav = float(next(l for l in pe if l.startswith("Series I | $ |")).split(" | ")[2])
+    p_nav_dec = float(next(l for l in read("bxpe-10k.txt") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
+
+    bc = funds["BCRED"]
+    bc_rate = next(s for s in bc["summary"]["stats"] if s["label"] == "Distribution rate")
+    bc_navs = [l for l in read("bcred-20260630.txt") if l.startswith("Net asset value per share |")][0].split(" | ")
+    c_nav, c_nav_dec = float(bc_navs[2]), float(bc_navs[4])  # "… | $ | 23.65 | $ | 24.79"
+
+    cells["distribution"] = {
+        "BREIT": {"value": pct(b_dist * 4 / b_nav * 100), "note": f"Class I: Q2 2026's ${b_dist:.4f} a share × 4 ÷ ${b_nav:.2f} NAV", "sources": [q("BREIT", "Note: Distributions; Net Asset Value")]},
+        "BXINFRA": {"value": pct(x_dist * 4 / x_nav * 100), "note": f"Class I, Series I: Q2 2026's ${x_dist:.4f} a unit × 4 ÷ ${x_nav:.2f} Transactional NAV", "sources": [q("BX Infra", "BXINFRA U.S. Distributions; Transactional NAV")]},
+        "BXPE": {"value": "None", "note": "BXPE does not currently intend to declare distributions.", "sources": [q("BXPE", "Liquidity and Capital Resources")]},
+        "BCRED": {"value": bc_rate["value"], "note": "Class I: June 2026's $0.20 a share × 12 ÷ $23.65 NAV. July's declared $0.18 is 9.1%.", "sources": [q("BCRED", "Note 9: Distributions; Subsequent Events")]},
+    }
+
+    # --- Fees, from each fund's own 10-Q (already in the Index-to-Fund data, each with its note).
+    cells["management"], cells["performance"] = {}, {}
+    for f in ["BREIT", "BXINFRA", "BXPE", "BCRED"]:
+        fees = json.load(open(os.path.join(ADDON_DATA, "index-vs-fund", f"{f}.json")))["fees"]
+        m, pf = fees["management"], fees["performance"]
+        cells["management"][f] = {"value": f"{m['value']}% a year", "note": "of NAV", "sources": [m["source"]]}
+        cells["performance"][f] = {"value": f"{pf['value']}%", "note": pf["note"], "sources": [pf["source"]]}
+
+    # --- Repurchase limits, from each fund's own 10-Q (the Liquidity Simulator's terms).
+    terms = {t["fund"]: t for t in json.load(open(os.path.join(ADDON_DATA, "liquidity", "terms.json")))["funds"]}
+    word = {"BREIT": "of NAV", "BCRED": "of shares", "BXPE": "of units", "BXINFRA": "of units"}
+    cells["limit"] = {}
+    for f, t in terms.items():
+        lim = {l["label"]: l["value"] for l in t["limits"]}
+        if f == "BREIT":
+            v = f"{lim['Monthly limit']}% a month · {lim['Quarterly limit']}% a quarter"
+        else:
+            v = f"{next(iter(lim.values()))}% a quarter"
+        note = f"{word[f]}" + ("; a target the board can change" if f == "BCRED" else "")
+        cells["limit"][f] = {"value": v, "note": note, "sources": [t["limits"][0]["source"]]}
+
+    # --- Were last quarter's (Q2 2026) repurchases pro-rated? Only what each filing says.
+    check("which represents all repurchase requests received for the six months ended June 30, 2026" in "\n".join(breit), "BREIT: all H1 2026 requests filled")
+    check("All redemption requests were satisfied in full." in "\n".join(infra), "BX Infra: Q2 requests satisfied in full")
+    check("All redemption requests were satisfied in full." in pe_text, "BXPE: Q2 requests satisfied in full")
+    letter = "\n".join(read("bcred-tender-000121390026096935.txt"))
+    check("In Q2, BCRED fulfilled approximately half of the $4." in letter, "BCRED: Q2 about half of requests filled")
+    cells["prorated"] = {
+        "BREIT": {"value": "No", "note": "Every repurchase request received in the first half of 2026 was filled.", "sources": [q("BREIT", "Liquidity and Capital Resources")]},
+        "BXINFRA": {"value": "No", "note": "All redemption requests were satisfied in full.", "sources": [q("BX Infra", "Part II, Item 2: Unit Redemptions")]},
+        "BXPE": {"value": "No", "note": "All redemption requests were satisfied in full.", "sources": [q("BXPE", "Part II, Item 2: Unit Redemptions")]},
+        "BCRED": {"value": "Yes", "note": "Requests above the 5% amount were filled pro rata: about half of the $4.5 billion requested.",
+                  "sources": [{"name": "BCRED letter to investors, September 3, 2026 (SEC filing)", "url": BCRED_Q3_LETTER}]},
+    }
+
+    # --- Minimum investment: not in any of these filings.
+    where = {
+        "BREIT": "BREIT's prospectus (Form 424B3), \"Plan of Distribution\" / \"How to Subscribe\"",
+        "BCRED": "BCRED's prospectus (Form 424B3), \"Plan of Distribution\" / \"How to Subscribe\"",
+        "BXPE": "BXPE's private placement memorandum (subscription terms); not filed on EDGAR",
+        "BXINFRA": "BX Infra's private placement memorandum (subscription terms); not filed on EDGAR",
+    }
+    cells["minimum"] = {f: {"value": None, "missing": "Not in filing", "where": w} for f, w in where.items()}
+
+    # --- NAV per share/unit, Class I, December 31, 2025 to June 30, 2026.
+    def nav_cell(name, dec, jun, label, srcs):
+        return {"value": signed((jun / dec - 1) * 100), "note": f"{label}: ${dec:.2f} → ${jun:.2f}", "sources": srcs}
+    cells["navChange"] = {
+        "BREIT": nav_cell("BREIT", b_nav_dec, b_nav, "Class I", [k("BREIT", "NAV per share by class, Dec 31, 2025"), q("BREIT", "NAV per share by class, Jun 30, 2026")]),
+        "BXINFRA": nav_cell("BX Infra", x_nav_dec, x_nav, "Class I, Series I, Transactional NAV", [k("BX Infra", "Transactional NAV per Unit, Dec 31, 2025"), q("BX Infra", "Transactional NAV per Unit, Jun 30, 2026")]),
+        "BXPE": nav_cell("BXPE", p_nav_dec, p_nav, "Class I, Series I, Transactional NAV", [k("BXPE", "Transactional NAV per Unit, Dec 31, 2025"), q("BXPE", "Transactional NAV per Unit, Jun 30, 2026")]),
+        "BCRED": nav_cell("BCRED", c_nav_dec, c_nav, "Class I", [q("BCRED", "Financial Highlights")]),
+    }
+    for f, c in cells["navChange"].items():
+        print(f"  {f}: NAV {c['note']} ({c['value']})")
+
+    rows = [
+        ("distribution", "Distribution rate", "Class I, latest declared distribution, annualized, over NAV"),
+        ("management", "Management fee", None),
+        ("performance", "Performance / incentive fee", None),
+        ("limit", "Repurchase limit", None),
+        ("prorated", "Buybacks pro-rated, Q2 2026?", "Did requests exceed what the fund bought back?"),
+        ("minimum", "Minimum investment", None),
+        ("navChange", "NAV change since Dec 31, 2025", "Class I, to June 30, 2026"),
+    ]
+    return {
+        "asOf": "2026-06-30",
+        "funds": ["BREIT", "BXINFRA", "BXPE", "BCRED"],
+        "rows": [{"id": rid, "label": lab, **({"help": h} if h else {}), "cells": cells[rid]} for rid, lab, h in rows],
+    }
+
+
 if __name__ == "__main__":
     old = {f: json.load(open(os.path.join(OUT, f + ".json"))) for f in ["bxinfra", "bcred"]}
     data = {"breit": build_breit(), "bxinfra": build_bxinfra(old["bxinfra"]), "bxpe": build_bxpe(), "bcred": build_bcred(old["bcred"])}
     for k, v in data.items():
         write(f"{k}.json", v)
+    write("compare.json", build_compare({"BREIT": data["breit"], "BXINFRA": data["bxinfra"], "BXPE": data["bxpe"], "BCRED": data["bcred"]}))

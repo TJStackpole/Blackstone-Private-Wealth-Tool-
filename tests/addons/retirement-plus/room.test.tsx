@@ -78,6 +78,17 @@ describe("sources", () => {
     }
     for (const e of REGULATORY.entries) expect(e.source.url).toMatch(/^https:\/\//);
   });
+  it("the fees card lists each fund's own fees, each linked to that fund's filing", async () => {
+    await renderRoom();
+    const rows = [...document.querySelectorAll("[data-fee]")];
+    expect(rows.map((r) => r.getAttribute("data-fee"))).toEqual(["BREIT", "BXINFRA", "BXPE", "BCRED"]);
+    const ciks = { BREIT: "1662972", BXINFRA: "2030772", BXPE: "1930054", BCRED: "1803498" } as Record<string, string>;
+    for (const r of rows) {
+      expect(r.textContent).toMatch(/1\.25% a year/);
+      expect(r.querySelector("a")!.getAttribute("href")).toContain(`/data/${ciks[r.getAttribute("data-fee")!]}/`);
+    }
+    expect(document.querySelector('[data-concern="fees"]')!.textContent).not.toMatch(/Retail versions/);
+  });
   it("an empty timeline shows a placeholder, not an error", () => {
     render(<Timeline entries={[]} checked="2026-10-22" />);
     expect(screen.getByRole("status").textContent).toMatch(/only from sourced documents/);

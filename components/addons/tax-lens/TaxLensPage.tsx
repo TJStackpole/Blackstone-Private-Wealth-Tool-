@@ -5,8 +5,8 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import { AsOfSource } from "@/components/addons/shared/Badges";
-import { TAX } from "@/lib/addons/tax-lens/data";
-import OtherFunds from "./OtherFunds";
+import { TAX, TAX_FUNDS } from "@/lib/addons/tax-lens/data";
+import TaxLensFunds from "./TaxLensFunds";
 import RocHistory from "./RocHistory";
 import WorkedExample from "./WorkedExample";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
@@ -22,28 +22,29 @@ function Section({ title, id, children }: { title: string; id: string; children:
   );
 }
 
-/** Add-on 3: how return of capital is taxed now and at sale, for BREIT. Other funds get a note. */
+/** Add-on 3: how each fund's payouts are taxed. BREIT gets the return-of-capital tools; the others their own facts. */
 export default function TaxLensPage() {
   const liquidity = findAddon("liquidity");
   return (
     <AddonShell
       addonId="tax-lens"
       title="Tax Lens"
-      subtitle="Most of BREIT's payout isn't taxed when received. The tax waits until you sell."
+      subtitle="Each fund's payouts are taxed differently. Pick a fund to see how, from its own filings."
       glance={[
-        { value: "100%", label: "Share of BREIT's 2025 payouts classified as return of capital" },
-        { value: "85–100%", label: "That share each year since 2020" },
-        { value: "4.6%", label: "Class I yearly payout rate, Q2 2026" },
+        {
+          value: `${Math.min(...TAX.rocHistory.map((y) => y.roc)).toFixed(0)}–${Math.max(...TAX.rocHistory.map((y) => y.roc)).toFixed(0)}%`,
+          label: `BREIT: payout classified as return of capital, each year ${Math.min(...TAX.rocHistory.map((y) => y.year))}–${Math.max(...TAX.rocHistory.map((y) => y.year))}`,
+          source: TAX.source,
+        },
+        { value: TAX_FUNDS.funds.BCRED.tiles[0].value, label: "BCRED: dividends that were ordinary income, 2023–2025", source: TAX_FUNDS.funds.BCRED.tiles[0].source },
+        { value: "K-1", label: "BXPE and BX Infra: partnerships; investors are taxed on their share of income", source: TAX_FUNDS.funds.BXPE.tiles[1].source },
       ]}
-      fundId="BREIT"
-      badges={
-        <>
-          <AsOfSource asOf={TAX.asOf} source={TAX.source} />
-          <span className="text-xs text-muted">General education, not tax advice. Consult a tax advisor.</span>
-        </>
-      }
+      badges={<span className="text-xs text-muted">General education, not tax advice. Consult a tax advisor.</span>}
     >
+      <TaxLensFunds
+        breit={
       <div className="space-y-12">
+        <AsOfSource asOf={TAX.asOf} source={TAX.source} />
         <Section title="A worked example" id="example">
           <WorkedExample />
           <p className="text-xs text-muted">
@@ -79,11 +80,10 @@ export default function TaxLensPage() {
               <p className="text-xs text-muted">{TAX.defaultRoc.verify}</p>
             </section>
           </MoreDetails>
-          <MoreDetails id="other" summary="The other funds are taxed differently" hint="BCRED, BXPE and BX Infra">
-            <OtherFunds />
-          </MoreDetails>
         </div>
       </div>
+        }
+      />
     </AddonShell>
   );
 }

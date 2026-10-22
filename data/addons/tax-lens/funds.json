@@ -1,0 +1,240 @@
+{
+ "asOf": "2026-06-30",
+ "sample": false,
+ "verify": "Tax treatment summarized from each fund's own filings. General education, not tax advice; confirm with the fund's tax documents and a tax advisor.",
+ "funds": {
+  "BCRED": {
+   "structure": "Regulated investment company (RIC)",
+   "summary": "Taxed as income when paid",
+   "tiles": [
+    {
+     "value": "100%",
+     "label": "of dividends were ordinary income on a tax basis, in each of 2023, 2024 and 2025",
+     "source": {
+      "name": "BCRED Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+      "page": "Note 13: Income Taxes"
+     }
+    },
+    {
+     "value": "$2.58",
+     "label": "Class I distributions per share in 2025, all from net investment income",
+     "source": {
+      "name": "BCRED Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+      "page": "Note 9: Character of Distributions"
+     }
+    },
+    {
+     "value": "10.1%",
+     "label": "Class I distribution rate: June 2026's $0.20 × 12 ÷ $23.65 NAV",
+     "source": {
+      "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+      "page": "Note 9: Distributions"
+     }
+    }
+   ],
+   "history": {
+    "label": "Class I distributions per share, and how they were taxed",
+    "rows": [
+     {
+      "year": 2023,
+      "perShare": 2.57,
+      "ordinaryPct": 100
+     },
+     {
+      "year": 2024,
+      "perShare": 2.64,
+      "ordinaryPct": 100
+     },
+     {
+      "year": 2025,
+      "perShare": 2.58,
+      "ordinaryPct": 100
+     }
+    ],
+    "source": {
+     "name": "BCRED Form 10-K, year ended December 31, 2025",
+     "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+     "page": "Note 9: Character of Distributions; Note 13: Income Taxes"
+    }
+   },
+   "points": [
+    {
+     "text": "BCRED has elected to be treated as a regulated investment company, and to keep that status it must pay out at least 90% of its investment company taxable income each year.",
+     "source": {
+      "name": "BCRED Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+      "page": "Item 1: Material U.S. Federal Income Tax Considerations"
+     }
+    },
+    {
+     "text": "Every dividend it declared in 2023, 2024 and 2025 was ordinary income on a tax basis. None was return of capital.",
+     "source": {
+      "name": "BCRED Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+      "page": "Note 13: Income Taxes"
+     }
+    },
+    {
+     "text": "Return of capital is what lowers cost basis and defers tax to the sale. With none, BCRED's payouts are taxed in the year they're received.",
+     "source": {
+      "name": "IRS Topic 404, Dividends",
+      "url": "https://www.irs.gov/taxtopics/tc404"
+     }
+    }
+   ],
+   "example": {
+    "distributionPct": 10.1,
+    "bracketPct": 37
+   }
+  },
+  "BXPE": {
+   "structure": "Partnership",
+   "summary": "Taxed on your share, even with no payout",
+   "tiles": [
+    {
+     "value": "None",
+     "label": "distributions: BXPE doesn't currently intend to declare any",
+     "source": {
+      "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+      "page": "Liquidity and Capital Resources"
+     }
+    },
+    {
+     "value": "K-1",
+     "label": "tax information comes on Schedule K-1s or their equivalent, which can arrive late",
+     "source": {
+      "name": "BXPE Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+      "page": "Item 1A: Risk Factors, General Tax Considerations"
+     }
+    },
+    {
+     "value": "Each year",
+     "label": "you're taxed on your share of BXPE's income and gains, whether or not it's paid out",
+     "source": {
+      "name": "BXPE Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+      "page": "Item 1A: Risk Factors, tax"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "title": "BXPE earns income and gains",
+     "text": "From its private equity holdings."
+    },
+    {
+     "title": "Your share is allocated to you",
+     "text": "Reported on a Schedule K-1 or its equivalent."
+    },
+    {
+     "title": "You owe tax on it",
+     "text": "Even though BXPE pays out nothing."
+    }
+   ],
+   "points": [
+    {
+     "text": "BXPE is treated as a partnership for U.S. tax purposes, so its taxable income is allocated to its unitholders.",
+     "source": {
+      "name": "BXPE Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+      "page": "Notes: Income Taxes"
+     }
+    },
+    {
+     "text": "BXPE expects to generate taxable income in excess of cash distributions to unitholders, partly from annual income inclusions from foreign companies it elects to treat as qualified electing funds.",
+     "source": {
+      "name": "BXPE Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+      "page": "Item 1A: Risk Factors, tax"
+     }
+    },
+    {
+     "text": "Tax information can arrive late, and an investment may involve complex tax considerations that differ for each investor.",
+     "source": {
+      "name": "BXPE Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+      "page": "Item 1A: Risk Factors, General Tax Considerations"
+     }
+    }
+   ]
+  },
+  "BXINFRA": {
+   "structure": "Partnership",
+   "summary": "Taxed on your share, paid quarterly",
+   "tiles": [
+    {
+     "value": "$0.2191",
+     "label": "Class I, Series I distribution per unit for Q2 2026 (paid quarterly)",
+     "source": {
+      "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+      "page": "BXINFRA U.S. Distributions"
+     }
+    },
+    {
+     "value": "K-1",
+     "label": "tax information comes on Schedule K-1s or their equivalent, which can arrive late",
+     "source": {
+      "name": "BX Infra Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+      "page": "Item 1A: Risk Factors, General Tax Considerations"
+     }
+    },
+    {
+     "value": "Each year",
+     "label": "you're taxed on your share of the fund's income and gains, whether or not it's paid out",
+     "source": {
+      "name": "BX Infra Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+      "page": "Item 1A: Risk Factors, Phantom Income"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "title": "BX Infra earns income and gains",
+     "text": "From its infrastructure holdings."
+    },
+    {
+     "title": "Your share is allocated to you",
+     "text": "Reported on a Schedule K-1 or its equivalent."
+    },
+    {
+     "title": "You owe tax on your share",
+     "text": "The quarterly distribution may be more or less than it."
+    }
+   ],
+   "points": [
+    {
+     "text": "BXINFRA U.S. is treated as a partnership for U.S. tax purposes, so its taxable income is allocated to its unitholders.",
+     "source": {
+      "name": "BX Infra Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+      "page": "Notes: Income Taxes"
+     }
+    },
+    {
+     "text": "The fund may generate taxable income in excess of cash distributions, partly from annual income inclusions from foreign companies it elects to treat as qualified electing funds.",
+     "source": {
+      "name": "BX Infra Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+      "page": "Item 1A: Risk Factors, Phantom Income"
+     }
+    },
+    {
+     "text": "Tax information can arrive late, and an investment may involve complex tax considerations that differ for each investor.",
+     "source": {
+      "name": "BX Infra Form 10-K, year ended December 31, 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+      "page": "Item 1A: Risk Factors, General Tax Considerations"
+     }
+    }
+   ]
+  }
+ }
+}

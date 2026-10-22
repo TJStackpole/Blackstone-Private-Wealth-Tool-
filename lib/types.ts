@@ -8,6 +8,8 @@ export type ViewId = LayerId | "all";
 export interface Source {
   name: string;
   url: string;
+  /** Where in the document, e.g. "Note 10" or "Part II, Item 2". */
+  page?: string;
 }
 
 

@@ -17,11 +17,12 @@ export function useEdgeFade(ref: RefObject<HTMLElement | null>, contentKey?: unk
     };
     update();
     el.addEventListener("scroll", update, { passive: true });
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
+    // Older browsers (and test environments) have no ResizeObserver: the fade then updates on scroll only.
+    const ro = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    ro?.observe(el);
     return () => {
       el.removeEventListener("scroll", update);
-      ro.disconnect();
+      ro?.disconnect();
     };
   }, [ref, contentKey]);
 }

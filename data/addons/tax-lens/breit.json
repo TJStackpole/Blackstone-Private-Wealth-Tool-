@@ -125,34 +125,5 @@
       "name": "IRS, Qualified business income deduction",
       "url": "https://www.irs.gov/newsroom/qualified-business-income-deduction"
     }
-  },
-  "otherFunds": {
-    "BCRED": {
-      "structure": "Regulated investment company (RIC)",
-      "text": "BCRED has elected to be taxed as a regulated investment company. Its payouts come mainly from interest on its loans and are generally taxed as ordinary income in the year they're paid, reported on Form 1099-DIV. The return-of-capital deferral this tool models generally doesn't apply.",
-      "source": {
-        "name": "BCRED Form 10-K, year ended December 31, 2025",
-        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
-        "page": "Item 1: Material U.S. Federal Income Tax Considerations"
-      }
-    },
-    "BXPE": {
-      "structure": "Partnership (Schedule K-1)",
-      "text": "BXPE's feeder is treated as a partnership for U.S. tax purposes. Investors are taxed on their share of the fund's income, gains and losses whether or not anything is paid out, and receive a Schedule K-1 rather than a 1099.",
-      "source": {
-        "name": "BXPE Form 10-K, year ended December 31, 2025",
-        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
-        "page": "Notes to Consolidated Financial Statements: Income Taxes"
-      }
-    },
-    "BXINFRA": {
-      "structure": "Partnership (Schedule K-1)",
-      "text": "BX Infra's feeder is treated as a partnership for U.S. tax purposes. Investors are taxed on their share of the fund's income, gains and losses whether or not anything is paid out, and receive a Schedule K-1 rather than a 1099.",
-      "source": {
-        "name": "BX Infra Form 10-K, year ended December 31, 2025",
-        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
-        "page": "Notes to Consolidated Financial Statements: Income Taxes"
-      }
-    }
   }
 }

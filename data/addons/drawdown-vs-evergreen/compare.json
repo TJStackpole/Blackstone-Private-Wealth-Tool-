@@ -124,15 +124,20 @@
   {
    "topic": "Paperwork",
    "drawdown": "Subscription documents up front, then a cash transfer for each capital call over several years; partnership tax forms (Schedule K-1).",
-   "evergreen": "One subscription, then periodic statements. BXPE and BX Infra issue K-1s; BREIT and BCRED issue 1099s.",
+   "evergreen": "One subscription, then periodic statements. BXPE and BX Infra send tax information on Schedule K-1s or their equivalent.",
    "sources": [
     {
      "name": "SEC, Starting a private fund",
      "url": "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/starting-private-fund"
     },
     {
-     "name": "Tax Lens: how the other funds are taxed",
-     "url": "/toolkit/tax-lens#other"
+     "name": "BXPE Form 10-K, year ended December 31, 2025",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+     "page": "Item 1A: Risk Factors, General Tax Considerations"
+    },
+    {
+     "name": "Tax Lens: how BXPE is taxed",
+     "url": "/toolkit/tax-lens?fund=BXPE"
     }
    ],
    "drawdownShort": "A transfer for every call",

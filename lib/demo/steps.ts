@@ -11,6 +11,7 @@ export interface TourStep {
 
 const enc = encodeURIComponent;
 
+/** The full tour: every feature, 17 steps. */
 export const STEPS: TourStep[] = [
   {
     chapter: "The map",
@@ -73,7 +74,10 @@ export const STEPS: TourStep[] = [
   {
     chapter: "The map",
     title: "All four funds, side by side",
-    body: ["'All funds' puts the four next to each other, each at the level of detail its filing gives. 'Open' jumps to that fund's map."],
+    body: [
+      "'All funds' puts the four next to each other, each at the level of detail its filing gives. 'Open' jumps to that fund's map.",
+      "Below the maps, one table compares them: distribution rate, fees, buy-back limits, minimum investment and the change in value per share. Each cell comes from that fund's own filing.",
+    ],
     url: "/?view=all",
   },
   {
@@ -81,7 +85,7 @@ export const STEPS: TourStep[] = [
     title: "The 401(k) story",
     body: [
       "From Blackstone's 2026 paper: pensions hold about 33% in private markets, 401(k)s about 0.1%.",
-      "The Outcome Lab rebuilds the paper's worker with returns you can change, next to the paper's own result. A Worker / Employer switch changes the wording, never the numbers.",
+      "The paper's own result comes first. The Outcome Lab then rebuilds its worker with returns you can change. A Worker / Employer switch changes the wording, never the numbers.",
     ],
     tryThis: "In the Outcome Lab, raise 'Extra fees, private' and watch the difference shrink.",
     url: "/?view=retirement",
@@ -116,11 +120,12 @@ export const STEPS: TourStep[] = [
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Tax Lens: taxed now, or at sale?",
+    title: "Tax Lens: how are the payouts taxed?",
     body: [
-      "Most of BREIT's recent payouts were classified as return of capital: not taxed when received, but they lower cost basis, so more is taxed at sale.",
-      "The calculator shows the tax now and later for a client's own numbers, using BREIT's year-by-year figures from its annual reports.",
+      "Each fund's payouts are taxed differently, so each gets its own page from its own filings. Most of BREIT's recent payouts were return of capital: not taxed when received, but they lower cost basis. BCRED's were all ordinary income.",
+      "For BREIT, a calculator shows the tax now and at sale for a client's own numbers.",
     ],
+    tryThis: "Switch between the fund tabs.",
     url: "/toolkit/tax-lens#calculator-h",
   },
   {
@@ -167,5 +172,63 @@ export const STEPS: TourStep[] = [
       "It's an independent prototype built from public filings, not affiliated with or endorsed by Blackstone.",
     ],
     url: "/?view=bcred",
+  },
+];
+
+/** The default tour: six stops, a few minutes. */
+export const SHORT_STEPS: TourStep[] = [
+  {
+    chapter: "The map",
+    title: "One fund, from its own filing",
+    body: [
+      "Each fund has its own page: where the money is, the sector mix and the key numbers. Every figure comes from the fund's latest SEC filing, for the quarter ended June 30, 2026, and links back to it.",
+    ],
+    tryThis: "Click a state to see the investments the filing names there.",
+    url: "/?view=breit",
+  },
+  {
+    chapter: "The map",
+    title: "This quarter, in four numbers",
+    body: [
+      "BCRED's 'This quarter' box shows what moved: net assets, value per share, how much of the buy-back requests were paid, and loans that stopped paying.",
+      "Each shows which way it moved and what it's compared with.",
+    ],
+    url: "/?view=bcred",
+  },
+  {
+    chapter: "Advisor Toolkit",
+    title: "Liquidity: when does the money come back?",
+    body: [
+      "These funds buy shares back up to a limit. When more people ask than the limit allows, everyone gets the same fraction.",
+      "The simulator shows, quarter by quarter, how much of a request would be paid.",
+    ],
+    tryThis: "Pick the 'Prolonged backlog' preset.",
+    url: "/toolkit/liquidity?fund=BCRED#simulator",
+  },
+  {
+    chapter: "The map",
+    title: "The 401(k) lens",
+    body: [
+      "From Blackstone's 2026 paper: pensions hold about 33% in private markets, 401(k)s about 0.1%.",
+      "The paper's own result comes first. Then change the assumptions and see how much it moves.",
+    ],
+    url: "/?view=retirement",
+  },
+  {
+    chapter: "Advisor Toolkit",
+    title: "Reality Check",
+    body: [
+      "Each fund's own stated goals, from its annual report, next to what its latest filing shows, with neutral labels and a badge showing how old the data is.",
+    ],
+    url: "/toolkit/reality-check?fund=BCRED",
+  },
+  {
+    chapter: "The map",
+    title: "All four, side by side",
+    body: [
+      "One table compares the four funds: distribution rate, fees, buy-back limits, whether last quarter's buy-backs were pro-rated, minimum investment and the change in value per share.",
+      "Each cell comes from that fund's own filing. Where a filing doesn't say, the cell says 'Not in filing'.",
+    ],
+    url: "/?view=all#compare-h",
   },
 ];

@@ -5,6 +5,7 @@ import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { GAP, MODEL, ROOM, type AudienceId, type Source } from "@/lib/addons/retirement-plus/data";
 import { premiumSensitivity, projectRetirement, type LabParams } from "@/lib/addons/retirement-plus/model";
 import { short, signed } from "@/lib/addons/retirement-plus/format";
+import { fundFees } from "./FundFees";
 
 const P = MODEL.published;
 const names = (s: Source[]) => s.map((x) => (x.name.startsWith("Blackstone, Expanding") ? `Blackstone paper${x.page ? `, ${x.page}` : ""}` : x.name.split(",")[0])).join("; ");
@@ -35,26 +36,31 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
         </section>
 
         <section>
-          <h2 className="text-[11px] font-semibold">Outcome Lab: your assumptions · Illustrative · Hypothetical</h2>
+          <h2 className="text-[11px] font-semibold">The paper&apos;s result</h2>
+          <p>
+            <span className="font-serif text-[15px]">
+              {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} a year in retirement
+            </span>{" "}
+            with a {MODEL.assumptions.privatePct.value}% private slice vs. public only, about {P.incomeIncreasePct}% more; {short(P.withPrivate)} vs. {short(P.publicOnly)} at 65 (Blackstone paper, {P.source.page}). {P.method}
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[11px] font-semibold">Your version: your assumptions · Illustrative · Hypothetical</h2>
           {valid ? (
             <>
               <p>
-                At {lab.retireAge}: {short(r.endPublicOnly)} public only vs. {short(r.endWithPrivate)} with a {lab.privatePct}% private slice ({signed(r.difference)}). Income at{" "}
-                {lab.withdrawalPct}% a year: {short(r.incomePublicOnly)} vs. {short(r.incomeWithPrivate)}.
+                At {lab.retireAge}: {short(r.endPublicOnly)} public only vs. {short(r.endWithPrivate)} with a {lab.privatePct}% private slice ({signed(r.difference)}).
               </p>
               <p>
                 Worker: age {lab.startAge} to {lab.retireAge}, ${lab.startSalary.toLocaleString("en-US")} salary, {lab.raisePct}% raises, saving {lab.contribStartPct}% rising to{" "}
                 {lab.contribEndPct}%. Markets: public {lab.publicReturnPct}% a year; private beats public by {pm.privateEquity}% (equity), {pm.privateRealAssets}% (real assets),{" "}
-                {pm.privateCredit}% (credit); extra private fees {lab.privateFeePct}%.
+                {pm.privateCredit}% (credit); extra private fees {lab.privateFeePct}%. This calculator is not the paper&apos;s model.
               </p>
             </>
           ) : (
             <p>Retirement age needs to be after the starting age.</p>
           )}
-          <p>
-            The paper&apos;s published result: {short(P.withPrivate)} vs. {short(P.publicOnly)} at 65, {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} a year (Blackstone paper,{" "}
-            {P.source.page}). {P.method} This calculator is not the paper&apos;s model.
-          </p>
           {valid && (
             <table className="mt-1 w-full border text-left">
               <caption className="text-left">How much rides on the premium: extra at {lab.retireAge} if private beats public by…</caption>
@@ -83,7 +89,17 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
                   <span className="font-medium">Short answer.</span> {o.response.text} <span className="italic">({names(o.response.sources)})</span>
                 </p>
                 <p>
-                  <span className="font-medium">Keep in mind.</span> {o.concern.text} <span className="italic">({names(o.concern.sources)})</span>
+                  <span className="font-medium">Keep in mind.</span> {o.concern.text}{" "}
+                  {o.concern.perFund === "fees" ? (
+                    fundFees().map((f) => (
+                      <span key={f.fund} className="block">
+                        {f.label}: {f.management.value} {f.management.note}, {f.performance.value} performance fee{" "}
+                        <span className="italic">({f.management.sources?.[0]?.name.replace(/, (quarter|year) ended .*$/, "")}, {f.management.sources?.[0]?.page?.split(":")[0]})</span>
+                      </span>
+                    ))
+                  ) : (
+                    <span className="italic">({names(o.concern.sources)})</span>
+                  )}
                 </p>
               </div>
               <p>
