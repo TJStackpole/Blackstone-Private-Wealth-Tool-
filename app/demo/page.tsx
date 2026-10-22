@@ -14,7 +14,7 @@ export default function DemoPage() {
       <header className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <nav aria-label="Breadcrumb" className="mb-3 text-xs text-muted-strong">
-            <Link href="/" className="hover:text-ink">
+            <Link href="/" className="tap inline-flex items-center hover:text-ink">
               ← Map
             </Link>
           </nav>

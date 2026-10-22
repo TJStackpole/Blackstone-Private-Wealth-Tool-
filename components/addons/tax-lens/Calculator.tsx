@@ -89,7 +89,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                     aria-pressed={c === cls}
                     onClick={() => pickClass(c)}
                     className={[
-                      "h-8 rounded-full border px-3 text-xs font-medium",
+                      "tap h-8 rounded-full border px-3 text-xs font-medium",
                       c === cls ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
                     ].join(" ")}
                   >
@@ -121,7 +121,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                       setCgShare(y.capitalGains);
                     }}
                     aria-pressed={roc === y.roc}
-                    className="h-7 rounded-full border border-line px-2.5 text-[11px] text-muted-strong hover:text-ink aria-pressed:border-accent aria-pressed:text-ink"
+                    className="tap h-7 rounded-full border border-line px-2.5 text-xs text-muted-strong hover:text-ink aria-pressed:border-accent aria-pressed:text-ink"
                   >
                     {y.year}: {y.roc}%
                   </button>
@@ -153,7 +153,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
           <p className="text-xs text-muted-strong">Consult a tax advisor. This is general education, not tax advice.</p>
           <IllustrativeBadge />
         </div>
-        <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink" aria-live="polite">
+        <p className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 font-serif text-lg leading-snug text-ink" aria-live="polite">
           Over {years} year{years === 1 ? "" : "s"}, about {money(r.totalTaxNow)} of tax is due as payouts arrive and about {money(r.taxOnSale)} at sale, against{" "}
           {money(r.taxIfAllTaxedNow)} if every payout were taxed as income.
         </p>
@@ -174,7 +174,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <figcaption className="text-[11px] text-muted">
+          <figcaption className="text-xs text-muted">
             Tax now vs. tax later. The comparison bar taxes every payout at the income rate as received. Ignores the 3.8% net investment income tax and
             assumes payouts are taken in cash.
           </figcaption>

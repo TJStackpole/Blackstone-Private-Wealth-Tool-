@@ -46,7 +46,7 @@ export default function WhyTheyDiffer({ data }: { data: IndexVsFund }) {
   return (
     <ol className="grid gap-3 sm:grid-cols-2">
       {reasonsFor(data).map((r, i) => (
-        <li key={r.title} className="rounded-card border border-line bg-bg-raised p-4">
+        <li key={r.title} className="rounded-card border border-line bg-bg-raised p-4 sm:p-5">
           <p className="text-sm font-medium text-ink">
             <span className="tnum mr-2 text-muted">{i + 1}</span>
             {r.title}

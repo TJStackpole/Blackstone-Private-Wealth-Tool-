@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { LayerDef, ViewId } from "@/lib/types";
+import { useEdgeFade } from "./useEdgeFade";
 
 interface Props {
   layers: LayerDef[];
@@ -34,6 +35,7 @@ export default function LayerSwitcher({
   const refs = useRef(new Map<ViewId, HTMLButtonElement>());
   const scroller = useRef<HTMLDivElement>(null);
   const keyboardMove = useRef(false);
+  useEdgeFade(scroller);
 
   const tabs: TabDef[] = [];
   for (const l of layers) {
@@ -93,7 +95,7 @@ export default function LayerSwitcher({
     <div className="tab-strip relative -mx-4 sm:mx-0">
       <div
         ref={scroller}
-        className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="edge-fade overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         <div
           role="tablist"

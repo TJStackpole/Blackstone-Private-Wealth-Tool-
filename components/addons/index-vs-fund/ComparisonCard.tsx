@@ -7,7 +7,7 @@ import { FUNDS } from "@/lib/addons/shared/funds";
 export const pct = (v: number) => `${v < 0 ? "−" : ""}${Math.abs(v).toFixed(Math.max(1, String(v).split(".")[1]?.length ?? 0))}%`;
 
 function Tag({ children }: { children: React.ReactNode }) {
-  return <span className="inline-flex items-center rounded-full border border-line px-2 py-0.5 text-[11px] text-muted-strong">{children}</span>;
+  return <span className="inline-flex items-center rounded-full border border-line px-2 py-0.5 text-xs text-muted-strong">{children}</span>;
 }
 
 /** Index on the left, the fund by share class on the right. Every number shows its period and source. */
@@ -46,7 +46,7 @@ export default function ComparisonCard({ data, highlight, compact = false }: { d
         )}
         <div className="mt-auto space-y-1">
           <AsOfSource asOf={index.asOf} source={index.source} />
-          {index.verify && <p className="text-[11px] text-muted">{index.verify}</p>}
+          {index.verify && <p className="text-xs text-muted">{index.verify}</p>}
         </div>
       </section>
 

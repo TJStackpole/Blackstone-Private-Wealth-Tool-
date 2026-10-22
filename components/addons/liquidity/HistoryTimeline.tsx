@@ -17,7 +17,7 @@ export default function HistoryTimeline({ fund }: { fund?: FundCode }) {
           </p>
           <h4 className="mt-0.5 text-sm font-medium text-ink">{e.title}</h4>
           <p className="mt-1 text-sm leading-relaxed text-muted-strong">{e.detail}</p>
-          <a href={e.source.url} target="_blank" rel="noreferrer noopener" className="mt-1 inline-block text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink">
+          <a href={e.source.url} target="_blank" rel="noreferrer noopener" className="mt-1 inline-block text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink">
             Source: {e.source.name}
           </a>
         </li>

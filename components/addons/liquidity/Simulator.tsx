@@ -72,7 +72,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
                 aria-pressed={p.id === presetId}
                 onClick={() => setPresetId(p.id)}
                 className={[
-                  "h-8 rounded-full border px-3 text-xs font-medium transition-colors",
+                  "tap h-8 rounded-full border px-3 text-xs font-medium transition-colors",
                   p.id === presetId ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
                 ].join(" ")}
               >
@@ -104,7 +104,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
         )}
       </div>
 
-      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink" aria-live="polite">
+      <p className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 font-serif text-lg leading-snug text-ink" aria-live="polite">
         {headline(rows, 6)}
       </p>
 
@@ -120,7 +120,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <figcaption className="text-[11px] text-muted">Cumulative cash received. Illustrative: built from the inputs above, not a forecast of any fund&apos;s behavior.</figcaption>
+        <figcaption className="text-xs text-muted">Cumulative cash received. Illustrative: built from the inputs above, not a forecast of any fund&apos;s behavior.</figcaption>
       </figure>
 
       {!compact && (
@@ -150,7 +150,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
               ))}
             </tbody>
           </table>
-          <p className="border-t border-line px-3 py-2 text-[11px] text-muted">
+          <p className="border-t border-line px-3 py-2 text-xs text-muted">
             {paidBy >= 0 ? `Fully paid after quarter ${rows[paidBy].quarter}.` : `Still partly invested after ${QUARTERS} quarters.`}
           </p>
         </div>

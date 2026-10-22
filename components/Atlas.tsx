@@ -92,18 +92,18 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       style={{ ["--layer-light" as string]: layer.color, ["--layer-dark" as string]: layer.colorDark }}
     >
       <header className="mb-5">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div>
-            <h1 className="font-serif text-[26px] font-medium leading-none tracking-[-0.01em] sm:text-[30px]">Blackstone Private Market</h1>
+            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Blackstone Private Market</h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-strong">
               Where Blackstone&apos;s retail private-markets funds invest, one fund at a time, drawn from their latest SEC filings.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center">
-            <Link href="/demo" className="inline-flex h-9 items-center rounded-full px-3 text-xs font-medium text-muted-strong underline decoration-line underline-offset-4 transition-colors hover:text-ink">
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <Link href="/demo" className="tap inline-flex h-9 items-center rounded-full px-3 text-xs font-medium text-muted-strong underline decoration-line underline-offset-4 transition-colors hover:text-ink">
               Take the tour
             </Link>
-            <Link href="/toolkit" className="inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink">
+            <Link href="/toolkit" className="tap inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink">
               Advisor Toolkit
             </Link>
             <ThemeToggle />
@@ -146,7 +146,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
               )}
               <div className="mt-2 space-y-2 border-t border-line px-1 pt-3">
                 <MapKey data={data} items={geoItems} selected={selected} onSelect={select} filterNote={filterNote(data, sector, split)} />
-                <p className="text-[11px] text-muted">
+                <p className="text-xs text-muted">
                   {data.geography.level === "us-region"
                     ? "Tap, click, or press Enter on a state for the investments the filing lists there."
                     : "Tap a region on the map, or use the buttons above, for detail."}

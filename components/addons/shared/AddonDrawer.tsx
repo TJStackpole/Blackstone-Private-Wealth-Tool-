@@ -93,7 +93,7 @@ export default function AddonDrawer({ open, onClose, addonId, title, fullHref, f
                 ref={closeRef}
                 type="button"
                 onClick={onClose}
-                className="inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:text-ink"
+                className="tap inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:text-ink"
               >
                 Close
               </button>
@@ -102,10 +102,10 @@ export default function AddonDrawer({ open, onClose, addonId, title, fullHref, f
               <AddonBoundary addonId={addonId}>{children}</AddonBoundary>
             </div>
             <div className="border-t border-line px-5 py-3">
-              <Link href={fullHref} className="text-sm font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent">
+              <Link href={fullHref} className="tap inline-flex items-center text-sm font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent">
                 Full view →
               </Link>
-              <p className="mt-2 text-[11px] leading-relaxed text-muted">Illustrative only. Not investment, tax, or legal advice. The offering documents control.</p>
+              <p className="mt-2 text-xs leading-relaxed text-muted">Illustrative only. Not investment, tax, or legal advice. The offering documents control.</p>
             </div>
           </motion.div>
         </div>

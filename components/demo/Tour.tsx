@@ -43,12 +43,12 @@ export default function Tour() {
     return () => window.removeEventListener("keydown", onKey);
   }, [last]);
 
-  const btn = "inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-4 text-sm font-medium text-ink hover:border-muted disabled:opacity-40";
+  const btn = "tap inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-4 text-sm font-medium text-ink hover:border-muted disabled:opacity-40";
 
   return (
     <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
       <section aria-label="Tour step" className="space-y-5 lg:sticky lg:top-6 lg:self-start">
-        <div className="space-y-3 rounded-card border border-line bg-bg-raised p-5">
+        <div className="space-y-3 rounded-card border border-line bg-bg-raised p-4 sm:p-5">
           <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted" aria-live="polite">
             Step {i + 1} of {STEPS.length} · {step.chapter}
           </p>
@@ -77,7 +77,7 @@ export default function Tour() {
               {playing ? "Pause" : "Autoplay"}
             </button>
           </div>
-          <Link href={step.url} className="inline-block text-xs text-muted-strong underline decoration-line underline-offset-4 hover:text-ink">
+          <Link href={step.url} className="tap inline-flex items-center text-xs text-muted-strong underline decoration-line underline-offset-4 hover:text-ink">
             Open this view on its own →
           </Link>
         </div>
@@ -91,7 +91,7 @@ export default function Tour() {
                   onClick={() => go(n)}
                   aria-current={n === i ? "step" : undefined}
                   className={[
-                    "flex w-full items-baseline gap-2 rounded-md px-2 py-1 text-left text-xs",
+                    "tap-sm flex w-full items-baseline gap-2 rounded-md px-2 py-1 text-left text-xs",
                     n === i ? "bg-bg-raised font-medium text-ink" : "text-muted-strong hover:text-ink",
                   ].join(" ")}
                 >
@@ -112,7 +112,7 @@ export default function Tour() {
               <span className="h-2 w-2 rounded-full bg-line" />
               <span className="h-2 w-2 rounded-full bg-line" />
             </span>
-            <span className="truncate text-[11px] text-muted">{step.url}</span>
+            <span className="truncate text-xs text-muted">{step.url}</span>
           </div>
           <ScaledFrame src={step.url} title={`Live view: ${step.title}`} />
         </div>

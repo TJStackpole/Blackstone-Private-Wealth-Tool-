@@ -14,7 +14,7 @@ export default function FundTabs({ value, onChange, funds = Object.keys(FUNDS) a
           aria-pressed={f === value}
           onClick={() => onChange(f)}
           className={[
-            "inline-flex h-9 items-center gap-2 rounded-full border px-3 text-sm transition-colors",
+            "tap inline-flex h-9 items-center gap-2 rounded-full border px-3 text-sm transition-colors",
             f === value ? "border-ink bg-bg-raised font-medium text-ink" : "border-line text-muted-strong hover:text-ink",
           ].join(" ")}
         >

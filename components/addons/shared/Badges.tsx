@@ -26,7 +26,7 @@ export function IllustrativeBadge() {
 /** "As of … · Source: …" line for any dataset or parameter. */
 export function AsOfSource({ asOf, source }: { asOf: string; source: AddonSource }) {
   return (
-    <p className="text-[11px] leading-relaxed text-muted">
+    <p className="text-xs leading-relaxed text-muted">
       <span className="tnum">As of {formatDate(asOf)}</span> · Source:{" "}
       <a href={source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
         {source.name}

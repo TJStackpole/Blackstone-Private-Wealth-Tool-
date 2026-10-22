@@ -13,7 +13,7 @@ export default function PrintOnePager({ title, children, screen = true }: { titl
         <button
           type="button"
           onClick={() => window.print()}
-          className="inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:border-muted hover:text-ink"
+          className="tap inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:border-muted hover:text-ink"
         >
           Print / Save as PDF
         </button>

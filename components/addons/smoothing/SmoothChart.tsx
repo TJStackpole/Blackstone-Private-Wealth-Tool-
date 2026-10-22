@@ -56,7 +56,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <figcaption className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted">
+        <figcaption className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
           <span className="inline-flex items-center gap-1.5">
             <span aria-hidden className="h-0.5 w-4 bg-accent" /> {appraised.label}
           </span>
@@ -79,7 +79,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
             <IllustrativeBadge />
           </label>
           <input id="sm-alpha" type="range" min={0} max={0.9} step={0.05} value={alpha} onChange={(ev) => setAlpha(ev.target.valueAsNumber)} className="glide-slider w-full" style={{ ["--pct" as string]: `${(alpha / 0.9) * 100}%` }} />
-          <p className="text-[11px] text-muted">0 means no smoothing assumed (the line matches the appraised one). Higher values assume more smoothing, so the estimate swings more.</p>
+          <p className="text-xs text-muted">0 means no smoothing assumed (the line matches the appraised one). Higher values assume more smoothing, so the estimate swings more.</p>
         </div>
       )}
 
@@ -106,7 +106,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
       </div>
       <div id="sample-note" className="space-y-1">
         <AsOfSource asOf={SERIES.asOf} source={SERIES.source} />
-        {!compact && <p className="text-[11px] leading-relaxed text-muted print:hidden">{SERIES.note} Period: {period}.</p>}
+        {!compact && <p className="text-xs leading-relaxed text-muted print:hidden">{SERIES.note} Period: {period}.</p>}
       </div>
     </div>
   );

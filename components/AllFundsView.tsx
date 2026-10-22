@@ -31,7 +31,7 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
           return (
             <li
               key={layer.id}
-              className="atlas rounded-card border border-line bg-bg-raised p-4"
+              className="atlas rounded-card border border-line bg-bg-raised p-4 sm:p-5"
               style={{ ["--layer-light" as string]: layer.color, ["--layer-dark" as string]: layer.colorDark }}
             >
               <div className="mb-2 flex items-start justify-between gap-3">
@@ -41,7 +41,7 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
                     <h3 className="font-serif text-lg font-medium leading-none text-ink">{layer.label}</h3>
                     <span className="text-[11px] uppercase tracking-[0.08em] text-muted">{data.fund}</span>
                   </div>
-                  <div className="mt-1 text-[11px] text-muted">
+                  <div className="mt-1 text-xs text-muted">
                     {data.geography.level === "us-region" ? "U.S. regions and largest states" : data.geography.level === "world-region" ? "By continent" : "By country group"}
                   </div>
                 </div>

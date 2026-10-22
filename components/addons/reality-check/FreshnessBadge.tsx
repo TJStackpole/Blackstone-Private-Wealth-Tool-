@@ -18,7 +18,7 @@ export default function FreshnessBadge({ asOf }: { asOf: string }) {
   const f = freshness(asOf, new Date(`${today}T12:00:00Z`));
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${STYLE[f.level]}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${STYLE[f.level]}`}
       title="Under 45 days: fresh. 45 to 90 days: aging. Over 90 days: stale."
       data-freshness={f.level}
     >

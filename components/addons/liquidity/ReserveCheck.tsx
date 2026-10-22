@@ -28,7 +28,7 @@ export default function ReserveCheck() {
         <div className="h-2 overflow-hidden rounded-full bg-line">
           <div className="h-full rounded-full bg-accent" style={{ width: `${pct}%` }} />
         </div>
-        <div className="tnum flex justify-between text-[11px] text-muted">
+        <div className="tnum flex justify-between text-xs text-muted">
           <span>0</span>
           <span>5+ years</span>
         </div>

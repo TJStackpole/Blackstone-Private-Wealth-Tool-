@@ -25,7 +25,7 @@ export default function IndexVsFundPage() {
       badges={
         <>
           <SampleBadge />
-          <span className="text-[11px] text-muted">Index figures are marked sample until checked against the provider&apos;s report. Fund figures are from each 10-Q.</span>
+          <span className="text-xs text-muted">Index figures are marked sample until checked against the provider&apos;s report. Fund figures are from each 10-Q.</span>
         </>
       }
     >

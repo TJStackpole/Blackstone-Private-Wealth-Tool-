@@ -24,7 +24,7 @@ export function AudienceToggle() {
     { id: "family-office", label: "Family Office" },
   ];
   return (
-    <div role="group" aria-label="Audience" className="no-print inline-flex h-9 items-center rounded-full border border-line bg-bg-raised p-0.5">
+    <div role="group" aria-label="Audience" className="tap no-print inline-flex h-9 items-center rounded-full border border-line bg-bg-raised p-0.5">
       {opts.map((o) => (
         <button
           key={o.id}
@@ -32,7 +32,7 @@ export function AudienceToggle() {
           aria-pressed={ctx.audience === o.id}
           onClick={() => ctx.setAudience(o.id)}
           className={[
-            "h-8 whitespace-nowrap rounded-full px-2.5 text-xs font-medium transition-colors sm:px-3",
+            "tap-sm h-8 whitespace-nowrap rounded-full px-2.5 text-xs font-medium transition-colors sm:px-3",
             ctx.audience === o.id ? "bg-accent text-accent-contrast" : "text-muted-strong hover:text-ink",
           ].join(" ")}
         >

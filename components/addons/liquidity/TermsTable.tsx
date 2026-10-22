@@ -11,7 +11,7 @@ export default function TermsTable() {
         {TERMS.funds.map((f) => (
           <li
             key={f.fund}
-            className="rounded-card border border-line bg-bg-raised p-4 text-sm"
+            className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 text-sm"
           >
             <p className="font-medium text-ink">{FUNDS[f.fund].label}</p>
             <p className="mt-1 text-muted-strong">{f.howOften}</p>
@@ -34,11 +34,11 @@ export default function TermsTable() {
               href={f.limits[0].source.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="mt-1 block text-[11px] text-muted underline decoration-line underline-offset-2"
+              className="mt-1 block text-xs text-muted underline decoration-line underline-offset-2"
             >
               {f.limits[0].source.name} · {f.limits[0].source.page}
             </a>
-            <span className="block text-[11px] text-muted">
+            <span className="block text-xs text-muted">
               {f.limits[0].verify}.
             </span>
           </li>
@@ -81,7 +81,7 @@ export default function TermsTable() {
                         <span className="text-muted-strong">
                           {l.unit.replace(/^% /, "")}
                         </span>
-                        <span className="block text-[11px] text-muted">
+                        <span className="block text-xs text-muted">
                           {l.label}
                         </span>
                       </li>
@@ -100,12 +100,12 @@ export default function TermsTable() {
                     href={f.limits[0].source.url}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="mt-1 block text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink"
+                    className="mt-1 block text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink"
                   >
                     {f.limits[0].source.name} · {f.limits[0].source.page} · as
                     of {formatDate(f.limits[0].asOf)}
                   </a>
-                  <span className="block text-[11px] text-muted">
+                  <span className="block text-xs text-muted">
                     {f.limits[0].verify}.
                   </span>
                 </td>

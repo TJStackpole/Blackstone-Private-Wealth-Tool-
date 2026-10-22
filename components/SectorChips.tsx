@@ -1,5 +1,8 @@
 "use client";
 
+import { useRef } from "react";
+import { useEdgeFade } from "./useEdgeFade";
+
 interface Props {
   sectors: string[];
   /** Display names, when they differ from the keys. */
@@ -12,12 +15,14 @@ interface Props {
 
 /** Filter chips. One sector at a time; "All sectors" clears the filter. */
 export default function SectorChips({ sectors, labels, active, onChange, mix }: Props) {
+  const row = useRef<HTMLDivElement>(null);
+  useEdgeFade(row, sectors.join("|"));
   const chips: { key: string | null; label: string }[] = [
     { key: null, label: "All sectors" },
     ...sectors.map((s) => ({ key: s, label: labels?.[s] ?? s })),
   ];
   return (
-    <div role="group" aria-label="Filter by sector" className="-mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
+    <div ref={row} role="group" aria-label="Filter by sector" className="edge-fade -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
       {chips.map(({ key, label }) => {
         const selected = active === key;
         const pct = key ? mix?.[key] : undefined;
@@ -28,7 +33,7 @@ export default function SectorChips({ sectors, labels, active, onChange, mix }: 
             aria-pressed={selected}
             onClick={() => onChange(key)}
             className={[
-              "flex h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-colors",
+              "tap flex h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-colors",
               selected
                 ? "border-accent bg-accent text-accent-contrast"
                 : "border-line bg-bg-raised text-muted-strong hover:border-muted hover:text-ink",

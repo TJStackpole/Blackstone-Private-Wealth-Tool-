@@ -1,10 +1,23 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useState } from "react";
 import type { FundCode } from "@/config/addons";
 import { FUNDS } from "@/lib/addons/shared/funds";
 
-const field = "tnum h-10 w-full rounded-card border border-line bg-bg-raised px-3 text-sm text-ink focus-visible:border-accent";
+/** 16px text on phones so iPhone Safari doesn't zoom in when a field is tapped; 14px from tablet width up. */
+export const fieldClass =
+  "tnum h-10 w-full rounded-card border border-line bg-bg-raised px-3 text-base text-ink focus-visible:border-accent sm:text-sm";
+const field = fieldClass;
+
+const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 });
+
+/** Reads what a person typed: commas, spaces, "$" and "%" are ignored. Returns null if it isn't a number yet. */
+export function parseNumber(raw: string): number | null {
+  const cleaned = raw.replace(/[,\s$%]/g, "");
+  if (!/^-?(\d+\.?\d*|\.\d+)$/.test(cleaned)) return null;
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : null;
+}
 
 interface NumberProps {
   label: string;
@@ -13,42 +26,64 @@ interface NumberProps {
   min?: number;
   max?: number;
   step?: number;
+  /** Shown inside the field, e.g. "$" or "%". */
   prefix?: string;
   suffix?: string;
   help?: string;
 }
 
-/** Labeled number field. Empty or invalid input is ignored rather than turned into NaN. */
+/**
+ * Labeled number field. Shows big numbers with commas (500,000), accepts them typed either way, ignores anything that
+ * isn't a number yet, and steps with the up and down arrow keys.
+ */
 export function NumberInput({ label, value, onChange, min, max, step = 1, prefix, suffix, help }: NumberProps) {
   const id = useId();
+  // While the field has focus, show exactly what's typed; otherwise show the value formatted.
+  const [draft, setDraft] = useState<string | null>(null);
+  const shown = draft ?? (Number.isFinite(value) ? fmt.format(value) : "");
+  const clamp = (n: number) => Math.min(max ?? n, Math.max(min ?? n, n));
   return (
     <div className="space-y-1">
       <label htmlFor={id} className="block text-xs font-medium text-muted-strong">
         {label}
       </label>
-      <div className="flex items-center gap-2">
-        {prefix && <span aria-hidden className="text-sm text-muted">{prefix}</span>}
+      <div className="relative">
+        {prefix && (
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-muted">
+            {prefix}
+          </span>
+        )}
         <input
           id={id}
-          type="number"
+          type="text"
           inputMode="decimal"
-          className={field}
-          value={Number.isFinite(value) ? value : ""}
-          min={min}
-          max={max}
-          step={step}
+          autoComplete="off"
+          className={[field, prefix ? "pl-7" : "", suffix ? "pr-8" : ""].join(" ")}
+          value={shown}
           aria-describedby={help ? `${id}-help` : undefined}
+          onFocus={() => setDraft(shown)}
+          onBlur={() => setDraft(null)}
           onChange={(e) => {
-            const n = e.target.valueAsNumber;
-            if (!Number.isFinite(n)) return;
-            const clamped = Math.min(max ?? n, Math.max(min ?? n, n));
-            onChange(clamped);
+            setDraft(e.target.value);
+            const n = parseNumber(e.target.value);
+            if (n !== null) onChange(clamp(n));
+          }}
+          onKeyDown={(e) => {
+            if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+            e.preventDefault();
+            const next = clamp(+((Number.isFinite(value) ? value : 0) + (e.key === "ArrowUp" ? step : -step)).toFixed(6));
+            onChange(next);
+            setDraft(fmt.format(next));
           }}
         />
-        {suffix && <span aria-hidden className="text-sm text-muted">{suffix}</span>}
+        {suffix && (
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted">
+            {suffix}
+          </span>
+        )}
       </div>
       {help && (
-        <p id={`${id}-help`} className="text-[11px] text-muted">
+        <p id={`${id}-help`} className="text-xs text-muted">
           {help}
         </p>
       )}

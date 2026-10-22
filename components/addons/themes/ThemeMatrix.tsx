@@ -26,7 +26,7 @@ export default function ThemeMatrix({ only }: { only?: FundCode }) {
             <tr key={t.id}>
               <th scope="row" className="px-3 py-2 text-left font-normal">
                 <span className="block text-ink">{t.label}</span>
-                <span className="block text-[11px] text-muted print:hidden">{t.description}</span>
+                <span className="block text-xs text-muted print:hidden">{t.description}</span>
               </th>
               {funds.map((f) => {
                 const w = themeWeight(t, f);
@@ -35,7 +35,7 @@ export default function ThemeMatrix({ only }: { only?: FundCode }) {
                     {w > 0 ? (
                       <>
                         <span className="block text-ink">{w}%</span>
-                        <span className="block text-[11px] text-muted">{themeSectors(t, f).map((s) => s.key).join(" + ")}</span>
+                        <span className="block text-xs text-muted">{themeSectors(t, f).map((s) => s.key).join(" + ")}</span>
                       </>
                     ) : (
                       <span className="text-muted">—</span>

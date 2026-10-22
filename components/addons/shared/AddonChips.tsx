@@ -15,7 +15,7 @@ interface Props {
   addons?: AddonDef[];
 }
 
-const chip = "inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:border-muted hover:text-ink";
+const chip = "tap inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:border-muted hover:text-ink";
 
 /**
  * Doorway B: small buttons in a fund's side panel for each enabled add-on that applies to that fund.

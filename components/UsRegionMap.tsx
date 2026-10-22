@@ -3,7 +3,8 @@
 import { useCallback, useMemo, useState } from "react";
 import { ComposableMap, useMapContext } from "react-simple-maps";
 import { STATE_FEATURE_LIST } from "@/lib/geo";
-import { STATE_BY_FIPS, stateName } from "@/lib/states";
+import { STATES, STATE_BY_FIPS, stateName } from "@/lib/states";
+import { fieldClass } from "@/components/addons/shared/Inputs";
 import { NCREIF_REGION } from "@/lib/regions";
 import type { FundData } from "@/lib/types";
 import { formatPct } from "@/lib/aggregate";
@@ -84,6 +85,22 @@ export default function UsRegionMap({ data, sector, selected, onSelect, compact 
           sector={sector}
         />
       </ComposableMap>
+
+      {/* Phones: small states are hard to tap, so the same choice is offered as a list. */}
+      {!compact && (
+        <label className="mt-2 flex items-center gap-3 px-1 sm:hidden">
+          <span className="shrink-0 text-xs font-medium text-muted-strong">Pick a state</span>
+          <select className={fieldClass} value={selected ?? ""} onChange={(e) => onSelect(e.target.value || null)}>
+            <option value="">All of the U.S.</option>
+            {STATES.filter((s) => s.abbr !== "PR" || counts.PR).map((s) => (
+              <option key={s.abbr} value={s.abbr}>
+                {s.name}
+                {counts[s.abbr] ? ` · ${counts[s.abbr]} named` : ""}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
       {tip && tipInfo && !compact && (
         <div

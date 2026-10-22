@@ -113,7 +113,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
                 ["--pct" as string]: `${(years / data.glidePath.farYears) * 100}%`,
               }}
             />
-            <div className="tnum mt-1 flex justify-between text-[11px] text-muted">
+            <div className="tnum mt-1 flex justify-between text-xs text-muted">
               <span>Retiring now</span>
               <span>{data.glidePath.farYears} years away</span>
             </div>
@@ -142,7 +142,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
                 ))}
               </tbody>
             </table>
-            <p className="mt-3 text-[11px] leading-relaxed text-muted">
+            <p className="mt-3 text-xs leading-relaxed text-muted">
               Sleeve shown between {data.sleeve.minPct}% and{" "}
               {data.sleeve.maxPct}%. {data.sleeve.note}
             </p>
@@ -235,7 +235,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            <figcaption className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted">
+            <figcaption className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
               <span className="flex flex-wrap gap-x-4 gap-y-1">
                 {[...SERIES].reverse().map((s) => (
                   <span key={s.key} className="flex items-center gap-1.5">
@@ -262,7 +262,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
           {data.explainers.map((e) => (
             <article
               key={e.title}
-              className="rounded-card border border-line bg-bg-raised p-5"
+              className="rounded-card border border-line bg-bg-raised p-4 sm:p-5"
             >
               <h3 className="font-serif text-lg font-medium leading-snug text-ink">
                 {e.title}
@@ -277,7 +277,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
         {/* What's in the sleeve */}
         <section
           aria-label="What's in the sleeve"
-          className="rounded-card border border-line bg-bg-raised p-5"
+          className="rounded-card border border-line bg-bg-raised p-4 sm:p-5"
         >
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted-strong">
@@ -359,7 +359,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
                 href={m.source.url}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="mt-1 inline-block text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink"
+                className="mt-1 inline-block text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink"
               >
                 Source: {m.source.name}
               </a>
@@ -368,7 +368,7 @@ export default function RetirementView({ data, layers, onOpenLayer }: Props) {
         </ol>
       </section>
 
-      <p className="text-[11px] leading-relaxed text-muted">
+      <p className="text-xs leading-relaxed text-muted">
         Lens last reviewed {formatDate(data.asOf)}. Nothing on this page
         describes a real product&apos;s actual allocation.
       </p>
