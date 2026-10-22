@@ -464,6 +464,21 @@ def build_bcred(old):
         ch = (now / before - 1) * 100
         return f"{'+' if ch > 0 else '−'}{abs(ch):.1f}%", "up" if ch > 0 else "down" if ch < 0 else "flat"
 
+    # Distributions: the Class I table in the notes (first one after this sentence), and July's declaration in subsequent events.
+    di = next(i for i, l in enumerate(lines) if l.startswith("The Board authorizes and declares monthly distribution amounts per share"))
+    ci = next(i for i in range(di, di + 5) if lines[i].strip() == "Class I")
+    rows = []
+    for l in lines[ci + 2:ci + 12]:
+        m = re.match(r"^(\w+) \d+, 2026 \| (\w+ \d+, 2026) \| .* \| (?:\$ \| )?([\d.]+) \| (?:\$ \| )?[\d,]+$", l)
+        if not m:
+            break
+        rows.append((m.group(2), float(m.group(3))))
+    check(len(rows) == 6, f"BCRED: six Class I monthly distributions in 2026 ({len(rows)})")
+    june = rows[-1][1]
+    july = float(re.search(r"declared net distributions of \$([\d.]+) per Class I share", "\n".join(lines)).group(1))
+    rate, rate_july = june * 12 / float(navps) * 100, july * 12 / float(navps) * 100
+    check(9 < rate < 11, f"BCRED: Class I distribution rate {rate:.2f}%")
+
     nav_ch, nav_dir = move(nav, 47.6)
     navps_ch, navps_dir = move(float(navps), 24.79)
     q1, q2 = float(tenders[0]["pct"]), float(tenders[1]["pct"])
@@ -479,7 +494,8 @@ def build_bcred(old):
         "summary": {
             "headline": "BCRED is a non-traded business development company that lends directly to private companies, mostly through first lien, floating-rate loans. Investors buy shares at a monthly NAV, and the fund buys shares back through quarterly tender offers.",
             "stats": [
-                {"label": "Net assets", "value": f"${nav:.1f}B", "note": "down from $47.6B on Dec 31, 2025"},
+                {"label": "Distribution rate", "value": f"{rate:.1f}%",
+                 "note": f"Class I, annualized: June's ${june:.2f} a share × 12 ÷ ${float(navps):.2f} NAV, Jun 30, 2026. July's declared ${july:.2f} is {rate_july:.1f}%."},
                 {"label": "NAV per share", "value": f"${float(navps):.2f}", "note": "down from $24.79 on Dec 31, 2025"},
                 {"label": "Portfolio companies", "value": f"{n_co:,}", "note": f"{n_co_prior:,} at Dec 31, 2025; ${tot / 1e6:.1f}B of investments at fair value"},
                 {"label": "First lien loans", "value": "91.0%", "note": "of investments; 99.8% of performing debt is floating rate"},
