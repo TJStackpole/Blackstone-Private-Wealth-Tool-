@@ -29,9 +29,9 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
   const period = `${quarters[0]} to ${quarters[quarters.length - 1]}, quarterly`;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 print:space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <label className="flex items-center gap-2 text-sm text-ink">
+        <label className="no-print flex items-center gap-2 text-sm text-ink">
           <input type="checkbox" checked={show} onChange={(ev) => setShow(ev.target.checked)} className="h-4 w-4 accent-[var(--accent)]" />
           Show market-style estimate
         </label>
@@ -42,7 +42,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
       </div>
 
       <figure className="space-y-2">
-        <div className={compact ? "h-48" : "h-72"} role="img" aria-label={`Growth of 100: ${appraised.label} and ${traded.label}, ${period}. Worst fall of the traded series shaded.`}>
+        <div className={compact ? "h-48" : "h-72 print:h-40"} role="img" aria-label={`Growth of 100: ${appraised.label} and ${traded.label}, ${period}. Worst fall of the traded series shaded.`}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
@@ -84,7 +84,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
       )}
 
       <div className="overflow-x-auto rounded-card border border-line">
-        <table className="tnum w-full min-w-[420px] text-right text-sm">
+        <table className="tnum w-full min-w-[420px] text-right text-sm print:text-xs">
           <caption className="sr-only">Volatility and worst fall, {period}</caption>
           <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
             <tr>
@@ -106,7 +106,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
       </div>
       <div id="sample-note" className="space-y-1">
         <AsOfSource asOf={SERIES.asOf} source={SERIES.source} />
-        {!compact && <p className="text-[11px] leading-relaxed text-muted">{SERIES.note} Period: {period}.</p>}
+        {!compact && <p className="text-[11px] leading-relaxed text-muted print:hidden">{SERIES.note} Period: {period}.</p>}
       </div>
     </div>
   );
