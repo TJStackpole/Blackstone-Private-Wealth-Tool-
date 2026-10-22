@@ -11,7 +11,7 @@ import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
 import FundPrint from "./FundPrint";
-import { PrintButton } from "@/components/addons/shared/PrintOnePager";
+import FundActions from "./FundActions";
 import FundStats from "./FundStats";
 import QuarterBox from "./QuarterBox";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
@@ -186,7 +186,9 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
                   {data.fund} · {data.assetClass}
                 </p>
                 <FilingBadge data={data} />
-                <PrintButton className="ml-auto" />
+              </div>
+              <div className="mb-4 mt-3">
+                <FundActions layerId={layer.id} data={data} />
               </div>
               {data.quarterSummary && (
                 <div className="mb-4">

@@ -39,6 +39,12 @@ export default function ClaimCard({ c, compact = false }: { c: Claim; compact?: 
           <p className="text-xs text-muted-strong">{c.metric}</p>
           <p className="tnum text-sm font-medium text-ink print:text-xs">{c.value}</p>
           {!compact && <p className="text-sm leading-relaxed text-muted-strong print:text-[11px] print:leading-snug">{c.context}</p>}
+          {!compact && (
+            <div className="rounded-md border-l-2 border-accent bg-bg px-3 py-2 print:px-2 print:py-1" data-explain>
+              <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">How to explain this to a client</p>
+              <p className="mt-0.5 text-sm leading-relaxed text-ink print:text-[11px] print:leading-snug">{c.explain}</p>
+            </div>
+          )}
           <div className="flex flex-wrap items-center gap-2">
             <FreshnessBadge asOf={c.asOf} />
             <AsOfSource asOf={c.asOf} source={c.source} />

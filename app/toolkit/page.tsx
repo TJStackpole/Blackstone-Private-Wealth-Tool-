@@ -4,7 +4,6 @@ import { ADDONS, toolkitAddons } from "@/config/addons";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
-import { AudienceToggle } from "@/components/addons/shared/Audience";
 import ToolkitCards from "@/components/addons/shared/ToolkitCards";
 
 export const metadata: Metadata = {
@@ -25,7 +24,11 @@ export default function ToolkitHome() {
             </Link>
           </nav>
           <div className="flex items-center gap-2">
-            <AudienceToggle />
+            {/*
+              Future feature: Family Office mode. Today it only reorders the cards below, so its switch is hidden.
+              To bring it back, render <AudienceToggle /> (components/addons/shared/Audience.tsx) here; the
+              provider in app/toolkit/layout.tsx and the ordering in lib/addons/shared/audience.ts are still in place.
+            */}
             <ThemeToggle />
           </div>
         </div>

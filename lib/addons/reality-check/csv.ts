@@ -20,6 +20,7 @@ export const COLUMNS = [
   "status",
   "status_set_by",
   "context",
+  "explain",
 ] as const;
 
 /** Minimal CSV parser: commas, double-quoted fields, "" for a literal quote, CRLF or LF line endings. */
@@ -84,6 +85,7 @@ const Row = z.object({
   status: z.enum(["consistent", "watch", "diverges"]),
   status_set_by: z.enum(["draft", "TJ"]),
   context: z.string().min(10, "is too short"),
+  explain: z.string().min(10, "is too short"),
 });
 
 export interface ParseResult {
@@ -125,6 +127,7 @@ export function rowsToClaims(text: string, today = new Date()): ParseResult {
       status: v.status,
       statusSetBy: v.status_set_by,
       context: v.context,
+      explain: v.explain,
     });
   });
   return { funds, errors };
@@ -138,7 +141,7 @@ export function claimsToCsv(all: FundClaims[]): string {
   for (const f of all)
     for (const c of f.claims)
       lines.push(
-        [f.fund, c.id, c.claim, c.claimSource.name, c.claimSource.url, c.claimSource.page ?? "", c.metric, c.value, c.asOf, c.source.name, c.source.url, c.source.page ?? "", c.status, c.statusSetBy, c.context]
+        [f.fund, c.id, c.claim, c.claimSource.name, c.claimSource.url, c.claimSource.page ?? "", c.metric, c.value, c.asOf, c.source.name, c.source.url, c.source.page ?? "", c.status, c.statusSetBy, c.context, c.explain]
           .map(esc)
           .join(","),
       );

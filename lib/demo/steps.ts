@@ -97,7 +97,7 @@ export const STEPS: TourStep[] = [
       "Seven tools, each answering one common question about these funds. Every calculator result carries an ILLUSTRATIVE label, and placeholder data a SAMPLE label.",
       "Each fund's panel on the map also has small buttons for the tools that apply; they open a quick version in a side drawer.",
     ],
-    tryThis: "Switch to Family Office at the top right to reorder the tools.",
+    tryThis: "Open any tool, then use its fund tabs to switch funds.",
     url: "/toolkit",
   },
   {

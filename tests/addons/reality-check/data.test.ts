@@ -17,6 +17,14 @@ describe("reality-check data", () => {
   it("uses neutral wording", () => {
     expect(JSON.stringify(CLAIMS)).not.toMatch(/you should|we recommend|\bfail(ed|s)?\b/i);
   });
+  it("every finding has a short, neutral client explanation", () => {
+    for (const d of Object.values(CLAIMS))
+      for (const c of d.claims) {
+        expect(c.explain.length, c.id).toBeGreaterThan(40);
+        expect(c.explain.length, c.id).toBeLessThanOrEqual(220);
+        expect(c.explain).not.toMatch(/\byou\b|should|recommend|guarantee|\bsafe\b/i);
+      }
+  });
 });
 
 describe("topClaims", () => {

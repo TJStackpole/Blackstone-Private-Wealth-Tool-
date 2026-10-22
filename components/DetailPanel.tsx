@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/dates";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
-import { PrintButton } from "@/components/addons/shared/PrintOnePager";
+import FundActions from "./FundActions";
 import NextUpdate from "./NextUpdate";
 import QuarterBox from "./QuarterBox";
 import FundStats from "./FundStats";
@@ -249,11 +249,14 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
             {data.fund} · {data.assetClass}
           </Eyebrow>
           <FilingBadge data={data} />
-          <PrintButton className="ml-auto" />
         </div>
         <h2 className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink">
           {sectorLabel ? `${sectorLabel} in ${data.fund}` : `Where ${data.fund} invests`}
         </h2>
+        {/* Phones have these above the map. */}
+        <div className="hidden lg:block">
+          <FundActions layerId={layer.id} data={data} />
+        </div>
         {/* Phones show the box above the map instead (with the stat cards), so it isn't read twice. */}
         {data.quarterSummary && (
           <div className="hidden lg:block">

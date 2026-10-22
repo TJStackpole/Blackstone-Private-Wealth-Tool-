@@ -22,7 +22,8 @@
       },
       "status": "consistent",
       "statusSetBy": "draft",
-      "context": "A single six-month period for a fund that began investing recently. \"Risk-adjusted\" can't be judged from one period."
+      "context": "A single six-month period for a fund that began investing recently. \"Risk-adjusted\" can't be judged from one period.",
+      "explain": "BX Infra returned 10.42% in the first half of 2026 (Class I, Series I). It is a young fund, so one six-month period says little about long-run results."
     },
     {
       "id": "bxinfra-income",
@@ -42,7 +43,8 @@
       },
       "status": "consistent",
       "statusSetBy": "draft",
-      "context": "Distributions were roughly in line with net investment income over the period; most of the return came from changes in value."
+      "context": "Distributions were roughly in line with net investment income over the period; most of the return came from changes in value.",
+      "explain": "In the first half the fund paid out about what its investments earned in income: $0.44 a unit distributed against $0.43 earned. Most of the return came from rising values."
     },
     {
       "id": "bxinfra-liquidity",
@@ -62,7 +64,8 @@
       },
       "status": "consistent",
       "statusSetBy": "draft",
-      "context": "Redemptions are periodic and limited, as described (see Liquidity Simulator)."
+      "context": "Redemptions are periodic and limited, as described (see Liquidity Simulator).",
+      "explain": "Investors can add money monthly, but getting it out is limited: the fund expects to buy back up to 3% of units a quarter, and units held under two years give up 5% on the way out."
     }
   ]
 }
