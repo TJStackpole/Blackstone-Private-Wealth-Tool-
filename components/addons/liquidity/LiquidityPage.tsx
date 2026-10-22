@@ -17,6 +17,12 @@ const SCRIPT = [
   "That has happened before: BREIT limited repurchases at times between late 2022 and early 2024, and BCRED prorated requests in the second and third quarters of 2026.",
 ];
 
+export const IC_SCRIPT = [
+  "How much of this allocation could we need back within a year, and how could the fund's quarterly limit delay it?",
+  "How has the fund handled requests above its limit before, and how long did it take to pay in full?",
+  "Does our liquidity reserve cover expected spending without counting on redemptions?",
+];
+
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
     <section id={id} aria-labelledby={id ? `${id}-h` : undefined} className="space-y-4">
@@ -88,7 +94,7 @@ export default function LiquidityPage() {
           <AsOfSource asOf={HISTORY.asOf} source={HISTORY.events[HISTORY.events.length - 1].source} />
         </Section>
 
-        <ClientScriptCard points={SCRIPT} />
+        <ClientScriptCard points={SCRIPT} icPoints={IC_SCRIPT} />
         <LiquidityPrint points={SCRIPT} />
       </div>
     </AddonShell>

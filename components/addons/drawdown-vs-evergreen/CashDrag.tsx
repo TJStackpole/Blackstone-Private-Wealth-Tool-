@@ -50,20 +50,24 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
         <p className="text-xs text-muted-strong">
           Called {schedule.length === 1 ? "all at once" : `${perYear}% a year over ${schedule.length} years`} · same {assetReturn}% asset return for both
         </p>
         <IllustrativeBadge />
       </div>
 
-      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink" aria-live="polite">
+      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink print:p-2 print:text-sm" aria-live="polite">
         Over {DEFAULTS.years} years, about {Math.round(r.averageDrawdownAtWorkPct)}% of the drawdown money was at work on average. Ending value: {short(r.drawdownEnd)} for
         drawdown vs. {short(r.evergreenEnd)} for evergreen, from {short(commitment)}.
       </p>
+      <p className="hidden text-[10px] print:block">
+        Assumptions: {short(commitment)} committed, called {schedule.length === 1 ? "all at once" : `${perYear}% a year over ${schedule.length} years`}; {assetReturn}% asset return for both;{" "}
+        {cashYield}% on waiting cash; fees {ddFee}% drawdown, {egFee}% evergreen; drawdown returns {distPct}% of its value a year from year {distStart}. Performance fees and taxes left out.
+      </p>
 
-      <figure className="space-y-2">
-        <div className={compact ? "h-48" : "h-64 print:h-48"} role="img" aria-label={`Share of money at work by year: ${data.map((d) => `${d.year} drawdown ${d.drawdown}%`).join(", ")}; evergreen 100% throughout`}>
+      <figure className="space-y-2 print:hidden">
+        <div className={compact ? "h-48" : "h-64 print:h-40"} role="img" aria-label={`Share of money at work by year: ${data.map((d) => `${d.year} drawdown ${d.drawdown}%`).join(", ")}; evergreen 100% throughout`}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
@@ -94,8 +98,8 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
             <NumberInput label="Drawdown returns money from year" value={distStart} onChange={(v) => setDistStart(Math.round(v))} min={1} max={20} step={1} />
             <PercentInput label="Share of fund returned each year after that" value={distPct} onChange={setDistPct} />
           </div>
-          <div className="overflow-x-auto rounded-card border border-line">
-            <table className="tnum w-full min-w-[520px] text-right text-sm print:text-xs">
+          <div className="overflow-x-auto rounded-card border border-line print:hidden">
+            <table className="tnum w-full min-w-[520px] text-right text-sm">
               <caption className="sr-only">Year-by-year comparison</caption>
               <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
                 <tr>

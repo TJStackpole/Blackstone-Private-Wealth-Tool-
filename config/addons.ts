@@ -95,7 +95,7 @@ export const ADDONS: AddonDef[] = [
     description: "How a traditional drawdown fund and an evergreen fund differ, and a model of how much money is actually at work in each.",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
-    phase: 2,
+    phase: 3,
   },
 ];
 

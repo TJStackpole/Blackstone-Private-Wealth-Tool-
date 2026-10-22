@@ -15,6 +15,12 @@ export const THEME_SCRIPT = [
   "Adding up what you hold across funds, plus any stocks tied to the same theme, shows how concentrated the whole portfolio really is.",
 ];
 
+export const IC_THEME = [
+  "What is our look-through exposure to AI and data centers across all managers and public holdings?",
+  "Would this fund take any theme above our concentration limits?",
+  "What are the strongest arguments against our largest theme, and who makes them?",
+];
+
 /** Add-on 6: the themes that run across funds, and how much of each fund sits in each. */
 export default function ThemesPage() {
   return (
@@ -65,7 +71,7 @@ export default function ThemesPage() {
           </p>
           <LookThroughCalc />
         </section>
-        <ClientScriptCard points={THEME_SCRIPT} />
+        <ClientScriptCard points={THEME_SCRIPT} icPoints={IC_THEME} />
       </div>
     </AddonShell>
   );
