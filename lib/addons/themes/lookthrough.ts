@@ -4,7 +4,7 @@ import { THEMES, themeWeight, type Theme } from "./tags";
 export interface OtherHolding {
   label: string;
   amount: number;
-  /** Theme id the advisor assigns by hand, or null for untagged. */
+  /** Theme id assigned by hand, or null for untagged. */
   theme: string | null;
 }
 
@@ -32,8 +32,8 @@ export const UNTAGGED = "untagged";
 const pos = (v: number) => (Number.isFinite(v) && v > 0 ? v : 0);
 
 /**
- * Looks through each fund to its themes using the fund's published sector weights, adds outside holdings the advisor
- * has tagged, and reports dollars and share by theme. Whatever isn't in a theme is reported as "Not in a theme",
+ * Looks through each fund to its themes using the fund's published sector weights, adds outside holdings
+ * tagged by hand, and reports dollars and share by theme. Whatever isn't in a theme is reported as "Not in a theme",
  * so the slices always add up to the total.
  */
 export function lookThrough(h: Holdings, themes: Theme[] = THEMES, weight: (t: Theme, f: FundCode) => number = themeWeight): LookThrough {
@@ -64,7 +64,7 @@ export function lookThrough(h: Holdings, themes: Theme[] = THEMES, weight: (t: T
   return { total, slices, largest };
 }
 
-/** True when a theme's share is above the threshold the advisor set. */
+/** True when a theme's share is above the threshold that was set. */
 export function isConcentrated(slice: ThemeSlice | null, thresholdPct: number): boolean {
   return !!slice && slice.id !== UNTAGGED && slice.pct > thresholdPct;
 }

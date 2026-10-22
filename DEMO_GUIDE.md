@@ -38,7 +38,7 @@ Each fund's filing discloses geography at a different level of detail, so each m
 9. **Liquidity Simulator.** Show **How the line works** (everyone in line gets the same fraction), then the presets. Scroll to **When the limits have applied**: BREIT 2022–2024 and BCRED in Q2 and Q3 2026, each linked to the filing or tender letter. Then the **reserve check**: "the question behind 'can I get out?' is 'will I need to?'"
 10. **Index-to-Fund.** Pick BCRED. The index (Cliffwater) made 3.0% in the half-year; Class I made 0.2%. The bridge shows why, step by step, and switching to Class S shows the servicing fee.
 11. **Theme Exposure.** Back on the map, click **AI & data centers** in the Theme row, then switch to Infrastructure: the theme carries over. In the toolkit, the look-through example (four funds plus Nvidia) lands at 27% in one theme. Show the case for and against, sourced on both sides.
-12. **Family Office mode.** Flip the switch at the top right: the tools reorder for a family office, scripts become investment-committee questions, and Drawdown vs. Evergreen prints as a one-page IC memo.
+12. **Family Office mode.** Flip the switch at the top right: the tools reorder for a family office, and Drawdown vs. Evergreen prints as a one-page IC memo. Every tool page is written so it can be shared with a client as is: no advisor scripts.
 13. **Reality Check.** Each fund's own stated objectives next to its filing data. The labels are drafts for you to confirm; the code never sets them. The freshness badge shows the data is from June 30.
 
 ## Questions you may get, and honest answers

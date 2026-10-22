@@ -46,7 +46,7 @@ function OtherRow({ o, onChange, onRemove }: { o: OtherHolding; onChange: (o: Ot
   );
 }
 
-/** Client look-through: dollars in each fund plus hand-tagged outside holdings, added up by theme. Nothing is saved or sent. */
+/** Look-through: dollars in each fund plus hand-tagged outside holdings, added up by theme. Nothing is saved or sent. */
 export default function LookThroughCalc({ compactFund }: { compactFund?: FundCode }) {
   const [funds, setFunds] = useState<Record<FundCode, number>>({ BREIT: 250_000, BXINFRA: 250_000, BXPE: 250_000, BCRED: 250_000 });
   const [others, setOthers] = useState<OtherHolding[]>([{ label: "Nvidia stock", amount: 200_000, theme: "ai-data-centers" }]);

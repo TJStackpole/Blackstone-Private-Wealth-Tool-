@@ -2,18 +2,12 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import MemoHeader from "./MemoHeader";
-import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
 import CashDrag from "./CashDrag";
 import CompareTable from "./CompareTable";
 import WhenEachFits from "./WhenEachFits";
 
-export const ADVISOR_SCRIPT = [
-  "With a traditional private fund, you promise an amount and the manager takes it bit by bit over several years, so much of it waits in cash.",
-  "An evergreen fund invests the whole amount on day one, in a portfolio that already exists. In exchange, getting money out depends on the fund's repurchase limits.",
-  "Neither is better in general. It depends on whether you'd rather manage future capital calls or a redemption queue.",
-];
 
 export const IC_SCRIPT = [
   "How much of our existing drawdown commitments is still uncalled, and what does that cash earn while it waits?",
@@ -38,7 +32,12 @@ export default function DrawdownPage() {
     <AddonShell
       addonId="drawdown-vs-evergreen"
       title="Drawdown vs. Evergreen"
-      subtitle="Family offices often own private assets through traditional drawdown funds. The question is less whether to own private markets than whether an evergreen fund adds something. Here's how the two structures differ."
+      subtitle="Traditional private funds take your money over several years; evergreen funds invest it all on day one. Here's what that changes."
+      glance={[
+        { value: "Day one", label: "Evergreen: the whole amount is invested when you subscribe" },
+        { value: "~10 years", label: "Common life of a traditional drawdown fund" },
+        { value: "3% a quarter", label: "BXPE's redemption limit, across the whole fund" },
+      ]}
       badges={<AsOfSource asOf={COMPARE.asOf} source={COMPARE.source} />}
     >
       <PrintOnePager title="Investment committee memo">
@@ -49,15 +48,21 @@ export default function DrawdownPage() {
           </Section>
           <Section title="How much money is actually at work" id="cash-drag">
             <p className="no-print max-w-3xl text-sm leading-relaxed text-muted-strong">
-              A drawdown commitment is called over several years, and money starts coming back before the last calls, so only part of it is ever invested
-              at once. Change the call schedule to see the gap move.
+              Drawdown money is called in over years and some comes back early, so only part is ever invested. Change the schedule to see the gap.
             </p>
             <CashDrag />
           </Section>
           <Section title="When each fits" id="fits" printHide>
             <WhenEachFits />
           </Section>
-          <ClientScriptCard points={ADVISOR_SCRIPT} icPoints={IC_SCRIPT} icInPrint />
+          <section aria-label="Questions for the investment committee" className="hidden print:block">
+            <h3 className="font-serif text-sm">Questions the investment committee may ask</h3>
+            <ul className="list-disc pl-4 text-xs">
+              {IC_SCRIPT.map((q) => (
+                <li key={q.slice(0, 30)}>{q}</li>
+              ))}
+            </ul>
+          </section>
           <p className="hidden border-t pt-1 text-[9px] print:block">
             {ADDON_DISCLOSURE} Illustrative model; both structures are assumed to earn the same return. Independent prototype built from public filings. Not
             affiliated with or endorsed by Blackstone.

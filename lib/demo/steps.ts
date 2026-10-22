@@ -82,7 +82,7 @@ export const STEPS: TourStep[] = [
     chapter: "Advisor Toolkit",
     title: "Seven tools for explaining these funds",
     body: [
-      "The Advisor Toolkit holds seven tools, each answering a question clients ask. Every calculator result carries an ILLUSTRATIVE label, and placeholder data a SAMPLE label.",
+      "Seven tools, each answering one common question about these funds. Every calculator result carries an ILLUSTRATIVE label, and placeholder data a SAMPLE label.",
       "Each fund's panel on the map also has small buttons for the tools that apply; they open a quick version in a side drawer.",
     ],
     tryThis: "Switch to Family Office at the top right to reorder the tools.",
@@ -138,7 +138,7 @@ export const STEPS: TourStep[] = [
     title: "Drawdown vs. Evergreen, for family offices",
     body: [
       "Family offices often own private assets through traditional funds that call money over years. This compares the two structures and shows how much money is actually at work in each.",
-      "In Family Office mode, the scripts become investment-committee questions, and the page prints as a one-page memo.",
+      "It prints as a one-page memo for an investment committee.",
     ],
     url: "/toolkit/drawdown-vs-evergreen#cash-drag-h",
   },

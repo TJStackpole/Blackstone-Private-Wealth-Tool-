@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { findAddon } from "@/config/addons";
 import AddonShell from "@/components/addons/shared/AddonShell";
-import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
+import Steps from "@/components/addons/shared/Steps";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import HistoryTimeline from "./HistoryTimeline";
@@ -11,17 +11,7 @@ import ReserveCheck from "./ReserveCheck";
 import TermsTable from "./TermsTable";
 import UrlSimulator from "./UrlSimulator";
 
-const SCRIPT = [
-  "These funds pay out on a schedule, up to a limit, not on demand like a mutual fund.",
-  "When many people ask at once, everyone gets the same share of their request, and the rest stays invested until the next window.",
-  "That has happened before: BREIT limited repurchases at times between late 2022 and early 2024, and BCRED prorated requests in the second and third quarters of 2026.",
-];
 
-export const IC_SCRIPT = [
-  "How much of this allocation could we need back within a year, and how could the fund's quarterly limit delay it?",
-  "How has the fund handled requests above its limit before, and how long did it take to pay in full?",
-  "Does our liquidity reserve cover expected spending without counting on redemptions?",
-];
 
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
@@ -41,28 +31,28 @@ export default function LiquidityPage() {
     <AddonShell
       addonId="liquidity"
       title="Liquidity Simulator"
-      subtitle="These funds let investors sell shares back on a schedule, up to a limit. When more people ask than the limit allows, everyone in line gets the same fraction. Here's how that works, what each fund's limits are, and when the limits have applied before."
+      subtitle="How these funds pay you back when you sell: on a schedule, up to a limit."
+      glance={[
+        { value: "2% · 5%", label: "BREIT: most it buys back a month · a quarter (% of NAV)" },
+        { value: "5%", label: "BCRED: quarterly target (% of shares)" },
+        { value: "3%", label: "BXPE and BX Infra: quarterly limit (% of units)" },
+      ]}
       badges={<AsOfSource asOf={TERMS.asOf} source={TERMS.source} />}
     >
       <div className="space-y-12">
         <Section title="How the line works" id="line">
-          <div className="max-w-3xl space-y-3 text-sm leading-relaxed text-muted-strong">
-            <p>
-              A perpetual fund doesn&apos;t trade on an exchange. To get money out, an investor asks the fund to buy shares back. The fund sets aside up to a
-              set amount each month or quarter for these buybacks, usually a few percent of the whole fund.
-            </p>
-            <p>
-              If total requests fit under that amount, everyone is paid in full. If they don&apos;t, every request is filled by the same fraction. That&apos;s
-              called pro rata. Nobody is first in line; the unfilled part stays invested at the fund&apos;s value, and can be requested again.
-            </p>
-          </div>
+          <Steps
+            steps={[
+              { title: "You ask to sell", text: "There's no stock exchange, so the fund buys your shares back." },
+              { title: "The fund pays up to its limit", text: "A few percent of the whole fund each month or quarter." },
+              { title: "Over the limit? Everyone gets the same share", text: "The rest stays invested and can be asked for again." },
+            ]}
+          />
           <ProRataDemo />
         </Section>
 
         <Section title="What happens to a request" id="simulator">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            Pick a fund and a scenario. The schedule shows, quarter by quarter, how much of a request would be paid and how much would still be invested.
-          </p>
+          <p className="max-w-3xl text-sm text-muted-strong">Pick a fund and a scenario to see when the money arrives.</p>
           <UrlSimulator />
           {taxLens && (
             <p className="text-sm text-muted-strong">
@@ -73,29 +63,23 @@ export default function LiquidityPage() {
           )}
         </Section>
 
-        <Section title="Will a redemption be needed?" id="reserve">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            The question behind &ldquo;can I get out?&rdquo; is often &ldquo;will I need to?&rdquo; This compares the client&apos;s other liquid assets with what they
-            spend in a year.
-          </p>
+        <Section title="Will you need to sell?" id="reserve">
+          <p className="max-w-3xl text-sm text-muted-strong">Compare your other savings with a year of spending.</p>
           <ReserveCheck />
         </Section>
 
         <Section title="Each fund's terms" id="terms">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            Each number is a parameter taken from the fund&apos;s latest quarterly filing, with a link. Terms can change, and the offering documents control.
-          </p>
+          <p className="max-w-3xl text-sm text-muted-strong">From each fund&apos;s latest quarterly filing. Terms can change; the offering documents control.</p>
           <TermsTable />
         </Section>
 
         <Section title="When the limits have applied" id="history">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">Dated events reported in the funds&apos; own SEC filings.</p>
+          <p className="max-w-3xl text-sm text-muted-strong">Dated events from the funds&apos; own SEC filings.</p>
           <HistoryTimeline />
           <AsOfSource asOf={HISTORY.asOf} source={HISTORY.events[HISTORY.events.length - 1].source} />
         </Section>
 
-        <ClientScriptCard points={SCRIPT} icPoints={IC_SCRIPT} />
-        <LiquidityPrint points={SCRIPT} />
+        <LiquidityPrint />
       </div>
     </AddonShell>
   );

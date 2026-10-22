@@ -5,7 +5,7 @@ import type { Audience } from "@/lib/addons/shared/audience";
 
 const Ctx = createContext<{ audience: Audience; setAudience: (a: Audience) => void } | null>(null);
 
-/** Holds Advisor / Family Office mode for the toolkit pages, in page memory only (nothing is stored). */
+/** Holds Standard / Family Office mode for the toolkit pages, in page memory only (nothing is stored). */
 export function AudienceProvider({ children }: { children: ReactNode }) {
   const [audience, setAudience] = useState<Audience>("advisor");
   return <Ctx.Provider value={{ audience, setAudience }}>{children}</Ctx.Provider>;
@@ -20,7 +20,7 @@ export function AudienceToggle() {
   const ctx = useContext(Ctx);
   if (!ctx) return null;
   const opts: { id: Audience; label: string }[] = [
-    { id: "advisor", label: "Advisor" },
+    { id: "advisor", label: "Standard" },
     { id: "family-office", label: "Family Office" },
   ];
   return (

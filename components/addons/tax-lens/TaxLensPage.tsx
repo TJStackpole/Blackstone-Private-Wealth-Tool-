@@ -4,24 +4,13 @@ import { findAddon } from "@/config/addons";
 import AddonShell from "@/components/addons/shared/AddonShell";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
-import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { TAX } from "@/lib/addons/tax-lens/data";
 import OtherFunds from "./OtherFunds";
 import RocHistory from "./RocHistory";
 import WorkedExample from "./WorkedExample";
 
-export const TAX_SCRIPT = [
-  "Most of what this fund has paid out in recent years was classified as return of capital, which isn't taxed when it's received.",
-  "Instead it lowers what the tax system counts as the price you paid, so more of the sale price is taxed as a gain when you sell.",
-  "The split changes every year and isn't known until the year ends, so this shows how it would have worked, not what will happen. A tax advisor can apply it to the client's situation.",
-];
 
-export const IC_TAX = [
-  "How much of the distributions has been return of capital, year by year, and how stable is that?",
-  "How much deferred gain builds up in our cost basis, and when would it be taxed?",
-  "Which entity would hold the position, and does that change the tax treatment?",
-];
 
 function Section({ title, id, children }: { title: string; id: string; children: React.ReactNode }) {
   return (
@@ -41,7 +30,12 @@ export default function TaxLensPage() {
     <AddonShell
       addonId="tax-lens"
       title="Tax Lens"
-      subtitle="Much of a REIT's payout can be return of capital: not taxed when received, but it lowers your cost basis, so the tax shows up when you sell. Here's how that works, using BREIT's own year-by-year figures."
+      subtitle="Much of BREIT's payout isn't taxed when you receive it. It lowers your cost basis instead, so the tax comes when you sell."
+      glance={[
+        { value: "100%", label: "Share of BREIT's 2025 payouts classified as return of capital" },
+        { value: "85–100%", label: "That share each year since 2020" },
+        { value: "4.6%", label: "Class I yearly payout rate, Q2 2026" },
+      ]}
       fundId="BREIT"
       badges={
         <>
@@ -52,9 +46,8 @@ export default function TaxLensPage() {
     >
       <div className="space-y-12">
         <Section title="A worked example" id="example">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            Round numbers, in four steps. The rule behind it is the IRS&apos;s: a nondividend distribution reduces your basis, isn&apos;t taxed until basis reaches
-            zero, and after that is taxed as a capital gain.{" "}
+          <p className="max-w-3xl text-sm text-muted-strong">
+            Round numbers, four steps, following the IRS rule on return of capital.{" "}
             <a href={TAX.irs.roc.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
               {TAX.irs.roc.name}
             </a>
@@ -63,9 +56,7 @@ export default function TaxLensPage() {
         </Section>
 
         <Section title="Your numbers" id="calculator">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            Change any input. Every figure on the right is computed from them; the defaults come from BREIT&apos;s filings and can be overwritten.
-          </p>
+          <p className="max-w-3xl text-sm text-muted-strong">Change any input. Defaults come from BREIT&apos;s filings.</p>
           <PrintOnePager title="Tax Lens one-pager">
             <h2 className="hidden font-serif text-xl print:block">Tax Lens: BREIT return of capital, illustrated</h2>
             <Calculator />
@@ -84,9 +75,7 @@ export default function TaxLensPage() {
         </Section>
 
         <Section title="How BREIT's payouts were classified" id="history">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            Each year&apos;s split is reported in BREIT&apos;s annual reports, linked per row. It has ranged from 85% to 100% return of capital since 2020.
-          </p>
+          <p className="max-w-3xl text-sm text-muted-strong">From BREIT&apos;s annual reports, linked per row.</p>
           <RocHistory />
           <p className="text-xs text-muted">{TAX.defaultRoc.verify}</p>
         </Section>
@@ -95,7 +84,6 @@ export default function TaxLensPage() {
           <OtherFunds />
         </Section>
 
-        <ClientScriptCard points={TAX_SCRIPT} icPoints={IC_TAX} />
       </div>
     </AddonShell>
   );
