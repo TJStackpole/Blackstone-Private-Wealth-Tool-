@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { COMPARE, type CompareCell } from "@/lib/compare";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { formatDate } from "@/lib/dates";
+import NextUpdate from "./NextUpdate";
 import { useEdgeFade } from "./useEdgeFade";
 
 function Cell({ c }: { c: CompareCell }) {
@@ -90,7 +91,7 @@ export default function CompareTable() {
       <p className="text-xs leading-relaxed text-muted">
         <span className="tnum">As of {formatDate(COMPARE.asOf)}</span>, from each fund&apos;s latest 10-Q (and its 10-K for December 31 figures). Distribution rates
         annualize the latest declared Class I distribution over that date&apos;s NAV; they are not total returns. Minimum investment is set in each
-        fund&apos;s offering documents, not its periodic filings.
+        fund&apos;s offering documents, not its periodic filings. <NextUpdate asOf={COMPARE.asOf} />.
       </p>
     </section>
   );

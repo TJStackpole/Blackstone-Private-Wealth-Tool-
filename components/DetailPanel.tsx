@@ -8,6 +8,7 @@ import { formatDate } from "@/lib/dates";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
+import NextUpdate from "./NextUpdate";
 import FundStats from "./FundStats";
 import AddonChips from "./addons/shared/AddonChips";
 import { holdingsLead } from "./HoldingsLead";
@@ -248,6 +249,8 @@ function QuarterBox({ q }: { q: NonNullable<FundData["quarterSummary"]> }) {
         <a href={q.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
           {q.source.name}
         </a>
+        {" · "}
+        <NextUpdate asOf={q.asOf} />
       </p>
     </section>
   );
@@ -371,6 +374,9 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
             <h3 className="font-serif text-base font-medium text-ink">{data.howItWorks.title}</h3>
             <span className="tnum text-xs text-muted">As of {formatDate(data.howItWorks.asOf)}</span>
           </div>
+          <p className="-mt-1 mb-2 text-right text-[11px] text-muted">
+            <NextUpdate asOf={data.howItWorks.asOf} />
+          </p>
           <div className="space-y-2 text-xs leading-relaxed text-muted-strong">
             {data.howItWorks.paragraphs.map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>

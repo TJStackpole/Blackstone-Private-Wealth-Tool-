@@ -1,5 +1,7 @@
 import type { AddonSource } from "@/lib/addons/shared/types";
 import { formatDate } from "@/lib/dates";
+import { cadenceOf } from "@/lib/schedule";
+import NextUpdate from "@/components/NextUpdate";
 
 const base = "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em]";
 
@@ -25,6 +27,7 @@ export function IllustrativeBadge() {
 
 /** "As of … · Source: …" line for any dataset or parameter. */
 export function AsOfSource({ asOf, source }: { asOf: string; source: AddonSource }) {
+  const cadence = cadenceOf(source.name);
   return (
     <p className="text-xs leading-relaxed text-muted">
       <span className="tnum">As of {formatDate(asOf)}</span> · Source:{" "}
@@ -32,6 +35,12 @@ export function AsOfSource({ asOf, source }: { asOf: string; source: AddonSource
         {source.name}
       </a>
       {source.page ? `, ${source.page}` : ""}
+      {cadence && (
+        <>
+          {" · "}
+          <NextUpdate asOf={asOf} cadence={cadence} />
+        </>
+      )}
     </p>
   );
 }

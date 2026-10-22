@@ -5,6 +5,7 @@ import type { FundCode } from "@/config/addons";
 import { CLAIMS } from "@/lib/addons/reality-check/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { formatDate } from "@/lib/dates";
+import NextUpdate from "@/components/NextUpdate";
 import FundTabs from "@/components/addons/shared/FundTabs";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
@@ -23,7 +24,9 @@ function View({ initial }: { initial: FundCode }) {
       </div>
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-strong">
         <FreshnessBadge asOf={oldest} />
-        <span className="text-muted">Data as of {formatDate(oldest)} · checked {formatDate(d.updated)}</span>
+        <span className="text-muted">
+          Data as of {formatDate(oldest)} · checked {formatDate(d.updated)} · <NextUpdate asOf={oldest} />
+        </span>
       </div>
       <PrintOnePager title="Reality Check one-pager">
         <div className="space-y-3 print:space-y-2">

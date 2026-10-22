@@ -4,6 +4,7 @@ import type { AddonSource } from "@/lib/addons/shared/types";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import Steps from "@/components/addons/shared/Steps";
 import { formatDate } from "@/lib/dates";
+import NextUpdate from "@/components/NextUpdate";
 
 const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 
@@ -124,7 +125,7 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
 
       {!compact && (
         <p className="text-xs leading-relaxed text-muted">
-          <span className="tnum">As of {formatDate(TAX_FUNDS.asOf)}</span>. {TAX_FUNDS.verify}
+          <span className="tnum">As of {formatDate(TAX_FUNDS.asOf)}</span> · <NextUpdate asOf={TAX_FUNDS.asOf} />. {TAX_FUNDS.verify}
         </p>
       )}
     </div>

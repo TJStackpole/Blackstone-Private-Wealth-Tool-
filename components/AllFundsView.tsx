@@ -6,6 +6,7 @@ import { formatDate } from "@/lib/dates";
 import CompareTable from "./CompareTable";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
+import NextUpdate from "./NextUpdate";
 
 interface Props {
   layers: LayerDef[];
@@ -84,6 +85,7 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
                   <a href={data.filing.url} target="_blank" rel="noreferrer noopener" className="text-muted-strong underline decoration-line underline-offset-2 hover:text-ink">
                     SEC {data.filing.form}
                   </a>
+                  <NextUpdate asOf={data.asOf} className="block text-[11px] text-muted" />
                 </dd>
               </dl>
               {data.sizeNote && <p className="mt-2 text-[11px] leading-snug text-muted">¹ {data.sizeNote}</p>}
