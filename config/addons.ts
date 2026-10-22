@@ -79,6 +79,15 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT", "BXINFRA", "BXPE"],
     phase: 3,
   },
+  {
+    id: "themes",
+    name: "Theme Exposure",
+    shortName: "Themes",
+    description: "Themes such as AI and data centers that run through several funds, how much of each fund sits in each, and a theme filter on the map.",
+    enabled: true,
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    phase: 1,
+  },
 ];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {

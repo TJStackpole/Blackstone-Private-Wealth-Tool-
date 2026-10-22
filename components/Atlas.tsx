@@ -16,6 +16,8 @@ import SourceFooter from "./SourceFooter";
 import ThemeToggle from "./ThemeToggle";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
+// Add-on 6 (Theme Exposure): the one logged exception to the two-doorway rule. See BUILD_PLAN_ADDONS.md, Add-on 6, Phase 1.
+import ThemeBar from "./addons/themes/ThemeBar";
 
 /** Geography to draw: the whole fund, or the chosen sector's own split where the filing allows it. */
 export function geoFor(data: FundData, sector: string | null): { items: Share[]; split: boolean } {
@@ -107,7 +109,8 @@ export default function Atlas() {
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
-            <div className="mb-4">
+            <div className="mb-4 space-y-3">
+              <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} />
               <SectorChips
                 sectors={chipSectors.map((s) => s.key)}
                 labels={Object.fromEntries(chipSectors.map((s) => [s.key, s.label]))}
