@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
-import Tour from "@/components/demo/Tour";
+import TourPicker from "@/components/demo/Tour";
 
 export const metadata: Metadata = {
   title: "Guided tour",
-  description: "A step-by-step tour of every feature: the fund maps, the Advisor Toolkit and how the data is sourced. Independent prototype; not affiliated with Blackstone.",
+  description: "A six-step tour of the fund maps and the Advisor Toolkit, plus a full tour of every feature. Independent prototype; not affiliated with Blackstone.",
 };
 
 export default function DemoPage() {
@@ -18,13 +18,13 @@ export default function DemoPage() {
           </nav>
           <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Guided tour</h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">
-            Everything the site does, one step at a time. The right side is the real site, live: click around in it at any point. Use Next, the arrow keys,
-            or Autoplay.
+            Six stops in a few minutes, or the full tour of every feature. The right side is the real site, live: click around in it at any point. Use
+            Next, the arrow keys, or Autoplay.
           </p>
         </div>
         <ThemeToggle />
       </header>
-      <Tour />
+      <TourPicker />
       <p className="mt-8 border-t border-line pt-4 text-xs text-muted">
         Illustrative only. Not investment, tax, or legal advice. Independent prototype built from public filings. Not affiliated with or endorsed by
         Blackstone.

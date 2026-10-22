@@ -1,19 +1,58 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { STEPS } from "@/lib/demo/steps";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { SHORT_STEPS, STEPS, type TourStep } from "@/lib/demo/steps";
 import ScaledFrame from "./ScaledFrame";
 
 const AUTOPLAY_MS = 12_000;
 
+type Length = "short" | "full";
+const noop = () => () => {};
+
+/** Short tour (6 steps) by default; ?tour=full opens the full one. The switch keeps the address in step so it can be shared. */
+export default function TourPicker() {
+  const search = useSyncExternalStore(noop, () => window.location.search, () => "");
+  const [picked, setPicked] = useState<Length | null>(null);
+  const length: Length = picked ?? (new URLSearchParams(search).get("tour") === "full" ? "full" : "short");
+  function pick(next: Length) {
+    setPicked(next);
+    window.history.replaceState(null, "", next === "full" ? "?tour=full" : window.location.pathname);
+  }
+  const options: { id: Length; label: string }[] = [
+    { id: "short", label: `Short tour · ${SHORT_STEPS.length} steps` },
+    { id: "full", label: `Full tour · ${STEPS.length} steps` },
+  ];
+  return (
+    <div className="space-y-4">
+      <div role="group" aria-label="Tour length" className="tap inline-flex h-9 items-center rounded-full border border-line bg-bg-raised p-0.5">
+        {options.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            aria-pressed={length === o.id}
+            onClick={() => pick(o.id)}
+            className={[
+              "tap-sm h-8 whitespace-nowrap rounded-full px-3 text-xs font-medium transition-colors",
+              length === o.id ? "bg-accent text-accent-contrast" : "text-muted-strong hover:text-ink",
+            ].join(" ")}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+      <Tour key={length} steps={length === "full" ? STEPS : SHORT_STEPS} onFullTour={length === "short" ? () => pick("full") : undefined} />
+    </div>
+  );
+}
+
 /** The guided tour: explanation on the left, the live page on the right, with Back / Next, a step list and autoplay. */
-export default function Tour() {
+function Tour({ steps, onFullTour }: { steps: TourStep[]; onFullTour?: () => void }) {
   const [i, setI] = useState(0);
   const [playing, setPlaying] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const step = STEPS[i];
-  const last = STEPS.length - 1;
+  const step = steps[i];
+  const last = steps.length - 1;
 
   function go(n: number, focus = true) {
     const next = Math.max(0, Math.min(last, n));
@@ -50,7 +89,7 @@ export default function Tour() {
       <section aria-label="Tour step" className="space-y-5 lg:sticky lg:top-6 lg:self-start">
         <div className="space-y-3 rounded-card border border-line bg-bg-raised p-4 sm:p-5">
           <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted" aria-live="polite">
-            Step {i + 1} of {STEPS.length} · {step.chapter}
+            Step {i + 1} of {steps.length} · {step.chapter}
           </p>
           <h2 ref={headingRef} tabIndex={-1} className="font-serif text-2xl font-medium leading-tight text-ink outline-none">
             {step.title}
@@ -80,11 +119,19 @@ export default function Tour() {
           <Link href={step.url} className="tap inline-flex items-center text-xs text-muted-strong underline decoration-line underline-offset-4 hover:text-ink">
             Open this view on its own →
           </Link>
+          {onFullTour && i === last && (
+            <p className="border-t border-line pt-3 text-sm text-muted-strong">
+              That&apos;s the short tour.{" "}
+              <button type="button" onClick={onFullTour} className="tap-sm font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent">
+                Full tour ({STEPS.length} steps) →
+              </button>
+            </p>
+          )}
         </div>
 
         <nav aria-label="All steps">
           <ol className="space-y-0.5">
-            {STEPS.map((s, n) => (
+            {steps.map((s, n) => (
               <li key={s.title}>
                 <button
                   type="button"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { DEFAULT_LAYER_ID, LAYERS, RETIREMENT } from "@/data/layers";
@@ -106,6 +106,12 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   // The browser tab names the view: "BCRED · Private Markets Atlas", "All funds · …", "Retirement · …".
   const viewTitle = viewId === "all" ? "All funds" : viewId === "retirement" ? "Retirement" : layer.fund;
   useDocumentTitle(`${viewTitle} · ${SITE_NAME}`);
+  // A link ending in #id (the tour's "/?view=all#compare-h") lands on that part of the view once it has drawn.
+  // Scrolls this window only, so inside the tour's frame the tour page itself stays put.
+  useEffect(() => {
+    const el = window.location.hash.length > 1 ? document.getElementById(decodeURIComponent(window.location.hash.slice(1))) : null;
+    if (el) requestAnimationFrame(() => window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 16 }));
+  }, []);
 
   // Credit funds lead with their borrowers; the map becomes a smaller section below them.
   const lead = !!data && holdingsLead(data);

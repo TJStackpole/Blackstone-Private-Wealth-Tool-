@@ -115,20 +115,37 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   await page.goto("/");
   await page.getByRole("link", { name: "Take the tour" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Guided tour" })).toBeVisible();
-  await expect(page.getByText(/Step 1 of \d+/)).toBeVisible();
+  // The short tour is the default.
+  await expect(page.getByText("Step 1 of 6", { exact: false })).toBeVisible();
   await page.getByRole("button", { name: "Next →" }).click();
-  await expect(page.getByText(/Step 2 of \d+/)).toBeVisible();
+  await expect(page.getByText("Step 2 of 6", { exact: false })).toBeVisible();
   const frame = page.frameLocator("iframe");
-  // Step 2 opens BREIT with Nevada selected.
+  // Step 2 opens BCRED with its "This quarter" box.
+  await expect(frame.getByRole("heading", { name: "This quarter" })).toBeVisible();
+  const steps = page.getByRole("navigation", { name: "All steps" }).getByRole("button");
+  const visitAll = async () => {
+    const count = await steps.count();
+    for (let n = 0; n < count; n++) {
+      await steps.nth(n).click();
+      await expect(frame.getByRole("heading", { level: 1 })).toBeVisible();
+      await expect(frame.getByText("This tool isn't available")).toHaveCount(0);
+      await expect(frame.locator("[data-addon-unavailable]")).toHaveCount(0);
+    }
+    return count;
+  };
+  expect(await visitAll()).toBe(6);
+  // The last short step lands on the comparison table.
+  await expect(frame.getByRole("heading", { name: "The four funds, compared" })).toBeInViewport();
+  // The full tour is one click away, and keeps every step.
+  await page.getByRole("button", { name: /^Full tour \(\d+ steps\)/ }).click();
+  await expect(page.getByText(/Step 1 of 17/)).toBeVisible();
+  await expect(page).toHaveURL(/\?tour=full$/);
+  await page.getByRole("button", { name: "Next →" }).click();
+  // Full tour step 2 opens BREIT with Nevada selected.
   await expect(frame.getByRole("heading", { level: 2, name: "Nevada" })).toBeVisible();
-  // Every step's live view loads without an error page.
-  const count = await page.getByRole("navigation", { name: "All steps" }).getByRole("button").count();
-  for (let n = 0; n < count; n++) {
-    await page.getByRole("navigation", { name: "All steps" }).getByRole("button").nth(n).click();
-    await expect(frame.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(frame.getByText("This tool isn't available")).toHaveCount(0);
-    await expect(frame.locator("[data-addon-unavailable]")).toHaveCount(0);
-  }
+  expect(await visitAll()).toBe(17);
+  await page.getByRole("group", { name: "Tour length" }).getByRole("button", { name: /Short tour/ }).click();
+  await expect(page.getByText("Step 1 of 6", { exact: false })).toBeVisible();
   expect(problems).toEqual([]);
 });
 
