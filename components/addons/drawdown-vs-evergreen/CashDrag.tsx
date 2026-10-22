@@ -1,0 +1,124 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { DEFAULTS, compare } from "@/lib/addons/drawdown-vs-evergreen/model";
+import { IllustrativeBadge } from "@/components/addons/shared/Badges";
+import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
+
+const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
+const short = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(1)}M` : `$${Math.round(n / 1000)}k`);
+
+/** "% of money at work": a drawdown commitment called over time vs. the same amount invested on day one. */
+export default function CashDrag({ compact = false }: { compact?: boolean }) {
+  const [commitment, setCommitment] = useState(DEFAULTS.commitment);
+  const [perYear, setPerYear] = useState(25);
+  const [cashYield, setCashYield] = useState(DEFAULTS.cashYieldPct);
+  const [assetReturn, setAssetReturn] = useState(DEFAULTS.assetReturnPct);
+  const [ddFee, setDdFee] = useState(DEFAULTS.drawdownFeePct);
+  const [egFee, setEgFee] = useState(DEFAULTS.evergreenFeePct);
+  const [distStart, setDistStart] = useState(DEFAULTS.distributionStartYear);
+  const [distPct, setDistPct] = useState(DEFAULTS.distributionPct);
+
+  const schedule = useMemo(() => {
+    const p = Math.max(1, Math.min(100, perYear));
+    const out: number[] = [];
+    let left = 100;
+    while (left > 1e-9) {
+      out.push(Math.min(p, left));
+      left -= p;
+    }
+    return out;
+  }, [perYear]);
+
+  const r = useMemo(
+    () =>
+      compare({
+        ...DEFAULTS,
+        commitment,
+        callSchedulePct: schedule,
+        cashYieldPct: cashYield,
+        assetReturnPct: assetReturn,
+        drawdownFeePct: ddFee,
+        evergreenFeePct: egFee,
+        distributionStartYear: distStart,
+        distributionPct: distPct,
+      }),
+    [commitment, schedule, cashYield, assetReturn, ddFee, egFee, distStart, distPct],
+  );
+  const data = r.rows.map((y) => ({ year: `Y${y.year}`, drawdown: +y.drawdownAtWorkPct.toFixed(1), evergreen: +y.evergreenAtWorkPct.toFixed(1) }));
+
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-muted-strong">
+          Called {schedule.length === 1 ? "all at once" : `${perYear}% a year over ${schedule.length} years`} · same {assetReturn}% asset return for both
+        </p>
+        <IllustrativeBadge />
+      </div>
+
+      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink" aria-live="polite">
+        Over {DEFAULTS.years} years, about {Math.round(r.averageDrawdownAtWorkPct)}% of the drawdown money was at work on average. Ending value: {short(r.drawdownEnd)} for
+        drawdown vs. {short(r.evergreenEnd)} for evergreen, from {short(commitment)}.
+      </p>
+
+      <figure className="space-y-2">
+        <div className={compact ? "h-48" : "h-64 print:h-48"} role="img" aria-label={`Share of money at work by year: ${data.map((d) => `${d.year} drawdown ${d.drawdown}%`).join(", ")}; evergreen 100% throughout`}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
+              <CartesianGrid vertical={false} stroke="var(--border)" />
+              <XAxis dataKey="year" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
+              <YAxis domain={[0, 100]} unit="%" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} width={44} />
+              <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "var(--bg-raised)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }} />
+              <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted-strong)" }} />
+              <Line type="stepAfter" dataKey="evergreen" name="Evergreen: % at work" stroke="var(--muted)" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line type="stepAfter" dataKey="drawdown" name="Drawdown: % at work" stroke="var(--accent)" strokeWidth={2} dot={{ r: 2.5 }} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <figcaption className="text-[11px] leading-relaxed text-muted">
+          Both structures are assumed to earn the same return, so the gap comes only from timing and fees. Real funds differ in what they own and earn.
+          Leaves out performance fees, taxes and the cash an evergreen fund keeps for redemptions.
+        </figcaption>
+      </figure>
+
+      {!compact && (
+        <>
+          <div className="no-print grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <NumberInput label="Commitment" value={commitment} onChange={setCommitment} min={0} step={500000} prefix="$" />
+            <PercentInput label="Called each year" value={perYear} onChange={setPerYear} help="25 means four equal calls. 100 means all on day one." />
+            <PercentInput label="Asset return, both (assumption)" value={assetReturn} onChange={setAssetReturn} />
+            <PercentInput label="Yield on waiting cash (assumption)" value={cashYield} onChange={setCashYield} />
+            <PercentInput label="Drawdown fee (assumption)" value={ddFee} onChange={setDdFee} help="Charged on the full commitment while money is being called, then on invested value." />
+            <PercentInput label="Evergreen fee" value={egFee} onChange={setEgFee} help="Default: BXPE's 1.25% management fee, from its 10-Q." />
+            <NumberInput label="Drawdown returns money from year" value={distStart} onChange={(v) => setDistStart(Math.round(v))} min={1} max={20} step={1} />
+            <PercentInput label="Share of fund returned each year after that" value={distPct} onChange={setDistPct} />
+          </div>
+          <div className="overflow-x-auto rounded-card border border-line">
+            <table className="tnum w-full min-w-[520px] text-right text-sm print:text-xs">
+              <caption className="sr-only">Year-by-year comparison</caption>
+              <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
+                <tr>
+                  <th scope="col" className="px-3 py-2 text-left font-medium">Year</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Drawdown at work</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Drawdown value</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Evergreen value</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {r.rows.map((y) => (
+                  <tr key={y.year}>
+                    <th scope="row" className="px-3 py-1.5 text-left font-normal text-ink">{y.year}</th>
+                    <td className="px-3 py-1.5 text-muted-strong">{y.drawdownAtWorkPct.toFixed(0)}%</td>
+                    <td className="px-3 py-1.5 text-ink">{money(y.drawdownValue)}</td>
+                    <td className="px-3 py-1.5 text-ink">{money(y.evergreenValue)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
