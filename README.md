@@ -5,6 +5,7 @@ Built from public filings as an independent prototype. **Not affiliated with Bla
 
 All five phases of `BUILD_PLAN.md` are built: BREIT, BX Infra, BXPE, BCRED, an All funds view, and the Retirement lens.
 All seven add-ons in `BUILD_PLAN_ADDONS.md` are built (three phases each) as the **Advisor Toolkit**, plus a **guided tour** at `/demo`.
+The **401(k) tab upgrade** in `BUILD_PLAN_401K.md` is built (three phases): see below.
 Live: https://private-markets-atlas.netlify.app
 
 - `DEMO_GUIDE.md` — a walkthrough for an interview or client meeting, and honest answers to likely questions.
@@ -25,10 +26,27 @@ Live: https://private-markets-atlas.netlify.app
 Each tool can be switched off in `config/addons.ts` (`enabled: false`) and disappears everywhere. Each runs inside its own error boundary.
 Fund panels on the map show a button for each tool that applies; it opens a quick version in a side drawer.
 
+## 401(k) tab upgrade (`retirement-plus`)
+
+The Retirement tab, rebuilt around Blackstone's 2026 paper *Expanding Retirement Investors' Access to Private Markets*. Every figure from the paper carries its page number. Switch it off with `enabled: false` in `config/addons.ts` and the tab is exactly the original Retirement lens.
+
+| Section | What it shows |
+| --- | --- |
+| The 0.1% problem | Pensions about 33% in private markets, 401(k)s about 0.1% (p. 3), and three reasons it matters |
+| The private slice changes with age | The published mix at ages 25 and 65 (p. 9), a straight line between them (stated on the page), and links to each asset type on the map |
+| Outcome Lab | The paper's worker (p. 9) with returns you can change, next to the paper's own result (p. 4); a 0–3% premium strip and the paper's caveats |
+| How it would reach your 401(k) | Worker → plan menu → target date fund → private slice (p. 6) |
+| When many savers want out | What a rush of withdrawals does to the private share, with a link to the Liquidity Simulator |
+| Two-sided questions | Fees, liquidity, valuation, lawsuits, complexity: the concern and the response, each sourced |
+| Rules and rulings so far | Dated milestones, each linked to its source |
+
+A **Worker | Employer** switch changes wording and order, never the numbers. **Print / Save as PDF** gives a one-page summary for either view, including the reader's own Lab result.
+
 **Changes to existing map files (logged, as the add-on plan requires):**
 1. `components/Atlas.tsx`: the "Advisor Toolkit" link (Doorway A) and the `<ThemeBar>` above the sector chips (Add-on 6, Phase 1, the one exception the plan allows). ThemeBar renders nothing when the Themes add-on is off.
 2. `components/DetailPanel.tsx`: `<AddonChips>` (Doorway B).
-3. For the guided tour (not an add-on): `components/Atlas.tsx` accepts an optional starting view, and `app/page.tsx` renders it through `components/AtlasFromUrl.tsx`, so links like `/?view=bcred&sector=Software` open the map at that spot. The header also gained a "Take the tour" link.
+3. `components/RetirementView.tsx`: one slot that renders `<RetirementPlus />` inside an error boundary when the 401(k) add-on is on (Rule B).
+4. For the guided tour (not an add-on): `components/Atlas.tsx` accepts an optional starting view, and `app/page.tsx` renders it through `components/AtlasFromUrl.tsx`, so links like `/?view=bcred&sector=Software` open the map at that spot. The header also gained a "Take the tour" link.
 
 ## Tests
 

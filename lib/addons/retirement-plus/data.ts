@@ -1,6 +1,8 @@
 import gap from "@/data/addons/retirement-plus/gap.json";
 import glide from "@/data/addons/retirement-plus/glidepath.json";
 import model from "@/data/addons/retirement-plus/model.json";
+import regulatory from "@/data/addons/retirement-plus/regulatory.json";
+import room from "@/data/addons/retirement-plus/room.json";
 
 export interface PaperSource {
   name: string;
@@ -33,3 +35,40 @@ export const MODEL = model as {
   published: { publicOnly: number; withPrivate: number; incomePublicOnly: number; incomeWithPrivate: number; incomeIncreasePct: number; source: PaperSource; method: string };
   notes: string[];
 };
+
+export interface Source {
+  name: string;
+  url: string;
+  page?: string;
+}
+
+export type AudienceId = "worker" | "employer";
+
+export interface Objection {
+  id: string;
+  title: string;
+  question: string;
+  concern: { text: string; sources: Source[] };
+  response: { text: string; sources: Source[] };
+  watch: string;
+  /** Cross-link to another add-on; hidden when that add-on is off. */
+  link?: { addon: string; href: string; label: string };
+}
+
+export const ROOM = room as {
+  asOf: string;
+  sample: boolean;
+  verify: string;
+  audiences: Record<AudienceId, { label: string; title: string; lede: string; concernsTitle: string; concernsLede: string; printTop: string[] }>;
+  howItGetsIn: { points: { text: string; source: PaperSource }[] };
+  objections: Objection[];
+};
+
+export interface RegEntry {
+  date: string;
+  title: string;
+  summary: string;
+  source: Source;
+}
+
+export const REGULATORY = regulatory as { asOf: string; sample: boolean; verify: string; entries: RegEntry[] };

@@ -90,3 +90,25 @@ Every phase ran on its own branch (`addon/<tool>-p1` … `-p3`) and merged only 
 ## Independent code review
 
 A separate reviewer read every add-on and the tour, spot-checked fund figures against the SEC filings (all matched), and found eight issues. All are fixed, each with a test: equal fee basis in the cash-drag model; a 0% redemption limit pays nothing; the early-sale deduction ends with the holding period; an exact leverage step in the Index-to-Fund bridge; capital-gains distributions taxed at the capital gains rate in the Tax Lens; impossible CSV dates rejected; the drawer keeps keyboard focus and resets per fund; the theme filter survives other views and "No theme" restores the earlier sector; `?fund=` accepts only real fund codes.
+
+## 401(k) tab upgrade (`BUILD_PLAN_401K.md`)
+
+Three phases, each on its own branch (`addon/retirement-plus-p1` … `-p3`), merged only after the full check passed.
+
+| Item | Verified |
+| --- | --- |
+| Flag off: the tab is identical to before | Unit test renders the tab with the add-on off and finds the original Retirement lens. |
+| Every number from the paper has a visible page citation | "Blackstone paper, p. X" link under each figure; data files carry the page and a verify note. |
+| Published mix at ages 25 and 65 matches the plan; 20% total at every age | Unit tests. Between published ages the tool draws a straight line and says so on the page. The paper's full age table (21–80) wasn't available, so the age-48 row and the rest are pending it. |
+| "Reset to paper's assumptions" loads every default | Unit and component tests. |
+| The premium strip and the chart agree | Component test sets all three premiums to 2% and compares the strip cell with the chart's difference. |
+| Illustrative / Hypothetical badges and the "not the paper's model" note are visible | Component test. |
+| Model tests from the plan (0% premium, 0% slice, ramp 8.8%→12%, salary × 1.045, income = balance × rate, fees lower the result) | Unit tests. |
+| Switching audience changes text and order only | Component test compares section order, card order and every Lab number across Worker and Employer. |
+| Cross-links hide when Liquidity or Smoothing are off | Component test with both tools switched off: no links to them remain. |
+| Empty timeline shows a placeholder, not an error | Component test. |
+| Objection cards give equal space to both sides | Two equal columns; data test requires a source on both sides of every card. |
+| Printout fits on one page in each audience mode | Measured as a Letter PDF: one page for Worker and for Employer. |
+| Full regression checklist | Types, lint, unit tests, build with browser tests and the 201-check map regression, after every phase. |
+
+Not built: the plan's third "Advisor" view. The tool is meant to be shareable with clients as is, so it has Worker and Employer views only.

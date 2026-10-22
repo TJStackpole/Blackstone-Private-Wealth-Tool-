@@ -1,0 +1,207 @@
+{
+  "asOf": "2026-10-22",
+  "sample": false,
+  "verify": "Paraphrased from the linked sources; confirm each against its source before relying on it.",
+  "audiences": {
+    "worker": {
+      "label": "Worker",
+      "title": "What this could mean for my retirement",
+      "lede": "Pension funds have long held private markets. Most 401(k)s, where workers now do most of their saving, hold almost none.",
+      "concernsTitle": "Fair questions to ask",
+      "concernsLede": "Each one has two sides. Both are here.",
+      "printTop": [
+        "fees",
+        "liquidity",
+        "complexity"
+      ]
+    },
+    "employer": {
+      "label": "Employer",
+      "title": "What this means for our plan",
+      "lede": "Pension plans have long held private markets. Most 401(k) menus hold almost none, and adding them is a fiduciary decision.",
+      "concernsTitle": "What a plan committee will weigh",
+      "concernsLede": "Fees, liquidity and lawsuits first. Each has two sides.",
+      "printTop": [
+        "lawsuits",
+        "fees",
+        "liquidity"
+      ]
+    }
+  },
+  "howItGetsIn": {
+    "points": [
+      {
+        "text": "Workers wouldn't buy a private fund themselves.",
+        "source": {
+          "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+          "url": "https://www.blackstone.com/defined-contribution/",
+          "page": "p. 6"
+        }
+      },
+      {
+        "text": "The private slice sits inside an option already on the menu: a target date fund, a managed account or a professionally managed portfolio, often set up as a collective investment trust.",
+        "source": {
+          "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+          "url": "https://www.blackstone.com/defined-contribution/",
+          "page": "p. 6"
+        }
+      },
+      {
+        "text": "Perpetual funds make this workable: they invest new money right away and allow periodic rebalancing. Older drawdown funds didn't.",
+        "source": {
+          "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+          "url": "https://www.blackstone.com/defined-contribution/",
+          "page": "p. 6"
+        }
+      }
+    ]
+  },
+  "objections": [
+    {
+      "id": "fees",
+      "title": "Fees",
+      "question": "Private funds cost more. Does the extra return survive?",
+      "concern": {
+        "text": "Retail versions of the funds on this map charge 1.25% a year plus a 12.5% performance fee. Any extra return has to clear that first.",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+            "page": "Note 10"
+          }
+        ]
+      },
+      "response": {
+        "text": "The paper's worker ends about $500k ahead at 65. The Labor Department's proposal asks employers to judge performance after fees, not fees alone.",
+        "sources": [
+          {
+            "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+            "url": "https://www.blackstone.com/defined-contribution/",
+            "page": "p. 4"
+          },
+          {
+            "name": "Gibson Dunn, DOL Proposes Safe Harbor for Selection of Designated Investment Alternatives in 401(k) Plans (Apr 2026)",
+            "url": "https://gibsondunn.com/dol-proposes-safe-harbor-for-selection-of-designated-investment-alternatives-in-401k-plans"
+          }
+        ]
+      },
+      "watch": "The private slice's return after all fees, next to a public benchmark. The paper's indices carry no fund fees."
+    },
+    {
+      "id": "liquidity",
+      "title": "Liquidity",
+      "question": "What happens when everyone wants out at once?",
+      "concern": {
+        "text": "Private funds can limit withdrawals. In December 2022, BREIT filled 4% of the repurchases investors asked for.",
+        "sources": [
+          {
+            "name": "BREIT Form 10-K, 2022",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297223000030/breit-20221231.htm"
+          }
+        ]
+      },
+      "response": {
+        "text": "A saver wouldn't own the private fund directly. The target date fund's manager handles withdrawals, and perpetual funds allow periodic rebalancing.",
+        "sources": [
+          {
+            "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+            "url": "https://www.blackstone.com/defined-contribution/",
+            "page": "p. 6"
+          }
+        ]
+      },
+      "watch": "How far above target the private slice can drift, and the private funds' own repurchase limits.",
+      "link": {
+        "addon": "liquidity",
+        "href": "/toolkit/liquidity#history",
+        "label": "When the limits have applied"
+      }
+    },
+    {
+      "id": "valuation",
+      "title": "Valuation",
+      "question": "A 401(k) prices daily. Private assets don't.",
+      "concern": {
+        "text": "Private assets are valued by appraisal, which moves gradually. Ups and downs show up later and smaller than in a traded price.",
+        "sources": [
+          {
+            "name": "GPIF, working paper on private real estate return smoothing (2023)",
+            "url": "https://www.gpif.go.jp/en/20230307_workingpaper_en.pdf"
+          }
+        ]
+      },
+      "response": {
+        "text": "The Labor Department's proposal makes valuation one of six factors an employer must weigh before adding any option.",
+        "sources": [
+          {
+            "name": "Gibson Dunn, DOL Proposes Safe Harbor for Selection of Designated Investment Alternatives in 401(k) Plans (Apr 2026)",
+            "url": "https://gibsondunn.com/dol-proposes-safe-harbor-for-selection-of-designated-investment-alternatives-in-401k-plans"
+          }
+        ]
+      },
+      "watch": "How often the private slice is valued, and by whom.",
+      "link": {
+        "addon": "smoothing",
+        "href": "/toolkit/smoothing",
+        "label": "Why are the values so smooth?"
+      }
+    },
+    {
+      "id": "lawsuits",
+      "title": "Lawsuits",
+      "question": "Could the employer be sued for adding it?",
+      "concern": {
+        "text": "In Anderson v. Intel, a worker says putting retirement money into hedge funds and private equity through custom target date funds was imprudent. The Supreme Court heard it on Oct 6, 2026.",
+        "sources": [
+          {
+            "name": "Ropes & Gray, Supreme Court Chooses to Hear Intel (Jan 2026)",
+            "url": "https://www.ropesgray.com/en/insights/alerts/2026/01/update-on-401k-alternatives-supreme-court-chooses-to-hear-intel-and-dol-guidance-expected-imminently"
+          },
+          {
+            "name": "Supreme Court of the United States, argument audio, No. 25-498",
+            "url": "https://www.supremecourt.gov/oral_arguments/audio/2026/25-498"
+          }
+        ]
+      },
+      "response": {
+        "text": "Lower courts dismissed that case, judging the process rather than the result. The Labor Department's proposed safe harbor would presume a careful process prudent.",
+        "sources": [
+          {
+            "name": "Ropes & Gray, Supreme Court Chooses to Hear Intel (Jan 2026)",
+            "url": "https://www.ropesgray.com/en/insights/alerts/2026/01/update-on-401k-alternatives-supreme-court-chooses-to-hear-intel-and-dol-guidance-expected-imminently"
+          },
+          {
+            "name": "Gibson Dunn, DOL Proposes Safe Harbor for Selection of Designated Investment Alternatives in 401(k) Plans (Apr 2026)",
+            "url": "https://gibsondunn.com/dol-proposes-safe-harbor-for-selection-of-designated-investment-alternatives-in-401k-plans"
+          }
+        ]
+      },
+      "watch": "The Supreme Court's decision, and whether the Labor Department finalizes its rule."
+    },
+    {
+      "id": "complexity",
+      "title": "Complexity",
+      "question": "Can workers and employers understand what they own?",
+      "concern": {
+        "text": "Layered fees, appraised values and withdrawal limits are harder to follow. Complexity is one of the six factors in the Labor Department's proposal.",
+        "sources": [
+          {
+            "name": "Gibson Dunn, DOL Proposes Safe Harbor for Selection of Designated Investment Alternatives in 401(k) Plans (Apr 2026)",
+            "url": "https://gibsondunn.com/dol-proposes-safe-harbor-for-selection-of-designated-investment-alternatives-in-401k-plans"
+          }
+        ]
+      },
+      "response": {
+        "text": "Workers wouldn't pick private funds. A professional manager would hold the slice inside an option already on the menu, such as a target date fund.",
+        "sources": [
+          {
+            "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+            "url": "https://www.blackstone.com/defined-contribution/",
+            "page": "p. 6"
+          }
+        ]
+      },
+      "watch": "Whether the plan explains the private slice in plain language."
+    }
+  ]
+}
