@@ -21,22 +21,112 @@
       {
         "label": "Net assets",
         "value": "$14.2B",
-        "note": "BXPE U.S., which owns 83.7% of the aggregator that holds the investments ($17.3B with a parallel fund)"
+        "note": "BXPE U.S., which owns 83.7% of the aggregator that holds the investments ($17.3B with a parallel fund)",
+        "change": "+43.8%",
+        "direction": "up",
+        "from": "from $9.9B on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm"
+          }
+        ]
+      },
+      {
+        "label": "NAV per unit (Class I)",
+        "value": "$39.01",
+        "note": "Series I, Transactional NAV",
+        "change": "+14.2%",
+        "direction": "up",
+        "from": "from $34.16 on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm"
+          },
+          {
+            "name": "BXPE Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm"
+          }
+        ]
+      },
+      {
+        "label": "Distribution rate",
+        "value": "None",
+        "note": "BXPE does not currently intend to declare distributions.",
+        "change": "none",
+        "direction": "flat",
+        "from": "none at Dec 31, 2025 either",
+        "sources": [
+          {
+            "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm"
+          },
+          {
+            "name": "BXPE Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm"
+          }
+        ]
+      },
+      {
+        "label": "Investments",
+        "value": "$17.19B",
+        "note": "at fair value, held by the aggregator",
+        "change": "+50.3%",
+        "direction": "up",
+        "from": "from $11.44B on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm"
+          }
+        ]
+      }
+    ]
+  },
+  "quarterSummary": {
+    "period": "Quarter ended Jun 30, 2026",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm"
+    },
+    "moreSources": [
+      {
+        "name": "BXPE Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+        "page": "Dec 31, 2025 Transactional NAV"
+      }
+    ],
+    "items": [
+      {
+        "label": "Net assets",
+        "value": "$14.2B",
+        "from": "BXPE U.S., from $9.9B on Dec 31, 2025",
+        "change": "+43.8%",
+        "direction": "up"
       },
       {
         "label": "NAV per unit",
         "value": "$39.01",
-        "note": "Transactional NAV, Class I, Series I"
+        "from": "Class I, Series I, from $34.16 on Dec 31, 2025",
+        "change": "+14.2%",
+        "direction": "up"
       },
       {
-        "label": "Corporate private equity",
-        "value": "58%",
-        "note": "Growth 24%, Hybrid Capital 12%, Secondaries 3%, Debt 3%"
+        "label": "Investments",
+        "value": "$17.19B",
+        "from": "from $11.44B on Dec 31, 2025",
+        "change": "+50.3%",
+        "direction": "up"
       },
       {
-        "label": "Named holdings",
-        "value": "2",
-        "note": "the rest are reported as 'Other investments'"
+        "label": "Units redeemed",
+        "value": "1,587,622",
+        "from": "BXPE U.S., in the quarter, at an average $38.38",
+        "change": "all filled",
+        "direction": "flat",
+        "note": "All redemption requests were satisfied in full."
       }
     ]
   },

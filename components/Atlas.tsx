@@ -11,9 +11,9 @@ import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
 import FundPrint from "./FundPrint";
-import { FUND_CODE } from "@/lib/addons/shared/funds";
 import { PrintButton } from "@/components/addons/shared/PrintOnePager";
 import FundStats from "./FundStats";
+import QuarterBox from "./QuarterBox";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
@@ -179,7 +179,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
-            {/* Phones: the key numbers first, before the map; the panel below is a collapsed sheet there. */}
+            {/* Phones: this quarter and the key numbers first, before the map; the panel below is a collapsed sheet there. */}
             <div className="mb-5 lg:hidden" data-mobile-stats>
               <div className="mb-1 flex flex-wrap items-center gap-2">
                 <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
@@ -188,6 +188,11 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
                 <FilingBadge data={data} />
                 <PrintButton className="ml-auto" />
               </div>
+              {data.quarterSummary && (
+                <div className="mb-4">
+                  <QuarterBox q={data.quarterSummary} />
+                </div>
+              )}
               <FundStats data={data} />
             </div>
             <div className="mb-4 space-y-3">
@@ -280,7 +285,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} code={FUND_CODE[layer.id]} />}
+      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} />}
 
       <SourceFooter
         data={viewId === "all" || viewId === "retirement" ? undefined : data}

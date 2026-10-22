@@ -21,22 +21,69 @@
       {
         "label": "Net asset value",
         "value": "$56.6B",
-        "note": "all share classes and operating partnership units"
+        "note": "all share classes and operating partnership units",
+        "change": "+4.2%",
+        "direction": "up",
+        "from": "from $54.3B on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          },
+          {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm"
+          }
+        ]
       },
       {
-        "label": "NAV per share",
+        "label": "NAV per share (Class I)",
         "value": "$14.53",
-        "note": "Class I"
+        "change": "+2.8%",
+        "direction": "up",
+        "from": "from $14.13 on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          },
+          {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm"
+          }
+        ]
+      },
+      {
+        "label": "Distribution rate",
+        "value": "4.6%",
+        "note": "Class I, annualized: Q2's $0.1659 a share × 4 ÷ $14.53 NAV",
+        "change": "+$0.0007",
+        "direction": "up",
+        "from": "payout a share, from $0.1652 in Q1",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          }
+        ]
       },
       {
         "label": "Properties",
         "value": "4,530",
-        "note": "plus 63,081 single-family rental homes"
-      },
-      {
-        "label": "Real estate vs. debt",
-        "value": "97% / 3%",
-        "note": "share of investments at fair value"
+        "note": "plus 63,081 single-family rental homes",
+        "change": "+47",
+        "direction": "up",
+        "from": "from 4,483 on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          },
+          {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm"
+          }
+        ]
       }
     ]
   },
@@ -2498,6 +2545,53 @@
     }
   ],
   "investmentsNote": "The 10-Q lists 191 investments. 60 of them, holding 4,200 of the 4,530 properties plus the single-family rental homes, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+  "quarterSummary": {
+    "period": "Quarter ended Jun 30, 2026",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+    },
+    "moreSources": [
+      {
+        "name": "BREIT Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+        "page": "Dec 31, 2025 NAV"
+      }
+    ],
+    "items": [
+      {
+        "label": "Net asset value",
+        "value": "$56.6B",
+        "from": "from $54.3B on Dec 31, 2025",
+        "change": "+4.2%",
+        "direction": "up"
+      },
+      {
+        "label": "NAV per share",
+        "value": "$14.53",
+        "from": "Class I, from $14.13 on Dec 31, 2025",
+        "change": "+2.8%",
+        "direction": "up"
+      },
+      {
+        "label": "Raised vs. bought back",
+        "value": "$1.1B / $0.9B",
+        "from": "shares and units, in the quarter",
+        "change": "+$0.2B net",
+        "direction": "up",
+        "note": "Every repurchase request received in the first half was filled."
+      },
+      {
+        "label": "Property sales",
+        "value": "$2.1B",
+        "from": "126 properties: rental housing, self storage, industrial",
+        "change": "126 sold",
+        "direction": "down",
+        "note": "Includes all 79 self storage properties: BREIT exited that sector."
+      }
+    ]
+  },
   "thisQuarter": [
     "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
     "Put $3.3 billion (at BREIT's share) into data center development through its QTS platform, described as 100% pre-leased.",
