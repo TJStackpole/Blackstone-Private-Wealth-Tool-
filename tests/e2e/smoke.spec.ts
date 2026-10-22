@@ -72,3 +72,21 @@ test("every fund panel's add-on chips open their drawer, and Escape closes it", 
   }
   expect(problems).toEqual([]);
 });
+
+test("a theme drives each fund's sector filter across fund switches, and turning it off restores the map", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/");
+  const sectors = page.getByRole("group", { name: "Filter by sector" });
+  const themes = page.getByRole("group", { name: "Filter by theme, across funds" });
+  if ((await themes.count()) === 0) return; // add-on switched off: nothing to check
+  await themes.getByRole("button", { name: "AI & data centers" }).click();
+  await expect(sectors.getByRole("button", { name: /^Data Centers/ })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("tab", { name: /Infrastructure/ }).click();
+  // The theme carries over: BX Infra's panel opens already filtered to its matching sector.
+  await expect(page.getByRole("heading", { level: 2, name: "Digital Infrastructure in BX Infra" })).toBeVisible();
+  await expect(sectors.getByRole("button", { name: /^Digital Infrastructure/ })).toHaveAttribute("aria-pressed", "true");
+  await themes.getByRole("button", { name: "No theme" }).click();
+  await expect(sectors.getByRole("button", { name: "All sectors" })).toHaveAttribute("aria-pressed", "true");
+  await noFallbacks(page);
+  expect(problems).toEqual([]);
+});

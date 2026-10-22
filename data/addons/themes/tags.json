@@ -1,0 +1,44 @@
+{
+  "asOf": "2026-06-30",
+  "sample": false,
+  "source": { "name": "Sector weights from each fund's Form 10-Q, quarter ended June 30, 2026 (as shown on the map)", "url": "https://www.sec.gov/edgar/search/" },
+  "method": "A theme is a set of the sector names each fund's own filing uses. Weights are those sectors' published shares of the fund. Tagging is this tool's judgment; a sector is tagged only where the filing's own label says what it is.",
+  "themes": [
+    {
+      "id": "ai-data-centers",
+      "label": "AI & data centers",
+      "description": "Buildings, power and networks that run cloud computing and AI.",
+      "sectors": { "BREIT": ["Data Centers"], "BXINFRA": ["Digital Infrastructure"] }
+    },
+    {
+      "id": "software-tech",
+      "label": "Software & tech services",
+      "description": "Companies that sell software or technology services. AI can help them or compete with them.",
+      "sectors": { "BXPE": ["Technology & Services", "Software"], "BCRED": ["Software", "IT Services"], "BXINFRA": ["Technology, Media & Entertainment"] }
+    },
+    {
+      "id": "housing",
+      "label": "Housing",
+      "description": "Apartments, single-family rentals and other places people rent to live.",
+      "sectors": { "BREIT": ["Rental Housing"] }
+    },
+    {
+      "id": "logistics",
+      "label": "Logistics & transport",
+      "description": "Warehouses, ports, rail, roads and the networks that move goods.",
+      "sectors": { "BREIT": ["Industrial"], "BXINFRA": ["Transportation Infrastructure"] }
+    },
+    {
+      "id": "energy",
+      "label": "Energy & power",
+      "description": "Producing, moving and storing energy, from pipelines to power generation.",
+      "sectors": { "BXINFRA": ["Energy Infrastructure", "Energy"], "BXPE": ["Energy"] }
+    },
+    {
+      "id": "healthcare",
+      "label": "Healthcare",
+      "description": "Providers, services and technology for health care.",
+      "sectors": { "BXPE": ["Healthcare"], "BCRED": ["Health Care Providers & Services", "Health Care Technology"], "BXINFRA": ["Healthcare"] }
+    }
+  ]
+}
