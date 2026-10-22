@@ -135,9 +135,9 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       <header className="mb-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div>
-            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Blackstone Private Market</h1>
+            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Private Markets Atlas</h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-strong">
-              Where Blackstone&apos;s retail private-markets funds invest, one fund at a time, drawn from their latest SEC filings.
+              Independent, built from public SEC filings.
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2">

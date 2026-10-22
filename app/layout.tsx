@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Blackstone Private Market",
+  title: "Private Markets Atlas",
   description:
     "An independent, interactive map of where retail private-markets funds invest, built from public filings. Not affiliated with Blackstone. Not investment advice.",
 };

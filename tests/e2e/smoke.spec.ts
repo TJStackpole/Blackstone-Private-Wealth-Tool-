@@ -105,7 +105,7 @@ test("Family Office mode reorders the toolkit, is kept while browsing tools, and
   await page.getByRole("link", { name: "Advisor Toolkit" }).click();
   await expect(page.getByRole("group", { name: "Audience" }).getByRole("button", { name: "Family Office" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("link", { name: "← Map" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Blackstone Private Market" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Private Markets Atlas" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);
   expect(problems).toEqual([]);
 });
