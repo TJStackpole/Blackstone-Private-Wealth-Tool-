@@ -7,7 +7,7 @@ import { AudienceToggle } from "@/components/addons/shared/Audience";
 import ToolkitCards from "@/components/addons/shared/ToolkitCards";
 
 export const metadata: Metadata = {
-  title: "Advisor Toolkit · Blackstone Private Market",
+  title: "Advisor Toolkit · Private Markets Atlas",
   description: "Illustrative tools that help explain perpetual private-markets funds. Independent prototype; not affiliated with Blackstone.",
 };
 

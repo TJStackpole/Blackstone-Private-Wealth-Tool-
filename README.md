@@ -43,7 +43,7 @@ The Retirement tab, rebuilt around Blackstone's 2026 paper *Expanding Retirement
 A **Worker | Employer** switch changes wording and order, never the numbers. **Print / Save as PDF** gives a one-page summary for either view, including the reader's own Lab result.
 
 **Changes to existing map files (logged, as the add-on plan requires):**
-1. `components/Atlas.tsx`: the "Advisor Toolkit" link (Doorway A) and the `<ThemeBar>` above the sector chips (Add-on 6, Phase 1, the one exception the plan allows). ThemeBar renders nothing when the Themes add-on is off.
+1. `components/Atlas.tsx`: the "Advisor Toolkit" link (Doorway A) and the `<ThemeBar>` ("Explore a theme") above the map (Add-on 6, Phase 1, the one exception the plan allows). ThemeBar renders nothing when the Themes add-on is off.
 2. `components/DetailPanel.tsx`: `<AddonChips>` (Doorway B).
 3. `components/RetirementView.tsx`: one slot that renders `<RetirementPlus />` inside an error boundary when the 401(k) add-on is on (Rule B).
 4. For the guided tour (not an add-on): `components/Atlas.tsx` accepts an optional starting view, and `app/page.tsx` renders it through `components/AtlasFromUrl.tsx`, so links like `/?view=bcred&sector=Software` open the map at that spot. The header also gained a "Take the tour" link.
@@ -93,7 +93,7 @@ npm run build
 | `data/*.json` | One file per fund, generated from SEC filings by `scripts/sec/build_data.py`. `retirement.json` holds the illustrative 401(k) lens. |
 | `scripts/sec/` | Downloads the filings from EDGAR and rebuilds the data, checking every total against the filing. |
 | `data/layers.ts` | The list of map layers (one per fund). Adding a fund = add one JSON file + one entry here. |
-| `components/` | The map, tabs, sector chips, detail panel, legend, and footer. `components/addons/<tool>/` holds each tool's screens; `components/demo/` the tour. |
+| `components/` | The map, tabs, detail panel (its Sector mix doubles as the sector filter), legend, and footer. `components/addons/<tool>/` holds each tool's screens; `components/demo/` the tour. |
 | `lib/` | Shared types and the math that rolls metros up into state totals. `lib/addons/<tool>/` holds each tool's math, all tested. |
 | `config/addons.ts` | The list of tools, with their on/off switches. |
 | `data/addons/<tool>/` | Each tool's data, every figure with its source and date. |

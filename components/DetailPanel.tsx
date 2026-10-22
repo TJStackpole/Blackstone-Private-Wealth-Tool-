@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import type { FundData, LayerDef, NamedHolding, Share, ThirdPartyFact } from "@/lib/types";
+import type { FundData, LayerDef, NamedHolding, QuarterMove, Share, ThirdPartyFact } from "@/lib/types";
 import { formatDate, formatMoneyMillions, formatPct } from "@/lib/aggregate";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
+import FundStats from "./FundStats";
 import AddonChips from "./addons/shared/AddonChips";
+import { holdingsLead } from "./HoldingsLead";
 
 interface Props {
   layer: LayerDef;
@@ -16,6 +18,8 @@ interface Props {
   /** State code (BREIT) or region / country-group key (other funds). */
   selected: string | null;
   onSelect: (key: string | null) => void;
+  /** Picks the sector filter; the Sector mix rows become buttons when it's given. */
+  onSector?: (sector: string | null) => void;
   /** Geography currently drawn on the map (overall, or the selected sector's split). */
   geoItems: Share[];
 }
@@ -91,17 +95,87 @@ function Bars({ rows, highlight }: { rows: Share[]; highlight?: string | null })
   );
 }
 
-function Stats({ data }: { data: FundData }) {
+/** The fund's sector mix, doubling as the sector filter: one sector at a time, "All sectors" clears it. */
+function SectorFilter({ rows, active, onSector }: { rows: Share[]; active: string | null; onSector: (s: string | null) => void }) {
+  const max = Math.max(...rows.map((r) => r.pct), 0.1);
   return (
-    <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-y border-line py-4">
-      {data.summary.stats.map((s) => (
-        <div key={s.label}>
-          <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{s.label}</dt>
-          <dd className="tnum font-serif text-2xl text-ink">{s.value}</dd>
-          {s.note && <dd className="text-xs leading-snug text-muted">{s.note}</dd>}
-        </div>
-      ))}
-    </dl>
+    <div role="group" aria-label="Filter by sector">
+      <div className="mb-2 flex items-center justify-between gap-3 border-b border-line pb-2">
+        <h3 className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted-strong">Sector mix</h3>
+        <button
+          type="button"
+          aria-pressed={active === null}
+          onClick={() => onSector(null)}
+          className={[
+            "tap-sm inline-flex h-7 items-center rounded-full border px-2.5 text-xs font-medium transition-colors",
+            active === null ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
+          ].join(" ")}
+        >
+          All sectors
+        </button>
+      </div>
+      <ul className="-mx-2 space-y-0.5">
+        {rows.map((r) => {
+          const on = active === r.key;
+          const dim = active !== null && !on;
+          const body = (
+            <>
+              <span className="mb-1 flex items-baseline justify-between gap-3 text-xs">
+                <span className={["truncate", on ? "font-medium text-ink" : "text-ink"].join(" ")}>{r.label}</span>{" "}
+                <span className="tnum shrink-0 text-muted-strong">{formatPct(r.pct)}</span>
+              </span>
+              <span aria-hidden className="block h-1.5 w-full overflow-hidden rounded-full bg-map-empty">
+                <span className="block h-full rounded-full bg-accent transition-[width] duration-300" style={{ width: `${(r.pct / max) * 100}%` }} />
+              </span>
+            </>
+          );
+          // "All other …" is a remainder, not a sector the filing breaks out, so it can't be picked.
+          return (
+            <li key={r.key} className={["transition-opacity", dim ? "opacity-45" : ""].join(" ")}>
+              {r.key.startsWith("All other") ? (
+                <div className="px-2 py-1.5">{body}</div>
+              ) : (
+                <button
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onSector(on ? null : r.key)}
+                  className={["block w-full rounded-md px-2 py-1.5 text-left transition-colors hover:bg-bg", on ? "bg-bg ring-1 ring-accent/50" : ""].join(" ")}
+                >
+                  {body}
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+/** The same filter as the Sector mix, compact, for when a state or region is open. */
+function SectorSelect({ data, sector, onSector }: { data: FundData; sector: string | null; onSector: (s: string | null) => void }) {
+  const id = useId();
+  return (
+    <div className="flex items-center gap-2">
+      <label htmlFor={id} className="text-xs text-muted-strong">
+        Sector
+      </label>
+      <select
+        id={id}
+        value={sector ?? ""}
+        onChange={(e) => onSector(e.target.value || null)}
+        className="tap h-8 min-w-0 max-w-full rounded-full border border-line bg-bg-raised px-3 text-xs text-ink focus-visible:border-accent"
+      >
+        <option value="">All sectors</option>
+        {data.sectors
+          .filter((s) => !s.key.startsWith("All other"))
+          .map((s) => (
+            <option key={s.key} value={s.key}>
+              {s.label} · {formatPct(s.pct)}
+            </option>
+          ))}
+      </select>
+    </div>
   );
 }
 
@@ -127,6 +201,54 @@ function Holdings({ items, sector }: { items: NamedHolding[]; sector: string | n
         </li>
       ))}
     </ol>
+  );
+}
+
+function Arrow({ direction }: { direction: QuarterMove["direction"] }) {
+  if (direction === "flat") return <span aria-hidden>→</span>;
+  return (
+    <svg aria-hidden width="10" height="10" viewBox="0 0 10 10" className={direction === "down" ? "rotate-180" : undefined}>
+      <path d="M5 1.5 9 7.5H1z" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** The latest quarter in four numbers, each with which way it moved and what it's compared with. Direction only: no good or bad colors. */
+function QuarterBox({ q }: { q: NonNullable<FundData["quarterSummary"]> }) {
+  return (
+    <section aria-labelledby="quarter-h" className="overflow-hidden rounded-card border border-line bg-bg-raised">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 border-b border-line px-4 py-2.5">
+        <h3 id="quarter-h" className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink">
+          This quarter
+        </h3>
+        <span className="tnum text-[11px] text-muted">{q.period}</span>
+      </div>
+      <dl className="grid grid-cols-2">
+        {q.items.map((m, i) => (
+          <div key={m.label} className={["flex flex-col gap-1 p-3.5 sm:p-4", i % 2 === 1 ? "border-l border-line" : "", i > 1 ? "border-t border-line" : ""].join(" ")} data-quarter={m.label}>
+            <dt className="text-[11px] uppercase tracking-[0.08em] text-muted" title={m.note}>
+              {m.label}
+            </dt>
+            <dd className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span className="tnum font-serif text-[22px] leading-none text-ink">{m.value}</span>
+              <span className="tnum inline-flex items-center gap-1 rounded-full border border-line bg-bg px-1.5 py-0.5 text-[11px] font-medium text-ink">
+                <Arrow direction={m.direction} />
+                <span className="sr-only">{m.direction === "up" ? "Up" : m.direction === "down" ? "Down" : "Unchanged"}:</span>
+                {m.change}
+              </span>
+            </dd>
+            <dd className="tnum text-xs leading-snug text-muted">{m.from}</dd>
+            {m.note && <dd className="text-[11px] leading-snug text-muted">{m.note}</dd>}
+          </div>
+        ))}
+      </dl>
+      <p className="border-t border-line px-4 py-2 text-[11px] text-muted">
+        <span className="tnum">As of {formatDate(q.asOf)}</span> · Source:{" "}
+        <a href={q.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
+          {q.source.name}
+        </a>
+      </p>
+    </section>
   );
 }
 
@@ -160,7 +282,7 @@ function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
 
 /* ---------------------------------------------------------------- overview */
 
-function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
+function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) {
   const facts = (data.context ?? []).filter((f) => !f.appliesTo || !sector || f.appliesTo === sector);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
   return (
@@ -175,16 +297,26 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
         <h2 className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink">
           {sectorLabel ? `${sectorLabel} in ${data.fund}` : `Where ${data.fund} invests`}
         </h2>
+        {data.quarterSummary && <QuarterBox q={data.quarterSummary} />}
         <p className="text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>
       </header>
 
-      <Stats data={data} />
+      {/* On phones these sit above the map instead (the panel is a sheet there), so they aren't read twice. */}
+      <div className="hidden lg:block">
+        <FundStats data={data} />
+      </div>
 
       <AddonChips fundId={layer.id} />
 
       <section>
-        <SectionTitle>Sector mix</SectionTitle>
-        <Bars rows={data.sectors} highlight={sector} />
+        {onSector ? (
+          <SectorFilter rows={data.sectors} active={sector} onSector={onSector} />
+        ) : (
+          <>
+            <SectionTitle>Sector mix</SectionTitle>
+            <Bars rows={data.sectors} highlight={sector} />
+          </>
+        )}
         <Basis>{data.sectorBasis}</Basis>
       </section>
 
@@ -212,7 +344,8 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
         </section>
       )}
 
-      {data.topHoldings && (
+      {/* Credit funds show their borrowers in the main column instead. */}
+      {data.topHoldings && !holdingsLead(data) && (
         <section>
           <SectionTitle>{sectorLabel ? `Named ${sectorLabel} holdings` : "Named holdings"} · % of net assets</SectionTitle>
           <Holdings items={data.topHoldings.items} sector={sector} />
@@ -220,7 +353,7 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
         </section>
       )}
 
-      {data.thisQuarter && (
+      {data.thisQuarter && !data.quarterSummary && (
         <section>
           <SectionTitle>This quarter, per the filing</SectionTitle>
           <ul className="list-disc space-y-1.5 pl-4 text-xs leading-relaxed text-muted-strong">
@@ -293,7 +426,7 @@ function SelectionView(props: Props & { selected: string }) {
 
 type ViewProps = Props & { selected: string; headingRef: React.RefObject<HTMLHeadingElement | null> };
 
-function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
+function StateView({ data, selected: abbr, sector, onSector, headingRef }: ViewProps) {
   const region = NCREIF_REGION[abbr];
   const regionShare = data.geography.items.find((i) => i.key === region);
   const top = data.geography.topStates?.find((t) => t.state === abbr);
@@ -313,6 +446,7 @@ function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
         <h2 ref={headingRef} tabIndex={-1} className="font-serif text-[32px] font-medium leading-[1.05] tracking-[-0.01em] text-ink">
           {stateName(abbr)}
         </h2>
+        {onSector && <SectorSelect data={data} sector={sector} onSector={onSector} />}
       </header>
 
       <dl className="grid grid-cols-2 gap-4 border-y border-line py-4">
@@ -365,7 +499,7 @@ function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
   );
 }
 
-function RegionView({ data, selected, sector, geoItems, headingRef }: ViewProps) {
+function RegionView({ data, selected, sector, onSector, geoItems, headingRef }: ViewProps) {
   const share = geoItems.find((g) => g.key === selected);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
   const holdings = (data.topHoldings?.items ?? []).filter((h) => h.geo === selected && (!sector || h.sector === sector));
@@ -381,6 +515,7 @@ function RegionView({ data, selected, sector, geoItems, headingRef }: ViewProps)
         <h2 ref={headingRef} tabIndex={-1} className="font-serif text-[32px] font-medium leading-[1.05] tracking-[-0.01em] text-ink">
           {share?.label ?? selected}
         </h2>
+        {onSector && <SectorSelect data={data} sector={sector} onSector={onSector} />}
       </header>
 
       <dl className="border-y border-line py-4">

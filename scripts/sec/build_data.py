@@ -458,6 +458,31 @@ def build_bcred(old):
         return "Joint venture" if "JV" in d["name"] else d["industry"]
 
     hiw = old.get("howItWorks", {})
+
+    def move(now, before):
+        """Signed percent change with a true minus sign, and its direction."""
+        ch = (now / before - 1) * 100
+        return f"{'+' if ch > 0 else '−'}{abs(ch):.1f}%", "up" if ch > 0 else "down" if ch < 0 else "flat"
+
+    # Distributions: the Class I table in the notes (first one after this sentence), and July's declaration in subsequent events.
+    di = next(i for i, l in enumerate(lines) if l.startswith("The Board authorizes and declares monthly distribution amounts per share"))
+    ci = next(i for i in range(di, di + 5) if lines[i].strip() == "Class I")
+    rows = []
+    for l in lines[ci + 2:ci + 12]:
+        m = re.match(r"^(\w+) \d+, 2026 \| (\w+ \d+, 2026) \| .* \| (?:\$ \| )?([\d.]+) \| (?:\$ \| )?[\d,]+$", l)
+        if not m:
+            break
+        rows.append((m.group(2), float(m.group(3))))
+    check(len(rows) == 6, f"BCRED: six Class I monthly distributions in 2026 ({len(rows)})")
+    june = rows[-1][1]
+    july = float(re.search(r"declared net distributions of \$([\d.]+) per Class I share", "\n".join(lines)).group(1))
+    rate, rate_july = june * 12 / float(navps) * 100, july * 12 / float(navps) * 100
+    check(9 < rate < 11, f"BCRED: Class I distribution rate {rate:.2f}%")
+
+    nav_ch, nav_dir = move(nav, 47.6)
+    navps_ch, navps_dir = move(float(navps), 24.79)
+    q1, q2 = float(tenders[0]["pct"]), float(tenders[1]["pct"])
+    nonaccrual, nonaccrual_prior = 15, 9
     return {
         "fund": "BCRED",
         "assetClass": "Private Credit",
@@ -469,7 +494,8 @@ def build_bcred(old):
         "summary": {
             "headline": "BCRED is a non-traded business development company that lends directly to private companies, mostly through first lien, floating-rate loans. Investors buy shares at a monthly NAV, and the fund buys shares back through quarterly tender offers.",
             "stats": [
-                {"label": "Net assets", "value": f"${nav:.1f}B", "note": "down from $47.6B on Dec 31, 2025"},
+                {"label": "Distribution rate", "value": f"{rate:.1f}%",
+                 "note": f"Class I, annualized: June's ${june:.2f} a share × 12 ÷ ${float(navps):.2f} NAV, Jun 30, 2026. July's declared ${july:.2f} is {rate_july:.1f}%."},
                 {"label": "NAV per share", "value": f"${float(navps):.2f}", "note": "down from $24.79 on Dec 31, 2025"},
                 {"label": "Portfolio companies", "value": f"{n_co:,}", "note": f"{n_co_prior:,} at Dec 31, 2025; ${tot / 1e6:.1f}B of investments at fair value"},
                 {"label": "First lien loans", "value": "91.0%", "note": "of investments; 99.8% of performing debt is floating rate"},
@@ -490,6 +516,22 @@ def build_bcred(old):
         "notDisclosed": [
             "Where borrowers are headquartered. The filing reports country groups, so U.S. borrowers can't be placed on a state map.",
         ],
+        "quarterSummary": {
+            "period": "Quarter ended Jun 30, 2026",
+            "asOf": "2026-06-30",
+            "source": {"name": "BCRED Form 10-Q, quarter ended June 30, 2026", "url": url},
+            "items": [
+                {"label": "Net assets", "value": f"${nav:.1f}B", "from": "from $47.6B on Dec 31, 2025", "change": nav_ch, "direction": nav_dir},
+                {"label": "NAV per share", "value": f"${float(navps):.2f}", "from": "from $24.79 on Dec 31, 2025", "change": navps_ch, "direction": navps_dir},
+                {"label": "Bought back, pro rata", "value": f"{q2:.1f}%", "from": f"of shares, from {q1:.1f}% in Q1",
+                 "change": f"{'+' if q2 > q1 else '−' if q2 < q1 else ''}{abs(q2 - q1):.1f} pts",
+                 "direction": "up" if q2 > q1 else "down" if q2 < q1 else "flat",
+                 "note": "Requests exceeded the quarterly limit, so each was filled in part."},
+                {"label": "Non-accrual issuers", "value": f"{nonaccrual}", "from": f"from {nonaccrual_prior} at Dec 31, 2025",
+                 "change": f"+{nonaccrual - nonaccrual_prior}", "direction": "up",
+                 "note": "Loans with reasonable doubt that principal or interest will be paid in full."},
+            ],
+        },
         "thisQuarter": [
             f"Investors asked to sell back more shares than the quarterly limit allowed, so requests were filled pro rata. The fund bought back {tenders[1]['pct']}% of shares (${tenders[1]['amount']:.2f}B at ${tenders[1]['price']}).",
             f"In the first quarter it bought back {tenders[0]['pct']}% of shares (${tenders[0]['amount']:.2f}B at ${tenders[0]['price']}), more than the 5% quarterly level.",

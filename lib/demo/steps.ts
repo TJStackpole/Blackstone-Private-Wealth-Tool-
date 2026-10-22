@@ -36,7 +36,7 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "Filter by sector",
     body: [
-      "The sector buttons above the map filter what you see. Here it's Data Centers, 27% of BREIT.",
+      "Each line of the panel's Sector mix is also a filter. Here it's Data Centers, 27% of BREIT.",
       "Where the filing doesn't split a region by sector, the map says so instead of guessing.",
     ],
     tryThis: "Pick a different sector, or All sectors to reset.",
@@ -64,7 +64,7 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "Themes that cut across funds",
     body: [
-      "The Theme row above the sectors picks the same idea in every fund at once. 'AI & data centers' is Data Centers in BREIT and Digital Infrastructure in BX Infra.",
+      "'Explore a theme', above the map, picks the same idea in every fund at once. 'AI & data centers' is Data Centers in BREIT and Digital Infrastructure in BX Infra.",
       "The theme stays on as you switch funds. 'No theme' turns it off and puts back the sector you had before.",
     ],
     tryThis: "With the theme on, click the Infrastructure tab.",

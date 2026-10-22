@@ -26,7 +26,8 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
       <ul className="grid gap-4 sm:grid-cols-2">
         {funds.map((layer) => {
           const data = layer.data!;
-          const nav = data.summary.stats[0];
+          // Fund size, wherever the fund's data keeps it (BCRED's is in its This quarter box).
+          const nav = data.summary.stats.find((s) => /^Net asset/.test(s.label)) ?? data.quarterSummary?.items.find((m) => m.label === "Net assets") ?? data.summary.stats[0];
           const lead = [...data.geography.items].sort((a, b) => b.pct - a.pct)[0];
           return (
             <li

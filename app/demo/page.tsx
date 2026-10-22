@@ -4,7 +4,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import Tour from "@/components/demo/Tour";
 
 export const metadata: Metadata = {
-  title: "Guided tour · Blackstone Private Market",
+  title: "Guided tour · Private Markets Atlas",
   description: "A step-by-step tour of every feature: the fund maps, the Advisor Toolkit and how the data is sourced. Independent prototype; not affiliated with Blackstone.",
 };
 
