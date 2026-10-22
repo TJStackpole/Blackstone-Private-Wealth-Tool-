@@ -1,0 +1,68 @@
+{
+  "fund": "BREIT",
+  "sample": false,
+  "updated": "2026-10-21",
+  "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
+  "claims": [
+    {
+      "id": "breit-income",
+      "claim": "Aims to pay regular, stable cash distributions.",
+      "claimSource": {
+        "name": "BREIT Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "Average annualized distribution rate, Q2 2026",
+      "value": "4.6% (Class I), 4.5% (Class D), 3.8% (Class S); distributions declared monthly",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+        "page": "Operating Results"
+      },
+      "status": "consistent",
+      "context": "Distributions were declared every month in the quarter. Recent years' payouts were classified mainly as return of capital, which matters for tax (see Tax Lens).",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "breit-preserve",
+      "claim": "Aims to preserve and protect invested capital.",
+      "claimSource": {
+        "name": "BREIT Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "Total return, 2026 to June 30, and since inception (annualized), Class I",
+      "value": "5.2% year to date; 9.4% a year since inception",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+        "page": "Operating Results"
+      },
+      "status": "consistent",
+      "context": "Returns over both periods are positive. Capital can still be hard to reach: BREIT limited repurchases at times between late 2022 and early 2024 (see Liquidity Simulator).",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "breit-volatility",
+      "claim": "Offers lower observed volatility than public real estate companies.",
+      "claimSource": {
+        "name": "BREIT Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "How the value per share is set",
+      "value": "Monthly, based partly on independent appraisals (each property at least yearly) and reviewed by an independent valuation advisor",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+        "page": "Net Asset Value"
+      },
+      "status": "watch",
+      "context": "The claim says \"observed\" volatility, which is accurate: appraisal-based values move more gradually than traded prices. Lower observed volatility isn't the same as lower risk (see Why So Smooth?).",
+      "statusSetBy": "draft"
+    }
+  ]
+}

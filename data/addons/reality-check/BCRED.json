@@ -1,0 +1,68 @@
+{
+  "fund": "BCRED",
+  "sample": false,
+  "updated": "2026-10-21",
+  "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
+  "claims": [
+    {
+      "id": "bcred-income",
+      "claim": "Aims to generate current income.",
+      "claimSource": {
+        "name": "BCRED Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "Net investment income vs. distributions per share, six months to June 30, 2026 (Class I)",
+      "value": "$1.07 earned; $1.20 distributed",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+        "page": "Note 10: Financial Highlights and Senior Securities"
+      },
+      "status": "watch",
+      "context": "The fund produced substantial income, but distributed more than it earned in net investment income over the period.",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "bcred-principal",
+      "claim": "Takes a defensive approach focused on principal protection.",
+      "claimSource": {
+        "name": "BCRED Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "NAV per share, December 31, 2025 to June 30, 2026",
+      "value": "$24.79 → $23.65 (−4.6%); first lien loans 91.0% of investments",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+        "page": "Note 10: Financial Highlights; Consolidated Schedule of Investments"
+      },
+      "status": "watch",
+      "context": "The portfolio is mostly first lien loans, but the value per share fell over the six months as loans were marked down; total return for Class I was 0.2%.",
+      "statusSetBy": "draft"
+    },
+    {
+      "id": "bcred-monitoring",
+      "claim": "Monitors the portfolio closely to anticipate and head off credit problems.",
+      "claimSource": {
+        "name": "BCRED Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+        "page": "Item 1: Investment Objectives"
+      },
+      "metric": "Borrowers with loans on non-accrual status",
+      "value": "15 issuers (25 loans), up from 9 issuers (16 loans) at year-end",
+      "asOf": "2026-06-30",
+      "source": {
+        "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+        "page": "Consolidated Schedule of Investments (loans marked non-accrual, counted by this tool)"
+      },
+      "status": "watch",
+      "context": "Non-accrual means there is reasonable doubt that interest or principal will be paid in full. The count rose over the six months.",
+      "statusSetBy": "draft"
+    }
+  ]
+}
