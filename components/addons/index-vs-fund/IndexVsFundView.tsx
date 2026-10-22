@@ -33,9 +33,7 @@ export default function IndexVsFundView({ initialFund = "BREIT" }: { initialFund
             <h2 id="ivf-bridge-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
               From the index to a share class, step by step
             </h2>
-            <p className="no-print max-w-3xl text-sm leading-relaxed text-muted-strong">
-              Each bar is one reason the numbers differ, sized from the inputs below. Pick a share class to see its servicing fee change the result.
-            </p>
+            <p className="no-print max-w-3xl text-sm text-muted-strong">Each bar is one reason the numbers differ. Pick a share class to compare.</p>
             <BridgeChart key={fund} data={data} />
           </section>
           <p className="hidden border-t pt-2 text-[10px] print:block">

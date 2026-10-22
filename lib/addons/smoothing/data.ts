@@ -12,7 +12,7 @@ export interface SmoothingContent {
   asOf: string;
   sample: boolean;
   source: AddonSource;
-  sections: { id: string; title: string; paragraphs: Paragraph[] }[];
+  sections: { id: string; title: string; summary: string; paragraphs: Paragraph[] }[];
   script: string[];
   objections: { q: string; a: string }[];
 }

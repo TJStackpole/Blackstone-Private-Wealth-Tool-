@@ -1,6 +1,5 @@
 import Link from "next/link";
 import AddonShell from "@/components/addons/shared/AddonShell";
-import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { TAGS } from "@/lib/addons/themes/tags";
 import BullBear from "./BullBear";
@@ -9,17 +8,7 @@ import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import ThemeMatrix from "./ThemeMatrix";
 
-export const THEME_SCRIPT = [
-  "Owning four different funds isn't the same as owning four different bets. Some themes, like AI and data centers, run through more than one of them.",
-  "Here's how much of each fund sits in each theme, from the sector weights in its own filing.",
-  "Adding up what you hold across funds, plus any stocks tied to the same theme, shows how concentrated the whole portfolio really is.",
-];
 
-export const IC_THEME = [
-  "What is our look-through exposure to AI and data centers across all managers and public holdings?",
-  "Would this fund take any theme above our concentration limits?",
-  "What are the strongest arguments against our largest theme, and who makes them?",
-];
 
 /** Add-on 6: the themes that run across funds, and how much of each fund sits in each. */
 export default function ThemesPage() {
@@ -27,7 +16,12 @@ export default function ThemesPage() {
     <AddonShell
       addonId="themes"
       title="Theme Exposure"
-      subtitle="Some investment themes run through several funds at once. This shows how much of each fund sits in each theme, using the sector weights in the funds' own filings, so a client holding several funds can see what they add up to."
+      subtitle="Themes like AI and data centers run through several funds at once. See how much of each fund sits in each, and what holdings add up to."
+      glance={[
+        { value: "27%", label: "of BREIT in data centers" },
+        { value: "24.1%", label: "of BX Infra in digital infrastructure" },
+        { value: "30.5%", label: "of BCRED in software and IT services" },
+      ]}
       badges={<AsOfSource asOf={TAGS.asOf} source={TAGS.source} />}
     >
       <div className="space-y-12">
@@ -41,12 +35,12 @@ export default function ThemesPage() {
               <h2 id="th-matrix-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:hidden">
                 Each fund, theme by theme
               </h2>
-              <p className="max-w-3xl text-sm leading-relaxed text-muted-strong print:hidden">
-                {TAGS.method} On the{" "}
-                <Link href="/" className="underline decoration-line underline-offset-2 hover:text-ink">
-                  map
-                </Link>
-                , the Theme row above the sector filter applies a theme to every fund as you switch between them.
+              <p className="max-w-3xl text-sm text-muted-strong print:hidden">
+                From the sector weights in each fund&apos;s filing. The{" "}
+                <Link href="/?view=breit&theme=ai-data-centers" className="underline decoration-line underline-offset-2 hover:text-ink">
+                  Theme row on the map
+                </Link>{" "}
+                shows the same thing, fund by fund.
               </p>
               <ThemeMatrix />
             </section>
@@ -63,15 +57,13 @@ export default function ThemesPage() {
         </PrintOnePager>
         <section aria-labelledby="th-lt-h" className="space-y-4">
           <h2 id="th-lt-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
-            A client&apos;s look-through
+            Your look-through
           </h2>
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            Enter what a client holds in each fund, and any other holdings tied to a theme (a stock, an ETF). The total by theme shows how concentrated the
-            whole portfolio is. The example starts with $250,000 in each fund plus $200,000 of Nvidia stock tagged to AI &amp; data centers.
+          <p className="max-w-3xl text-sm text-muted-strong">
+            Enter what you hold in each fund, plus any stocks tied to a theme. The example: $250,000 in each fund and $200,000 of Nvidia stock.
           </p>
           <LookThroughCalc />
         </section>
-        <ClientScriptCard points={THEME_SCRIPT} icPoints={IC_THEME} />
       </div>
     </AddonShell>
   );

@@ -1,5 +1,5 @@
 /**
- * Liquidity Reserve check: how many years of spending the client's liquid assets cover without redeeming anything.
+ * Liquidity Reserve check: how many years of spending your other liquid savings cover without redeeming anything.
  * Returns Infinity when there's no spending to cover, and 0 when there are no liquid assets.
  */
 export function yearsCovered(liquidAssets: number, annualSpending: number): number {

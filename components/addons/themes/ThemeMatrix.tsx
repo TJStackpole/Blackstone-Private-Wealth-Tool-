@@ -35,6 +35,9 @@ export default function ThemeMatrix({ only }: { only?: FundCode }) {
                     {w > 0 ? (
                       <>
                         <span className="block text-ink">{w}%</span>
+                        <span aria-hidden className="ml-auto mt-1 block h-1.5 w-full max-w-[96px] overflow-hidden rounded-full bg-line">
+                          <span className="ml-auto block h-full rounded-full bg-accent" style={{ width: `${Math.min(100, w * 2)}%` }} />
+                        </span>
                         <span className="block text-xs text-muted">{themeSectors(t, f).map((s) => s.key).join(" + ")}</span>
                       </>
                     ) : (

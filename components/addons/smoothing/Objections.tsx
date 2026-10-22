@@ -1,6 +1,6 @@
 import { CONTENT } from "@/lib/addons/smoothing/data";
 
-/** "If the client says…": common pushbacks with plain answers. Native details/summary on screen; printed fully open. */
+/** Common questions with plain answers. Native details/summary on screen; printed fully open. */
 export default function Objections() {
   return (
     <>

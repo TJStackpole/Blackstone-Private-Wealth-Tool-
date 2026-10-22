@@ -2,7 +2,7 @@
   "fund": "BREIT",
   "sample": false,
   "updated": "2026-10-22",
-  "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
+  "note": "Claims are each fund's own stated objectives, paraphrased from its annual report. Labels are a preliminary reading of the data, set by a person, not by code.",
   "claims": [
     {
       "id": "breit-income",

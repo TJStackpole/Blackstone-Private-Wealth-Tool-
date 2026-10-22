@@ -5,7 +5,7 @@ import { reserveSentence, yearsCovered } from "@/lib/addons/liquidity/reserve";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput } from "@/components/addons/shared/Inputs";
 
-/** "Will I need to?" rather than "Can I get out?": years of spending the client's liquid assets cover on their own. */
+/** "Will I need to?" rather than "Can I get out?": years of spending your other liquid savings cover on their own. */
 export default function ReserveCheck() {
   const [liquid, setLiquid] = useState(400_000);
   const [spending, setSpending] = useState(150_000);
@@ -18,7 +18,7 @@ export default function ReserveCheck() {
         <IllustrativeBadge />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <NumberInput label="Liquid assets outside the fund (cash, bonds, public stocks)" value={liquid} onChange={setLiquid} min={0} step={10000} prefix="$" />
+        <NumberInput label="Other savings you can sell easily (cash, bonds, stocks)" value={liquid} onChange={setLiquid} min={0} step={10000} prefix="$" />
         <NumberInput label="Annual spending needs" value={spending} onChange={setSpending} min={0} step={5000} prefix="$" />
       </div>
       <p className="font-serif text-lg leading-snug text-ink" aria-live="polite">

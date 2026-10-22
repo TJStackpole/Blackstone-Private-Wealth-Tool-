@@ -1,0 +1,31 @@
+{
+  "asOf": "2026-01-01",
+  "sample": false,
+  "verify": "Figure as transcribed in BUILD_PLAN_401K.md from the paper; confirm against the paper's page before relying on it.",
+  "privateTotalPct": 20,
+  "note": "Only the ages listed in the build plan are included. Between them, this tool draws a straight line; the paper's full age table may differ.",
+  "rows": [
+    {
+      "age": 25,
+      "privateEquity": 15,
+      "privateRealAssets": 4,
+      "privateCredit": 1,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    },
+    {
+      "age": 65,
+      "privateEquity": 5,
+      "privateRealAssets": 9.7,
+      "privateCredit": 5.3,
+      "source": {
+        "name": "Blackstone, Expanding Retirement Investors' Access to Private Markets (2026)",
+        "page": "p. 9",
+        "url": "https://www.blackstone.com/defined-contribution/"
+      }
+    }
+  ]
+}

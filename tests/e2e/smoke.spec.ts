@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { ADDONS, enabledAddons } from "@/config/addons";
+import { ADDONS, toolkitAddons } from "@/config/addons";
 
 /** Fails the test on any uncaught error or console error, and on any add-on showing its fallback. */
 function watch(page: Page) {
@@ -38,7 +38,7 @@ test("Advisor Toolkit link opens the toolkit, and every enabled add-on opens", a
   await page.getByRole("link", { name: "Advisor Toolkit" }).click();
   await expect(page).toHaveURL(/\/toolkit$/);
   await expect(page.getByRole("heading", { level: 1, name: "Advisor Toolkit" })).toBeVisible();
-  const enabled = enabledAddons(ADDONS);
+  const enabled = toolkitAddons(ADDONS);
   if (enabled.length === 0) await expect(page.getByText("Advisor tools coming soon")).toBeVisible();
   for (const a of enabled) {
     await page.goto(`/toolkit/${a.id}`);
@@ -100,7 +100,7 @@ test("Family Office mode reorders the toolkit, carries across tool pages, and le
   await expect(page.getByRole("listitem").first().getByRole("heading", { level: 2 })).toHaveText("Drawdown vs. Evergreen");
   await page.getByRole("link", { name: /Liquidity Simulator/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Liquidity Simulator" })).toBeVisible();
-  await expect(page.getByText("What your investment committee may ask")).toBeVisible();
+  await expect(page.getByRole("group", { name: "Audience" }).getByRole("button", { name: "Family Office" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("link", { name: "← Map" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Blackstone Private Market" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);

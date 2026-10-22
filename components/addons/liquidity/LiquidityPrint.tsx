@@ -4,8 +4,8 @@ import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { formatDate } from "@/lib/aggregate";
 
-/** One printed page: each fund's terms, the dated history, talking points and the disclosure. Hidden on screen. */
-export default function LiquidityPrint({ points }: { points: string[] }) {
+/** One printed page: each fund's terms, the dated history and the disclosure. Hidden on screen. */
+export default function LiquidityPrint() {
   return (
     <PrintOnePager title="Liquidity one-pager" screen={false}>
       <div className="space-y-4 text-xs leading-snug">
@@ -42,14 +42,6 @@ export default function LiquidityPrint({ points }: { points: string[] }) {
               <li key={e.date + e.fund}>
                 {formatDate(e.date)} · {e.fund}: {e.title}
               </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 className="font-serif text-sm">How to say it to a client</h3>
-          <ul className="list-disc pl-4">
-            {points.map((p) => (
-              <li key={p.slice(0, 40)}>{p}</li>
             ))}
           </ul>
         </div>

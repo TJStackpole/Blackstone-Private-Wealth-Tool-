@@ -35,7 +35,8 @@
             "page": "Net Asset Value: valuation policy"
           }
         }
-      ]
+      ],
+      "summary": "A traded price changes every second. A private fund's value is an estimate, updated monthly or quarterly."
     },
     {
       "id": "meaning",
@@ -62,7 +63,8 @@
             "url": "https://www.gpif.go.jp/en/20230307_workingpaper_en.pdf"
           }
         }
-      ]
+      ],
+      "summary": "Estimated values move gently. That lowers the ups and downs you see, not the risk underneath."
     },
     {
       "id": "honest",
@@ -83,7 +85,8 @@
           "text": "Two things to watch: redemption requests compared with the fund's limits, and, where they exist, prices for fund shares or similar assets on the secondary market compared with the reported value.",
           "source": null
         }
-      ]
+      ],
+      "summary": "Steadier values can prevent panic selling, but they can also lag what's really happening."
     }
   ],
   "script": [

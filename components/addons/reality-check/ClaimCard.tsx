@@ -10,7 +10,7 @@ function StatusLabel({ c }: { c: Claim }) {
     <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg px-2 py-0.5 text-xs text-muted-strong" data-status={c.status}>
       <span aria-hidden className="tracking-[-0.1em] text-muted">{dots}</span>
       {STATUS_LABEL[c.status]}
-      {c.statusSetBy === "draft" && <span className="text-muted">· draft, TJ to confirm</span>}
+      {c.statusSetBy === "draft" && <span className="text-muted">· preliminary</span>}
     </span>
   );
 }

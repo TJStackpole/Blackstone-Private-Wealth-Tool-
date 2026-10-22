@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ADDONS, enabledAddons } from "@/config/addons";
+import { ADDONS, toolkitAddons } from "@/config/addons";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
 import { AudienceToggle } from "@/components/addons/shared/Audience";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function ToolkitHome() {
-  const list = enabledAddons(ADDONS);
+  const list = toolkitAddons(ADDONS);
   return (
     <div className="atlas mx-auto w-full max-w-[1100px] px-4 pb-16 pt-5 sm:px-6 lg:pt-7" style={{ ["--layer-light" as string]: "#4A5568", ["--layer-dark" as string]: "#A0AEC0" }}>
       <header className="mb-8 space-y-4">
@@ -32,10 +32,7 @@ export default function ToolkitHome() {
         </div>
         <div>
           <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Advisor Toolkit</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">
-            Tools for explaining how perpetual private-markets funds work: liquidity limits, fees, taxes and valuation. Every output is illustrative and
-            shows its sources.
-          </p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">Simple tools for understanding how these funds work: selling, fees, taxes and value. Every result is illustrative and shows its sources.</p>
         </div>
       </header>
 

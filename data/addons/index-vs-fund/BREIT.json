@@ -15,7 +15,7 @@
     },
     "sample": true,
     "asOf": "2026-06-30",
-    "verify": "Figure found through the index provider's public release; confirm against the provider's current report before using it with clients.",
+    "verify": "Figure found through the index provider's public release; confirm against the provider's current report.",
     "source": {
       "name": "NCREIF, NFI-ODCE Snapshot Report 2Q2026",
       "url": "https://ncreif.org/__static/jdj5jdewjdl2y1lmnei2uvv3l0d1nk80/NFI-ODCE-Snapshot-Report-2Q2026.pdf"
