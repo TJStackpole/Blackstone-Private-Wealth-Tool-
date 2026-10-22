@@ -14,6 +14,9 @@ export function reserveSentence(years: number): string {
   if (years === Infinity) return "With no spending to cover, there's no need to redeem for spending.";
   if (years <= 0) return "No liquid reserve: any spending would have to come from somewhere else, such as a redemption.";
   const rounded = years >= 10 ? Math.round(years) : Math.round(years * 10) / 10;
-  if (years < 1) return `About ${Math.max(1, Math.round(years * 12))} months of spending covered without redeeming.`;
+  if (years < 1) {
+    const months = Math.max(1, Math.round(years * 12));
+    return `About ${months} month${months === 1 ? "" : "s"} of spending covered without redeeming.`;
+  }
   return `About ${rounded} year${rounded === 1 ? "" : "s"} of spending covered without redeeming.`;
 }

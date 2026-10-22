@@ -70,8 +70,10 @@ export function compare(p: CompareParams): CompareResult {
     atWorkSum += atWork;
 
     // Growth and fees over the year.
-    const feeBase = p.drawdownFeeOnCommitment && year <= callYears ? C : fund;
-    fund = fund * (1 + r) - Math.min(fund * (1 + r), feeBase * ddFee);
+    // Fees on year-end value for both structures, so identical inputs give identical results.
+    const grown = fund * (1 + r);
+    const feeBase = p.drawdownFeeOnCommitment && year <= callYears ? C : grown;
+    fund = grown - Math.min(grown, feeBase * ddFee);
     cash *= 1 + y;
     eg = eg * (1 + r) - eg * (1 + r) * egFee;
 

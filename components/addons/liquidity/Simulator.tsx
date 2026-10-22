@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { FundCode } from "@/config/addons";
 import { quarterlyLimit, termsFor } from "@/lib/addons/liquidity/data";
-import { PRESETS, headline, simulateRedemption, type Preset } from "@/lib/addons/liquidity/simulate";
+import { PRESETS, headline, quartersIn, simulateRedemption, type Preset } from "@/lib/addons/liquidity/simulate";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput, SelectFund } from "@/components/addons/shared/Inputs";
@@ -49,6 +49,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
         resubmit,
         navChangePct: navChange,
         earlyDeductionPct: heldShort ? (terms?.earlyDeduction.value ?? 0) : 0,
+        earlyDeductionQuarters: quartersIn(terms?.earlyDeduction.heldUnder),
       }),
     [amount, limitPct, preset, resubmit, navChange, heldShort, terms],
   );
@@ -97,7 +98,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
             </label>
             <label className="flex items-center gap-2 self-end text-sm text-muted-strong">
               <input type="checkbox" checked={heldShort} onChange={(e) => setHeldShort(e.target.checked)} className="h-4 w-4 accent-[var(--accent)]" />
-              Held under {terms?.earlyDeduction.heldUnder} ({terms?.earlyDeduction.value}% deduction)
+              Bought recently ({terms?.earlyDeduction.value}% deduction until held {terms?.earlyDeduction.heldUnder})
             </label>
           </>
         )}

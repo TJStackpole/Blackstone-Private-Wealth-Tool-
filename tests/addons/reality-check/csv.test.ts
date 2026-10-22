@@ -55,3 +55,10 @@ describe("freshness", () => {
     expect(freshness("2026-06-30", today).label).toBe("Stale · 113 days old");
   });
 });
+
+describe("review fix: impossible dates", () => {
+  it("rejects a date that doesn't exist, like February 30", () => {
+    const bad = good.replace("2026-06-30", "2026-02-30");
+    expect(rowsToClaims(`${header}\n${bad}\n`, new Date("2026-10-21")).errors).toContain("Row 2, as_of: is not a real date");
+  });
+});

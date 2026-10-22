@@ -53,10 +53,19 @@ export function parseCsv(text: string): string[][] {
 }
 
 const url = z.string().url().refine((u) => u.startsWith("https://"), "must start with https://");
+/** True for a calendar date that exists: 2026-02-28 yes, 2026-02-30 no. */
+function isRealDate(d: string): boolean {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+  if (!m) return false;
+  const [y, mo, day] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const t = new Date(Date.UTC(y, mo - 1, day));
+  return t.getUTCFullYear() === y && t.getUTCMonth() === mo - 1 && t.getUTCDate() === day;
+}
+
 const isoDate = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "must be a date like 2026-06-30")
-  .refine((d) => !Number.isNaN(Date.parse(d)), "is not a real date");
+  .refine(isRealDate, "is not a real date");
 
 const Row = z.object({
   fund: z.enum(["BREIT", "BCRED", "BXPE", "BXINFRA"]),

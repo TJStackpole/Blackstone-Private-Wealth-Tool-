@@ -3,8 +3,10 @@ export interface TaxParams {
   invested: number;
   /** Payout per year as a share of the investment's value. */
   distributionRatePct: number;
-  /** Share of each payout that is return of capital (ROC). The rest is treated as an ordinary REIT dividend. */
+  /** Share of each payout that is return of capital (ROC). */
   rocPct: number;
+  /** Share classified as a capital gain distribution, taxed at the capital gains rate. The rest is an ordinary REIT dividend. Default 0. */
+  capitalGainsSharePct?: number;
   ordinaryRatePct: number;
   capitalGainsRatePct: number;
   stateRatePct: number;
@@ -22,6 +24,8 @@ export interface TaxYear {
   roc: number;
   /** Part taxed now as an ordinary REIT dividend. */
   taxable: number;
+  /** Part taxed now as a capital gain distribution. */
+  capitalGainDist: number;
   /** ROC beyond the remaining basis, taxed now as a capital gain. */
   excessGain: number;
   taxNow: number;
@@ -56,6 +60,7 @@ export function projectTax(p: TaxParams): TaxProjection {
   const invested = num(p.invested);
   const rate = num(p.distributionRatePct, 0, 100) / 100;
   const roc = num(p.rocPct, 0, 100) / 100;
+  const cgShare = Math.min(1 - roc, num(p.capitalGainsSharePct ?? 0, 0, 100) / 100);
   const ord = (num(p.ordinaryRatePct, 0, 100) / 100) * (p.qrdDeduction ? 0.8 : 1);
   const cg = num(p.capitalGainsRatePct, 0, 100) / 100;
   const st = num(p.stateRatePct, 0, 100) / 100;
@@ -68,13 +73,14 @@ export function projectTax(p: TaxParams): TaxProjection {
   for (let year = 1; year <= years; year++) {
     const cash = value * rate;
     const rocPart = cash * roc;
-    const taxable = cash - rocPart;
+    const capitalGainDist = cash * cgShare;
+    const taxable = cash - rocPart - capitalGainDist;
     const applied = Math.min(rocPart, basis);
     const excessGain = rocPart - applied;
     const basisStart = basis;
     basis -= applied;
-    const taxNow = taxable * (ord + st) + excessGain * (cg + st);
-    rows.push({ year, cash, roc: rocPart, taxable, excessGain, taxNow, afterTaxCash: cash - taxNow, basisStart, basisEnd: basis });
+    const taxNow = taxable * (ord + st) + (capitalGainDist + excessGain) * (cg + st);
+    rows.push({ year, cash, roc: rocPart, taxable, capitalGainDist, excessGain, taxNow, afterTaxCash: cash - taxNow, basisStart, basisEnd: basis });
     value *= 1 + g;
   }
 

@@ -17,7 +17,7 @@ import ThemeToggle from "./ThemeToggle";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
 // Add-on 6 (Theme Exposure): the one logged exception to the two-doorway rule. See BUILD_PLAN_ADDONS.md, Add-on 6, Phase 1.
-import ThemeBar from "./addons/themes/ThemeBar";
+import ThemeBar, { NO_THEME, type ThemeState } from "./addons/themes/ThemeBar";
 
 /** Geography to draw: the whole fund, or the chosen sector's own split where the filing allows it. */
 export function geoFor(data: FundData, sector: string | null): { items: Share[]; split: boolean } {
@@ -54,6 +54,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   const [sector, setSector] = useState<string | null>(start?.sector ?? null);
   const [selected, setSelected] = useState<string | null>(start?.select ?? null);
   const [sheetOpen, setSheetOpen] = useState(!!start?.select);
+  const [theme, setTheme] = useState<ThemeState>(start?.theme ? { id: start.theme, before: null } : NO_THEME);
   const reduce = useReducedMotion();
 
   const layer = LAYERS.find((l) => l.id === layerId) ?? LAYERS[0];
@@ -121,7 +122,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4 space-y-3">
-              <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} initialTheme={start?.theme} />
+              <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} theme={theme} onTheme={setTheme} />
               <SectorChips
                 sectors={chipSectors.map((s) => s.key)}
                 labels={Object.fromEntries(chipSectors.map((s) => [s.key, s.label]))}
