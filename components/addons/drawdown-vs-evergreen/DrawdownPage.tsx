@@ -2,6 +2,7 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
+import CashDrag from "./CashDrag";
 import CompareTable from "./CompareTable";
 import WhenEachFits from "./WhenEachFits";
 
@@ -34,6 +35,13 @@ export default function DrawdownPage() {
       <div className="space-y-12">
         <Section title="The two structures, side by side" id="compare">
           <CompareTable />
+        </Section>
+        <Section title="How much money is actually at work" id="cash-drag">
+          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
+            A drawdown commitment is called over several years, and money starts coming back before the last calls, so only part of it is ever invested at
+            once. Change the call schedule to see the gap move.
+          </p>
+          <CashDrag />
         </Section>
         <Section title="When each fits" id="fits">
           <WhenEachFits />
