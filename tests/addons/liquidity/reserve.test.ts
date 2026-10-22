@@ -26,3 +26,9 @@ describe("reserveSentence", () => {
     expect(reserveSentence(Infinity)).toMatch(/no need to redeem/);
   });
 });
+
+describe("reserveSentence wording", () => {
+  it("says '1 month', not '1 months'", () => {
+    expect(reserveSentence(10_000 / 150_000)).toBe("About 1 month of spending covered without redeeming.");
+  });
+});

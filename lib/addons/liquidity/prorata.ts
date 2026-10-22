@@ -4,7 +4,8 @@
  * Both inputs are percentages of the fund (e.g. 5 and 10).
  */
 export function proRataFill(limitPct: number, requestsPct: number): number {
-  if (!(requestsPct > 0)) return 1;
+  // A limit of 0 means the plan buys nothing back (for example, suspended), whatever the requests.
   if (!(limitPct > 0)) return 0;
+  if (!(requestsPct > 0)) return 1;
   return Math.min(1, limitPct / requestsPct);
 }

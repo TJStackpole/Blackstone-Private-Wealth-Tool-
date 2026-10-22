@@ -57,3 +57,10 @@ describe("compare", () => {
     expect(compare({ ...same, years: 0 }).rows).toHaveLength(0);
   });
 });
+
+describe("review fix: same fee basis", () => {
+  it("identical inputs give identical results, fees included", () => {
+    const r = compare({ ...DEFAULTS, callSchedulePct: [100], drawdownFeePct: 1.25, evergreenFeePct: 1.25, drawdownFeeOnCommitment: false, distributionStartYear: 99 });
+    for (const y of r.rows) expect(y.drawdownValue).toBeCloseTo(y.evergreenValue, 6);
+  });
+});

@@ -128,3 +128,39 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   }
   expect(problems).toEqual([]);
 });
+
+test("a theme survives a visit to All funds, and No theme restores the sector picked before it", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/");
+  const sectors = page.getByRole("group", { name: "Filter by sector" });
+  const themes = page.getByRole("group", { name: "Filter by theme, across funds" });
+  if ((await themes.count()) === 0) return;
+  await sectors.getByRole("button", { name: /^Industrial/ }).click();
+  await themes.getByRole("button", { name: "AI & data centers" }).click();
+  await expect(sectors.getByRole("button", { name: /^Data Centers/ })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("tab", { name: /All funds/ }).click();
+  await page.getByRole("tab", { name: /Real Estate/ }).click();
+  await expect(sectors.getByRole("button", { name: /^Data Centers/ })).toHaveAttribute("aria-pressed", "true");
+  await themes.getByRole("button", { name: "No theme" }).click();
+  await expect(sectors.getByRole("button", { name: /^Industrial/ })).toHaveAttribute("aria-pressed", "true");
+  // Picking a sector yourself sets the theme aside.
+  await themes.getByRole("button", { name: "AI & data centers" }).click();
+  await sectors.getByRole("button", { name: /^Rental Housing/ }).click();
+  await expect(themes.getByRole("button", { name: "AI & data centers" })).toHaveAttribute("aria-pressed", "false");
+  expect(problems).toEqual([]);
+});
+
+test("the drawer keeps keyboard focus inside it and resets when reopened on another fund", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("tab", { name: /Credit/ }).click();
+  await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Index vs fund" }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  for (let i = 0; i < 25; i++) await page.keyboard.press("Tab");
+  expect(await page.evaluate(() => !!document.activeElement?.closest("[role=dialog]"))).toBe(true);
+  await expect(dialog.getByText(/Starting from the index's 7.7%/)).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.getByRole("tab", { name: /Real Estate/ }).click();
+  await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Index vs fund" }).click();
+  await expect(page.getByRole("dialog").getByText(/Starting from the index's 4.45%/)).toBeVisible();
+});

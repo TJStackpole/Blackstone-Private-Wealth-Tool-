@@ -66,8 +66,13 @@ export function returnFor(d: IndexVsFund, c: ShareClass): ClassReturn | undefine
   return d.fundSide.returns.find((r) => r.shareClass === c);
 }
 
-/** Starting borrowing for the bridge: the fund's reported leverage less the index's, when both are known; otherwise 0. */
+/**
+ * Starting borrowing for the bridge: how much more the fund borrows than the index, expressed as borrowing on top of the
+ * index's own (already levered) return, so the bridge's leverage step is exact: (L_fund − L_index) / (1 − L_index).
+ * BREIT: (44% − 27.1%) / 72.9% = 23.2%. For an unlevered index this is just the fund's leverage. 0 when either is unknown.
+ */
 export function leverageGap(d: IndexVsFund): number {
   if (!d.leverage || d.index.leveragePct === null) return 0;
-  return Math.max(0, Math.round((d.leverage.value - d.index.leveragePct) * 10) / 10);
+  const gap = ((d.leverage.value - d.index.leveragePct) / (100 - d.index.leveragePct)) * 100;
+  return Math.max(0, Math.round(gap * 10) / 10);
 }

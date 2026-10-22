@@ -76,3 +76,13 @@ describe("buildBridge", () => {
     expect(b.start).toBe(0);
   });
 });
+
+describe("review fix: leverage gap is exact", () => {
+  it("going from an index levered at L1 to a fund at L2 adds (R1 − c)(L2 − L1)/(1 − L2)", async () => {
+    const { leverageGap, INDEX_VS_FUND } = await import("@/lib/addons/index-vs-fund/data");
+    const g = leverageGap(INDEX_VS_FUND.BREIT) / 100; // 23.2%
+    const b = buildBridge({ ...base, indexReturn: 4.45, extraLeveragePct: g * 100, cashPct: 0 });
+    const exact = ((4.45 - 6) * (0.44 - 0.271)) / (1 - 0.44);
+    expect(b.steps[0].delta).toBeCloseTo(exact, 2);
+  });
+});
