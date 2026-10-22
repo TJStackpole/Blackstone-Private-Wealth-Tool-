@@ -8,6 +8,7 @@ import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
 import AddonChips from "./addons/shared/AddonChips";
+import { holdingsLead } from "./HoldingsLead";
 
 interface Props {
   layer: LayerDef;
@@ -261,7 +262,8 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
         </section>
       )}
 
-      {data.topHoldings && (
+      {/* Credit funds show their borrowers in the main column instead. */}
+      {data.topHoldings && !holdingsLead(data) && (
         <section>
           <SectionTitle>{sectorLabel ? `Named ${sectorLabel} holdings` : "Named holdings"} · % of net assets</SectionTitle>
           <Holdings items={data.topHoldings.items} sector={sector} />

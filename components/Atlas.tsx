@@ -6,8 +6,10 @@ import Link from "next/link";
 import { DEFAULT_LAYER_ID, LAYERS, RETIREMENT } from "@/data/layers";
 import type { FundData, LayerId, Share, ViewId } from "@/lib/types";
 import { stateName } from "@/lib/states";
+import { formatPct } from "@/lib/aggregate";
 import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
+import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
 import RetirementView from "./RetirementView";
@@ -54,6 +56,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   const [sector, setSector] = useState<string | null>(start?.sector ?? null);
   const [selected, setSelected] = useState<string | null>(start?.select ?? null);
   const [sheetOpen, setSheetOpen] = useState(!!start?.select);
+  // Credit funds' collapsible Geography section: open when arriving with a region picked.
+  const [geoOpen, setGeoOpen] = useState(!!start?.select);
   const [theme, setTheme] = useState<ThemeState>(start?.theme ? { id: start.theme, before: null } : NO_THEME);
   const reduce = useReducedMotion();
 
@@ -77,7 +81,10 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
 
   function select(key: string | null) {
     setSelected(key);
-    if (key) setSheetOpen(true);
+    if (key) {
+      setSheetOpen(true);
+      setGeoOpen(true);
+    }
   }
 
   /** On world maps, a sector with no holdings in the selected region clears the selection. */
@@ -91,6 +98,34 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
 
   const selectedLabel =
     data && selected ? (data.geography.level === "us-region" ? stateName(selected) : (geoItems.find((g) => g.key === selected)?.label ?? selected)) : null;
+
+  // Credit funds lead with their borrowers; the map becomes a smaller section below them.
+  const lead = !!data && holdingsLead(data);
+
+  const mapBody = data ? (
+    <>
+      {data.geography.level === "us-region" ? (
+        <UsRegionMap data={data} sector={sector} selected={selected} onSelect={select} />
+      ) : (
+        <WorldMap
+          level={data.geography.level}
+          items={geoItems}
+          selected={selected}
+          onSelect={select}
+          fundLabel={data.fund}
+          ofWhat={split ? `${data.fund}'s ${data.sectors.find((s) => s.key === sector)?.label} holdings` : data.fund}
+        />
+      )}
+      <div className="mt-2 space-y-2 border-t border-line px-1 pt-3">
+        <MapKey data={data} items={geoItems} selected={selected} onSelect={select} filterNote={filterNote(data, sector, split)} />
+        <p className="text-xs text-muted">
+          {data.geography.level === "us-region"
+            ? "Tap, click, or press Enter on a state for the investments the filing lists there."
+            : "Tap a region on the map, or use the buttons above, for detail."}
+        </p>
+      </div>
+    </>
+  ) : null;
 
   return (
     <div
@@ -137,28 +172,39 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
                 mix={Object.fromEntries(chipSectors.map((s) => [s.key, s.pct]))}
               />
             </div>
-            <div className="rounded-card border border-line bg-bg-raised p-2 sm:p-4">
-              {data.geography.level === "us-region" ? (
-                <UsRegionMap data={data} sector={sector} selected={selected} onSelect={select} />
-              ) : (
-                <WorldMap
-                  level={data.geography.level}
-                  items={geoItems}
-                  selected={selected}
-                  onSelect={select}
-                  fundLabel={data.fund}
-                  ofWhat={split ? `${data.fund}'s ${data.sectors.find((s) => s.key === sector)?.label} holdings` : data.fund}
-                />
-              )}
-              <div className="mt-2 space-y-2 border-t border-line px-1 pt-3">
-                <MapKey data={data} items={geoItems} selected={selected} onSelect={select} filterNote={filterNote(data, sector, split)} />
-                <p className="text-xs text-muted">
-                  {data.geography.level === "us-region"
-                    ? "Tap, click, or press Enter on a state for the investments the filing lists there."
-                    : "Tap a region on the map, or use the buttons above, for detail."}
-                </p>
+            {lead ? (
+              <div className="space-y-4">
+                <HoldingsLead data={data} sector={sector} />
+                {/* The map shrinks to a section you can open; picking a region (or arriving with one picked) opens it. */}
+                <details
+                  open={geoOpen}
+                  onToggle={(e) => setGeoOpen((e.currentTarget as HTMLDetailsElement).open)}
+                  className="group rounded-card border border-line bg-bg-raised"
+                >
+                  <summary className="tap flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 sm:px-5 [&::-webkit-details-marker]:hidden">
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-ink">Geography</span>
+                      <span className="tnum block truncate text-xs text-muted">
+                        {[...data.geography.items]
+                          .sort((a, b) => b.pct - a.pct)
+                          .slice(0, 2)
+                          .map((g) => `${g.label} ${formatPct(g.pct)}`)
+                          .join(" · ")}
+                        {data.geography.items.length > 2 ? ` · ${data.geography.items.length - 2} more` : ""}
+                      </span>
+                    </span>
+                    <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line text-muted transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none">
+                      +
+                    </span>
+                  </summary>
+                  <div className="border-t border-line p-2 sm:p-4">
+                    <div className="mx-auto max-w-[560px]">{mapBody}</div>
+                  </div>
+                </details>
               </div>
-            </div>
+            ) : (
+              <div className="rounded-card border border-line bg-bg-raised p-2 sm:p-4">{mapBody}</div>
+            )}
           </section>
 
           {/* Desktop: side panel. Phone: bottom sheet. Same component, one DOM. */}
