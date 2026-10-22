@@ -77,7 +77,7 @@ export const ADDONS: AddonDef[] = [
     description: "Why appraisal-based values move less than traded prices, what that does and doesn't mean for risk, and how to explain it.",
     enabled: true,
     appliesTo: ["BREIT", "BXINFRA"],
-    phase: 1,
+    phase: 2,
   },
 ];
 
