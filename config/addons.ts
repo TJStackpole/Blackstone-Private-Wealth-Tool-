@@ -61,6 +61,15 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
+  {
+    id: "tax-lens",
+    name: "Tax Lens",
+    shortName: "Tax Lens",
+    description: "How return of capital is taxed now and at sale, using BREIT's year-by-year figures, with a note on how the other funds differ.",
+    enabled: true,
+    appliesTo: ["BREIT"],
+    phase: 1,
+  },
 ];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
