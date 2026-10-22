@@ -68,7 +68,7 @@ export const ADDONS: AddonDef[] = [
     description: "How return of capital is taxed now and at sale, using BREIT's year-by-year figures, with a note on how the other funds differ.",
     enabled: true,
     appliesTo: ["BREIT"],
-    phase: 1,
+    phase: 2,
   },
 ];
 
