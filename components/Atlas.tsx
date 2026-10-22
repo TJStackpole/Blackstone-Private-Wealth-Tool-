@@ -10,6 +10,9 @@ import { formatPct } from "@/lib/aggregate";
 import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
+import FundPrint from "./FundPrint";
+import { FUND_CODE } from "@/lib/addons/shared/funds";
+import { PrintButton } from "@/components/addons/shared/PrintOnePager";
 import FundStats from "./FundStats";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
@@ -183,6 +186,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
                   {data.fund} · {data.assetClass}
                 </p>
                 <FilingBadge data={data} />
+                <PrintButton className="ml-auto" />
               </div>
               <FundStats data={data} />
             </div>
@@ -275,6 +279,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       ) : (
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
+
+      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} code={FUND_CODE[layer.id]} />}
 
       <SourceFooter
         data={viewId === "all" || viewId === "retirement" ? undefined : data}

@@ -6,18 +6,27 @@ import type { ReactNode } from "react";
  * Print-friendly wrapper with a "Print / Save as PDF" button. Uses the browser's own print dialog,
  * so no PDF library is needed. While printing, only this block is shown.
  */
-export default function PrintOnePager({ title, children, screen = true }: { title: string; children: ReactNode; screen?: boolean }) {
+export function PrintButton({ className = "" }: { className?: string }) {
   return (
-    <section aria-label={`${title} (printable)`} className="space-y-3">
-      <div className="no-print flex justify-end">
-        <button
-          type="button"
-          onClick={() => window.print()}
-          className="tap inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:border-muted hover:text-ink"
-        >
-          Print / Save as PDF
-        </button>
-      </div>
+    <button
+      type="button"
+      onClick={() => window.print()}
+      className={`tap no-print inline-flex h-8 items-center whitespace-nowrap rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:border-muted hover:text-ink ${className}`}
+    >
+      Print / Save as PDF
+    </button>
+  );
+}
+
+/** `button={false}` when the page puts its own PrintButton elsewhere (the fund pages put one by the fund's title). */
+export default function PrintOnePager({ title, children, screen = true, button = true }: { title: string; children: ReactNode; screen?: boolean; button?: boolean }) {
+  return (
+    <section aria-label={`${title} (printable)`} className={button ? "space-y-3" : screen ? undefined : "hidden print:block"}>
+      {button && (
+        <div className="no-print flex justify-end">
+          <PrintButton />
+        </div>
+      )}
       {/* screen={false}: a print-only summary that stays hidden on the page itself. */}
       <div className={screen ? "print-onepager" : "print-onepager hidden print:block"}>{children}</div>
       <style>{`

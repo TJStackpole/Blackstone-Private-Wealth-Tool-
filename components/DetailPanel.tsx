@@ -8,6 +8,7 @@ import { formatDate } from "@/lib/dates";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
+import { PrintButton } from "@/components/addons/shared/PrintOnePager";
 import NextUpdate from "./NextUpdate";
 import FundStats from "./FundStats";
 import AddonChips from "./addons/shared/AddonChips";
@@ -297,6 +298,7 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
             {data.fund} · {data.assetClass}
           </Eyebrow>
           <FilingBadge data={data} />
+          <PrintButton className="ml-auto" />
         </div>
         <h2 className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink">
           {sectorLabel ? `${sectorLabel} in ${data.fund}` : `Where ${data.fund} invests`}
