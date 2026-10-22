@@ -23,7 +23,7 @@ export default function ComparisonCard({ data, highlight, compact = false }: { d
         </div>
         <div>
           <h3 className="font-serif text-lg leading-snug text-ink">{index.name}</h3>
-          {!compact && <p className="mt-1 text-sm leading-relaxed text-muted-strong">{index.measures}</p>}
+          {!compact && <p className="mt-1 text-sm leading-relaxed text-muted-strong print:hidden">{index.measures}</p>}
         </div>
         <div className="flex flex-wrap gap-1.5">
           <Tag>{index.feeBasis === "gross" ? "Before fees" : "After fees"}</Tag>
@@ -39,7 +39,7 @@ export default function ComparisonCard({ data, highlight, compact = false }: { d
           <p className="text-sm text-muted-strong">No figure shown: these indices are licensed rather than published free.</p>
         )}
         {!compact && (
-          <ul className="space-y-1 text-xs leading-relaxed text-muted-strong">
+          <ul className="space-y-1 text-xs leading-relaxed text-muted-strong print:hidden">
             <li>{index.feeText}</li>
             <li>{index.leverageText}</li>
           </ul>

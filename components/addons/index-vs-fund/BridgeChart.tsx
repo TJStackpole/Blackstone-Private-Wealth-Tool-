@@ -42,15 +42,20 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
 
   const rows = [
     { name: "Index", range: [Math.min(0, bridge.start), Math.max(0, bridge.start)], label: pct(Math.round(bridge.start * 100) / 100), kind: "total" },
-    ...bridge.steps.map((s) => ({ name: s.label, range: [Math.min(s.from, s.to), Math.max(s.from, s.to)], label: signed(s.delta), kind: s.delta < 0 ? "down" : "up" })),
+    ...bridge.steps.map((s) => ({
+      name: s.label,
+      range: [Math.min(s.from, s.to), Math.max(s.from, s.to)],
+      label: indexIsNet && (s.key === "management" || s.key === "performance") ? "in the index" : signed(s.delta),
+      kind: s.delta < 0 ? "down" : "up",
+    })),
     { name: `Class ${cls} estimate`, range: [Math.min(0, bridge.end), Math.max(0, bridge.end)], label: pct(Math.round(bridge.end * 100) / 100), kind: "total" },
   ];
   const reported = returnFor(data, cls);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 print:space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div role="group" aria-label="Share class" className="flex gap-2">
+        <div role="group" aria-label="Share class" className="no-print flex gap-2">
           {SHARE_CLASSES.map((c) => (
             <button
               key={c}
@@ -72,11 +77,11 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
         </div>
       </div>
 
-      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink" aria-live="polite">
-        Starting from the index&apos;s {pct(Math.round(bridge.start * 100) / 100)}, this illustration lands at about {pct(Math.round(bridge.end * 10) / 10)} a year for Class {cls}.
+      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg print:p-2 print:text-base leading-snug text-ink" aria-live="polite">
+        Starting from {index.annual ? "the index's" : "a placeholder index return of"} {pct(Math.round(bridge.start * 100) / 100)}, this illustration lands at about {pct(Math.round(bridge.end * 10) / 10)} a year for Class {cls}.
       </p>
 
-      <div className={compact ? "h-64" : "h-80"} role="img" aria-label={`Bridge from ${bridge.start.toFixed(2)}% to ${bridge.end.toFixed(2)}%: ${bridge.steps.map((s) => `${s.label} ${signed(s.delta)}`).join(", ")}`}>
+      <div className={compact ? "h-64" : "h-80 print:h-56"} role="img" aria-label={`Bridge from ${bridge.start.toFixed(2)}% to ${bridge.end.toFixed(2)}%: ${bridge.steps.map((s) => `${s.label} ${signed(s.delta)}`).join(", ")}`}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 48, bottom: 0, left: 0 }}>
             <CartesianGrid horizontal={false} stroke="var(--border)" />
@@ -101,7 +106,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
       )}
 
       {!compact && (
-        <div className="space-y-4 rounded-card border border-line p-4">
+        <div className="no-print space-y-4 rounded-card border border-line p-4">
           <div className="space-y-1.5">
             <label htmlFor="ivf-lev" className="flex items-center justify-between gap-3 text-sm text-ink">
               <span>What if borrowing beyond the index&apos;s were {lev}% of assets?</span>

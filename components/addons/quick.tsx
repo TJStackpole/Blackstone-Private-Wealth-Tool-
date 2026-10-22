@@ -13,5 +13,6 @@ export interface QuickProps {
  * Loaded on demand, so the map page doesn't download an add-on until a chip is opened.
  */
 export const ADDON_QUICK: Partial<Record<AddonId, ComponentType<QuickProps>>> = {
+  "index-vs-fund": dynamic(() => import("./index-vs-fund/IndexVsFundQuick"), { ssr: false }),
   liquidity: dynamic(() => import("./liquidity/LiquidityQuick"), { ssr: false }),
 };
