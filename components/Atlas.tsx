@@ -9,6 +9,8 @@ import { stateName } from "@/lib/states";
 import { formatPct } from "@/lib/aggregate";
 import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
+import FilingBadge from "./FilingBadge";
+import FundStats from "./FundStats";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
@@ -160,6 +162,16 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
+            {/* Phones: the key numbers first, before the map; the panel below is a collapsed sheet there. */}
+            <div className="mb-5 lg:hidden" data-mobile-stats>
+              <div className="mb-1 flex flex-wrap items-center gap-2">
+                <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
+                  {data.fund} · {data.assetClass}
+                </p>
+                <FilingBadge data={data} />
+              </div>
+              <FundStats data={data} />
+            </div>
             <div className="mb-4 space-y-3">
               <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} theme={theme} onTheme={setTheme} />
               {/* Sectors are picked in the panel's Sector mix; this says what the map is filtered to and clears it. */}

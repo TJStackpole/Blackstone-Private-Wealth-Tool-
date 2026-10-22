@@ -93,15 +93,16 @@ export default function LayerSwitcher({
 
   return (
     <div className="tab-strip relative -mx-4 sm:mx-0">
+      {/* Phones: a 3 × 2 grid, so no tab is cut off. Wider screens: one row that scrolls if it must. */}
       <div
         ref={scroller}
-        className="edge-fade overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="edge-fade sm:overflow-x-auto sm:[scrollbar-width:none] sm:[&::-webkit-scrollbar]:hidden"
       >
         <div
           role="tablist"
           aria-label="Fund layers"
           onKeyDown={onKeyDown}
-          className="flex w-max gap-1 pl-4 pr-10 sm:pl-0 sm:pr-0"
+          className="grid grid-cols-3 gap-1 px-4 pb-1 sm:flex sm:w-max sm:px-0 sm:pb-0"
         >
           {tabs.map((tab) => {
             const active = tab.id === activeId;
@@ -127,25 +128,30 @@ export default function LayerSwitcher({
                   ["--tab-dark" as string]: tab.dark,
                 }}
                 className={[
-                  "group relative flex shrink-0 flex-col items-start gap-0.5 rounded-t-md px-3 pb-2.5 pt-2 text-left transition-colors",
+                  "group relative flex min-w-0 shrink-0 flex-col items-start gap-0.5 rounded-md px-2 pb-2 pt-1.5 text-left transition-colors sm:rounded-b-none sm:rounded-t-md sm:px-3 sm:pb-2.5 sm:pt-2",
                   active
-                    ? "text-ink"
+                    ? "bg-bg-raised text-ink sm:bg-transparent"
                     : ready
                       ? "text-muted-strong hover:text-ink"
                       : "cursor-default text-muted",
                 ].join(" ")}
               >
-                <span className="flex items-center gap-2 whitespace-nowrap text-sm font-medium">
+                <span className="flex min-w-0 max-w-full items-center gap-1.5 whitespace-nowrap text-[13px] font-medium sm:gap-2 sm:text-sm">
                   <span
                     aria-hidden
                     className={[
-                      "inline-block h-2 w-2 rounded-full",
+                      "inline-block h-2 w-2 shrink-0 rounded-full",
                       ready ? "tab-dot" : "bg-line",
                     ].join(" ")}
                   />
-                  {tab.label}
+                  {/* Phones lead with the short name (BREIT, BX Infra…); wider screens with the asset class. */}
+                  <span className="truncate sm:hidden">{tab.id === "all" ? tab.label : tab.sub}</span>
+                  <span className="hidden sm:inline">{tab.label}</span>
                 </span>
-                <span className="whitespace-nowrap text-[11px] uppercase tracking-[0.08em] text-muted">
+                <span className="max-w-full truncate whitespace-nowrap text-[11px] text-muted sm:hidden">
+                  {tab.id === "all" ? tab.sub : tab.label}
+                </span>
+                <span className="hidden whitespace-nowrap text-[11px] uppercase tracking-[0.08em] text-muted sm:inline">
                   {ready ? tab.sub : "Coming soon"}
                 </span>
                 <span

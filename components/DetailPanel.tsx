@@ -7,6 +7,7 @@ import { formatDate, formatMoneyMillions, formatPct } from "@/lib/aggregate";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
+import FundStats from "./FundStats";
 import AddonChips from "./addons/shared/AddonChips";
 import { holdingsLead } from "./HoldingsLead";
 
@@ -178,20 +179,6 @@ function SectorSelect({ data, sector, onSector }: { data: FundData; sector: stri
   );
 }
 
-function Stats({ data }: { data: FundData }) {
-  return (
-    <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-y border-line py-4">
-      {data.summary.stats.map((s) => (
-        <div key={s.label}>
-          <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{s.label}</dt>
-          <dd className="tnum font-serif text-2xl text-ink">{s.value}</dd>
-          {s.note && <dd className="text-xs leading-snug text-muted">{s.note}</dd>}
-        </div>
-      ))}
-    </dl>
-  );
-}
-
 function Holdings({ items, sector }: { items: NamedHolding[]; sector: string | null }) {
   const shown = sector ? items.filter((h) => h.sector === sector) : items;
   if (shown.length === 0) return <p className="text-xs text-muted">The filing names no {sector ? `${sector} ` : ""}holdings individually.</p>;
@@ -314,7 +301,10 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
         <p className="text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>
       </header>
 
-      <Stats data={data} />
+      {/* On phones these sit above the map instead (the panel is a sheet there), so they aren't read twice. */}
+      <div className="hidden lg:block">
+        <FundStats data={data} />
+      </div>
 
       <AddonChips fundId={layer.id} />
 
