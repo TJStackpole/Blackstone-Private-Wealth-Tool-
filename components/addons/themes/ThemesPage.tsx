@@ -3,6 +3,7 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { TAGS } from "@/lib/addons/themes/tags";
+import LookThroughCalc from "./LookThroughCalc";
 import ThemeMatrix from "./ThemeMatrix";
 
 export const THEME_SCRIPT = [
@@ -33,6 +34,16 @@ export default function ThemesPage() {
             , the Theme row above the sector filter applies a theme to every fund as you switch between them.
           </p>
           <ThemeMatrix />
+        </section>
+        <section aria-labelledby="th-lt-h" className="space-y-4">
+          <h2 id="th-lt-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
+            A client&apos;s look-through
+          </h2>
+          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
+            Enter what a client holds in each fund, and any other holdings tied to a theme (a stock, an ETF). The total by theme shows how concentrated the
+            whole portfolio is. The example starts with $250,000 in each fund plus $200,000 of Nvidia stock tagged to AI &amp; data centers.
+          </p>
+          <LookThroughCalc />
         </section>
         <ClientScriptCard points={THEME_SCRIPT} />
       </div>
