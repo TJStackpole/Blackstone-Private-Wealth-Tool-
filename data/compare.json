@@ -1,0 +1,354 @@
+{
+  "asOf": "2026-06-30",
+  "funds": [
+    "BREIT",
+    "BXINFRA",
+    "BXPE",
+    "BCRED"
+  ],
+  "rows": [
+    {
+      "id": "distribution",
+      "label": "Distribution rate",
+      "help": "Class I, latest declared distribution, annualized, over NAV",
+      "cells": {
+        "BREIT": {
+          "value": "4.6%",
+          "note": "Class I: Q2 2026's $0.1659 a share × 4 ÷ $14.53 NAV",
+          "sources": [
+            {
+              "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+              "page": "Note: Distributions; Net Asset Value"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "2.9%",
+          "note": "Class I, Series I: Q2 2026's $0.2191 a unit × 4 ÷ $29.99 Transactional NAV",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+              "page": "BXINFRA U.S. Distributions; Transactional NAV"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "None",
+          "note": "BXPE does not currently intend to declare distributions.",
+          "sources": [
+            {
+              "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+              "page": "Liquidity and Capital Resources"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "10.1%",
+          "note": "Class I: June 2026's $0.20 a share × 12 ÷ $23.65 NAV. July's declared $0.18 is 9.1%.",
+          "sources": [
+            {
+              "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+              "page": "Note 9: Distributions; Subsequent Events"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "management",
+      "label": "Management fee",
+      "cells": {
+        "BREIT": {
+          "value": "1.25% a year",
+          "note": "of NAV",
+          "sources": [
+            {
+              "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+              "page": "Note 10: Related Party and Other Transactions"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "1.25% a year",
+          "note": "of NAV",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+              "page": "Note 6: Related Party Transactions"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "1.25% a year",
+          "note": "of NAV",
+          "sources": [
+            {
+              "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+              "page": "Note 6: Related Party Transactions"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "1.25% a year",
+          "note": "of NAV",
+          "sources": [
+            {
+              "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+              "page": "Note 3: Fees, Expenses, Agreements and Related Party Transactions"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "performance",
+      "label": "Performance / incentive fee",
+      "cells": {
+        "BREIT": {
+          "value": "12.5%",
+          "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark.",
+          "sources": [
+            {
+              "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+              "page": "Note 10: Related Party and Other Transactions"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "12.5%",
+          "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark and full catch-up.",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+              "page": "Note 6: Related Party Transactions"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "12.5%",
+          "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark and full catch-up.",
+          "sources": [
+            {
+              "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+              "page": "Note 6: Related Party Transactions"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "12.5%",
+          "note": "Two parts: 12.5% of net investment income above a 1.25% quarterly (5% a year) hurdle, with a catch-up, and 12.5% of cumulative realized capital gains.",
+          "sources": [
+            {
+              "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+              "page": "Note 3: Fees, Expenses, Agreements and Related Party Transactions"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "limit",
+      "label": "Repurchase limit",
+      "cells": {
+        "BREIT": {
+          "value": "2% a month · 5% a quarter",
+          "note": "of NAV",
+          "sources": [
+            {
+              "name": "BREIT Form 10-Q, June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+              "page": "Share Repurchase Plan"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "5% a quarter",
+          "note": "of shares; a target the board can change",
+          "sources": [
+            {
+              "name": "BCRED Form 10-Q, June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+              "page": "Share Repurchase Program"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "3% a quarter",
+          "note": "of units",
+          "sources": [
+            {
+              "name": "BXPE Form 10-Q, June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+              "page": "Unit Redemption Plan"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "3% a quarter",
+          "note": "of units",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-Q, June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+              "page": "Unit Redemption Plan"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "prorated",
+      "label": "Buybacks pro-rated, Q2 2026?",
+      "help": "Did requests exceed what the fund bought back?",
+      "cells": {
+        "BREIT": {
+          "value": "No",
+          "note": "Every repurchase request received in the first half of 2026 was filled.",
+          "sources": [
+            {
+              "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+              "page": "Liquidity and Capital Resources"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "No",
+          "note": "All redemption requests were satisfied in full.",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+              "page": "Part II, Item 2: Unit Redemptions"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "No",
+          "note": "All redemption requests were satisfied in full.",
+          "sources": [
+            {
+              "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+              "page": "Part II, Item 2: Unit Redemptions"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "Yes",
+          "note": "Requests above the 5% amount were filled pro rata: about half of the $4.5 billion requested.",
+          "sources": [
+            {
+              "name": "BCRED letter to investors, September 3, 2026 (SEC filing)",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "minimum",
+      "label": "Minimum investment",
+      "cells": {
+        "BREIT": {
+          "value": null,
+          "missing": "Not in filing",
+          "where": "BREIT's prospectus (Form 424B3), \"Plan of Distribution\" / \"How to Subscribe\""
+        },
+        "BCRED": {
+          "value": null,
+          "missing": "Not in filing",
+          "where": "BCRED's prospectus (Form 424B3), \"Plan of Distribution\" / \"How to Subscribe\""
+        },
+        "BXPE": {
+          "value": null,
+          "missing": "Not in filing",
+          "where": "BXPE's private placement memorandum (subscription terms); not filed on EDGAR"
+        },
+        "BXINFRA": {
+          "value": null,
+          "missing": "Not in filing",
+          "where": "BX Infra's private placement memorandum (subscription terms); not filed on EDGAR"
+        }
+      }
+    },
+    {
+      "id": "navChange",
+      "label": "NAV change since Dec 31, 2025",
+      "help": "Class I, to June 30, 2026",
+      "cells": {
+        "BREIT": {
+          "value": "+2.8%",
+          "note": "Class I: $14.13 → $14.53",
+          "sources": [
+            {
+              "name": "BREIT Form 10-K, year ended December 31, 2025",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+              "page": "NAV per share by class, Dec 31, 2025"
+            },
+            {
+              "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+              "page": "NAV per share by class, Jun 30, 2026"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "+8.8%",
+          "note": "Class I, Series I, Transactional NAV: $27.57 → $29.99",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-K, year ended December 31, 2025",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+              "page": "Transactional NAV per Unit, Dec 31, 2025"
+            },
+            {
+              "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+              "page": "Transactional NAV per Unit, Jun 30, 2026"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "+14.2%",
+          "note": "Class I, Series I, Transactional NAV: $34.16 → $39.01",
+          "sources": [
+            {
+              "name": "BXPE Form 10-K, year ended December 31, 2025",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+              "page": "Transactional NAV per Unit, Dec 31, 2025"
+            },
+            {
+              "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+              "page": "Transactional NAV per Unit, Jun 30, 2026"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "−4.6%",
+          "note": "Class I: $24.79 → $23.65",
+          "sources": [
+            {
+              "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+              "page": "Financial Highlights"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

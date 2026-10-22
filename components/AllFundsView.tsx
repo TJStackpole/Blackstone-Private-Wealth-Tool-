@@ -3,6 +3,7 @@
 import type { LayerDef, LayerId } from "@/lib/types";
 import { formatPct } from "@/lib/aggregate";
 import { formatDate } from "@/lib/dates";
+import CompareTable from "./CompareTable";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
 
@@ -90,6 +91,9 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
           );
         })}
       </ul>
+      <div className="mt-10">
+        <CompareTable />
+      </div>
     </section>
   );
 }
