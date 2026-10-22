@@ -80,10 +80,10 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
               </p>
               <div className="grid grid-cols-2 gap-3">
                 <p>
-                  <span className="font-medium">Concern.</span> {o.concern.text} <span className="italic">({names(o.concern.sources)})</span>
+                  <span className="font-medium">Short answer.</span> {o.response.text} <span className="italic">({names(o.response.sources)})</span>
                 </p>
                 <p>
-                  <span className="font-medium">Response.</span> {o.response.text} <span className="italic">({names(o.response.sources)})</span>
+                  <span className="font-medium">Keep in mind.</span> {o.concern.text} <span className="italic">({names(o.concern.sources)})</span>
                 </p>
               </div>
               <p>

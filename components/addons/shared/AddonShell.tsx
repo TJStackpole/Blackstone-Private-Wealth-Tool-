@@ -7,7 +7,6 @@ import AddonBoundary from "./AddonBoundary";
 import AddonDisclosure from "./AddonDisclosure";
 import ToolIcon from "./ToolIcon";
 import type { AddonId } from "@/config/addons";
-import { AudienceToggle } from "./Audience";
 
 interface Props {
   addonId: string;
@@ -18,7 +17,7 @@ interface Props {
   /** Badges row (SampleBadge, IllustrativeBadge, AsOfSource…). */
   badges?: ReactNode;
   /** Up to three key figures shown as tiles under the title. Each must come from the tool's sourced data. */
-  glance?: { value: string; label: string }[];
+  glance?: { value: string; label: string; source?: { name: string; url: string } }[];
   children: ReactNode;
 }
 
@@ -41,10 +40,7 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
               Advisor Toolkit
             </Link>
           </nav>
-          <div className="flex items-center gap-2">
-            <AudienceToggle />
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
         </div>
         <div className="flex items-start gap-4">
           <span className="mt-1 hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-line bg-bg-raised text-accent sm:inline-flex">
@@ -61,6 +57,19 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
               <div key={g.label} className="flex flex-col gap-2 rounded-card border border-line bg-bg-raised p-4">
                 <dt className="order-2 text-xs leading-snug text-muted-strong">{g.label}</dt>
                 <dd className="tnum order-1 font-serif text-[26px] leading-none text-ink">{g.value}</dd>
+                {g.source && (
+                  <dd className="order-3 mt-auto">
+                    <a
+                      href={g.source.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      title={g.source.name}
+                      className="text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink"
+                    >
+                      {g.source.name.split(",")[0]}
+                    </a>
+                  </dd>
+                )}
               </div>
             ))}
           </dl>

@@ -19,7 +19,7 @@ export default function FreshnessBadge({ asOf }: { asOf: string }) {
   return (
     <span
       className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${STYLE[f.level]}`}
-      title="Under 45 days: fresh. 45 to 90 days: aging. Over 90 days: stale."
+      title={`Data as of ${asOf}, ${f.days} days ago. Quarterly reports arrive about 45 days after each quarter ends (90 for the annual report).`}
       data-freshness={f.level}
     >
       <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${DOT[f.level]}`} />

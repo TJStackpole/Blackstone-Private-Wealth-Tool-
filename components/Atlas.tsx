@@ -69,6 +69,12 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
     setSelected(null);
   }
 
+  /** From All funds or the 401(k) tab, further down a long page: switch, then bring the tabs and map back into view. */
+  function openLayer(id: ViewId) {
+    changeLayer(id);
+    window.scrollTo({ top: 0 });
+  }
+
   function select(key: string | null) {
     setSelected(key);
     if (key) setSheetOpen(true);
@@ -115,9 +121,9 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       </header>
 
       {viewId === "all" ? (
-        <AllFundsView layers={LAYERS} onOpenLayer={changeLayer} />
+        <AllFundsView layers={LAYERS} onOpenLayer={openLayer} />
       ) : viewId === "retirement" ? (
-        <RetirementView data={RETIREMENT} layers={LAYERS} onOpenLayer={changeLayer} />
+        <RetirementView data={RETIREMENT} layers={LAYERS} onOpenLayer={openLayer} />
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">

@@ -1,24 +1,107 @@
 {
-  "asOf": "2026-09-03",
-  "sample": false,
-  "events": [
-    { "date": "2022-11-30", "fund": "BREIT", "title": "Requests exceed the limit", "detail": "Repurchase requests exceeded the plan's limits. BREIT filled 43% of requested repurchases.",
-      "source": { "name": "BREIT Form 10-K, 2022", "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297223000030/breit-20221231.htm" } },
-    { "date": "2022-12-31", "fund": "BREIT", "title": "4% of requests filled", "detail": "BREIT filled 4% of requested repurchases in December 2022.",
-      "source": { "name": "BREIT Form 10-K, 2022", "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297223000030/breit-20221231.htm" } },
-    { "date": "2024-01-31", "fund": "BREIT", "title": "88% of requests filled", "detail": "Requests exceeded the monthly limit. BREIT repurchased 2% of NAV, which was 88% of requests.",
-      "source": { "name": "BREIT Form 10-Q, March 31, 2024", "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297224000061/breit-20240331.htm" } },
-    { "date": "2024-02-29", "fund": "BREIT", "title": "All requests filled", "detail": "Requests fell below the limits and every request was filled.",
-      "source": { "name": "BREIT Form 10-Q, March 31, 2024", "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297224000061/breit-20240331.htm" } },
-    { "date": "2024-03-31", "fund": "BREIT", "title": "Board exceeds the quarterly limit", "detail": "The board approved repurchases 0.1% above the 5% quarterly limit so that all March requests could be filled.",
-      "source": { "name": "BREIT Form 10-Q, March 31, 2024", "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297224000061/breit-20240331.htm" } },
-    { "date": "2024-12-31", "fund": "BREIT", "title": "Every request filled, February to December", "detail": "BREIT reports filling all repurchase requests received from February through December 2024.",
-      "source": { "name": "BREIT Form 10-K, 2024", "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297225000027/breit-20241231.htm" } },
-    { "date": "2026-03-31", "fund": "BCRED", "title": "Limit raised to 7%", "detail": "The board raised the quarterly amount above 5% and filled 100% of requests, repurchasing 7.0% of shares.",
-      "source": { "name": "BCRED letter to investors, June 4, 2026 (SEC filing)", "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026065024/ea0292864-01_ex99a1vii.htm" } },
-    { "date": "2026-06-30", "fund": "BCRED", "title": "Requests prorated at 5%", "detail": "Requests reached about 10% of shares. BCRED repurchased 5.0%, filling requests pro rata: roughly half of the $4.5 billion requested.",
-      "source": { "name": "BCRED Form 10-Q, June 30, 2026, and September 3, 2026 letter", "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm" } },
-    { "date": "2026-09-03", "fund": "BCRED", "title": "Prorated again in Q3", "detail": "Requests of about $4.3 billion, roughly 10% of shares; BCRED said it would fill 5%. It estimated that investors who asked in Q2 and Q3 would receive about 75% of what they requested within about 90 days.",
-      "source": { "name": "BCRED letter to investors, September 3, 2026 (SEC filing)", "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm" } }
-  ]
+ "asOf": "2026-09-03",
+ "sample": false,
+ "events": [
+  {
+   "date": "2022-11-30",
+   "fund": "BREIT",
+   "title": "Requests exceed the limit",
+   "detail": "Repurchase requests exceeded the plan's limits. BREIT filled 43% of requested repurchases.",
+   "source": {
+    "name": "BREIT Form 10-K, 2022",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297223000030/breit-20221231.htm"
+   },
+   "filledPct": 43
+  },
+  {
+   "date": "2022-12-31",
+   "fund": "BREIT",
+   "title": "4% of requests filled",
+   "detail": "BREIT filled 4% of requested repurchases in December 2022.",
+   "source": {
+    "name": "BREIT Form 10-K, 2022",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297223000030/breit-20221231.htm"
+   },
+   "filledPct": 4
+  },
+  {
+   "date": "2024-01-31",
+   "fund": "BREIT",
+   "title": "88% of requests filled",
+   "detail": "Requests exceeded the monthly limit. BREIT repurchased 2% of NAV, which was 88% of requests.",
+   "source": {
+    "name": "BREIT Form 10-Q, March 31, 2024",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297224000061/breit-20240331.htm"
+   },
+   "filledPct": 88
+  },
+  {
+   "date": "2024-02-29",
+   "fund": "BREIT",
+   "title": "All requests filled",
+   "detail": "Requests fell below the limits and every request was filled.",
+   "source": {
+    "name": "BREIT Form 10-Q, March 31, 2024",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297224000061/breit-20240331.htm"
+   },
+   "filledPct": 100
+  },
+  {
+   "date": "2024-03-31",
+   "fund": "BREIT",
+   "title": "Board exceeds the quarterly limit",
+   "detail": "The board approved repurchases 0.1% above the 5% quarterly limit so that all March requests could be filled.",
+   "source": {
+    "name": "BREIT Form 10-Q, March 31, 2024",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297224000061/breit-20240331.htm"
+   },
+   "filledPct": 100
+  },
+  {
+   "date": "2024-12-31",
+   "fund": "BREIT",
+   "title": "Every request filled, February to December",
+   "detail": "BREIT reports filling all repurchase requests received from February through December 2024.",
+   "source": {
+    "name": "BREIT Form 10-K, 2024",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297225000027/breit-20241231.htm"
+   },
+   "filledPct": 100
+  },
+  {
+   "date": "2026-03-31",
+   "fund": "BCRED",
+   "title": "Limit raised to 7%",
+   "detail": "The board raised the quarterly amount above 5% and filled 100% of requests, repurchasing 7.0% of shares.",
+   "source": {
+    "name": "BCRED letter to investors, June 4, 2026 (SEC filing)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026065024/ea0292864-01_ex99a1vii.htm"
+   },
+   "filledPct": 100
+  },
+  {
+   "date": "2026-06-30",
+   "fund": "BCRED",
+   "title": "Requests prorated at 5%",
+   "detail": "Requests reached about 10% of shares. BCRED repurchased 5.0%, filling requests pro rata: roughly half of the $4.5 billion requested.",
+   "source": {
+    "name": "BCRED Form 10-Q, June 30, 2026, and September 3, 2026 letter",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm"
+   },
+   "filledPct": 50,
+   "filledApprox": true
+  },
+  {
+   "date": "2026-09-03",
+   "fund": "BCRED",
+   "title": "Prorated again in Q3",
+   "detail": "Requests of about $4.3 billion, roughly 10% of shares; BCRED said it would fill 5%. It estimated that investors who asked in Q2 and Q3 would receive about 75% of what they requested within about 90 days.",
+   "source": {
+    "name": "BCRED letter to investors, September 3, 2026 (SEC filing)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm"
+   },
+   "filledPct": 50,
+   "filledApprox": true
+  }
+ ]
 }

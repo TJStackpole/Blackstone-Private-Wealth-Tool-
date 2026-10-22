@@ -122,7 +122,7 @@ export default function GlideMix({ onOpenLayer }: { onOpenLayer: (id: LayerId) =
           </div>
           <div className="h-56" role="img" aria-label={`Private equity falls from ${GLIDE.rows[0].privateEquity}% to ${GLIDE.rows.at(-1)!.privateEquity}%; real assets and credit rise.`}>
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={series} margin={{ top: 8, right: 12, bottom: 0, left: -20 }}>
+              <LineChart accessibilityLayer={false} data={series} margin={{ top: 8, right: 12, bottom: 0, left: -20 }}>
                 <CartesianGrid vertical={false} stroke="var(--border)" />
                 <XAxis dataKey="age" type="number" domain={[MIN, MAX]} ticks={[25, 35, 45, 55, 65].filter((t) => t >= MIN && t <= MAX)} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
                 <YAxis domain={[0, 16]} ticks={[0, 5, 10, 15]} unit="%" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} />

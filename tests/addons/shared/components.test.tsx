@@ -74,6 +74,20 @@ describe("Inputs", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it("waits for more digits below the minimum, then raises to it on leaving the field", () => {
+    const onChange = vi.fn();
+    render(<NumberInput label="Retirement age" value={65} onChange={onChange} min={19} max={80} />);
+    const input = screen.getByLabelText("Retirement age");
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: "6" } });
+    expect(onChange).not.toHaveBeenCalled();
+    fireEvent.change(input, { target: { value: "60" } });
+    expect(onChange).toHaveBeenLastCalledWith(60);
+    fireEvent.change(input, { target: { value: "7" } });
+    fireEvent.blur(input);
+    expect(onChange).toHaveBeenLastCalledWith(19);
+  });
+
   it("keeps a percentage between 0 and 100", () => {
     const onChange = vi.fn();
     render(<PercentInput label="Cap" value={5} onChange={onChange} />);

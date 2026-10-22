@@ -9,8 +9,7 @@ import { TAX } from "@/lib/addons/tax-lens/data";
 import OtherFunds from "./OtherFunds";
 import RocHistory from "./RocHistory";
 import WorkedExample from "./WorkedExample";
-
-
+import MoreDetails from "@/components/addons/shared/MoreDetails";
 
 function Section({ title, id, children }: { title: string; id: string; children: React.ReactNode }) {
   return (
@@ -30,7 +29,7 @@ export default function TaxLensPage() {
     <AddonShell
       addonId="tax-lens"
       title="Tax Lens"
-      subtitle="Much of BREIT's payout isn't taxed when you receive it. It lowers your cost basis instead, so the tax comes when you sell."
+      subtitle="Most of BREIT's payout isn't taxed when received. The tax waits until you sell."
       glance={[
         { value: "100%", label: "Share of BREIT's 2025 payouts classified as return of capital" },
         { value: "85–100%", label: "That share each year since 2020" },
@@ -46,17 +45,16 @@ export default function TaxLensPage() {
     >
       <div className="space-y-12">
         <Section title="A worked example" id="example">
-          <p className="max-w-3xl text-sm text-muted-strong">
-            Round numbers, four steps, following the IRS rule on return of capital.{" "}
+          <WorkedExample />
+          <p className="text-xs text-muted">
+            Round numbers, following the IRS rule on return of capital:{" "}
             <a href={TAX.irs.roc.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
               {TAX.irs.roc.name}
             </a>
           </p>
-          <WorkedExample />
         </Section>
 
         <Section title="Your numbers" id="calculator">
-          <p className="max-w-3xl text-sm text-muted-strong">Change any input. Defaults come from BREIT&apos;s filings.</p>
           <PrintOnePager title="Tax Lens one-pager">
             <h2 className="hidden font-serif text-xl print:block">Tax Lens: BREIT return of capital, illustrated</h2>
             <Calculator />
@@ -74,16 +72,17 @@ export default function TaxLensPage() {
           )}
         </Section>
 
-        <Section title="How BREIT's payouts were classified" id="history">
-          <p className="max-w-3xl text-sm text-muted-strong">From BREIT&apos;s annual reports, linked per row.</p>
-          <RocHistory />
-          <p className="text-xs text-muted">{TAX.defaultRoc.verify}</p>
-        </Section>
-
-        <Section title="The other funds are taxed differently" id="other">
-          <OtherFunds />
-        </Section>
-
+        <div className="space-y-3">
+          <MoreDetails id="history" summary="How BREIT's payouts were classified" hint="Return of capital, capital gains and income, 2020–2025, from its 10-Ks">
+            <section aria-label="How BREIT's payouts were classified" className="space-y-3">
+              <RocHistory />
+              <p className="text-xs text-muted">{TAX.defaultRoc.verify}</p>
+            </section>
+          </MoreDetails>
+          <MoreDetails id="other" summary="The other funds are taxed differently" hint="BCRED, BXPE and BX Infra">
+            <OtherFunds />
+          </MoreDetails>
+        </div>
       </div>
     </AddonShell>
   );

@@ -1,150 +1,174 @@
 {
-  "asOf": "2026-06-30",
-  "sample": false,
-  "source": {
-    "name": "BXPE Form 10-K, year ended December 31, 2025",
-    "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
-    "page": "Item 1: Business"
-  },
-  "evergreenExample": "BXPE",
-  "rows": [
+ "asOf": "2026-06-30",
+ "sample": false,
+ "source": {
+  "name": "BXPE Form 10-K, year ended December 31, 2025",
+  "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+  "page": "Item 1: Business"
+ },
+ "evergreenExample": "BXPE",
+ "rows": [
+  {
+   "topic": "Capital calls",
+   "drawdown": "The investor commits an amount up front. The manager asks for it in pieces (\"calls\") as it finds investments, usually over the first several years.",
+   "evergreen": "No calls. The whole amount is invested when the subscription is accepted; BXPE takes fully funded subscriptions monthly.",
+   "sources": [
     {
-      "topic": "Capital calls",
-      "drawdown": "The investor commits an amount up front. The manager asks for it in pieces (\"calls\") as it finds investments, usually over the first several years.",
-      "evergreen": "No calls. The whole amount is invested when the subscription is accepted; BXPE takes fully funded subscriptions monthly.",
-      "sources": [
-        {
-          "name": "PIMCO, Understanding alternatives: speak the language",
-          "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
-        },
-        {
-          "name": "BXPE Form 10-K, year ended December 31, 2025",
-          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
-          "page": "Item 1: Business"
-        }
-      ]
+     "name": "PIMCO, Understanding alternatives: speak the language",
+     "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
     },
     {
-      "topic": "When money is invested",
-      "drawdown": "Gradually. Until it's called, the committed money sits wherever the investor keeps it, and early investments are being sold and paid back before the last calls come in.",
-      "evergreen": "All at once, into a portfolio that already exists. Part of the fund may be held in cash or easier-to-sell assets to pay redemptions.",
-      "sources": [
-        {
-          "name": "PIMCO, Understanding alternatives: speak the language",
-          "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
-        },
-        {
-          "name": "BXPE Form 10-K, year ended December 31, 2025",
-          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
-          "page": "Item 1: Business"
-        }
-      ]
-    },
-    {
-      "topic": "The early-years dip (\"J-curve\")",
-      "drawdown": "Common. Fees and costs come before gains, so reported returns are often negative in the first years and turn up later as investments are sold.",
-      "evergreen": "Less pronounced at the fund level, since a new investor buys into seasoned holdings. Fees are charged on the fund's value from the first month.",
-      "sources": [
-        {
-          "name": "PIMCO, Understanding alternatives: speak the language",
-          "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
-        },
-        {
-          "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
-          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
-          "page": "Related Party Transactions; Unit Repurchases"
-        }
-      ]
-    },
-    {
-      "topic": "Liquidity",
-      "drawdown": "Generally none until investments are sold; money comes back as the fund exits holdings. Selling a stake early means finding a buyer on the secondary market, often at a discount.",
-      "evergreen": "Periodic repurchases up to a limit. BXPE offers up to 3% of units a quarter across the fund, with a 5% deduction on units held under two years; the manager can change or suspend it.",
-      "sources": [
-        {
-          "name": "Investor.gov (SEC), Private equity",
-          "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products/private-investment-funds/private-equity"
-        },
-        {
-          "name": "Liquidity Simulator: each fund's terms",
-          "url": "/toolkit/liquidity#terms"
-        }
-      ]
-    },
-    {
-      "topic": "Fee structure",
-      "drawdown": "Commonly a management fee charged on committed capital during the investment period, and carried interest (often 20%) on profits above a preferred return; terms vary by fund.",
-      "evergreen": "BXPE: 1.25% a year of net asset value, plus 12.5% of total return above a 5% annual hurdle, with a high-water mark. Share classes add servicing fees of up to 0.85% a year.",
-      "sources": [
-        {
-          "name": "PIMCO, Understanding alternatives: speak the language",
-          "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
-        },
-        {
-          "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
-          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
-          "page": "Related Party Transactions; Unit Repurchases"
-        }
-      ]
-    },
-    {
-      "topic": "Reporting",
-      "drawdown": "Private funds generally aren't registered offerings; investors get reports set by the fund's agreement.",
-      "evergreen": "BXPE files 10-Q and 10-K reports with the SEC and publishes a net asset value each month.",
-      "sources": [
-        {
-          "name": "SEC, Starting a private fund",
-          "url": "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/starting-private-fund"
-        },
-        {
-          "name": "BXPE Form 10-K, year ended December 31, 2025",
-          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
-          "page": "Item 1: Business"
-        }
-      ]
-    },
-    {
-      "topic": "Paperwork",
-      "drawdown": "Subscription documents up front, then a cash transfer for each capital call over several years; partnership tax forms (Schedule K-1).",
-      "evergreen": "One subscription, then periodic statements. BXPE and BX Infra issue K-1s; BREIT and BCRED issue 1099s.",
-      "sources": [
-        {
-          "name": "SEC, Starting a private fund",
-          "url": "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/starting-private-fund"
-        },
-        {
-          "name": "Tax Lens: how the other funds are taxed",
-          "url": "/toolkit/tax-lens#other-h"
-        }
-      ]
-    },
-    {
-      "topic": "Fund life",
-      "drawdown": "A set term, commonly around ten years, often with extensions.",
-      "evergreen": "No end date. BXPE describes itself as perpetual-life, established for an indefinite period.",
-      "sources": [
-        {
-          "name": "PIMCO, Understanding alternatives: speak the language",
-          "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
-        },
-        {
-          "name": "BXPE Form 10-K, year ended December 31, 2025",
-          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
-          "page": "Item 1: Business"
-        }
-      ]
+     "name": "BXPE Form 10-K, year ended December 31, 2025",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+     "page": "Item 1: Business"
     }
-  ],
-  "fits": {
-    "drawdown": [
-      "Investors who can keep cash or bonds ready for calls over several years, and want each fund's money returned as its investments are sold.",
-      "Portfolios that want to choose vintage years and managers one fund at a time.",
-      "Holders comfortable with a fixed, long lock-up in exchange for no redemption queue."
-    ],
-    "evergreen": [
-      "Investors who want the full amount working from day one, without managing future calls.",
-      "Portfolios that value some periodic liquidity, accepting it is limited and can be prorated or suspended.",
-      "Holders who prefer one ongoing position over a series of fund vintages."
-    ]
+   ],
+   "drawdownShort": "Called in pieces over years",
+   "evergreenShort": "None: fully funded up front",
+   "icon": "calls"
+  },
+  {
+   "topic": "When money is invested",
+   "drawdown": "Gradually. Until it's called, the committed money sits wherever the investor keeps it, and early investments are being sold and paid back before the last calls come in.",
+   "evergreen": "All at once, into a portfolio that already exists. Part of the fund may be held in cash or easier-to-sell assets to pay redemptions.",
+   "sources": [
+    {
+     "name": "PIMCO, Understanding alternatives: speak the language",
+     "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
+    },
+    {
+     "name": "BXPE Form 10-K, year ended December 31, 2025",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+     "page": "Item 1: Business"
+    }
+   ],
+   "drawdownShort": "Gradually, as it's called",
+   "evergreenShort": "All at once, when accepted",
+   "icon": "invest"
+  },
+  {
+   "topic": "The early-years dip (\"J-curve\")",
+   "drawdown": "Common. Fees and costs come before gains, so reported returns are often negative in the first years and turn up later as investments are sold.",
+   "evergreen": "Less pronounced at the fund level, since a new investor buys into seasoned holdings. Fees are charged on the fund's value from the first month.",
+   "sources": [
+    {
+     "name": "PIMCO, Understanding alternatives: speak the language",
+     "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
+    },
+    {
+     "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+     "page": "Related Party Transactions; Unit Repurchases"
+    }
+   ],
+   "drawdownShort": "Early dip is common",
+   "evergreenShort": "Buys into seasoned holdings",
+   "icon": "jcurve"
+  },
+  {
+   "topic": "Liquidity",
+   "drawdown": "Generally none until investments are sold; money comes back as the fund exits holdings. Selling a stake early means finding a buyer on the secondary market, often at a discount.",
+   "evergreen": "Periodic repurchases up to a limit. BXPE offers up to 3% of units a quarter across the fund, with a 5% deduction on units held under two years; the manager can change or suspend it.",
+   "sources": [
+    {
+     "name": "Investor.gov (SEC), Private equity",
+     "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products/private-investment-funds/private-equity"
+    },
+    {
+     "name": "Liquidity Simulator: each fund's terms",
+     "url": "/toolkit/liquidity#terms"
+    }
+   ],
+   "drawdownShort": "Little until holdings are sold",
+   "evergreenShort": "Buybacks each quarter, up to a limit",
+   "icon": "liquidity"
+  },
+  {
+   "topic": "Fee structure",
+   "drawdown": "Commonly a management fee charged on committed capital during the investment period, and carried interest (often 20%) on profits above a preferred return; terms vary by fund.",
+   "evergreen": "BXPE: 1.25% a year of net asset value, plus 12.5% of total return above a 5% annual hurdle, with a high-water mark. Share classes add servicing fees of up to 0.85% a year.",
+   "sources": [
+    {
+     "name": "PIMCO, Understanding alternatives: speak the language",
+     "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
+    },
+    {
+     "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+     "page": "Related Party Transactions; Unit Repurchases"
+    }
+   ],
+   "drawdownShort": "Fee on committed money, plus carry",
+   "evergreenShort": "Fee on NAV, plus 12.5% over a 5% hurdle",
+   "icon": "fees"
+  },
+  {
+   "topic": "Reporting",
+   "drawdown": "Private funds generally aren't registered offerings; investors get reports set by the fund's agreement.",
+   "evergreen": "BXPE files 10-Q and 10-K reports with the SEC and publishes a net asset value each month.",
+   "sources": [
+    {
+     "name": "SEC, Starting a private fund",
+     "url": "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/starting-private-fund"
+    },
+    {
+     "name": "BXPE Form 10-K, year ended December 31, 2025",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+     "page": "Item 1: Business"
+    }
+   ],
+   "drawdownShort": "Set by the fund agreement",
+   "evergreenShort": "SEC filings and a monthly NAV",
+   "icon": "reporting"
+  },
+  {
+   "topic": "Paperwork",
+   "drawdown": "Subscription documents up front, then a cash transfer for each capital call over several years; partnership tax forms (Schedule K-1).",
+   "evergreen": "One subscription, then periodic statements. BXPE and BX Infra issue K-1s; BREIT and BCRED issue 1099s.",
+   "sources": [
+    {
+     "name": "SEC, Starting a private fund",
+     "url": "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/starting-private-fund"
+    },
+    {
+     "name": "Tax Lens: how the other funds are taxed",
+     "url": "/toolkit/tax-lens#other"
+    }
+   ],
+   "drawdownShort": "A transfer for every call",
+   "evergreenShort": "One subscription",
+   "icon": "paperwork"
+  },
+  {
+   "topic": "Fund life",
+   "drawdown": "A set term, commonly around ten years, often with extensions.",
+   "evergreen": "No end date. BXPE describes itself as perpetual-life, established for an indefinite period.",
+   "sources": [
+    {
+     "name": "PIMCO, Understanding alternatives: speak the language",
+     "url": "https://www.pimco.com/lu/en/resources/education/understanding-alternatives-speak"
+    },
+    {
+     "name": "BXPE Form 10-K, year ended December 31, 2025",
+     "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+     "page": "Item 1: Business"
+    }
+   ],
+   "drawdownShort": "About ten years",
+   "evergreenShort": "No end date",
+   "icon": "life"
   }
+ ],
+ "fits": {
+  "drawdown": [
+   "Investors who can keep cash or bonds ready for calls over several years, and want each fund's money returned as its investments are sold.",
+   "Portfolios that want to choose vintage years and managers one fund at a time.",
+   "Holders comfortable with a fixed, long lock-up in exchange for no redemption queue."
+  ],
+  "evergreen": [
+   "Investors who want the full amount working from day one, without managing future calls.",
+   "Portfolios that value some periodic liquidity, accepting it is limited and can be prorated or suspended.",
+   "Holders who prefer one ongoing position over a series of fund vintages."
+  ]
+ }
 }

@@ -1,6 +1,5 @@
 import type { RegEntry } from "@/lib/addons/retirement-plus/data";
 import { formatDate } from "@/lib/aggregate";
-import Sources from "./Sources";
 
 /** Dated public milestones, each from a linked source. Nothing here is written without one. */
 export default function Timeline({ entries, checked }: { entries: RegEntry[]; checked: string }) {
@@ -20,14 +19,22 @@ export default function Timeline({ entries, checked }: { entries: RegEntry[]; ch
           No entries yet. Entries are added only from sourced documents.
         </p>
       ) : (
-        <ol className="relative space-y-5 border-l border-line pl-6">
+        <ol className="divide-y divide-line rounded-card border border-line bg-bg-raised">
           {sorted.map((e) => (
-            <li key={`${e.date}-${e.title}`} className="relative">
-              <span aria-hidden className="absolute -left-[29px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-bg bg-accent" />
+            <li key={`${e.date}-${e.title}`} className="grid gap-x-6 gap-y-0.5 px-4 py-3 sm:grid-cols-[120px_minmax(0,1fr)_auto] sm:items-baseline sm:px-5">
               <p className="tnum text-xs font-medium text-muted">{formatDate(e.date)}</p>
-              <p className="mt-0.5 text-sm font-medium text-ink">{e.title}</p>
-              <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-strong">{e.summary}</p>
-              <Sources sources={[e.source]} className="mt-1 block" />
+              <p className="text-sm font-medium text-ink" title={e.summary}>
+                {e.title}
+              </p>
+              <a
+                href={e.source.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                title={e.summary}
+                className="text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink"
+              >
+                {e.source.name.split(",")[0]}
+              </a>
             </li>
           ))}
         </ol>

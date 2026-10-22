@@ -20,7 +20,7 @@ Live: https://private-markets-atlas.netlify.app
 | Tax Lens | `/toolkit/tax-lens` | Return of capital: tax now vs. at sale, with BREIT's year-by-year figures |
 | Why So Smooth? | `/toolkit/smoothing` | Appraised vs. traded values, a desmoothing chart, and answers to common pushback |
 | Theme Exposure | `/toolkit/themes` | Themes across funds, a theme filter on the map, a client look-through, and sourced cases for and against |
-| Drawdown vs. Evergreen | `/toolkit/drawdown-vs-evergreen` | The two structures compared, a cash-drag model, Family Office mode and an IC memo printout |
+| Drawdown vs. Evergreen | `/toolkit/drawdown-vs-evergreen` | The two structures at a glance, a money-at-work model, and a one-page IC memo printout |
 | Reality Check | `/toolkit/reality-check` | Each fund's stated objectives next to its latest filing data, with a freshness badge |
 
 Each tool can be switched off in `config/addons.ts` (`enabled: false`) and disappears everywhere. Each runs inside its own error boundary.

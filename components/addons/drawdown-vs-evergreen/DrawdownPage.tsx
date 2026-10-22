@@ -5,9 +5,10 @@ import MemoHeader from "./MemoHeader";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
 import CashDrag from "./CashDrag";
+import AtAGlance from "./AtAGlance";
 import CompareTable from "./CompareTable";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
 import WhenEachFits from "./WhenEachFits";
-
 
 export const IC_SCRIPT = [
   "How much of our existing drawdown commitments is still uncalled, and what does that cash earn while it waits?",
@@ -32,7 +33,7 @@ export default function DrawdownPage() {
     <AddonShell
       addonId="drawdown-vs-evergreen"
       title="Drawdown vs. Evergreen"
-      subtitle="Traditional private funds take your money over several years; evergreen funds invest it all on day one. Here's what that changes."
+      subtitle="An evergreen fund puts the whole amount to work on day one. No capital calls, no waiting."
       glance={[
         { value: "Day one", label: "Evergreen: the whole amount is invested when you subscribe" },
         { value: "~10 years", label: "Common life of a traditional drawdown fund" },
@@ -43,13 +44,18 @@ export default function DrawdownPage() {
       <PrintOnePager title="Investment committee memo">
         <div className="space-y-12 print:space-y-3">
           <MemoHeader />
-          <Section title="The two structures, side by side" id="compare">
-            <CompareTable />
+          <Section title="At a glance" id="compare">
+            <div className="print:hidden">
+              <AtAGlance />
+            </div>
+            <MoreDetails summary="Full comparison, with sources" hint="Eight topics, from each fund's filings and industry guides">
+              <CompareTable />
+            </MoreDetails>
+            <div className="hidden print:block">
+              <CompareTable />
+            </div>
           </Section>
           <Section title="How much money is actually at work" id="cash-drag">
-            <p className="no-print max-w-3xl text-sm leading-relaxed text-muted-strong">
-              Drawdown money is called in over years and some comes back early, so only part is ever invested. Change the schedule to see the gap.
-            </p>
             <CashDrag />
           </Section>
           <Section title="When each fits" id="fits" printHide>

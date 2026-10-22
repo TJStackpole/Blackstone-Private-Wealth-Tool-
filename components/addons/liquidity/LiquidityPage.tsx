@@ -4,14 +4,14 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import Steps from "@/components/addons/shared/Steps";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
+import FillChart from "./FillChart";
 import HistoryTimeline from "./HistoryTimeline";
 import LiquidityPrint from "./LiquidityPrint";
 import ProRataDemo from "./ProRataDemo";
 import ReserveCheck from "./ReserveCheck";
 import TermsTable from "./TermsTable";
 import UrlSimulator from "./UrlSimulator";
-
-
 
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
@@ -31,7 +31,7 @@ export default function LiquidityPage() {
     <AddonShell
       addonId="liquidity"
       title="Liquidity Simulator"
-      subtitle="How these funds pay you back when you sell: on a schedule, up to a limit."
+      subtitle="Shares are bought back on a schedule, up to a set limit. Here's when the money arrives."
       glance={[
         { value: "2% · 5%", label: "BREIT: most it buys back a month · a quarter (% of NAV)" },
         { value: "5%", label: "BCRED: quarterly target (% of shares)" },
@@ -52,7 +52,6 @@ export default function LiquidityPage() {
         </Section>
 
         <Section title="What happens to a request" id="simulator">
-          <p className="max-w-3xl text-sm text-muted-strong">Pick a fund and a scenario to see when the money arrives.</p>
           <UrlSimulator />
           {taxLens && (
             <p className="text-sm text-muted-strong">
@@ -64,19 +63,20 @@ export default function LiquidityPage() {
         </Section>
 
         <Section title="Will you need to sell?" id="reserve">
-          <p className="max-w-3xl text-sm text-muted-strong">Compare your other savings with a year of spending.</p>
           <ReserveCheck />
         </Section>
 
-        <Section title="Each fund's terms" id="terms">
-          <p className="max-w-3xl text-sm text-muted-strong">From each fund&apos;s latest quarterly filing. Terms can change; the offering documents control.</p>
-          <TermsTable />
-        </Section>
-
         <Section title="When the limits have applied" id="history">
-          <p className="max-w-3xl text-sm text-muted-strong">Dated events from the funds&apos; own SEC filings.</p>
-          <HistoryTimeline />
+          <FillChart />
           <AsOfSource asOf={HISTORY.asOf} source={HISTORY.events[HISTORY.events.length - 1].source} />
+          <div className="space-y-3">
+            <MoreDetails id="events" summary="Each event, with sources" hint="BREIT 2022–2024 and BCRED 2026, from the funds' filings">
+              <HistoryTimeline />
+            </MoreDetails>
+            <MoreDetails id="terms" summary="Each fund's terms" hint="Limits, early-sale deductions and the manager's discretion">
+              <TermsTable />
+            </MoreDetails>
+          </div>
         </Section>
 
         <LiquidityPrint />

@@ -22,6 +22,9 @@ export interface CapEvent {
   title: string;
   detail: string;
   source: AddonSource;
+  /** Share of requests filled, as the filing states it; filledApprox when worked out from the amounts it gives. */
+  filledPct?: number;
+  filledApprox?: boolean;
 }
 
 export const TERMS = termsJson as { asOf: string; sample: boolean; source: AddonSource; funds: FundTerms[] };

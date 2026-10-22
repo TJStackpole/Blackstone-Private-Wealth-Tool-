@@ -111,7 +111,7 @@ export default function Simulator({ initialFund = "BCRED", initialAmount = 500_0
       <figure className="space-y-2">
         <div className={compact ? "h-36" : "h-60"} role="img" aria-label={`Cumulative cash received over ${QUARTERS} quarters`}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chart} margin={{ top: 8, right: 12, bottom: 0, left: compact ? 0 : 8 }}>
+            <LineChart accessibilityLayer={false} data={chart} margin={{ top: 8, right: 12, bottom: 0, left: compact ? 0 : 8 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis dataKey="quarter" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} tickFormatter={(q: number) => (q === 0 ? "Ask" : `Q${q}`)} />
               <YAxis domain={[0, Math.max(amount, 1)]} ticks={[0, 0.25, 0.5, 0.75, 1].map((f) => f * Math.max(amount, 1))} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={short} width={compact ? 48 : 56} />

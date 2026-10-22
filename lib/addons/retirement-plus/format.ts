@@ -1,10 +1,14 @@
-/** $3.3M, $499k, $0, −$12k. */
+/** $3.3M, $499k, $1.2B, $0, −$12k. Rounds first, so $999,600 reads $1.0M, not $1000k. */
 export function short(n: number): string {
+  if (!Number.isFinite(n)) return "—";
   const a = Math.abs(n);
   const s = n < 0 ? "−" : "";
-  if (a >= 1e6) return `${s}$${(a / 1e6).toFixed(1)}M`;
-  if (a >= 500) return `${s}$${Math.round(a / 1000)}k`;
-  return "$0";
+  if (a < 500) return "$0";
+  const k = Math.round(a / 1000);
+  if (k < 1000) return `${s}$${k}k`;
+  const m = Math.round(a / 1e5) / 10;
+  if (m < 1000) return `${s}$${m.toFixed(1)}M`;
+  return `${s}$${(Math.round(a / 1e8) / 10).toFixed(1)}B`;
 }
 
 /** +$499k, −$12k, $0. */

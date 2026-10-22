@@ -30,7 +30,7 @@ describe("Outcome Lab", () => {
     expect(cell("difference")).toBe(signed(r.difference));
     expect(screen.getAllByText("Illustrative").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Hypothetical").length).toBeGreaterThan(0);
-    expect(screen.getByText(/not the paper.s model/)).toBeTruthy();
+    expect(screen.getByText(/not the paper.s model/i)).toBeTruthy();
     expect(field("Starting salary").value).toBe("52,000");
     expect((screen.getByRole("button", { name: "Reset to paper's assumptions" }) as HTMLButtonElement).disabled).toBe(true);
   });
