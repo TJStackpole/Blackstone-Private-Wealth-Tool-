@@ -215,6 +215,46 @@
   "notDisclosed": [
     "Where borrowers are headquartered. The filing reports country groups, so U.S. borrowers can't be placed on a state map."
   ],
+  "quarterSummary": {
+    "period": "Quarter ended Jun 30, 2026",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm"
+    },
+    "items": [
+      {
+        "label": "Net assets",
+        "value": "$42.8B",
+        "from": "from $47.6B on Dec 31, 2025",
+        "change": "−10.1%",
+        "direction": "down"
+      },
+      {
+        "label": "NAV per share",
+        "value": "$23.65",
+        "from": "from $24.79 on Dec 31, 2025",
+        "change": "−4.6%",
+        "direction": "down"
+      },
+      {
+        "label": "Bought back, pro rata",
+        "value": "5.0%",
+        "from": "of shares, from 7.0% in Q1",
+        "change": "−2.0 pts",
+        "direction": "down",
+        "note": "Requests exceeded the quarterly limit, so each was filled in part."
+      },
+      {
+        "label": "Non-accrual issuers",
+        "value": "15",
+        "from": "from 9 at Dec 31, 2025",
+        "change": "+6",
+        "direction": "up",
+        "note": "Loans with reasonable doubt that principal or interest will be paid in full."
+      }
+    ]
+  },
   "thisQuarter": [
     "Investors asked to sell back more shares than the quarterly limit allowed, so requests were filled pro rata. The fund bought back 5.0% of shares ($2.20B at $23.65).",
     "In the first quarter it bought back 7.0% of shares ($3.23B at $24.19), more than the 5% quarterly level.",

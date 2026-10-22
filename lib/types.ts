@@ -86,6 +86,17 @@ export interface ThirdPartyFact {
   source: Source;
 }
 
+/** One headline change in the latest quarter, with where it came from. */
+export interface QuarterMove {
+  label: string;
+  value: string;
+  /** What it's compared with, e.g. "from $47.6B on Dec 31, 2025". */
+  from: string;
+  change: string;
+  direction: "up" | "down" | "flat";
+  note?: string;
+}
+
 export interface FundData {
   fund: string;
   assetClass: string;
@@ -102,6 +113,8 @@ export interface FundData {
   investmentsNote?: string;
   topHoldings?: { basis: string; items: NamedHolding[] };
   thisQuarter?: string[];
+  /** The latest quarter at a glance, shown under the fund title. When present, it replaces the thisQuarter bullets. */
+  quarterSummary?: { period: string; asOf: string; source: Source; items: QuarterMove[] };
   notDisclosed: string[];
   howItWorks?: { title: string; asOf: string; paragraphs: string[]; source?: Source };
   website?: { text: string; source: Source };
