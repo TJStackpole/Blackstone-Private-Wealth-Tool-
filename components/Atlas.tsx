@@ -39,13 +39,21 @@ function filterNote(data: FundData, sector: string | null, split: boolean): stri
   return `The filing doesn't split ${label} by region, so the map shows the whole fund.`;
 }
 
+/** Where to open the map: a fund or view, and optionally a sector, a region or state, and a theme (see AtlasFromUrl). */
+export interface AtlasStart {
+  view: ViewId;
+  sector?: string;
+  select?: string;
+  theme?: string;
+}
+
 /** The whole page: header, tabs, chips, map, panel, footer. Every layer plugs into this. */
-export default function Atlas() {
-  const [viewId, setViewId] = useState<ViewId>(DEFAULT_LAYER_ID);
+export default function Atlas({ start }: { start?: AtlasStart }) {
+  const [viewId, setViewId] = useState<ViewId>(start?.view ?? DEFAULT_LAYER_ID);
   const layerId: LayerId = viewId === "all" ? DEFAULT_LAYER_ID : viewId;
-  const [sector, setSector] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sector, setSector] = useState<string | null>(start?.sector ?? null);
+  const [selected, setSelected] = useState<string | null>(start?.select ?? null);
+  const [sheetOpen, setSheetOpen] = useState(!!start?.select);
   const reduce = useReducedMotion();
 
   const layer = LAYERS.find((l) => l.id === layerId) ?? LAYERS[0];
@@ -91,6 +99,9 @@ export default function Atlas() {
             </p>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center">
+            <Link href="/demo" className="inline-flex h-9 items-center rounded-full px-3 text-xs font-medium text-muted-strong underline decoration-line underline-offset-4 transition-colors hover:text-ink">
+              Take the tour
+            </Link>
             <Link href="/toolkit" className="inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink">
               Advisor Toolkit
             </Link>
@@ -110,7 +121,7 @@ export default function Atlas() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4 space-y-3">
-              <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} />
+              <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} initialTheme={start?.theme} />
               <SectorChips
                 sectors={chipSectors.map((s) => s.key)}
                 labels={Object.fromEntries(chipSectors.map((s) => [s.key, s.label]))}

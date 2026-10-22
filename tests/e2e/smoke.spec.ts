@@ -106,3 +106,25 @@ test("Family Office mode reorders the toolkit, carries across tool pages, and le
   await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);
   expect(problems).toEqual([]);
 });
+
+test("the guided tour opens from the map, steps through live views, and deep links land in the right place", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/");
+  await page.getByRole("link", { name: "Take the tour" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Guided tour" })).toBeVisible();
+  await expect(page.getByText(/Step 1 of \d+/)).toBeVisible();
+  await page.getByRole("button", { name: "Next →" }).click();
+  await expect(page.getByText(/Step 2 of \d+/)).toBeVisible();
+  const frame = page.frameLocator("iframe");
+  // Step 2 opens BREIT with Nevada selected.
+  await expect(frame.getByRole("heading", { level: 2, name: "Nevada" })).toBeVisible();
+  // Every step's live view loads without an error page.
+  const count = await page.getByRole("navigation", { name: "All steps" }).getByRole("button").count();
+  for (let n = 0; n < count; n++) {
+    await page.getByRole("navigation", { name: "All steps" }).getByRole("button").nth(n).click();
+    await expect(frame.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(frame.getByText("This tool isn't available")).toHaveCount(0);
+    await expect(frame.locator("[data-addon-unavailable]")).toHaveCount(0);
+  }
+  expect(problems).toEqual([]);
+});

@@ -14,24 +14,28 @@ interface Props {
   sector: string | null;
   /** The map's own sector setter: a theme only ever drives the existing filter. */
   onSector: (key: string | null) => void;
+  /** A theme to start with, from a link such as /?view=breit&theme=ai-data-centers. */
+  initialTheme?: string;
 }
 
 /**
  * Theme filter above the map (Add-on 6). Picking a theme sets the map's existing sector filter to that fund's
  * matching sector, and keeps applying it as you switch funds. "No theme" hands the map back exactly as it was.
  */
-function Bar({ layerId, sector, onSector }: Props) {
+function Bar({ layerId, sector, onSector, initialTheme }: Props) {
   const fund = toFundCode(layerId);
-  const [themeId, setThemeId] = useState<string | null>(null);
+  const [themeId, setThemeId] = useState<string | null>(findTheme(initialTheme ?? null)?.id ?? null);
   const theme = findTheme(themeId);
   const mapped = theme && fund ? primarySector(theme, fund) : null;
   const active = !!theme && sector === mapped;
 
   // Carry an active theme across fund switches (the map clears its filter on a switch; this re-applies the theme's sector).
-  const last = useRef({ layerId, active });
+  const last = useRef({ layerId, active, started: false });
   useEffect(() => {
-    if (last.current.layerId !== layerId && last.current.active && theme && fund) onSector(primarySector(theme, fund));
-    last.current = { layerId, active };
+    // A theme from the address applies once, on first render.
+    if (!last.current.started && theme && fund && initialTheme) onSector(primarySector(theme, fund));
+    else if (last.current.layerId !== layerId && last.current.active && theme && fund) onSector(primarySector(theme, fund));
+    last.current = { layerId, active: last.current.started ? active : true, started: true };
   });
 
   if (!fund) return null;

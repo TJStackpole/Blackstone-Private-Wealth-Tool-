@@ -17,9 +17,14 @@ export default function ToolkitHome() {
     <div className="atlas mx-auto w-full max-w-[1100px] px-4 pb-16 pt-5 sm:px-6 lg:pt-7" style={{ ["--layer-light" as string]: "#4A5568", ["--layer-dark" as string]: "#A0AEC0" }}>
       <header className="mb-8 space-y-4">
         <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="text-xs text-muted-strong hover:text-ink">
-            ← Map
-          </Link>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-3 text-xs text-muted-strong">
+            <Link href="/" className="hover:text-ink">
+              ← Map
+            </Link>
+            <Link href="/demo" className="underline decoration-line underline-offset-4 hover:text-ink">
+              Take the tour
+            </Link>
+          </nav>
           <div className="flex items-center gap-2">
             <AudienceToggle />
             <ThemeToggle />
