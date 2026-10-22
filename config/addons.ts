@@ -25,6 +25,8 @@ export interface AddonDef {
   shortName: string;
   /** One plain sentence for the Toolkit card. */
   description: string;
+  /** The client question the tool answers, shown large on the Toolkit card. */
+  question?: string;
   enabled: boolean;
   appliesTo: FundCode[];
   /** Highest phase completed. */
@@ -51,7 +53,8 @@ export const ADDONS: AddonDef[] = [
     id: "liquidity",
     name: "Liquidity Simulator",
     shortName: "Liquidity",
-    description: "When you'd get your money back if you sell, and each fund's limits.",
+    description: "Buybacks on a schedule, up to a set limit. See when the money arrives.",
+    question: "Can I get my money out?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
@@ -60,7 +63,8 @@ export const ADDONS: AddonDef[] = [
     id: "index-vs-fund",
     name: "Index-to-Fund Translator",
     shortName: "Index vs fund",
-    description: "A brochure's index return next to what each share class actually earned.",
+    description: "From a brochure's index to each share class, step by step.",
+    question: "What did the fund actually earn?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
@@ -69,7 +73,8 @@ export const ADDONS: AddonDef[] = [
     id: "tax-lens",
     name: "Tax Lens",
     shortName: "Tax Lens",
-    description: "Return of capital: what's taxed now, and what's taxed when you sell.",
+    description: "Return of capital defers tax on most of the payout until you sell.",
+    question: "How are the payouts taxed?",
     enabled: true,
     appliesTo: ["BREIT"],
     phase: 3,
@@ -78,7 +83,8 @@ export const ADDONS: AddonDef[] = [
     id: "smoothing",
     name: "Why So Smooth?",
     shortName: "Why so smooth",
-    description: "Why private fund values move so gently, and what that does and doesn't mean.",
+    description: "Appraised values vs. traded prices, side by side.",
+    question: "Why is the value so steady?",
     enabled: true,
     appliesTo: ["BREIT", "BXINFRA", "BXPE"],
     phase: 3,
@@ -87,7 +93,8 @@ export const ADDONS: AddonDef[] = [
     id: "themes",
     name: "Theme Exposure",
     shortName: "Themes",
-    description: "Themes like AI across funds, and what a set of holdings adds up to.",
+    description: "Themes like AI across all four funds, and a client's total.",
+    question: "What am I really exposed to?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
@@ -96,7 +103,8 @@ export const ADDONS: AddonDef[] = [
     id: "drawdown-vs-evergreen",
     name: "Drawdown vs. Evergreen",
     shortName: "Vs. drawdown",
-    description: "Traditional vs. evergreen private funds, and how much money is really at work.",
+    description: "Invested on day one, with no capital calls. See how much more money is at work.",
+    question: "Why evergreen?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
@@ -105,7 +113,8 @@ export const ADDONS: AddonDef[] = [
     id: "reality-check",
     name: "Reality Check",
     shortName: "Reality check",
-    description: "Each fund's stated goals next to what its latest filing shows.",
+    description: "Each fund's stated goals, next to its latest filing.",
+    question: "Is each fund doing what it says?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,

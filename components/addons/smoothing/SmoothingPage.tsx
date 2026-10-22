@@ -5,6 +5,14 @@ import Explainer from "./Explainer";
 import Objections from "./Objections";
 import SmoothChart from "./SmoothChart";
 
+const BREIT_10K = {
+  name: "BREIT Form 10-K, year ended December 31, 2025",
+  url: "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+};
+const BXINFRA_10K = {
+  name: "BX Infra Form 10-K, year ended December 31, 2025",
+  url: "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+};
 
 /** Add-on 2: why a private fund's value moves so little, and what that does and doesn't mean. */
 export default function SmoothingPage() {
@@ -12,11 +20,11 @@ export default function SmoothingPage() {
     <AddonShell
       addonId="smoothing"
       title="Why So Smooth?"
-      subtitle="Why a private fund's value moves less than a stock, and what that does and doesn't mean."
+      subtitle="Appraised values move gently. Here's what that does, and doesn't, mean."
       glance={[
-        { value: "Monthly", label: "BREIT updates its value per share" },
-        { value: "Yearly", label: "Each BREIT property is re-appraised, at least" },
-        { value: "Quarterly", label: "Full valuations for BX Infra and BXPE, updated monthly" },
+        { value: "Monthly", label: "BREIT updates its value per share", source: BREIT_10K },
+        { value: "Yearly", label: "Each BREIT property is re-appraised, at least", source: BREIT_10K },
+        { value: "Quarterly", label: "Full valuations for BX Infra and BXPE, updated monthly", source: BXINFRA_10K },
       ]}
     >
       <div className="space-y-12">

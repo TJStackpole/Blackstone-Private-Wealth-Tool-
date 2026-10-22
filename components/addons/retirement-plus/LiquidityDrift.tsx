@@ -16,7 +16,8 @@ function Bar({ label, pub, pri, width }: { label: string; pub: number; pri: numb
           Public
         </div>
         <div className="flex items-center justify-center bg-accent text-[11px] font-medium text-accent-contrast" style={{ width: `${total > 0 ? (pri / total) * 100 : 0}%` }}>
-          {total > 0 ? `${((pri / total) * 100).toFixed(0)}%` : ""}
+          {/* Too narrow to hold a label below about 8% of the bar. */}
+          {total > 0 && (pri / total) * width >= 8 ? `${((pri / total) * 100).toFixed(0)}%` : ""}
         </div>
       </div>
     </div>
@@ -86,7 +87,11 @@ export default function LiquidityDrift({ privatePct }: { privatePct: number }) {
           <Bar label="Before" pub={100 - privatePct} pri={privatePct} width={100} />
           <Bar label={`After ${w}% is paid out from the public part`} pub={d.publicAfter} pri={d.privateAfter} width={d.publicAfter + d.privateAfter} />
           <p className="text-sm leading-relaxed text-muted-strong">
-            Next, the manager asks the private funds for money back to bring the slice toward {privatePct}%. If those funds are limiting withdrawals, that takes longer.
+            {privatePct === 0
+              ? "With no private slice, every withdrawal is paid from assets that trade daily."
+              : w === 0
+                ? "With no withdrawals, the slice stays at its target."
+                : `Next, the manager asks the private funds for money back to bring the slice toward ${privatePct}%. If those funds are limiting withdrawals, that takes longer.`}
           </p>
           {liquidity && (
             <Link href="/toolkit/liquidity" className="inline-flex text-sm font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent">

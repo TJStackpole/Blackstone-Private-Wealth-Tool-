@@ -102,7 +102,7 @@ export default function LookThroughCalc({ compactFund }: { compactFund?: FundCod
         <figure className="space-y-2">
           <div className="h-72" role="img" aria-label={data.map((d) => `${d.name}: ${d.pct}%`).join("; ")}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} layout="vertical" margin={{ top: 0, right: 56, bottom: 0, left: 0 }}>
+              <BarChart accessibilityLayer={false} data={data} layout="vertical" margin={{ top: 0, right: 56, bottom: 0, left: 0 }}>
                 <CartesianGrid horizontal={false} stroke="var(--border)" />
                 <XAxis type="number" unit="%" tick={{ fill: "var(--muted)", fontSize: 11 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} domain={[0, (max: number) => Math.ceil(Math.max(max, threshold + 5) / 10) * 10]} />
                 <YAxis type="category" dataKey="name" width={150} tick={{ fill: "var(--muted-strong)", fontSize: 11 }} axisLine={false} tickLine={false} />

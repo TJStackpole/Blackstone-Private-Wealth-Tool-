@@ -38,12 +38,6 @@ export default function ComparisonCard({ data, highlight, compact = false }: { d
         ) : (
           <p className="text-sm text-muted-strong">No figure shown: these indices are licensed rather than published free.</p>
         )}
-        {!compact && (
-          <ul className="space-y-1 text-xs leading-relaxed text-muted-strong print:hidden">
-            <li>{index.feeText}</li>
-            <li>{index.leverageText}</li>
-          </ul>
-        )}
         <div className="mt-auto space-y-1">
           <AsOfSource asOf={index.asOf} source={index.source} />
           {index.verify && <p className="text-xs text-muted">{index.verify}</p>}

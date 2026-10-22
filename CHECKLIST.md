@@ -83,7 +83,7 @@ Every phase ran on its own branch (`addon/<tool>-p1` … `-p3`) and merged only 
 | Item | Verified |
 | --- | --- |
 | "Take the tour" link on the map and the toolkit | Browser test clicks it from the map. |
-| Every step's live view loads at the right spot | Browser test opens all 16 steps and checks each page loaded with no error or missing tool; step 2 lands on Nevada. |
+| Every step's live view loads at the right spot | Browser test opens all 17 steps and checks each page loaded with no error or missing tool; step 2 lands on Nevada. |
 | Desktop layout inside the tour on laptop screens | The live view renders at 1280px and scales to fit; checked at 1280 and 1440. |
 | Links into the map are safe | Unit tests: unknown funds, sectors or regions in the address are ignored. |
 
@@ -112,3 +112,16 @@ Three phases, each on its own branch (`addon/retirement-plus-p1` … `-p3`), mer
 | Full regression checklist | Types, lint, unit tests, build with browser tests and the 201-check map regression, after every phase. |
 
 Not built: the plan's third "Advisor" view. The tool is meant to be shareable with clients as is, so it has Worker and Employer views only.
+
+## Showcase polish (before the demo)
+
+| Item | Verified |
+| --- | --- |
+| Shorter pages: reference tables and history folded into "+" panels, text swapped for pictures | Drawdown vs. Evergreen leads with an at-a-glance comparison (full table one click away); Liquidity shows a fill-rate chart; Tax Lens's worked example is four number tiles. Page heights down about 20–30%. Links to folded sections open them. |
+| Every printout still fits on one page | Measured as Letter PDFs: Drawdown memo, Tax Lens, Liquidity, 401(k) Worker and Employer — one page each. Folded tables still print. |
+| Reality Check no longer calls the newest filing "Stale" | It now checks whether a newer quarterly filing should be out (10-Q ~45 days, 10-K ~90 days after quarter-end). Unit tests. |
+| "View on map" from the 401(k) tab or All funds shows the map | Scrolls back to the top on switching. |
+| Headline figures carry sources; Reality Check and Index figures come from the data files | Smoothing, Index and Reality Check tiles link their filing. |
+| Money labels round correctly ($1.0M, not $1000k) and have a billions step | Unit tests. |
+| Typing a number below a field's minimum no longer flashes an error | Unit test: held while typing, raised to the minimum on leaving the field. |
+| Charts inside picture wrappers aren't keyboard stops | Recharts' keyboard layer turned off where the chart is described by its label. |

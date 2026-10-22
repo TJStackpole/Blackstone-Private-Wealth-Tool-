@@ -10,6 +10,7 @@ import { NumberInput } from "@/components/addons/shared/Inputs";
 import { money, short, signed } from "@/lib/addons/retirement-plus/format";
 import Cite from "./Cite";
 import HypotheticalBadge from "./HypotheticalBadge";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
 
 const P = MODEL.published;
 const PREMIUMS = [0, 1, 2, 3];
@@ -73,7 +74,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
             {short(P.withPrivate)}
           </p>
           <p className="tnum mt-2 text-sm text-muted-strong">
-            {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} a year in retirement, about {P.incomeIncreasePct}% more
+            {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} a year in retirement, {P.incomeIncreasePct}% more per the paper
           </p>
         </div>
         <div className="space-y-1.5 border-line text-xs leading-relaxed text-muted sm:border-l sm:pl-8">
@@ -156,6 +157,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
               <HypotheticalBadge />
             </div>
           </div>
+          <p className="-mt-3 text-xs text-muted">Not the paper&apos;s model: it copies the structure and lets you pick the returns.</p>
 
           {!valid ? (
             <p role="status" className="rounded-card border border-line bg-bg-raised p-4 text-sm text-ink">
@@ -197,7 +199,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                   aria-label={`Balance from age ${params.startAge} to ${params.retireAge}: public only ends at ${short(r.endPublicOnly)}, with the private slice at ${short(r.endWithPrivate)}.${showPaper ? ` The paper's published result at 65: ${short(P.withPrivate)} vs. ${short(P.publicOnly)}.` : ""}`}
                 >
                   <ResponsiveContainer width="100%" height="100%">
-                    <ComposedChart data={data} margin={{ top: 12, right: 16, bottom: 0, left: 0 }}>
+                    <ComposedChart accessibilityLayer={false} data={data} margin={{ top: 12, right: 16, bottom: 0, left: 0 }}>
                       <CartesianGrid vertical={false} stroke="var(--border)" />
                       <XAxis dataKey="age" type="number" domain={[params.startAge, params.retireAge]} allowDecimals={false} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
                       <YAxis domain={[0, yTicks.at(-1)!]} ticks={yTicks} tickFormatter={short} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} width={48} />
@@ -252,10 +254,12 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                     </span>
                   </div>
                 ))}
+                {r.incomePublicOnly > 0 && (
                 <p className="tnum text-sm text-ink">
-                  About{" "}
-                  <strong className="font-semibold">{Math.abs(r.incomeIncreasePct).toFixed(0)}% {r.incomeIncreasePct >= 0 ? "more" : "less"}</strong> a year with the private slice.
-                </p>
+                    About{" "}
+                    <strong className="font-semibold">{Math.abs(r.incomeIncreasePct).toFixed(0)}% {r.incomeIncreasePct >= 0 ? "more" : "less"}</strong> a year with the private slice.
+                  </p>
+                )}
                 <p className="text-xs leading-relaxed text-muted">
                   The paper reports {short(P.incomeWithPrivate)} vs. {short(P.incomePublicOnly)} ({P.source.page}) using its own income method. A plain {MODEL.assumptions.withdrawalPct.value}% of its
                   balances would be about {short(P.withPrivate * 0.04)} vs. {short(P.publicOnly * 0.04)}. Social Security is left out, as in the paper.
@@ -307,11 +311,10 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
       )}
 
       {/* Assumption check */}
-      <div className="space-y-3">
-        <h3 className="font-serif text-xl font-medium leading-tight text-ink">Assumption check</h3>
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <MoreDetails summary="Assumption check" hint="The paper's own caveats, in plain words">
+        <ul className="grid gap-3 sm:grid-cols-2">
           {MODEL.notes.map((n) => (
-            <li key={n} className="flex gap-3 rounded-card border border-line bg-bg-raised p-4 text-sm leading-relaxed text-ink">
+            <li key={n} className="flex gap-3 text-sm leading-relaxed text-ink">
               <span aria-hidden className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-line text-[11px] font-semibold text-muted-strong">
                 !
               </span>
@@ -319,10 +322,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
             </li>
           ))}
         </ul>
-        <p className="text-xs leading-relaxed text-muted">
-          From the paper&apos;s own notes, in plain words. This calculator is not the paper&apos;s model: it copies the structure and lets you pick the returns.
-        </p>
-      </div>
+      </MoreDetails>
     </section>
   );
 }

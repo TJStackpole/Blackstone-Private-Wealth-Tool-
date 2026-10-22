@@ -5,6 +5,7 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 import { DEFAULTS, compare } from "@/lib/addons/drawdown-vs-evergreen/model";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
 
 const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 const short = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(1)}M` : `$${Math.round(n / 1000)}k`);
@@ -69,7 +70,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
       <figure className="space-y-2 print:hidden">
         <div className={compact ? "h-48" : "h-64 print:h-40"} role="img" aria-label={`Share of money at work by year: ${data.map((d) => `${d.year} drawdown ${d.drawdown}%`).join(", ")}; evergreen 100% throughout`}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
+            <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis dataKey="year" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
               <YAxis domain={[0, 100]} unit="%" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} width={44} />
@@ -81,8 +82,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
           </ResponsiveContainer>
         </div>
         <figcaption className="text-xs leading-relaxed text-muted">
-          Both structures are assumed to earn the same return, so the gap comes only from timing and fees. Real funds differ in what they own and earn.
-          Leaves out performance fees, taxes and the cash an evergreen fund keeps for redemptions.
+          Same return assumed for both, so the gap is timing and fees only. Leaves out performance fees, taxes and redemption cash.
         </figcaption>
       </figure>
 
@@ -98,6 +98,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
             <NumberInput label="Drawdown returns money from year" value={distStart} onChange={(v) => setDistStart(Math.round(v))} min={1} max={20} step={1} />
             <PercentInput label="Share of fund returned each year after that" value={distPct} onChange={setDistPct} />
           </div>
+          <MoreDetails summary="Year by year" hint="Share at work and value of each structure">
           <div className="overflow-x-auto rounded-card border border-line print:hidden">
             <table className="tnum w-full min-w-[520px] text-right text-sm">
               <caption className="sr-only">Year-by-year comparison</caption>
@@ -121,6 +122,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
               </tbody>
             </table>
           </div>
+          </MoreDetails>
         </>
       )}
     </div>

@@ -6,6 +6,7 @@ import { projectTax } from "@/lib/addons/tax-lens/roc";
 import { TAX } from "@/lib/addons/tax-lens/data";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
 
 const money = (n: number) => `${n < 0 ? "−" : ""}$${Math.abs(Math.round(n)).toLocaleString("en-US")}`;
 const short = (v: number) => (Math.abs(v) >= 1e6 ? `$${+(v / 1e6).toFixed(1)}M` : Math.abs(v) >= 1000 ? `$${Math.round(v / 1000)}k` : `$${Math.round(v)}`);
@@ -65,6 +66,50 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
     { name: "Tax at sale", value: Math.round(r.taxOnSale), kind: "later" },
     { name: "If every payout were taxed as income", value: Math.round(r.taxIfAllTaxedNow), kind: "compare" },
   ];
+
+  const yearTable = (
+          <div className="overflow-x-auto rounded-card border border-line">
+            <table className="tnum w-full min-w-[640px] text-right text-sm">
+              <caption className="sr-only">Year-by-year tax on payouts</caption>
+              <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
+                <tr>
+                  <th scope="col" className="px-3 py-2 text-left font-medium">Year</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Cash received</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Taxable now</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Lowers basis</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Tax now</th>
+                  <th scope="col" className="px-3 py-2 font-medium">After tax</th>
+                  <th scope="col" className="px-3 py-2 font-medium">Basis at end</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {r.rows.map((y) => (
+                  <tr key={y.year}>
+                    <th scope="row" className="px-3 py-2 text-left font-normal text-ink">{y.year}</th>
+                    <td className="px-3 py-2 text-ink">{money(y.cash)}</td>
+                    <td className="px-3 py-2 text-muted-strong">{money(y.taxable + y.capitalGainDist + y.excessGain)}</td>
+                    <td className="px-3 py-2 text-muted-strong">{money(y.roc - y.excessGain)}</td>
+                    <td className="px-3 py-2 text-ink">{money(y.taxNow)}</td>
+                    <td className="px-3 py-2 text-ink">{money(y.afterTaxCash)}</td>
+                    <td className="px-3 py-2 text-muted-strong">{money(y.basisEnd)}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="border-t border-line bg-bg-raised text-sm">
+                <tr>
+                  <th scope="row" className="px-3 py-2 text-left font-medium text-ink">At sale</th>
+                  <td colSpan={3} className="px-3 py-2 text-muted-strong">
+                    Sold for {money(r.saleValue)} · gain {money(r.gainOnSale)}
+                  </td>
+                  <td className="px-3 py-2 text-ink">{money(r.taxOnSale)}</td>
+                  <td colSpan={2} className="px-3 py-2 text-ink">
+                    Total after tax: {money(r.afterTaxTotal)}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+  );
 
   return (
     <div className={compact ? "space-y-5" : "grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] print:block"}>
@@ -161,7 +206,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         <figure className="space-y-2">
           <div className={compact ? "h-40" : "h-48"} role="img" aria-label={bars.map((b) => `${b.name}: ${money(b.value)}`).join("; ")}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={bars} layout="vertical" margin={{ top: 0, right: 64, bottom: 0, left: 0 }}>
+              <BarChart accessibilityLayer={false} data={bars} layout="vertical" margin={{ top: 0, right: 64, bottom: 0, left: 0 }}>
                 <CartesianGrid horizontal={false} stroke="var(--border)" />
                 <XAxis type="number" tickFormatter={short} tick={{ fill: "var(--muted)", fontSize: 11 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
                 <YAxis type="category" dataKey="name" width={compact ? 130 : 190} tick={{ fill: "var(--muted-strong)", fontSize: 11 }} axisLine={false} tickLine={false} />
@@ -189,47 +234,12 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         )}
 
         {!compact && (
-          <div className="overflow-x-auto rounded-card border border-line">
-            <table className="tnum w-full min-w-[640px] text-right text-sm">
-              <caption className="sr-only">Year-by-year tax on payouts</caption>
-              <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
-                <tr>
-                  <th scope="col" className="px-3 py-2 text-left font-medium">Year</th>
-                  <th scope="col" className="px-3 py-2 font-medium">Cash received</th>
-                  <th scope="col" className="px-3 py-2 font-medium">Taxable now</th>
-                  <th scope="col" className="px-3 py-2 font-medium">Lowers basis</th>
-                  <th scope="col" className="px-3 py-2 font-medium">Tax now</th>
-                  <th scope="col" className="px-3 py-2 font-medium">After tax</th>
-                  <th scope="col" className="px-3 py-2 font-medium">Basis at end</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line">
-                {r.rows.map((y) => (
-                  <tr key={y.year}>
-                    <th scope="row" className="px-3 py-2 text-left font-normal text-ink">{y.year}</th>
-                    <td className="px-3 py-2 text-ink">{money(y.cash)}</td>
-                    <td className="px-3 py-2 text-muted-strong">{money(y.taxable + y.capitalGainDist + y.excessGain)}</td>
-                    <td className="px-3 py-2 text-muted-strong">{money(y.roc - y.excessGain)}</td>
-                    <td className="px-3 py-2 text-ink">{money(y.taxNow)}</td>
-                    <td className="px-3 py-2 text-ink">{money(y.afterTaxCash)}</td>
-                    <td className="px-3 py-2 text-muted-strong">{money(y.basisEnd)}</td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot className="border-t border-line bg-bg-raised text-sm">
-                <tr>
-                  <th scope="row" className="px-3 py-2 text-left font-medium text-ink">At sale</th>
-                  <td colSpan={3} className="px-3 py-2 text-muted-strong">
-                    Sold for {money(r.saleValue)} · gain {money(r.gainOnSale)}
-                  </td>
-                  <td className="px-3 py-2 text-ink">{money(r.taxOnSale)}</td>
-                  <td colSpan={2} className="px-3 py-2 text-ink">
-                    Total after tax: {money(r.afterTaxTotal)}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+          <>
+            <MoreDetails summary="Year by year" hint="Cash, tax now and cost basis each year, then the sale">
+              {yearTable}
+            </MoreDetails>
+            <div className="hidden print:block">{yearTable}</div>
+          </>
         )}
       </div>
     </div>

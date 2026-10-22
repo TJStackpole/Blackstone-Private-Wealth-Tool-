@@ -44,7 +44,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
       <figure className="space-y-2">
         <div className={compact ? "h-48" : "h-72 print:h-40"} role="img" aria-label={`Growth of 100: ${appraised.label} and ${traded.label}, ${period}. Worst fall of the traded series shaded.`}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
+            <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <ReferenceArea x1={labels[ddT.peak]} x2={labels[ddT.trough]} fill="var(--muted)" fillOpacity={0.15} ifOverflow="hidden" />
               <XAxis dataKey="q" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} interval={compact ? 11 : 7} tickFormatter={(q: string) => (q === "Start" ? "" : q.slice(0, 4))} />

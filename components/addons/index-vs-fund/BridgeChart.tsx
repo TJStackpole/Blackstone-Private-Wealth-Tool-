@@ -5,6 +5,7 @@ import { Bar, BarChart, CartesianGrid, Cell, LabelList, ReferenceLine, Responsiv
 import type { IndexVsFund, ShareClass } from "@/lib/addons/index-vs-fund/data";
 import { SHARE_CLASSES, leverageGap, returnFor } from "@/lib/addons/index-vs-fund/data";
 import { buildBridge } from "@/lib/addons/index-vs-fund/bridge";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
 import { IllustrativeBadge, SampleBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
 import { pct } from "./ComparisonCard";
@@ -83,7 +84,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
 
       <div className={compact ? "h-64" : "h-80 print:h-56"} role="img" aria-label={`Bridge from ${bridge.start.toFixed(2)}% to ${bridge.end.toFixed(2)}%: ${bridge.steps.map((s) => `${s.label} ${signed(s.delta)}`).join(", ")}`}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 48, bottom: 0, left: 0 }}>
+          <BarChart accessibilityLayer={false} data={rows} layout="vertical" margin={{ top: 4, right: 48, bottom: 0, left: 0 }}>
             <CartesianGrid horizontal={false} stroke="var(--border)" />
             <XAxis type="number" tick={{ fill: "var(--muted)", fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} axisLine={{ stroke: "var(--border)" }} tickLine={false} domain={["auto", "auto"]} />
             <YAxis type="category" dataKey="name" width={compact ? 118 : 150} tick={{ fill: "var(--muted-strong)", fontSize: 12 }} axisLine={false} tickLine={false} />
@@ -106,7 +107,8 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
       )}
 
       {!compact && (
-        <div className="no-print space-y-4 rounded-card border border-line p-4 sm:p-5">
+        <MoreDetails summary="Adjust the assumptions" hint="Borrowing, cash held for redemptions and the index return">
+        <div className="no-print space-y-4">
           <div className="space-y-1.5">
             <label htmlFor="ivf-lev" className="flex items-center justify-between gap-3 text-sm text-ink">
               <span>What if borrowing beyond the index&apos;s were {lev}% of assets?</span>
@@ -145,6 +147,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
             (simplified here: no high-water mark or catch-up), and a {fees.servicing[cls]}% servicing fee for Class {cls}. {fees.management.verify}.
           </p>
         </div>
+        </MoreDetails>
       )}
     </div>
   );

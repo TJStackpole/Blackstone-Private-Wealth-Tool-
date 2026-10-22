@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CLAIMS } from "@/lib/addons/reality-check/data";
 import { COLUMNS, claimsToCsv, parseCsv, rowsToClaims } from "@/lib/addons/reality-check/csv";
-import { freshness } from "@/lib/addons/reality-check/freshness";
+import { freshness, latestExpectedQuarterEnd } from "@/lib/addons/reality-check/freshness";
 
 const header = COLUMNS.join(",");
 const good = 'BCRED,bcred-x,"Aims to generate current income, mostly.",BCRED 10-K,https://www.sec.gov/a,Item 1,Metric,"$1.07",2026-06-30,BCRED 10-Q,https://www.sec.gov/b,Note 10,watch,draft,"Context that is long enough."';
@@ -45,14 +45,18 @@ describe("update spreadsheet", () => {
 
 describe("freshness", () => {
   const today = new Date("2026-10-21T12:00:00Z");
-  it("is fresh under 45 days, aging from 45 to 90, stale over 90", () => {
-    expect(freshness("2026-09-07", today).level).toBe("fresh"); // 44 days
-    expect(freshness("2026-09-06", today).level).toBe("aging"); // 45
-    expect(freshness("2026-07-23", today).level).toBe("aging"); // 90
-    expect(freshness("2026-07-22", today).level).toBe("stale"); // 91
+  it("knows which quarterly filing should be out: 10-Qs about 45 days after quarter-end, 10-Ks about 90", () => {
+    expect(latestExpectedQuarterEnd(today)).toBe("2026-06-30"); // Sep 30 + 45 days is Nov 14
+    expect(latestExpectedQuarterEnd(new Date("2026-11-14T12:00:00Z"))).toBe("2026-09-30");
+    expect(latestExpectedQuarterEnd(new Date("2026-03-30T12:00:00Z"))).toBe("2025-09-30"); // Dec 31 + 90 days is Mar 31
+    expect(latestExpectedQuarterEnd(new Date("2026-03-31T12:00:00Z"))).toBe("2025-12-31");
   });
-  it("labels the age in days", () => {
-    expect(freshness("2026-06-30", today).label).toBe("Stale · 113 days old");
+  it("calls the newest filing current, however many days old it is", () => {
+    expect(freshness("2026-06-30", today)).toMatchObject({ level: "fresh", label: "Latest filing", days: 113 });
+  });
+  it("flags a snapshot once a newer filing is due, and again when two are", () => {
+    expect(freshness("2026-03-31", today)).toMatchObject({ level: "aging", label: "Newer filing due" });
+    expect(freshness("2025-12-31", today)).toMatchObject({ level: "stale", label: "Out of date" });
   });
 });
 

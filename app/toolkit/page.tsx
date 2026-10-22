@@ -30,9 +30,10 @@ export default function ToolkitHome() {
             <ThemeToggle />
           </div>
         </div>
-        <div>
-          <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Advisor Toolkit</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">Simple tools for understanding how these funds work: selling, fees, taxes and value. Every result is illustrative and shows its sources.</p>
+        <div className="pt-4 sm:pt-8">
+          <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted">Evergreen private markets</p>
+          <h1 className="mt-2 font-serif text-[36px] font-medium leading-[1.05] tracking-[-0.02em] text-ink sm:text-[48px]">Advisor Toolkit</h1>
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-muted-strong">Clear, sourced answers to the questions clients ask, ready to share.</p>
         </div>
       </header>
 

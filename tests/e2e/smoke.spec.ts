@@ -91,7 +91,7 @@ test("a theme drives each fund's sector filter across fund switches, and turning
   expect(problems).toEqual([]);
 });
 
-test("Family Office mode reorders the toolkit, carries across tool pages, and leaves the map alone", async ({ page }) => {
+test("Family Office mode reorders the toolkit, is kept while browsing tools, and leaves the map alone", async ({ page }) => {
   const problems = watch(page);
   await page.goto("/toolkit");
   const toggle = page.getByRole("group", { name: "Audience" });
@@ -100,6 +100,9 @@ test("Family Office mode reorders the toolkit, carries across tool pages, and le
   await expect(page.getByRole("listitem").first().getByRole("heading", { level: 2 })).toHaveText("Drawdown vs. Evergreen");
   await page.getByRole("link", { name: /Liquidity Simulator/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Liquidity Simulator" })).toBeVisible();
+  // The switch only reorders the toolkit's cards, so tool pages don't show it; the choice is still there on return.
+  await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);
+  await page.getByRole("link", { name: "Advisor Toolkit" }).click();
   await expect(page.getByRole("group", { name: "Audience" }).getByRole("button", { name: "Family Office" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("link", { name: "← Map" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Blackstone Private Market" })).toBeVisible();

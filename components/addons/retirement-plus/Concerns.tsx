@@ -13,7 +13,7 @@ export function orderedConcerns(audience: AudienceId): Objection[] {
   return CONCERN_ORDER[audience].map((id) => ROOM.objections.find((o) => o.id === id)).filter((o): o is Objection => !!o);
 }
 
-/** Two-sided objection cards: the concern and the response get the same space, each with its sources. */
+/** Question cards: the short answer first, then what to keep in mind, each side with its sources. */
 export default function Concerns({ audience }: { audience: AudienceId }) {
   const a = ROOM.audiences[audience];
   return (
@@ -33,19 +33,17 @@ export default function Concerns({ audience }: { audience: AudienceId }) {
                 <h3 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">{o.title}</h3>
                 <p className="font-serif text-lg leading-snug text-ink">{o.question}</p>
               </div>
-              <div className="grid divide-y divide-line sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                {(
-                  [
-                    ["The concern", o.concern],
-                    ["The response", o.response],
-                  ] as const
-                ).map(([label, side]) => (
-                  <div key={label} className="flex flex-col gap-2 px-4 py-3 sm:px-5 sm:py-4">
-                    <p className="text-xs font-medium text-muted-strong">{label}</p>
-                    <p className="text-sm leading-relaxed text-ink">{side.text}</p>
-                    <Sources sources={side.sources} className="mt-auto" />
-                  </div>
-                ))}
+              <div className="grid divide-y divide-line md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:divide-x md:divide-y-0">
+                <div className="flex flex-col gap-2 px-4 py-3 sm:px-5 sm:py-4">
+                  <p className="text-xs font-medium text-accent">The short answer</p>
+                  <p className="text-[15px] leading-relaxed text-ink">{o.response.text}</p>
+                  <Sources sources={o.response.sources} className="mt-auto" />
+                </div>
+                <div className="flex flex-col gap-2 bg-bg/60 px-4 py-3 sm:px-5 sm:py-4">
+                  <p className="text-xs font-medium text-muted-strong">Keep in mind</p>
+                  <p className="text-sm leading-relaxed text-muted-strong">{o.concern.text}</p>
+                  <Sources sources={o.concern.sources} className="mt-auto" />
+                </div>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-2.5 sm:px-5">
                 <p className="text-xs text-muted-strong">

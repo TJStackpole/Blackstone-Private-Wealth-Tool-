@@ -66,3 +66,18 @@ describe("paper defaults", () => {
     expect(PAPER_DEFAULTS.rows).toBe(GLIDE.rows);
   });
 });
+
+describe("short money labels", () => {
+  it("rounds before choosing the unit, and has a billions step", async () => {
+    const { short, signed } = await import("@/lib/addons/retirement-plus/format");
+    expect(short(499)).toBe("$0");
+    expect(short(498_668)).toBe("$499k");
+    expect(short(999_499)).toBe("$999k");
+    expect(short(999_600)).toBe("$1.0M");
+    expect(short(2_811_166)).toBe("$2.8M");
+    expect(short(999_960_000)).toBe("$1.0B");
+    expect(short(1_077_200_000)).toBe("$1.1B");
+    expect(signed(-12_400)).toBe("−$12k");
+    expect(short(Number.NaN)).toBe("—");
+  });
+});

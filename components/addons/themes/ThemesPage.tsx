@@ -16,7 +16,7 @@ export default function ThemesPage() {
     <AddonShell
       addonId="themes"
       title="Theme Exposure"
-      subtitle="Themes like AI and data centers run through several funds at once. See how much of each fund sits in each, and what holdings add up to."
+      subtitle="Themes like AI run through several funds at once. See each fund's share, and a client's total."
       glance={[
         { value: "27%", label: "of BREIT in data centers" },
         { value: "24.1%", label: "of BX Infra in digital infrastructure" },

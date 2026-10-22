@@ -34,7 +34,8 @@ interface NumberProps {
 
 /**
  * Labeled number field. Shows big numbers with commas (500,000), accepts them typed either way, ignores anything that
- * isn't a number yet, and steps with the up and down arrow keys.
+ * isn't a number yet, and steps with the up and down arrow keys. Above the maximum it clamps at once; below the minimum
+ * it waits until the field loses focus, since more digits may be coming.
  */
 export function NumberInput({ label, value, onChange, min, max, step = 1, prefix, suffix, help }: NumberProps) {
   const id = useId();
@@ -62,11 +63,17 @@ export function NumberInput({ label, value, onChange, min, max, step = 1, prefix
           value={shown}
           aria-describedby={help ? `${id}-help` : undefined}
           onFocus={() => setDraft(shown)}
-          onBlur={() => setDraft(null)}
+          onBlur={() => {
+            // A number below the minimum is held while typing (the "6" on the way to "60"), then raised to it on leaving.
+            const n = draft === null ? null : parseNumber(draft);
+            if (n !== null && min !== undefined && n < min) onChange(min);
+            setDraft(null);
+          }}
           onChange={(e) => {
             setDraft(e.target.value);
             const n = parseNumber(e.target.value);
-            if (n !== null) onChange(clamp(n));
+            if (n === null || (min !== undefined && n < min)) return;
+            onChange(clamp(n));
           }}
           onKeyDown={(e) => {
             if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
