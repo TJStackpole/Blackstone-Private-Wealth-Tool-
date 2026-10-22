@@ -3,7 +3,7 @@
 A five-minute walkthrough you can follow in an interview, plus honest answers to the questions you are most likely to get.
 
 Live site: https://private-markets-atlas.netlify.app
-Guided tour (all features, step by step): https://private-markets-atlas.netlify.app/demo
+Guided tour (six steps): https://private-markets-atlas.netlify.app/demo · Full tour (all 17): https://private-markets-atlas.netlify.app/demo?tour=full
 
 ## The one-sentence pitch
 
@@ -29,7 +29,7 @@ Each fund's filing discloses geography at a different level of detail, so each m
 3. **Private Equity (BXPE).** Sector and region numbers come straight from the fund's own charts in the 10-Q. Click **Technology & Services**: 91.1% Americas, and the panel names Fortis Holdco L.P., one of only two companies the filing names.
 4. **Credit (BCRED).** Start with the **This quarter** box under the title: net assets $47.6B → $42.8B, NAV per share $24.79 → $23.65, a pro-rata buyback of 5.0% (7.0% in Q1), and non-accruals up from 9 to 15 issuers, each with its direction and the 10-Q as source. The **Distribution rate** card shows 10.1% (Class I, June annualized) and notes July's lower $0.18. For a credit fund the borrowers are the story, so the 12 largest (Dropbox, IRI, Guidehouse and others) take the map's place; click **Insurance** in the panel's Sector mix to filter them. The map is one click away under **Geography**.
 5. **All funds.** "Four funds, four levels of detail." Click **Open** on any card.
-6. **Retirement (401(k)).** Open with the two bars: pensions about 33% in private markets, 401(k)s about 0.1%. Drag the age slider to show the private slice shifting from growth to income. In the **Outcome Lab**, point to the paper's result ($2.8M vs. $3.3M at 65), then set "Public return" lower or "Extra fees" higher and watch the gap shrink. The premium strip says it plainly: if private only matches public, the extra is $0. Scroll through the two-sided questions, then flip **Worker / Employer**: the order and wording change, the numbers don't. **Print / Save as PDF** makes a one-page summary for either view.
+6. **Retirement (401(k)).** Open with the two bars: pensions about 33% in private markets, 401(k)s about 0.1%. Drag the age slider to show the private slice shifting from growth to income. In the **Outcome Lab**, point to the paper's headline result ($156k vs. $126k a year in retirement; $3.3M vs. $2.8M at 65), then set "Public return" lower or "Extra fees" higher and watch the gap shrink. The premium strip says it plainly: if private only matches public, the extra is $0. Scroll through the two-sided questions, then flip **Worker / Employer**: the order and wording change, the numbers don't. **Print / Save as PDF** makes a one-page summary for either view.
 7. **Dark mode and phone.** Toggle **Dark**, then narrow the window: the panel becomes a bottom sheet.
 
 ## Then the Advisor Toolkit (five more minutes)
