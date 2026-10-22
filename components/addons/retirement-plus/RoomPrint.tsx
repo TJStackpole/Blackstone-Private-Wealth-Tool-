@@ -5,6 +5,7 @@ import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { GAP, MODEL, ROOM, type AudienceId, type Source } from "@/lib/addons/retirement-plus/data";
 import { premiumSensitivity, projectRetirement, type LabParams } from "@/lib/addons/retirement-plus/model";
 import { short, signed } from "@/lib/addons/retirement-plus/format";
+import { fundFees } from "./FundFees";
 
 const P = MODEL.published;
 const names = (s: Source[]) => s.map((x) => (x.name.startsWith("Blackstone, Expanding") ? `Blackstone paper${x.page ? `, ${x.page}` : ""}` : x.name.split(",")[0])).join("; ");
@@ -83,7 +84,17 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
                   <span className="font-medium">Short answer.</span> {o.response.text} <span className="italic">({names(o.response.sources)})</span>
                 </p>
                 <p>
-                  <span className="font-medium">Keep in mind.</span> {o.concern.text} <span className="italic">({names(o.concern.sources)})</span>
+                  <span className="font-medium">Keep in mind.</span> {o.concern.text}{" "}
+                  {o.concern.perFund === "fees" ? (
+                    fundFees().map((f) => (
+                      <span key={f.fund} className="block">
+                        {f.label}: {f.management.value} {f.management.note}, {f.performance.value} performance fee{" "}
+                        <span className="italic">({f.management.sources?.[0]?.name.replace(/, (quarter|year) ended .*$/, "")}, {f.management.sources?.[0]?.page?.split(":")[0]})</span>
+                      </span>
+                    ))
+                  ) : (
+                    <span className="italic">({names(o.concern.sources)})</span>
+                  )}
                 </p>
               </div>
               <p>

@@ -48,7 +48,8 @@ export interface Objection {
   id: string;
   title: string;
   question: string;
-  concern: { text: string; sources: Source[] };
+  /** perFund "fees": show each fund's own fee line (from data/compare.json) under the text. */
+  concern: { text: string; sources: Source[]; perFund?: "fees" };
   response: { text: string; sources: Source[] };
   watch: string;
   /** Cross-link to another add-on; hidden when that add-on is off. */

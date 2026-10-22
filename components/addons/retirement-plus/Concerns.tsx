@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { findAddon } from "@/config/addons";
 import { ROOM, type AudienceId, type Objection } from "@/lib/addons/retirement-plus/data";
+import FundFees from "./FundFees";
 import Sources from "./Sources";
 
 /** Card order per audience; the cards themselves are the same. */
@@ -42,7 +43,7 @@ export default function Concerns({ audience }: { audience: AudienceId }) {
                 <div className="flex flex-col gap-2 bg-bg/60 px-4 py-3 sm:px-5 sm:py-4">
                   <p className="text-xs font-medium text-muted-strong">Keep in mind</p>
                   <p className="text-sm leading-relaxed text-muted-strong">{o.concern.text}</p>
-                  <Sources sources={o.concern.sources} className="mt-auto" />
+                  {o.concern.perFund === "fees" ? <FundFees /> : <Sources sources={o.concern.sources} className="mt-auto" />}
                 </div>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-2.5 sm:px-5">
