@@ -5,7 +5,7 @@ import OutcomeLab from "@/components/addons/retirement-plus/OutcomeLab";
 import { PAPER_DEFAULTS } from "@/lib/addons/retirement-plus/defaults";
 import { MODEL } from "@/lib/addons/retirement-plus/data";
 import { premiumSensitivity, projectRetirement } from "@/lib/addons/retirement-plus/model";
-import { signed, short } from "@/lib/addons/retirement-plus/format";
+import { shortPair, signed, short } from "@/lib/addons/retirement-plus/format";
 
 afterEach(cleanup);
 
@@ -26,8 +26,8 @@ describe("Outcome Lab", () => {
   it("starts from the paper's worker, shows both badges and says it isn't the paper's model", () => {
     render(<Harness />);
     const r = projectRetirement(PAPER_DEFAULTS);
-    expect(cell("public")).toBe(short(r.endPublicOnly));
-    expect(cell("private")).toBe(short(r.endWithPrivate));
+    expect(cell("public")).toBe(shortPair(r.endPublicOnly, r.endWithPrivate)[0]);
+    expect(cell("private")).toBe(shortPair(r.endPublicOnly, r.endWithPrivate)[1]);
     expect(cell("difference")).toBe(signed(r.difference));
     expect(screen.getAllByText("Illustrative").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Hypothetical").length).toBeGreaterThan(0);
@@ -68,11 +68,19 @@ describe("Outcome Lab", () => {
     type("Starting salary", "80000");
     type("Retirement age", "70");
     type("Public return a year", "6");
-    expect(cell("public")).not.toBe(short(projectRetirement(PAPER_DEFAULTS).endPublicOnly));
+    const d = projectRetirement(PAPER_DEFAULTS);
+    expect(cell("public")).not.toBe(shortPair(d.endPublicOnly, d.endWithPrivate)[0]);
     fireEvent.click(screen.getByRole("button", { name: "Reset to paper's assumptions" }));
     expect(field("Starting salary").value).toBe("52,000");
     expect(field("Retirement age").value).toBe("65");
-    expect(cell("public")).toBe(short(projectRetirement(PAPER_DEFAULTS).endPublicOnly));
+    expect(cell("public")).toBe(shortPair(d.endPublicOnly, d.endWithPrivate)[0]);
+  });
+
+  it("close balances get two decimals, so they never read the same next to a nonzero difference", () => {
+    expect(shortPair(1_120_000, 1_189_000)).toEqual(["$1.12M", "$1.19M"]);
+    expect(shortPair(2_800_000, 3_300_000)).toEqual(["$2.80M", "$3.30M"]);
+    expect(shortPair(400_000, 1_600_000)).toEqual(["$400k", "$1.6M"]);
+    expect(shortPair(2_000_000, 3_500_000)).toEqual(["$2.0M", "$3.5M"]);
   });
 
   it("explains instead of charting when retirement comes before the start", () => {

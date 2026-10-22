@@ -18,10 +18,10 @@ export default function IndexVsFundView({ initialFund = "BREIT" }: { initialFund
   return (
     <div className="atlas space-y-10" style={{ ["--layer-light" as string]: FUNDS[fund].color, ["--layer-dark" as string]: FUNDS[fund].colorDark }}>
       <PrintOnePager title="Index-to-Fund one-pager">
-        <div className="space-y-10 print:space-y-3">
-          <h2 className="hidden font-serif text-xl print:block">Index-to-Fund Translator: {FUNDS[fund].label}</h2>
+        <div className="space-y-10 print:space-y-1.5">
+          <h2 className="hidden font-serif text-lg print:block">Index-to-Fund Translator: {FUNDS[fund].label}</h2>
           <section aria-labelledby="ivf-card-h" className="space-y-4 print:space-y-2">
-            <h2 id="ivf-card-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
+            <h2 id="ivf-card-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:text-base">
               The index next to the fund
             </h2>
             <div className="no-print">
@@ -29,8 +29,8 @@ export default function IndexVsFundView({ initialFund = "BREIT" }: { initialFund
             </div>
             <ComparisonCard data={data} />
           </section>
-          <section aria-labelledby="ivf-bridge-h" className="space-y-4">
-            <h2 id="ivf-bridge-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
+          <section aria-labelledby="ivf-bridge-h" className="space-y-4 print:space-y-2">
+            <h2 id="ivf-bridge-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:text-base">
               From the index to a share class, step by step
             </h2>
             <p className="no-print max-w-3xl text-sm text-muted-strong">Each bar is one reason the numbers differ. Pick a share class to compare.</p>

@@ -31,8 +31,8 @@ function CharacterBars({ fund }: { fund: OtherFund }) {
     <div className="grid grid-cols-[56px_minmax(0,1fr)_auto] items-center gap-2">
       <span className="text-[11px] text-muted-strong">{label}</span>
       <span className="flex h-3.5 overflow-hidden rounded-sm bg-bg">
-        <span className="h-full bg-accent" style={{ width: `${100 - deferred}%` }} />
-        <span className="h-full bg-muted/40" style={{ width: `${deferred}%` }} />
+        <span className="print-fill h-full bg-accent" style={{ width: `${100 - deferred}%` }} />
+        <span className="print-fill-light h-full bg-muted/40" style={{ width: `${deferred}%` }} />
       </span>
       <span className="tnum w-24 text-right text-[11px] text-muted-strong">{deferred.toFixed(0)}% deferred</span>
     </div>

@@ -4,7 +4,7 @@ import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { GAP, MODEL, ROOM, type AudienceId, type Source } from "@/lib/addons/retirement-plus/data";
 import { premiumSensitivity, projectRetirement, type LabParams } from "@/lib/addons/retirement-plus/model";
-import { short, signed } from "@/lib/addons/retirement-plus/format";
+import { short, shortPair, signed } from "@/lib/addons/retirement-plus/format";
 import { fundFees } from "./FundFees";
 
 const P = MODEL.published;
@@ -50,7 +50,8 @@ export default function RoomPrint({ audience, lab }: { audience: AudienceId; lab
           {valid ? (
             <>
               <p>
-                At {lab.retireAge}: {short(r.endPublicOnly)} public only vs. {short(r.endWithPrivate)} with a {lab.privatePct}% private slice ({signed(r.difference)}).
+                At {lab.retireAge}: {shortPair(r.endPublicOnly, r.endWithPrivate)[0]} public only vs. {shortPair(r.endPublicOnly, r.endWithPrivate)[1]} with a {lab.privatePct}%
+                private slice ({signed(r.difference)}).
               </p>
               <p>
                 Worker: age {lab.startAge} to {lab.retireAge}, ${lab.startSalary.toLocaleString("en-US")} salary, {lab.raisePct}% raises, saving {lab.contribStartPct}% rising to{" "}
