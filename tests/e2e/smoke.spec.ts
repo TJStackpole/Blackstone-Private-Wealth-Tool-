@@ -51,8 +51,11 @@ test("Advisor Toolkit link opens the toolkit, and every enabled add-on opens", a
 test("every fund panel's add-on chips open their drawer, and Escape closes it", async ({ page }) => {
   const problems = watch(page);
   await page.goto("/");
-  for (const tab of ["Real Estate", "Infrastructure", "Private Equity", "Credit"]) {
+  const funds: Record<string, string> = { "Real Estate": "BREIT", Infrastructure: "BX Infra", "Private Equity": "BXPE", Credit: "BCRED" };
+  for (const [tab, fund] of Object.entries(funds)) {
     await page.getByRole("tab", { name: new RegExp(tab) }).click();
+    // Count chips only once this fund's panel is showing, not the previous fund's.
+    await expect(page.getByRole("heading", { level: 2, name: `Where ${fund} invests` })).toBeVisible();
     const tools = page.getByRole("navigation", { name: "Advisor tools for this fund" });
     const chips = tools.getByRole("button");
     const n = await chips.count();
