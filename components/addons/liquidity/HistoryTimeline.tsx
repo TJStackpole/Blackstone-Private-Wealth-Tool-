@@ -1,6 +1,6 @@
 import { HISTORY } from "@/lib/addons/liquidity/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import type { FundCode } from "@/config/addons";
 
 /** Past limit events, oldest first, each linked to the filing that reports it. */

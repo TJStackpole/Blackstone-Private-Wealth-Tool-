@@ -16,7 +16,11 @@ import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
 import RetirementView from "./RetirementView";
 import SourceFooter from "./SourceFooter";
+import { SITE_NAME, SITE_TAGLINE } from "./SiteMark";
+import { findAddon } from "@/config/addons";
+import { ADDON_DISCLOSURE } from "./addons/shared/AddonDisclosure";
 import ThemeToggle from "./ThemeToggle";
+import { useDocumentTitle } from "./useDocumentTitle";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
 // Add-on 6 (Theme Exposure): the one logged exception to the two-doorway rule. See BUILD_PLAN_ADDONS.md, Add-on 6, Phase 1.
@@ -99,6 +103,10 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   const selectedLabel =
     data && selected ? (data.geography.level === "us-region" ? stateName(selected) : (geoItems.find((g) => g.key === selected)?.label ?? selected)) : null;
 
+  // The browser tab names the view: "BCRED · Private Markets Atlas", "All funds · …", "Retirement · …".
+  const viewTitle = viewId === "all" ? "All funds" : viewId === "retirement" ? "Retirement" : layer.fund;
+  useDocumentTitle(`${viewTitle} · ${SITE_NAME}`);
+
   // Credit funds lead with their borrowers; the map becomes a smaller section below them.
   const lead = !!data && holdingsLead(data);
 
@@ -135,9 +143,9 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       <header className="mb-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div>
-            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Private Markets Atlas</h1>
+            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">{SITE_NAME}</h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-strong">
-              Independent, built from public SEC filings.
+              {SITE_TAGLINE}
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -262,7 +270,10 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      <SourceFooter data={viewId === "all" || viewId === "retirement" ? undefined : data} />
+      <SourceFooter
+        data={viewId === "all" || viewId === "retirement" ? undefined : data}
+        disclosure={viewId === "retirement" && findAddon("retirement-plus") ? ADDON_DISCLOSURE : undefined}
+      />
     </div>
   );
 }

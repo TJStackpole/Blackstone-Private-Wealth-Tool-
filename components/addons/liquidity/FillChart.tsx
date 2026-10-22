@@ -1,10 +1,11 @@
 import type { FundCode } from "@/config/addons";
 import { HISTORY, type CapEvent } from "@/lib/addons/liquidity/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
+import { formatMonth } from "@/lib/dates";
 
 const parts = (iso: string) => {
-  const d = new Date(`${iso}T00:00:00Z`);
-  return { month: d.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }), year: `'${String(d.getUTCFullYear()).slice(2)}` };
+  const [month, year] = formatMonth(iso).split(" ");
+  return { month, year: `'${year.slice(2)}` };
 };
 const label = (iso: string) => `${parts(iso).month} ${parts(iso).year}`;
 

@@ -1,5 +1,5 @@
 import type { AddonSource } from "@/lib/addons/shared/types";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 
 const base = "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em]";
 

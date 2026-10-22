@@ -204,22 +204,32 @@ function States({ maxRegion, topStates, counts, selected, onSelect, onHover, onL
             </g>
           );
         })}
-        {!compact &&
-          shapes
-            .filter((s) => topStates[s.abbr] !== undefined)
-            .map((s) => (
-              <text
-                key={s.abbr}
-                x={s.cx + (LABEL_NUDGE[s.abbr]?.[0] ?? 0)}
-                y={s.cy - 18 + (LABEL_NUDGE[s.abbr]?.[1] ?? 0)}
-                textAnchor="middle"
-                className="tnum"
-                style={{ fill: "var(--text)", fontSize: 15, fontWeight: 600, paintOrder: "stroke", stroke: "var(--bg)", strokeWidth: 4 }}
-              >
-                {formatPct(topStates[s.abbr])}
-              </text>
-            ))}
       </g>
+      {/* The largest states' own shares. Each label is named with its state ("Texas 11%"), never a bare "11%". */}
+      {!compact && (
+        <g pointerEvents="none">
+          {shapes
+            .filter((s) => topStates[s.abbr] !== undefined)
+            .map((s) => {
+              const name = `${s.name} ${formatPct(topStates[s.abbr])}`;
+              return (
+                <g key={s.abbr} role="img" aria-label={name} data-state-label={s.abbr}>
+                  <title>{name}</title>
+                  <text
+                    aria-hidden
+                    x={s.cx + (LABEL_NUDGE[s.abbr]?.[0] ?? 0)}
+                    y={s.cy - 18 + (LABEL_NUDGE[s.abbr]?.[1] ?? 0)}
+                    textAnchor="middle"
+                    className="tnum"
+                    style={{ fill: "var(--text)", fontSize: 15, fontWeight: 600, paintOrder: "stroke", stroke: "var(--bg)", strokeWidth: 4 }}
+                  >
+                    {formatPct(topStates[s.abbr])}
+                  </text>
+                </g>
+              );
+            })}
+        </g>
+      )}
     </g>
   );
 }

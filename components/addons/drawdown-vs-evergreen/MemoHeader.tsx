@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { formatDate, todayInNewYork } from "@/lib/dates";
 
 const noop = () => () => {};
 
@@ -8,7 +9,7 @@ const noop = () => () => {};
 export default function MemoHeader() {
   const today = useSyncExternalStore(
     noop,
-    () => new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+    () => formatDate(todayInNewYork(), "long"),
     () => "",
   );
   return (

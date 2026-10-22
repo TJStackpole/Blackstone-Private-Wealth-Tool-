@@ -3,7 +3,8 @@
 import { useEffect, useId, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { FundData, LayerDef, NamedHolding, QuarterMove, Share, ThirdPartyFact } from "@/lib/types";
-import { formatDate, formatMoneyMillions, formatPct } from "@/lib/aggregate";
+import { formatMoneyMillions, formatPct } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";

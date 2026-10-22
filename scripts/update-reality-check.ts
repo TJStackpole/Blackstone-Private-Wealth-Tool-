@@ -7,6 +7,7 @@
  *
  * If any row has a problem, nothing is written and each problem is listed with its row number.
  */
+import { todayInNewYork } from "../lib/dates";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CLAIMS } from "../lib/addons/reality-check/data";
@@ -25,7 +26,7 @@ if (a === "--export") {
     console.error(`Nothing was changed. Fix these and run again:\n${errors.map((e) => `  - ${e}`).join("\n")}`);
     process.exit(1);
   }
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayInNewYork();
   for (const [fund, claims] of Object.entries(funds)) {
     const prev = CLAIMS[fund as keyof typeof CLAIMS];
     writeFileSync(join(dir, `${fund}.json`), JSON.stringify({ ...prev, updated: today, claims }, null, 2) + "\n");

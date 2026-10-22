@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import type { LayerDef, LayerId, Mix, RetirementData } from "@/lib/types";
 import { glideSeries, mixForYears } from "@/lib/glide";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import { findAddon } from "@/config/addons";
 import AddonBoundary from "./addons/shared/AddonBoundary";
 import RetirementPlus from "./addons/retirement-plus/RetirementPlus";

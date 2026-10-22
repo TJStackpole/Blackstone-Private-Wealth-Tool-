@@ -1,5 +1,5 @@
 import type { FundData } from "@/lib/types";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 
 /** Marks data that comes from an SEC filing, and which one. */
 export default function FilingBadge({ data }: { data: FundData }) {

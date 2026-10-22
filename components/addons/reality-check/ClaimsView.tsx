@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { FundCode } from "@/config/addons";
 import { CLAIMS } from "@/lib/addons/reality-check/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import FundTabs from "@/components/addons/shared/FundTabs";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";

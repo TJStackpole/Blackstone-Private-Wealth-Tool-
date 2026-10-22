@@ -2,7 +2,7 @@ import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 
 /** One printed page: each fund's terms, the dated history and the disclosure. Hidden on screen. */
 export default function LiquidityPrint() {

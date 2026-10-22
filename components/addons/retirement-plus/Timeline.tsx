@@ -1,5 +1,5 @@
 import type { RegEntry } from "@/lib/addons/retirement-plus/data";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 
 /** Dated public milestones, each from a linked source. Nothing here is written without one. */
 export default function Timeline({ entries, checked }: { entries: RegEntry[]; checked: string }) {

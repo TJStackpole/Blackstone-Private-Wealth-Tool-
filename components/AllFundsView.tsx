@@ -1,7 +1,8 @@
 "use client";
 
 import type { LayerDef, LayerId } from "@/lib/types";
-import { formatDate, formatPct } from "@/lib/aggregate";
+import { formatPct } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
 
@@ -64,8 +65,12 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
                 )}
               </div>
               <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 border-t border-line pt-3 text-xs">
-                <dt className="text-muted">{nav.label}</dt>
-                <dd className="tnum text-ink">{nav.value}</dd>
+                {/* One label for all four funds; where the figure is NAV rather than GAAP net assets, it says so. */}
+                <dt className="text-muted">Net assets</dt>
+                <dd className="tnum text-ink">
+                  {nav.value}
+                  {data.sizeNote && <span className="text-muted"> · NAV at fair value¹</span>}
+                </dd>
                 <dt className="text-muted">Largest</dt>
                 <dd className="tnum text-ink">
                   {data.geography.topStates
@@ -80,6 +85,7 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
                   </a>
                 </dd>
               </dl>
+              {data.sizeNote && <p className="mt-2 text-[11px] leading-snug text-muted">¹ {data.sizeNote}</p>}
             </li>
           );
         })}
