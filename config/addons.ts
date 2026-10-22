@@ -88,6 +88,15 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
+  {
+    id: "drawdown-vs-evergreen",
+    name: "Drawdown vs. Evergreen",
+    shortName: "Vs. drawdown",
+    description: "How a traditional drawdown fund and an evergreen fund differ, and a model of how much money is actually at work in each.",
+    enabled: true,
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    phase: 1,
+  },
 ];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
