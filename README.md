@@ -127,7 +127,7 @@ When the funds file new 10-Qs (about 45 days after each quarter ends: mid-May, m
    - **Chart figures.** BREIT's sector, region and largest-state shares and BXPE's sector and region shares are printed only as charts. Open the chart images in `filings/<today>/` and update the lines marked `CHART` in `scripts/sec/build_data.py`.
    - **Wording that names the period.** The builder looks for phrases such as "three months ended June 30, 2026" and "six months". A new quarter changes them; the STOPPED message names the line to update.
    - **BCRED's buyback proration** comes from its letter to investors (an SEC exhibit, not the 10-Q). Save the new letter's text in `filings/<today>/` and point `bcred_letter` in `FILES` (top of `build_data.py`) at it.
-   - **Hand-written text that quotes figures:** talking points (`data/talking-points.json`), Reality Check (see below), the Tax Lens fund pages (`data/addons/tax-lens/funds.json`) and the tour (`lib/demo/steps.ts`). The tests flag talking-point figures that no longer match the data.
+   - **Hand-written text that quotes figures:** talking points (`data/talking-points.json`), Reality Check (see "Updating the Reality Check each quarter" above), the Tax Lens fund pages (`data/addons/tax-lens/funds.json`) and the tour (`lib/demo/steps.ts`). The tests flag talking-point figures that no longer match the data.
 
    Then run `npm run refresh-data` again. Tip: you can hand this step to Claude Code: "Run npm run refresh-data and fix what it stops on, from the new filings."
 
