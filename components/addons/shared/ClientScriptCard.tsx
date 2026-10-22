@@ -27,7 +27,7 @@ export default function ClientScriptCard({ points, title = "How to say it to a c
 
 function Card({ heading, list, className = "", audience }: { heading: string; list: string[]; className?: string; audience?: string }) {
   return (
-    <section aria-label={heading} className={`rounded-card border border-line bg-bg-raised p-4 print:p-2 ${className}`} data-audience={audience}>
+    <section aria-label={heading} className={`rounded-card border border-line bg-bg-raised p-4 sm:p-5 print:p-2 ${className}`} data-audience={audience}>
       <h3 className="mb-2 font-serif text-base font-medium text-ink print:mb-1 print:text-sm">{heading}</h3>
       <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-muted-strong print:space-y-0.5 print:text-xs">
         {list.map((p) => (

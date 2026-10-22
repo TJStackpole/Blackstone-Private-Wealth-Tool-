@@ -31,7 +31,7 @@ function View({ initial }: { initial: FundCode }) {
           {d.claims.map((c) => (
             <ClaimCard key={c.id} c={c} />
           ))}
-          <p className="text-[11px] leading-relaxed text-muted">{d.note}</p>
+          <p className="text-xs leading-relaxed text-muted">{d.note}</p>
           <p className="hidden border-t pt-1 text-[9px] print:block">
             {ADDON_DISCLOSURE} Independent prototype built from public filings. Not affiliated with or endorsed by Blackstone.
           </p>

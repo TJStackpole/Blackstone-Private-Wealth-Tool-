@@ -46,7 +46,7 @@ export default function TaxLensPage() {
       badges={
         <>
           <AsOfSource asOf={TAX.asOf} source={TAX.source} />
-          <span className="text-[11px] text-muted">General education, not tax advice. Consult a tax advisor.</span>
+          <span className="text-xs text-muted">General education, not tax advice. Consult a tax advisor.</span>
         </>
       }
     >
@@ -88,7 +88,7 @@ export default function TaxLensPage() {
             Each year&apos;s split is reported in BREIT&apos;s annual reports, linked per row. It has ranged from 85% to 100% return of capital since 2020.
           </p>
           <RocHistory />
-          <p className="text-[11px] text-muted">{TAX.defaultRoc.verify}</p>
+          <p className="text-xs text-muted">{TAX.defaultRoc.verify}</p>
         </Section>
 
         <Section title="The other funds are taxed differently" id="other">

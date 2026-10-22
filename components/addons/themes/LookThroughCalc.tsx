@@ -7,11 +7,11 @@ import { FUNDS } from "@/lib/addons/shared/funds";
 import { THEMES } from "@/lib/addons/themes/tags";
 import { UNTAGGED, isConcentrated, lookThrough, type OtherHolding } from "@/lib/addons/themes/lookthrough";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
-import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
+import { NumberInput, PercentInput, fieldClass as field } from "@/components/addons/shared/Inputs";
 
 const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 const ORDER: FundCode[] = ["BREIT", "BXINFRA", "BXPE", "BCRED"];
-const field = "h-10 w-full rounded-card border border-line bg-bg-raised px-3 text-sm text-ink focus-visible:border-accent";
+
 
 function OtherRow({ o, onChange, onRemove }: { o: OtherHolding; onChange: (o: OtherHolding) => void; onRemove: () => void }) {
   const id = useId();
@@ -39,7 +39,7 @@ function OtherRow({ o, onChange, onRemove }: { o: OtherHolding; onChange: (o: Ot
           ))}
         </select>
       </div>
-      <button type="button" onClick={onRemove} className="h-10 self-end rounded-card border border-line px-3 text-xs text-muted-strong hover:text-ink" aria-label={`Remove ${o.label || "holding"}`}>
+      <button type="button" onClick={onRemove} className="tap h-10 self-end rounded-card border border-line px-3 text-xs text-muted-strong hover:text-ink" aria-label={`Remove ${o.label || "holding"}`}>
         Remove
       </button>
     </li>
@@ -75,7 +75,7 @@ export default function LookThroughCalc({ compactFund }: { compactFund?: FundCod
             <button
               type="button"
               onClick={() => setOthers((s) => [...s, { label: "", amount: 0, theme: null }])}
-              className="inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:text-ink"
+              className="tap inline-flex h-8 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong hover:text-ink"
             >
               + Add a holding
             </button>
@@ -90,7 +90,7 @@ export default function LookThroughCalc({ compactFund }: { compactFund?: FundCod
         <IllustrativeBadge />
       </div>
 
-      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink" aria-live="polite">
+      <p className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 font-serif text-lg leading-snug text-ink" aria-live="polite">
         {r.total === 0
           ? "Enter amounts to see the look-through."
           : r.largest
@@ -116,7 +116,7 @@ export default function LookThroughCalc({ compactFund }: { compactFund?: FundCod
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <figcaption className="text-[11px] leading-relaxed text-muted">
+          <figcaption className="text-xs leading-relaxed text-muted">
             Each fund is split by its published sector weights (10-Q, June 30, 2026). Outside holdings count fully toward the theme you tag. Amounts stay on
             this screen only; nothing is saved or sent.
           </figcaption>

@@ -6,13 +6,13 @@ import type { CasePoint } from "@/lib/addons/themes/tags";
 
 function Side({ title, points }: { title: string; points: CasePoint[] }) {
   return (
-    <section aria-label={title} className="flex flex-col gap-3 rounded-card border border-line bg-bg-raised p-4 print:gap-1 print:p-2">
+    <section aria-label={title} className="flex flex-col gap-3 rounded-card border border-line bg-bg-raised p-4 sm:p-5 print:gap-1 print:p-2">
       <h3 className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">{title}</h3>
       <ul className="space-y-3 print:space-y-1">
         {points.map((p) => (
           <li key={p.text.slice(0, 40)} className="text-sm leading-relaxed text-muted-strong print:text-[11px] print:leading-snug">
             {p.text}{" "}
-            <a href={p.source.url} target="_blank" rel="noreferrer noopener" className="text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink">
+            <a href={p.source.url} target="_blank" rel="noreferrer noopener" className="text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink">
               Source: {p.source.name}
             </a>
           </li>
@@ -37,7 +37,7 @@ export default function BullBear({ initial = THEMES[0].id }: { initial?: string 
             aria-pressed={t.id === id}
             onClick={() => setId(t.id)}
             className={[
-              "inline-flex h-8 items-center rounded-full border px-3 text-xs",
+              "tap inline-flex h-8 items-center rounded-full border px-3 text-xs",
               t.id === id ? "border-accent bg-accent font-medium text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
             ].join(" ")}
           >
@@ -50,7 +50,7 @@ export default function BullBear({ initial = THEMES[0].id }: { initial?: string 
         <Side title="Case for" points={c.for} />
         <Side title="Case against" points={c.against} />
       </div>
-      <p className="text-[11px] leading-relaxed text-muted">{BULL_BEAR.note} Gathered {BULL_BEAR.asOf.slice(0, 7)}.</p>
+      <p className="text-xs leading-relaxed text-muted">{BULL_BEAR.note} Gathered {BULL_BEAR.asOf.slice(0, 7)}.</p>
     </div>
   );
 }

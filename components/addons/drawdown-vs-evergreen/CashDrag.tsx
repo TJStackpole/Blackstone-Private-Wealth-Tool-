@@ -57,7 +57,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
         <IllustrativeBadge />
       </div>
 
-      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg leading-snug text-ink print:p-2 print:text-sm" aria-live="polite">
+      <p className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 font-serif text-lg leading-snug text-ink print:p-2 print:text-sm" aria-live="polite">
         Over {DEFAULTS.years} years, about {Math.round(r.averageDrawdownAtWorkPct)}% of the drawdown money was at work on average. Ending value: {short(r.drawdownEnd)} for
         drawdown vs. {short(r.evergreenEnd)} for evergreen, from {short(commitment)}.
       </p>
@@ -80,7 +80,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <figcaption className="text-[11px] leading-relaxed text-muted">
+        <figcaption className="text-xs leading-relaxed text-muted">
           Both structures are assumed to earn the same return, so the gap comes only from timing and fees. Real funds differ in what they own and earn.
           Leaves out performance fees, taxes and the cash an evergreen fund keeps for redemptions.
         </figcaption>

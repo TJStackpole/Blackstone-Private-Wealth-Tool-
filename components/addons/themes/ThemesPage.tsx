@@ -35,7 +35,7 @@ export default function ThemesPage() {
           <div className="space-y-12 print:space-y-4">
             <div className="hidden print:block">
               <h2 className="font-serif text-xl">Theme Exposure across BREIT, BX Infra, BXPE and BCRED</h2>
-              <p className="text-[11px]">Each cell: the fund&apos;s published share in that theme&apos;s sectors, from its Form 10-Q for the quarter ended June 30, 2026.</p>
+              <p className="text-xs">Each cell: the fund&apos;s published share in that theme&apos;s sectors, from its Form 10-Q for the quarter ended June 30, 2026.</p>
             </div>
             <section aria-labelledby="th-matrix-h" className="space-y-4 print:space-y-2">
               <h2 id="th-matrix-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:hidden">

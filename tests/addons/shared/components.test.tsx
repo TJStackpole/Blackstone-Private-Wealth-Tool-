@@ -91,3 +91,26 @@ describe("AddonChips drawer (Phase 3)", () => {
     expect(screen.getByRole("link", { name: "Full view →" }).getAttribute("href")).toBe("/toolkit/liquidity?fund=BCRED");
   });
 });
+
+describe("NumberInput formatting", () => {
+  it("shows big numbers with commas and the symbol inside the field", () => {
+    render(<NumberInput label="Amount asked for" value={500000} onChange={() => {}} prefix="$" />);
+    const input = screen.getByLabelText("Amount asked for") as HTMLInputElement;
+    expect(input.value).toBe("500,000");
+    expect(input.className).toContain("pl-7");
+  });
+
+  it("accepts numbers typed with commas or a dollar sign, and steps with the arrow keys", () => {
+    const onChange = vi.fn();
+    render(<NumberInput label="Amount" value={1000} onChange={onChange} step={500} />);
+    const input = screen.getByLabelText("Amount");
+    fireEvent.change(input, { target: { value: "250,000" } });
+    expect(onChange).toHaveBeenLastCalledWith(250000);
+    fireEvent.change(input, { target: { value: "$1,200.5" } });
+    expect(onChange).toHaveBeenLastCalledWith(1200.5);
+    fireEvent.change(input, { target: { value: "12abc" } });
+    expect(onChange).toHaveBeenLastCalledWith(1200.5);
+    fireEvent.keyDown(input, { key: "ArrowUp" });
+    expect(onChange).toHaveBeenLastCalledWith(1500);
+  });
+});

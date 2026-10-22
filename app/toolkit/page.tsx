@@ -18,10 +18,10 @@ export default function ToolkitHome() {
       <header className="mb-8 space-y-4">
         <div className="flex items-center justify-between gap-4">
           <nav aria-label="Breadcrumb" className="flex items-center gap-3 text-xs text-muted-strong">
-            <Link href="/" className="hover:text-ink">
+            <Link href="/" className="tap inline-flex items-center hover:text-ink">
               ← Map
             </Link>
-            <Link href="/demo" className="underline decoration-line underline-offset-4 hover:text-ink">
+            <Link href="/demo" className="tap inline-flex items-center underline decoration-line underline-offset-4 hover:text-ink">
               Take the tour
             </Link>
           </nav>
@@ -31,7 +31,7 @@ export default function ToolkitHome() {
           </div>
         </div>
         <div>
-          <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[34px]">Advisor Toolkit</h1>
+          <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Advisor Toolkit</h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">
             Tools for explaining how perpetual private-markets funds work: liquidity limits, fees, taxes and valuation. Every output is illustrative and
             shows its sources.

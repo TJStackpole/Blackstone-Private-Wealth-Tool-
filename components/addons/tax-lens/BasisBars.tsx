@@ -18,7 +18,7 @@ export default function BasisBars({ invested, rows }: { invested: number; rows: 
           </li>
         ))}
       </ul>
-      <figcaption className="text-[11px] text-muted">Cost basis: what the tax system counts as the price paid. Each year&apos;s return of capital lowers it.</figcaption>
+      <figcaption className="text-xs text-muted">Cost basis: what the tax system counts as the price paid. Each year&apos;s return of capital lowers it.</figcaption>
     </figure>
   );
 }

@@ -29,11 +29,11 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, c
       <header className="mb-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-muted-strong">
-            <Link href="/" className="hover:text-ink">
+            <Link href="/" className="tap inline-flex items-center hover:text-ink">
               ← Map
             </Link>
             <span aria-hidden className="text-muted">/</span>
-            <Link href="/toolkit" className="hover:text-ink">
+            <Link href="/toolkit" className="tap inline-flex items-center hover:text-ink">
               Advisor Toolkit
             </Link>
           </nav>
@@ -43,7 +43,7 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, c
           </div>
         </div>
         <div>
-          <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[34px]">{title}</h1>
+          <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">{title}</h1>
           {subtitle && <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">{subtitle}</p>}
         </div>
         {badges && <div className="flex flex-wrap items-center gap-2">{badges}</div>}

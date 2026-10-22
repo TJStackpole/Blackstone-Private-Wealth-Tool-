@@ -18,7 +18,7 @@ interface Props {
 export default function MapKey({ data, items, selected, onSelect, filterNote }: Props) {
   const level = data.geography.level;
   return (
-    <div className="space-y-2 text-[11px] text-muted">
+    <div className="space-y-2 text-xs text-muted">
       {level === "us-region" ? (
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           <span className="flex items-center gap-2">
@@ -47,7 +47,7 @@ export default function MapKey({ data, items, selected, onSelect, filterNote }: 
                 aria-pressed={selected === i.key}
                 onClick={() => onSelect(selected === i.key ? null : i.key)}
                 className={[
-                  "tnum flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-medium transition-colors",
+                  "tap tnum flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-xs font-medium transition-colors",
                   selected === i.key ? "border-ink bg-ink text-bg" : "border-line bg-bg text-muted-strong hover:text-ink",
                 ].join(" ")}
               >

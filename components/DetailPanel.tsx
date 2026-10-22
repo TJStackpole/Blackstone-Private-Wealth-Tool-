@@ -45,7 +45,7 @@ export default function DetailPanel(props: Props) {
           <button
             type="button"
             onClick={() => onSelect(null)}
-            className="absolute right-0 top-0 inline-flex h-8 items-center gap-1 rounded-full border border-line bg-bg-raised px-3 text-xs text-muted-strong hover:text-ink"
+            className="tap absolute right-0 top-0 inline-flex h-8 items-center gap-1 rounded-full border border-line bg-bg-raised px-3 text-xs text-muted-strong hover:text-ink"
           >
             <span aria-hidden>←</span> Overview
           </button>
@@ -66,7 +66,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 function Basis({ children }: { children: React.ReactNode }) {
-  return <p className="mt-2 text-[11px] leading-relaxed text-muted">{children}</p>;
+  return <p className="mt-2 text-xs leading-relaxed text-muted">{children}</p>;
 }
 
 function Bars({ rows, highlight }: { rows: Share[]; highlight?: string | null }) {
@@ -98,7 +98,7 @@ function Stats({ data }: { data: FundData }) {
         <div key={s.label}>
           <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{s.label}</dt>
           <dd className="tnum font-serif text-2xl text-ink">{s.value}</dd>
-          {s.note && <dd className="text-[11px] leading-snug text-muted">{s.note}</dd>}
+          {s.note && <dd className="text-xs leading-snug text-muted">{s.note}</dd>}
         </div>
       ))}
     </dl>
@@ -116,14 +116,14 @@ function Holdings({ items, sector }: { items: NamedHolding[]; sector: string | n
             <span className="min-w-0 text-ink">{h.name}</span>
             <span className="tnum shrink-0 text-muted-strong">{formatPct(h.pctOfNetAssets)}</span>
           </div>
-          <div className="tnum flex justify-between gap-3 text-[11px] text-muted">
+          <div className="tnum flex justify-between gap-3 text-xs text-muted">
             <span className="truncate">
               {h.sector}
               {h.geo ? ` · ${h.geo}` : ""}
             </span>
             <span className="shrink-0">{formatMoneyMillions(h.fairValueMillions)}</span>
           </div>
-          {h.note && <p className="mt-1 text-[11px] leading-relaxed text-muted-strong">{h.note}</p>}
+          {h.note && <p className="mt-1 text-xs leading-relaxed text-muted-strong">{h.note}</p>}
         </li>
       ))}
     </ol>
@@ -134,17 +134,17 @@ function Holdings({ items, sector }: { items: NamedHolding[]; sector: string | n
 function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
   if (facts.length === 0) return null;
   return (
-    <section aria-label="Third-party context" className="rounded-card border border-dashed border-muted/60 bg-bg p-4">
+    <section aria-label="Third-party context" className="rounded-card border border-dashed border-muted/60 bg-bg p-4 sm:p-5">
       <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">Context · not from fund filings</p>
       <ul className="space-y-3">
         {facts.map((f) => (
           <li key={f.label} className="text-xs leading-relaxed">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-medium text-ink">{f.label}</span>
-              {f.appliesTo && <span className="rounded-full border border-line px-1.5 text-[10px] text-muted">{f.appliesTo}</span>}
+              {f.appliesTo && <span className="rounded-full border border-line px-1.5 text-xs text-muted">{f.appliesTo}</span>}
             </div>
             <p className="mt-0.5 text-muted-strong">{f.value}</p>
-            <p className="mt-1 text-[11px] text-muted">
+            <p className="mt-1 text-xs text-muted">
               Source:{" "}
               <a href={f.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
                 {f.source.name}
@@ -232,10 +232,10 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
       )}
 
       {data.howItWorks && (
-        <section aria-label={data.howItWorks.title} className="rounded-card border border-line bg-bg p-4">
+        <section aria-label={data.howItWorks.title} className="rounded-card border border-line bg-bg p-4 sm:p-5">
           <div className="mb-2 flex items-baseline justify-between gap-3">
             <h3 className="font-serif text-base font-medium text-ink">{data.howItWorks.title}</h3>
-            <span className="tnum text-[11px] text-muted">As of {formatDate(data.howItWorks.asOf)}</span>
+            <span className="tnum text-xs text-muted">As of {formatDate(data.howItWorks.asOf)}</span>
           </div>
           <div className="space-y-2 text-xs leading-relaxed text-muted-strong">
             {data.howItWorks.paragraphs.map((p) => (
@@ -243,7 +243,7 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
             ))}
           </div>
           {data.howItWorks.source && (
-            <p className="mt-2 text-[11px] text-muted">
+            <p className="mt-2 text-xs text-muted">
               Source:{" "}
               <a href={data.howItWorks.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
                 {data.howItWorks.source.name}
@@ -254,10 +254,10 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
       )}
 
       {data.website && (
-        <section aria-label="From the fund's website" className="rounded-card border border-line bg-bg p-4 text-xs leading-relaxed">
+        <section aria-label="From the fund's website" className="rounded-card border border-line bg-bg p-4 sm:p-5 text-xs leading-relaxed">
           <p className="mb-1 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">From the fund&apos;s website</p>
           <p className="text-muted-strong">{data.website.text}</p>
-          <p className="mt-1 text-[11px] text-muted">
+          <p className="mt-1 text-xs text-muted">
             Source:{" "}
             <a href={data.website.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
               {data.website.source.name}
@@ -268,7 +268,7 @@ function Overview({ layer, data, sector, geoItems, onSelect }: Props) {
 
       <ContextCard facts={facts} />
 
-      <section aria-label="What the filing does not say" className="rounded-card border border-line bg-bg p-4">
+      <section aria-label="What the filing does not say" className="rounded-card border border-line bg-bg p-4 sm:p-5">
         <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">What the filing doesn&apos;t say</p>
         <ul className="list-disc space-y-1 pl-4 text-xs leading-relaxed text-muted-strong">
           {data.notDisclosed.map((n) => (
@@ -319,12 +319,12 @@ function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
         <div>
           <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{stateName(abbr)}</dt>
           <dd className="tnum font-serif text-2xl text-ink">{top ? formatPct(top.pct) : "Not reported"}</dd>
-          <dd className="text-[11px] leading-snug text-muted">{top ? "of real estate; one of the three largest states" : "the filing gives no figure for this state"}</dd>
+          <dd className="text-xs leading-snug text-muted">{top ? "of real estate; one of the three largest states" : "the filing gives no figure for this state"}</dd>
         </div>
         <div>
           <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{region} region</dt>
           <dd className="tnum font-serif text-2xl text-ink">{regionShare ? formatPct(regionShare.pct) : "—"}</dd>
-          <dd className="text-[11px] leading-snug text-muted">of real estate, all sectors (NCREIF regions)</dd>
+          <dd className="text-xs leading-snug text-muted">of real estate, all sectors (NCREIF regions)</dd>
         </div>
       </dl>
 
@@ -343,11 +343,11 @@ function StateView({ data, selected: abbr, sector, headingRef }: ViewProps) {
               <li key={`${i.name}-${i.location}`} className="py-2 text-sm">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="min-w-0 text-ink">{i.name}</span>
-                  <span className="tnum shrink-0 text-[11px] text-muted-strong">
+                  <span className="tnum shrink-0 text-xs text-muted-strong">
                     {i.properties} {i.properties === 1 ? "property" : "properties"}
                   </span>
                 </div>
-                <div className="tnum text-[11px] text-muted">
+                <div className="tnum text-xs text-muted">
                   {i.sector} · {i.location} · {i.size}
                   {i.occupancy && i.occupancy !== "n/a" ? ` · ${i.occupancy} occupied` : ""} · {i.ownership} owned · since {i.acquired}
                 </div>
@@ -386,7 +386,7 @@ function RegionView({ data, selected, sector, geoItems, headingRef }: ViewProps)
       <dl className="border-y border-line py-4">
         <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">Share</dt>
         <dd className="tnum font-serif text-2xl text-ink">{share ? formatPct(share.pct) : "—"}</dd>
-        <dd className="text-[11px] text-muted">of {sectorLabel ? `${data.fund}'s ${sectorLabel} holdings` : data.fund}</dd>
+        <dd className="text-xs text-muted">of {sectorLabel ? `${data.fund}'s ${sectorLabel} holdings` : data.fund}</dd>
       </dl>
 
       {!isCountryGroup && (

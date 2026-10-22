@@ -20,7 +20,7 @@ export default function Explainer() {
                     <a
                       href={p.source.url}
                       {...(p.source.url.startsWith("http") ? { target: "_blank", rel: "noreferrer noopener" } : {})}
-                      className="whitespace-nowrap text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink"
+                      className="whitespace-nowrap text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink"
                     >
                       Source: {p.source.name.length > 48 ? `${p.source.name.slice(0, 46)}…` : p.source.name}
                     </a>

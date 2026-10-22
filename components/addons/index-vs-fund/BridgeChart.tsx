@@ -63,7 +63,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
               aria-pressed={c === cls}
               onClick={() => setCls(c)}
               className={[
-                "h-8 rounded-full border px-3 text-xs font-medium transition-colors",
+                "tap h-8 rounded-full border px-3 text-xs font-medium transition-colors",
                 c === cls ? "border-accent bg-accent text-accent-contrast" : "border-line bg-bg-raised text-muted-strong hover:text-ink",
               ].join(" ")}
             >
@@ -77,7 +77,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
         </div>
       </div>
 
-      <p className="rounded-card border border-line bg-bg-raised p-4 font-serif text-lg print:p-2 print:text-base leading-snug text-ink" aria-live="polite">
+      <p className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 font-serif text-lg print:p-2 print:text-base leading-snug text-ink" aria-live="polite">
         Starting from {index.annual ? "the index's" : "a placeholder index return of"} {pct(Math.round(bridge.start * 100) / 100)}, this illustration lands at about {pct(Math.round(bridge.end * 10) / 10)} a year for Class {cls}.
       </p>
 
@@ -106,14 +106,14 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
       )}
 
       {!compact && (
-        <div className="no-print space-y-4 rounded-card border border-line p-4">
+        <div className="no-print space-y-4 rounded-card border border-line p-4 sm:p-5">
           <div className="space-y-1.5">
             <label htmlFor="ivf-lev" className="flex items-center justify-between gap-3 text-sm text-ink">
               <span>What if borrowing beyond the index&apos;s were {lev}% of assets?</span>
               <IllustrativeBadge />
             </label>
             <input id="ivf-lev" type="range" min={0} max={60} step={0.5} value={lev} onChange={(e) => setLev(e.target.valueAsNumber)} className="glide-slider w-full" style={{ ["--pct" as string]: `${(lev / 60) * 100}%` }} />
-            <p className="text-[11px] text-muted">
+            <p className="text-xs text-muted">
               Starts at {leverageGap(data)}%:{" "}
               {data.leverage ? `${data.leverage.text} ` : "the filing doesn't give one fund-wide leverage figure. "}
               {index.leveragePct ? `The index's own leverage was ${index.leveragePct}%; the two are measured differently.` : ""}
@@ -138,7 +138,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
               Index is already after fees
             </label>
           </div>
-          <p className="text-[11px] leading-relaxed text-muted">
+          <p className="text-xs leading-relaxed text-muted">
             Fees from the fund&apos;s 10-Q: {fees.management.value}% management, {fees.performance.value}% {fees.performance.label.toLowerCase()} above a {fees.performance.hurdle}% hurdle
             (simplified here: no high-water mark or catch-up), and a {fees.servicing[cls]}% servicing fee for Class {cls}. {fees.management.verify}.
           </p>

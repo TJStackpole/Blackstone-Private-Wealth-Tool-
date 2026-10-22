@@ -7,7 +7,7 @@ import FreshnessBadge from "./FreshnessBadge";
 function StatusLabel({ c }: { c: Claim }) {
   const dots = c.status === "consistent" ? "●○○" : c.status === "watch" ? "●●○" : "●●●";
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg px-2 py-0.5 text-[11px] text-muted-strong" data-status={c.status}>
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg px-2 py-0.5 text-xs text-muted-strong" data-status={c.status}>
       <span aria-hidden className="tracking-[-0.1em] text-muted">{dots}</span>
       {STATUS_LABEL[c.status]}
       {c.statusSetBy === "draft" && <span className="text-muted">· draft, TJ to confirm</span>}
@@ -23,7 +23,7 @@ export default function ClaimCard({ c, compact = false }: { c: Claim; compact?: 
         <div className="space-y-2 border-line p-4 md:border-r print:space-y-1 print:border-r print:p-2">
           <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">The claim</p>
           <p className="font-serif text-lg leading-snug text-ink print:text-sm">{c.claim}</p>
-          <p className="text-[11px] text-muted">
+          <p className="text-xs text-muted">
             Paraphrased from{" "}
             <a href={c.claimSource.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
               {c.claimSource.name}

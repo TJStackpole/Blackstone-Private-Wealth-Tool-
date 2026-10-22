@@ -21,7 +21,7 @@ export default function ThemesQuick({ fund }: QuickProps) {
             <div className="h-1.5 overflow-hidden rounded-full bg-line" aria-hidden>
               <div className="h-full rounded-full bg-accent" style={{ width: `${pct}%` }} />
             </div>
-            <p className="text-[11px] text-muted">{themeSectors(theme, fund).map((s) => `${s.key} ${s.pct}%`).join(" + ")}</p>
+            <p className="text-xs text-muted">{themeSectors(theme, fund).map((s) => `${s.key} ${s.pct}%`).join(" + ")}</p>
           </li>
         ))}
       </ul>

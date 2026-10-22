@@ -28,7 +28,7 @@ export default function WorkedExample() {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <ol className="space-y-3">
         {steps.map((s, i) => (
-          <li key={s.title} className="rounded-card border border-line bg-bg-raised p-4">
+          <li key={s.title} className="rounded-card border border-line bg-bg-raised p-4 sm:p-5">
             <p className="text-sm font-medium text-ink">
               <span className="tnum mr-2 text-muted">{i + 1}</span>
               {s.title}
@@ -37,7 +37,7 @@ export default function WorkedExample() {
           </li>
         ))}
       </ol>
-      <div className="space-y-3 rounded-card border border-line bg-bg-raised p-4">
+      <div className="space-y-3 rounded-card border border-line bg-bg-raised p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-medium text-ink">Cost basis, year by year</p>
           <IllustrativeBadge />

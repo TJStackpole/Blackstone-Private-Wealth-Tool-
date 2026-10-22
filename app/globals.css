@@ -7,7 +7,7 @@
   --bg: #f7f5f0;
   --bg-raised: #fbfaf7;
   --text: #14161a;
-  --muted: #8a8f98;
+  --muted: #6b7079; /* 4.6:1 on --bg; was #8a8f98 (3.0:1) */
   --muted-strong: #5f656e;
   --border: #e4e0d6;
   --map-empty: #ece8df;
@@ -222,4 +222,35 @@ body {
 /* Headings receive focus only so keyboard users land on new content; they need no ring. */
 h2[tabindex="-1"]:focus {
   outline: none;
+}
+
+/* Touch screens get thumb-sized targets (44px, 40px inside a grouped control); mouse users keep the compact sizes. */
+@media (pointer: coarse) {
+  .tap {
+    min-height: 44px;
+  }
+  .tap-sm {
+    min-height: 40px;
+  }
+}
+
+/* Headings break into even lines instead of leaving one word alone. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* Rows that scroll sideways on phones fade at the edge where there's more to see (set by useEdgeFade). */
+.edge-fade[data-fade-right="true"] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
+}
+.edge-fade[data-fade-left="true"] {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 28px);
+  mask-image: linear-gradient(to right, transparent, #000 28px);
+}
+.edge-fade[data-fade-left="true"][data-fade-right="true"] {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent);
 }

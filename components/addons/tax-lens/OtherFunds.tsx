@@ -9,7 +9,7 @@ export default function OtherFunds({ only }: { only?: FundCode }) {
   return (
     <ul className="grid gap-3 md:grid-cols-3">
       {entries.map(([f, n]) => (
-        <li key={f} className="flex flex-col gap-2 rounded-card border border-line bg-bg-raised p-4">
+        <li key={f} className="flex flex-col gap-2 rounded-card border border-line bg-bg-raised p-4 sm:p-5">
           <p className="text-sm font-medium text-ink">
             {FUNDS[f].label} <span className="font-normal text-muted">· {n.structure}</span>
           </p>

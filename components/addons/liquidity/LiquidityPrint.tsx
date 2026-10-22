@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/aggregate";
 export default function LiquidityPrint({ points }: { points: string[] }) {
   return (
     <PrintOnePager title="Liquidity one-pager" screen={false}>
-      <div className="space-y-4 text-[11px] leading-snug">
+      <div className="space-y-4 text-xs leading-snug">
         <div>
           <h2 className="font-serif text-xl">Liquidity: how these funds pay out</h2>
           <p>Terms as of {formatDate(TERMS.asOf)}, from each fund&apos;s Form 10-Q. Illustrative; the offering documents control.</p>

@@ -26,7 +26,7 @@ export default class AddonBoundary extends Component<Props, { failed: boolean }>
   render() {
     if (this.state.failed) {
       return (
-        <div role="status" data-addon-unavailable={this.props.addonId} className="rounded-card border border-dashed border-line bg-bg-raised p-4 text-sm text-muted-strong">
+        <div role="status" data-addon-unavailable={this.props.addonId} className="rounded-card border border-dashed border-line bg-bg-raised p-4 sm:p-5 text-sm text-muted-strong">
           This tool is temporarily unavailable. The rest of the page still works.
         </div>
       );

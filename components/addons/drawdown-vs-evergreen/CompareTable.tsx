@@ -3,7 +3,7 @@ import type { AddonSource } from "@/lib/addons/shared/types";
 
 function Sources({ list }: { list: AddonSource[] }) {
   return (
-    <span className="text-[11px] text-muted">
+    <span className="text-xs text-muted">
       {list.map((s, i) => (
         <span key={s.url}>
           {i > 0 && " · "}
@@ -22,7 +22,7 @@ export default function CompareTable() {
     <>
       <ul className="space-y-3 md:hidden print:hidden">
         {COMPARE.rows.map((r) => (
-          <li key={r.topic} className="space-y-2 rounded-card border border-line bg-bg-raised p-4 text-sm">
+          <li key={r.topic} className="space-y-2 rounded-card border border-line bg-bg-raised p-4 sm:p-5 text-sm">
             <p className="font-medium text-ink">{r.topic}</p>
             <p className="text-muted-strong">
               <span className="text-[11px] uppercase tracking-[0.08em] text-muted">Drawdown · </span>
