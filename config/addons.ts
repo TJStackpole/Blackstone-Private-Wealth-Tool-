@@ -59,7 +59,7 @@ export const ADDONS: AddonDef[] = [
     description: "A brochure's index return next to what each share class of the fund reported, and the reasons they differ: fees, borrowing, cash, servicing fees and timing.",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
-    phase: 2,
+    phase: 3,
   },
 ];
 
