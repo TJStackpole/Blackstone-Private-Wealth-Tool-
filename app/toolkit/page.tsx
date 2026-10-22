@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { ADDONS, toolkitAddons } from "@/config/addons";
 import SiteMark from "@/components/SiteMark";
@@ -6,10 +7,11 @@ import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
 import ToolkitCards from "@/components/addons/shared/ToolkitCards";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Advisor Toolkit",
-  description: "Illustrative tools that help explain perpetual private-markets funds. Independent prototype; not affiliated with Blackstone.",
-};
+  description: "Seven tools that help explain perpetual private-markets funds, each from the funds' SEC filings. Independent prototype; not affiliated with Blackstone.",
+  path: "/toolkit",
+});
 
 export default function ToolkitHome() {
   const list = toolkitAddons(ADDONS);
