@@ -1,7 +1,7 @@
 {
   "fund": "BXINFRA",
   "sample": false,
-  "updated": "2026-10-21",
+  "updated": "2026-10-22",
   "note": "Claims are the fund's own stated objectives, paraphrased from its annual report. Status labels are drafts for TJ to confirm; code never sets them.",
   "claims": [
     {
@@ -21,8 +21,8 @@
         "page": "Note 10: Financial Highlights"
       },
       "status": "consistent",
-      "context": "A single six-month period for a fund that began investing recently. \"Risk-adjusted\" can't be judged from one period.",
-      "statusSetBy": "draft"
+      "statusSetBy": "draft",
+      "context": "A single six-month period for a fund that began investing recently. \"Risk-adjusted\" can't be judged from one period."
     },
     {
       "id": "bxinfra-income",
@@ -41,8 +41,8 @@
         "page": "Note 10: Financial Highlights"
       },
       "status": "consistent",
-      "context": "Distributions were roughly in line with net investment income over the period; most of the return came from changes in value.",
-      "statusSetBy": "draft"
+      "statusSetBy": "draft",
+      "context": "Distributions were roughly in line with net investment income over the period; most of the return came from changes in value."
     },
     {
       "id": "bxinfra-liquidity",
@@ -61,8 +61,8 @@
         "page": "Unit Redemption Plan"
       },
       "status": "consistent",
-      "context": "Redemptions are periodic and limited, as described (see Liquidity Simulator).",
-      "statusSetBy": "draft"
+      "statusSetBy": "draft",
+      "context": "Redemptions are periodic and limited, as described (see Liquidity Simulator)."
     }
   ]
 }

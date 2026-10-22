@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "e2e": "npm run build && playwright test"
+    "e2e": "npm run build && playwright test",
+    "reality-check:export": "tsx scripts/update-reality-check.ts --export reality-check.csv",
+    "reality-check:update": "tsx scripts/update-reality-check.ts reality-check.csv"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",
@@ -37,7 +39,9 @@
     "eslint-config-next": "16.4.1",
     "jsdom": "^26.1.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "zod": "^4.6.7"
   }
 }
