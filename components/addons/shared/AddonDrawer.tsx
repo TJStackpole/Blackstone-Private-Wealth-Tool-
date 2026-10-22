@@ -29,6 +29,7 @@ interface Props {
 export default function AddonDrawer({ open, onClose, addonId, title, fullHref, fundId, children }: Props) {
   const reduce = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   // Kept in a ref so a new onClose each render doesn't re-run the open/close effect (which moves focus).
   const onCloseRef = useRef(onClose);
   useEffect(() => {
@@ -41,6 +42,10 @@ export default function AddonDrawer({ open, onClose, addonId, title, fullHref, f
     const opener = document.activeElement as HTMLElement | null;
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Everything behind the drawer is made inert, so Tab, clicks and screen readers stay inside it until it closes.
+    const root = rootRef.current;
+    const behind = root ? [...document.body.children].filter((el) => el !== root && !el.hasAttribute("inert")) : [];
+    behind.forEach((el) => el.setAttribute("inert", ""));
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onCloseRef.current();
@@ -49,6 +54,7 @@ export default function AddonDrawer({ open, onClose, addonId, title, fullHref, f
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = overflow;
+      behind.forEach((el) => el.removeAttribute("inert"));
       opener?.focus();
     };
   }, [open]);
@@ -63,6 +69,7 @@ export default function AddonDrawer({ open, onClose, addonId, title, fullHref, f
       {open && (
         <div
           key="drawer"
+          ref={rootRef}
           className="atlas fixed inset-0 z-50"
           style={{ ["--layer-light" as string]: accent.color, ["--layer-dark" as string]: accent.colorDark }}
         >

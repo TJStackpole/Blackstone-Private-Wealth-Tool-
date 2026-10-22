@@ -23,7 +23,13 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
   const [amount, setAmount] = useState(250_000);
   const [cls, setCls] = useState<Cls>("I");
   const [rate, setRate] = useState(TAX.distributionRates.I.value);
-  const [roc, setRoc] = useState(TAX.defaultRoc.value);
+  const [roc, setRocOnly] = useState(TAX.defaultRoc.value);
+  // Share of the payout classified as capital gains: set by the past-year buttons, cleared when the ROC share is typed.
+  const [cgShare, setCgShare] = useState(0);
+  const setRoc = (v: number) => {
+    setRocOnly(v);
+    setCgShare(0);
+  };
   const [bracket, setBracket] = useState(37);
   const [cgRate, setCgRate] = useState<number | null>(null);
   const [state, setState] = useState(0);
@@ -38,6 +44,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         invested: amount,
         distributionRatePct: rate,
         rocPct: roc,
+        capitalGainsSharePct: cgShare,
         ordinaryRatePct: bracket,
         capitalGainsRatePct: cg,
         stateRatePct: state,
@@ -45,7 +52,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         qrdDeduction: qrd,
         priceChangePct: price,
       }),
-    [amount, rate, roc, bracket, cg, state, years, qrd, price],
+    [amount, rate, roc, cgShare, bracket, cg, state, years, qrd, price],
   );
 
   function pickClass(c: Cls) {
@@ -98,13 +105,21 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
               help={`Class ${cls}'s average annualized distribution rate, Q2 2026 10-Q. ${TAX.distributionRates[cls].verify}.`}
             />
             <div className="space-y-1.5">
-              <PercentInput label="Share that is return of capital" value={roc} onChange={setRoc} help={`Default: ${TAX.defaultRoc.value}%, BREIT's 2025 figure. It changes every year.`} />
+              <PercentInput
+                label="Share that is return of capital"
+                value={roc}
+                onChange={setRoc}
+                help={`Default: ${TAX.defaultRoc.value}%, BREIT's 2025 figure. It changes every year. The rest: ${+cgShare.toFixed(2)}% capital gains, ${+Math.max(0, 100 - roc - cgShare).toFixed(2)}% ordinary dividend.`}
+              />
               <div className="flex flex-wrap gap-1.5" role="group" aria-label="Use a past year's split">
                 {TAX.rocHistory.slice(0, 4).map((y) => (
                   <button
                     key={y.year}
                     type="button"
-                    onClick={() => setRoc(y.roc)}
+                    onClick={() => {
+                      setRocOnly(y.roc);
+                      setCgShare(y.capitalGains);
+                    }}
                     aria-pressed={roc === y.roc}
                     className="tap h-7 rounded-full border border-line px-2.5 text-xs text-muted-strong hover:text-ink aria-pressed:border-accent aria-pressed:text-ink"
                   >
@@ -193,7 +208,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                   <tr key={y.year}>
                     <th scope="row" className="px-3 py-2 text-left font-normal text-ink">{y.year}</th>
                     <td className="px-3 py-2 text-ink">{money(y.cash)}</td>
-                    <td className="px-3 py-2 text-muted-strong">{money(y.taxable + y.excessGain)}</td>
+                    <td className="px-3 py-2 text-muted-strong">{money(y.taxable + y.capitalGainDist + y.excessGain)}</td>
                     <td className="px-3 py-2 text-muted-strong">{money(y.roc - y.excessGain)}</td>
                     <td className="px-3 py-2 text-ink">{money(y.taxNow)}</td>
                     <td className="px-3 py-2 text-ink">{money(y.afterTaxCash)}</td>

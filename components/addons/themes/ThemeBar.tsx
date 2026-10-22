@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { findAddon } from "@/config/addons";
 import type { LayerId } from "@/lib/types";
 import { FUNDS, toFundCode } from "@/lib/addons/shared/funds";
@@ -9,50 +9,68 @@ import type { FundCode } from "@/config/addons";
 import AddonBoundary from "@/components/addons/shared/AddonBoundary";
 import { useEdgeFade } from "@/components/useEdgeFade";
 
+/** The chosen theme, and the sector the person had before picking it (restored by "No theme" on the same fund). */
+export interface ThemeState {
+  id: string | null;
+  before: { layerId: LayerId; sector: string | null } | null;
+}
+
+export const NO_THEME: ThemeState = { id: null, before: null };
+
 interface Props {
   layerId: LayerId;
   /** The map's current sector filter. */
   sector: string | null;
   /** The map's own sector setter: a theme only ever drives the existing filter. */
   onSector: (key: string | null) => void;
-  /** A theme to start with, from a link such as /?view=breit&theme=ai-data-centers. */
-  initialTheme?: string;
+  /** Held by the map, so the choice survives a visit to "All funds" or "Retirement". */
+  theme: ThemeState;
+  onTheme: (t: ThemeState) => void;
 }
 
 /**
  * Theme filter above the map (Add-on 6). Picking a theme sets the map's existing sector filter to that fund's
- * matching sector, and keeps applying it as you switch funds. "No theme" hands the map back exactly as it was.
+ * matching sector, and keeps applying it as you switch funds. Picking a sector yourself sets the theme aside.
+ * "No theme" puts back the sector you had before, on the same fund.
  */
-function Bar({ layerId, sector, onSector, initialTheme }: Props) {
+function Bar({ layerId, sector, onSector, theme: state, onTheme }: Props) {
   const fund = toFundCode(layerId);
-  const [themeId, setThemeId] = useState<string | null>(findTheme(initialTheme ?? null)?.id ?? null);
-  const theme = findTheme(themeId);
+  const theme = findTheme(state.id);
   const mapped = theme && fund ? primarySector(theme, fund) : null;
-  const active = !!theme && sector === mapped;
 
-  // Carry an active theme across fund switches (the map clears its filter on a switch; this re-applies the theme's sector).
   const row = useRef<HTMLDivElement>(null);
   useEdgeFade(row);
-  const last = useRef({ layerId, active, started: false });
+
+  // When a fund's view opens (first show, a fund switch, or back from All funds), apply the theme's sector.
+  // On the same fund, a different sector means the person chose it themselves, so the theme steps aside.
+  const shownLayer = useRef<LayerId | null>(null);
   useEffect(() => {
-    // A theme from the address applies once, on first render.
-    if (!last.current.started && theme && fund && initialTheme) onSector(primarySector(theme, fund));
-    else if (last.current.layerId !== layerId && last.current.active && theme && fund) onSector(primarySector(theme, fund));
-    last.current = { layerId, active: last.current.started ? active : true, started: true };
+    if (!theme || !fund) {
+      shownLayer.current = layerId;
+      return;
+    }
+    if (shownLayer.current !== layerId) {
+      shownLayer.current = layerId;
+      if (sector !== mapped) onSector(mapped);
+      return;
+    }
+    if (sector !== mapped) onTheme(NO_THEME);
   });
 
   if (!fund) return null;
 
   function pick(id: string | null) {
     const t = findTheme(id);
-    if (!t || (id === themeId && active)) {
-      setThemeId(null);
-      onSector(null);
+    if (!t || id === state.id) {
+      const back = state.before && state.before.layerId === layerId ? state.before.sector : null;
+      onTheme(NO_THEME);
+      onSector(back);
       return;
     }
-    setThemeId(t.id);
+    onTheme({ id: t.id, before: state.id ? state.before : { layerId, sector } });
     onSector(primarySector(t, fund!));
   }
+  const active = !!theme;
 
   const across = theme
     ? (Object.keys(FUNDS) as FundCode[]).filter((f) => themeWeight(theme, f) > 0).map((f) => `${FUNDS[f].label} ${themeWeight(theme, f)}%`)
@@ -64,7 +82,7 @@ function Bar({ layerId, sector, onSector, initialTheme }: Props) {
       <div ref={row} role="group" aria-label="Filter by theme, across funds" className="edge-fade -mx-4 flex items-center gap-1.5 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
         <span className="mr-1 shrink-0 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">Theme</span>
         {THEMES.map((t) => {
-          const on = active && t.id === themeId;
+          const on = t.id === state.id;
           return (
             <button
               key={t.id}

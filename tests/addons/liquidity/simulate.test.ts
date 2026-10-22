@@ -64,3 +64,23 @@ describe("headline", () => {
     expect(headline(rows, 6)).toBe("In this scenario, you'd receive about $375,000 within 6 months.");
   });
 });
+
+describe("review fixes", () => {
+  it("a 0% limit (a suspended plan) pays nothing", async () => {
+    const { proRataFill } = await import("@/lib/addons/liquidity/prorata");
+    expect(proRataFill(0, 0)).toBe(0);
+    const rows = simulateRedemption({ ...base, limitPct: 0, requestsPct: [0] });
+    expect(rows.every((r) => r.cash === 0)).toBe(true);
+    expect(headline(rows)).toBe("In this scenario, you'd receive about $0 within 6 months.");
+  });
+
+  it("deducts only while the shares are still inside the holding period", async () => {
+    const { quartersIn } = await import("@/lib/addons/liquidity/simulate");
+    expect(quartersIn("1 year")).toBe(4);
+    expect(quartersIn("2 years")).toBe(8);
+    // Requests at 4× the limit: 25% filled each quarter, so there's a payout every quarter.
+    const rows = simulateRedemption({ ...base, quarters: 6, requestsPct: [20], earlyDeductionPct: 2, earlyDeductionQuarters: 4 });
+    expect(rows.slice(0, 3).every((r) => r.deduction > 0)).toBe(true);
+    expect(rows.slice(3).every((r) => r.deduction === 0)).toBe(true);
+  });
+});

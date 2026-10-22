@@ -116,7 +116,9 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
             <p className="text-xs text-muted">
               Starts at {leverageGap(data)}%:{" "}
               {data.leverage ? `${data.leverage.text} ` : "the filing doesn't give one fund-wide leverage figure. "}
-              {index.leveragePct ? `The index's own leverage was ${index.leveragePct}%; the two are measured differently.` : ""}
+              {index.leveragePct
+                ? `The index's own leverage was ${index.leveragePct}%, so this is the extra borrowing on top of the index's return: (${data.leverage?.value}% − ${index.leveragePct}%) ÷ (100% − ${index.leveragePct}%). The two leverage figures are measured differently.`
+                : ""}
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

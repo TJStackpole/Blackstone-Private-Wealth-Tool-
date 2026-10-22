@@ -13,8 +13,14 @@ export interface SimParams {
   resubmit: boolean;
   /** Change in the fund's value per quarter, % (applies to the part still invested). */
   navChangePct: number;
-  /** Deduction on each payout, % (e.g. 2 for shares held under a year). */
+  /** Deduction on payouts, % (e.g. 2 for shares held under a year). */
   earlyDeductionPct: number;
+  /**
+   * How many quarters the deduction lasts, counting from shares bought just before the request (4 for "under 1 year",
+   * 8 for "under 2 years"). A payout at the end of quarter q has been held q quarters, so it's deducted only while q is
+   * below this. Leave out to deduct every payout.
+   */
+  earlyDeductionQuarters?: number;
 }
 
 export interface SimRow {
@@ -45,7 +51,8 @@ export function simulateRedemption(p: SimParams): SimRow[] {
     const requested = q === 1 || p.resubmit ? remaining : 0;
     const fillRate = requested > 0 ? proRataFill(p.limitPct, requestsPct) : 0;
     const gross = requested * fillRate;
-    const deduction = gross * (Math.max(0, p.earlyDeductionPct) / 100);
+    const stillEarly = p.earlyDeductionQuarters === undefined || q < p.earlyDeductionQuarters;
+    const deduction = stillEarly ? gross * (Math.max(0, p.earlyDeductionPct) / 100) : 0;
     const cash = gross - deduction;
     remaining -= gross;
     cumulativeCash += cash;
@@ -102,3 +109,9 @@ export const PRESETS: Preset[] = [
     note: "Four quarters in a row at twice the limit. BCRED prorated in the second and third quarters of 2026; BREIT limited repurchases at times between late 2022 and early 2024.",
   },
 ];
+
+/** "1 year" → 4 quarters, "2 years" → 8; undefined if the text doesn't say. */
+export function quartersIn(heldUnder: string | undefined): number | undefined {
+  const m = heldUnder?.match(/(\d+)\s*year/);
+  return m ? Number(m[1]) * 4 : undefined;
+}

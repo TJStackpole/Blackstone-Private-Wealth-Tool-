@@ -83,3 +83,19 @@ describe("cgRateFor", () => {
     expect([cgRateFor(37), cgRateFor(35), cgRateFor(24), cgRateFor(12)]).toEqual([20, 15, 15, 0]);
   });
 });
+
+describe("review fix: capital gain distributions", () => {
+  it("taxes the capital-gains part at the capital gains rate, not as ordinary income (BREIT 2023 split)", () => {
+    // $250,000 at 4.6%: $11,500 paid. 85.01% ROC, 14.99% capital gains, 0% ordinary.
+    const r = projectTax({ ...base, invested: 250_000, distributionRatePct: 4.6, rocPct: 85.01, capitalGainsSharePct: 14.99, qrdDeduction: true });
+    const y = r.rows[0];
+    expect(y.taxable).toBeCloseTo(0, 6);
+    expect(y.capitalGainDist).toBeCloseTo(11_500 * 0.1499, 6);
+    expect(y.taxNow).toBeCloseTo(11_500 * 0.1499 * 0.2, 6); // about $345
+  });
+  it("never lets ROC plus capital gains exceed the payout", () => {
+    const y = projectTax({ ...base, rocPct: 90, capitalGainsSharePct: 50 }).rows[0];
+    expect(y.roc + y.capitalGainDist + y.taxable).toBeCloseTo(y.cash, 9);
+    expect(y.taxable).toBeGreaterThanOrEqual(0);
+  });
+});

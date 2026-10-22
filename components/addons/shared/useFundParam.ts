@@ -12,7 +12,7 @@ export function useFundParam(): FundCode | null {
     noop,
     () => {
       const f = new URLSearchParams(window.location.search).get("fund");
-      return f && f in FUNDS ? (f as FundCode) : null;
+      return f && Object.hasOwn(FUNDS, f) ? (f as FundCode) : null;
     },
     () => null,
   );

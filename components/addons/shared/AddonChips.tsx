@@ -56,7 +56,7 @@ export default function AddonChips({ fundId, addons = ADDONS }: Props) {
         </ul>
       </nav>
       <AddonDrawer open={!!openId && !!opened} onClose={close} addonId={opened?.id ?? "drawer"} title={opened?.name ?? ""} fullHref={opened ? `/toolkit/${opened.id}?fund=${code}` : "/toolkit"} fundId={code}>
-        {Quick && <Quick fund={code} />}
+        {Quick && opened && <Quick key={`${opened.id}-${code}`} fund={code} />}
       </AddonDrawer>
     </AddonBoundary>
   );
