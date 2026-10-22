@@ -3,7 +3,10 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { TAGS } from "@/lib/addons/themes/tags";
+import BullBear from "./BullBear";
 import LookThroughCalc from "./LookThroughCalc";
+import PrintOnePager from "@/components/addons/shared/PrintOnePager";
+import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import ThemeMatrix from "./ThemeMatrix";
 
 export const THEME_SCRIPT = [
@@ -22,19 +25,36 @@ export default function ThemesPage() {
       badges={<AsOfSource asOf={TAGS.asOf} source={TAGS.source} />}
     >
       <div className="space-y-12">
-        <section aria-labelledby="th-matrix-h" className="space-y-4">
-          <h2 id="th-matrix-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
-            Each fund, theme by theme
-          </h2>
-          <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
-            {TAGS.method} On the{" "}
-            <Link href="/" className="underline decoration-line underline-offset-2 hover:text-ink">
-              map
-            </Link>
-            , the Theme row above the sector filter applies a theme to every fund as you switch between them.
-          </p>
-          <ThemeMatrix />
-        </section>
+        <PrintOnePager title="Theme Exposure one-pager">
+          <div className="space-y-12 print:space-y-4">
+            <div className="hidden print:block">
+              <h2 className="font-serif text-xl">Theme Exposure across BREIT, BX Infra, BXPE and BCRED</h2>
+              <p className="text-[11px]">Each cell: the fund&apos;s published share in that theme&apos;s sectors, from its Form 10-Q for the quarter ended June 30, 2026.</p>
+            </div>
+            <section aria-labelledby="th-matrix-h" className="space-y-4 print:space-y-2">
+              <h2 id="th-matrix-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:hidden">
+                Each fund, theme by theme
+              </h2>
+              <p className="max-w-3xl text-sm leading-relaxed text-muted-strong print:hidden">
+                {TAGS.method} On the{" "}
+                <Link href="/" className="underline decoration-line underline-offset-2 hover:text-ink">
+                  map
+                </Link>
+                , the Theme row above the sector filter applies a theme to every fund as you switch between them.
+              </p>
+              <ThemeMatrix />
+            </section>
+            <section aria-labelledby="th-bb-h" className="space-y-4 print:space-y-2">
+              <h2 id="th-bb-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:text-base">
+                Case for and case against
+              </h2>
+              <BullBear />
+            </section>
+            <p className="hidden border-t pt-2 text-[10px] print:block">
+              {ADDON_DISCLOSURE} Independent prototype built from public filings. Not affiliated with or endorsed by Blackstone.
+            </p>
+          </div>
+        </PrintOnePager>
         <section aria-labelledby="th-lt-h" className="space-y-4">
           <h2 id="th-lt-h" className="font-serif text-[22px] font-medium leading-tight text-ink">
             A client&apos;s look-through

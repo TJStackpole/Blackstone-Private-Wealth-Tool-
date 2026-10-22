@@ -31,3 +31,23 @@ describe("theme tags", () => {
     }
   });
 });
+
+describe("case for and against", () => {
+  it("gives every theme the same number of sourced points on each side", async () => {
+    const { BULL_BEAR } = await import("@/lib/addons/themes/tags");
+    for (const t of THEMES) {
+      const c = BULL_BEAR.themes[t.id];
+      expect(c, t.id).toBeDefined();
+      expect(c.for.length).toBe(c.against.length);
+      expect(c.for.length).toBeGreaterThanOrEqual(2);
+      for (const p of [...c.for, ...c.against]) expect(p.source.url).toMatch(/^https:\/\//);
+    }
+    expect(JSON.stringify(BULL_BEAR)).not.toMatch(/you should|we recommend/i);
+  });
+
+  it("lists a fund's themes largest first", async () => {
+    const { topThemes } = await import("@/lib/addons/themes/tags");
+    const t = topThemes("BREIT").map((x) => x.theme.id);
+    expect(t).toEqual(["housing", "ai-data-centers", "logistics"]);
+  });
+});

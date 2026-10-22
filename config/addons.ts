@@ -86,7 +86,7 @@ export const ADDONS: AddonDef[] = [
     description: "Themes such as AI and data centers that run through several funds, how much of each fund sits in each, and a theme filter on the map.",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
-    phase: 2,
+    phase: 3,
   },
 ];
 

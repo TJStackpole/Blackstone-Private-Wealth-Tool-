@@ -1,0 +1,211 @@
+{
+  "asOf": "2026-10-21",
+  "sample": false,
+  "note": "Each point is a summary in this tool's own words of a published view. Forecasts are the sources' views, not facts, and some sources are firms with an interest in the outcome.",
+  "themes": {
+    "ai-data-centers": {
+      "for": [
+        {
+          "text": "Data centers used about 4.4% of U.S. electricity in 2023, and the national lab's scenarios put that at roughly 7% to 12% by 2028.",
+          "source": {
+            "name": "U.S. Department of Energy, on Lawrence Berkeley National Laboratory's 2024 data center energy report",
+            "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+          }
+        },
+        {
+          "text": "One manager argues the bigger risk is that power and capacity arrive too slowly for demand, not that too much gets built.",
+          "source": {
+            "name": "Janus Henderson, Data center power: why the key risk is under-delivery, not overbuild",
+            "url": "https://www.janushenderson.com/hub/article/data-center-power-why-the-key-risk-is-under-delivery-not-overbuild"
+          }
+        }
+      ],
+      "against": [
+        {
+          "text": "If AI demand grows more slowly than forecast, new capacity can sit idle. A PwC study of the Gulf region puts about $12 billion of data center investment at risk for each idle gigawatt.",
+          "source": {
+            "name": "PwC Strategy&, The gigawatt bubble",
+            "url": "https://www.strategyand.pwc.com/m1/en/industries/energy-chemical-utility-management/gigawatt-bubble.html"
+          }
+        },
+        {
+          "text": "Analysts have warned that overbuilding becomes a real risk if AI adoption flattens or shifts, as happened with fiber in the dot-com era.",
+          "source": {
+            "name": "Data Center Knowledge, Analysts warn of overbuild risks as AI data centers reshape industry",
+            "url": "https://www.datacenterknowledge.com/data-center-construction/analysts-warn-of-overbuild-risks-as-ai-data-centers-reshape-industry"
+          }
+        }
+      ]
+    },
+    "software-tech": {
+      "for": [
+        {
+          "text": "Gartner expected worldwide software spending to grow about 15% in 2026, among the fastest-growing parts of IT.",
+          "source": {
+            "name": "Gartner, worldwide IT spending forecast, February 2026",
+            "url": "https://www.gartner.com/en/newsroom/press-releases/2026-02-03-gartner-forecasts-worldwide-it-spending-to-grow-10-point-8-percent-in-2026-totaling-6-point-15-trillion-dollars"
+          }
+        },
+        {
+          "text": "Even lenders worried about AI don't expect the whole software market to collapse at once; they see pressure arriving gradually and unevenly, company by company.",
+          "source": {
+            "name": "RBC BlueBay, AI software disruption and credit markets",
+            "url": "https://institutional.rbcgam.com/_assets/insight-article/pdfs/AI-software-disruption-credit-markets.pdf"
+          }
+        }
+      ],
+      "against": [
+        {
+          "text": "Private credit lent heavily to software: about $500 billion, roughly 19% of direct loans, by the end of 2025. Software stocks fell almost 30% between October 2025 and February 2026 on AI fears.",
+          "source": {
+            "name": "Bank for International Settlements, Private credit's software lending meets AI disruption (March 2026)",
+            "url": "https://www.bis.org/publ/qtrpdf/r_qt2603v.htm"
+          }
+        },
+        {
+          "text": "AI can hurt borrowers through lost revenue, thinner margins, lower valuations and harder refinancing, which makes the quality of each company and its owner matter more.",
+          "source": {
+            "name": "J.P. Morgan Asset Management, Disruption decoded",
+            "url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/alternatives/disruption-decoded/"
+          }
+        }
+      ]
+    },
+    "housing": {
+      "for": [
+        {
+          "text": "Most published estimates find the U.S. short of homes, by anywhere from about 1.5 million to 5.5 million depending on the method.",
+          "source": {
+            "name": "Congressional Research Service, Estimates of a \"Housing Shortage\" (December 2025)",
+            "url": "https://www.congress.gov/crs_external_products/IN/PDF/IN12628/IN12628.1.pdf"
+          }
+        },
+        {
+          "text": "One estimate has the gap growing, from about 3.8 million homes in 2024 to about 4.0 million in 2025.",
+          "source": {
+            "name": "Real Estate News, Deeply rooted housing shortage worsened in 2025 (Realtor.com estimate)",
+            "url": "https://www.realestatenews.com/2026/03/03/deeply-rooted-housing-shortage-worsened-in-2025"
+          }
+        }
+      ],
+      "against": [
+        {
+          "text": "There's no universal agreement that a national shortage exists; estimates vary widely with their assumptions.",
+          "source": {
+            "name": "Congressional Research Service, Estimates of a \"Housing Shortage\" (December 2025)",
+            "url": "https://www.congress.gov/crs_external_products/IN/PDF/IN12628/IN12628.1.pdf"
+          }
+        },
+        {
+          "text": "After record apartment completions, apartment vacancy reached about 8.3% at the end of 2024, the highest since records began in 2000.",
+          "source": {
+            "name": "NMHC, Reconciling the apartment shortage with recent record apartment completions",
+            "url": "https://www.nmhc.org/research-insight/research-notes/2025/reconciling-the-apartment-shortage-with-recent-record-apartment-completions/"
+          }
+        }
+      ]
+    },
+    "logistics": {
+      "for": [
+        {
+          "text": "National industrial vacancy fell below 7% in the second quarter of 2026, with leasing at its strongest pace since mid-2022.",
+          "source": {
+            "name": "Supply & Demand Chain Executive, on Cushman & Wakefield's Q2 2026 industrial report",
+            "url": "https://www.sdcexec.com/transportation/trucking/news/22970736/cushman-wakefield-supplydemand-balance-drives-industrial-vacancy-below-7-in-q2"
+          }
+        },
+        {
+          "text": "New construction has slowed sharply: completions in early 2026 were the lowest since 2017, which helps demand catch up with supply.",
+          "source": {
+            "name": "Cushman & Wakefield, Peak industrial vacancy likely in rearview mirror (April 2026)",
+            "url": "https://www.cushmanwakefield.com/en/united-states/news/2026/04/peak-industrial-vacancy-likely-in-rearview-mirror-as-demand-holds-and-supply-slows"
+          }
+        }
+      ],
+      "against": [
+        {
+          "text": "Another data provider measured national vacancy at about 9.1% in June 2026, with roughly 400 million square feet still under construction.",
+          "source": {
+            "name": "CRE Daily, US industrial vacancy and rent growth stabilize in June 2026 (Yardi Matrix)",
+            "url": "https://www.credaily.com/?p=221552"
+          }
+        },
+        {
+          "text": "Readings differ by about two points depending on who measures, so \"tight\" depends on whose data is used, and local markets vary more.",
+          "source": {
+            "name": "Supply & Demand Chain Executive, on Cushman & Wakefield's Q2 2026 industrial report",
+            "url": "https://www.sdcexec.com/transportation/trucking/news/22970736/cushman-wakefield-supplydemand-balance-drives-industrial-vacancy-below-7-in-q2"
+          }
+        }
+      ]
+    },
+    "energy": {
+      "for": [
+        {
+          "text": "U.S. electricity use was forecast to rise four years in a row for the first time since 2007, the fastest four-year growth since 2000, driven mainly by large computing centers.",
+          "source": {
+            "name": "U.S. Energy Information Administration, Short-Term Energy Outlook release, January 2026",
+            "url": "https://www.eia.gov/pressroom/releases/press582.php"
+          }
+        },
+        {
+          "text": "Developers are expected to rush solar projects ahead of tax-credit deadlines, adding about 36 gigawatts more by 2030 than previously expected.",
+          "source": {
+            "name": "S&P Global Market Intelligence, Impacts of H.R. 1 on renewable energy tax credits",
+            "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2025/10/impacts-of-hr-1-on-renewable-energy-tax-credits-us-electricity-markets"
+          }
+        }
+      ],
+      "against": [
+        {
+          "text": "After 2025's tax law cut wind and solar credits, one analysis has both below their earlier paths by 2035, by about 42 and 52 gigawatts.",
+          "source": {
+            "name": "S&P Global Market Intelligence, Impacts of H.R. 1 on renewable energy tax credits",
+            "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2025/10/impacts-of-hr-1-on-renewable-energy-tax-credits-us-electricity-markets"
+          }
+        },
+        {
+          "text": "Power plants and lines built for data centers can be stranded if that demand falls short, with costs often passed to ratepayers.",
+          "source": {
+            "name": "PwC Strategy&, The gigawatt bubble",
+            "url": "https://www.strategyand.pwc.com/m1/en/industries/energy-chemical-utility-management/gigawatt-bubble.html"
+          }
+        }
+      ]
+    },
+    "healthcare": {
+      "for": [
+        {
+          "text": "National health spending is projected to reach about $9 trillion by 2034, rising from 18.4% to 20.6% of the economy.",
+          "source": {
+            "name": "Committee for a Responsible Federal Budget, on CMS's 2025–2034 national health expenditure projections",
+            "url": "https://www.crfb.org/blogs/national-health-expenditures-continue-rise"
+          }
+        },
+        {
+          "text": "An aging population makes Medicare the fastest-growing major payer, and drug use, including GLP-1 medicines, adds near-term growth.",
+          "source": {
+            "name": "ADvancing States, summary of National Health Expenditure Projections, 2025–34",
+            "url": "https://www.advancingstates.org/hcbs/article/national-health-expenditure-projections-2025-34"
+          }
+        }
+      ],
+      "against": [
+        {
+          "text": "Medicaid changes in recent legislation are projected to slow spending growth after 2026.",
+          "source": {
+            "name": "ADvancing States, summary of National Health Expenditure Projections, 2025–34",
+            "url": "https://www.advancingstates.org/hcbs/article/national-health-expenditure-projections-2025-34"
+          }
+        },
+        {
+          "text": "The share of Americans with health insurance is projected to dip, from 91.8% in 2024 to 90.5% in 2034.",
+          "source": {
+            "name": "HealthExec, on CMS's projection of $9 trillion in health spending by 2034",
+            "url": "https://healthexec.com/topics/healthcare-management/healthcare-economics/cms-projects-healthcare-spending-reach-9t-2034"
+          }
+        }
+      ]
+    }
+  }
+}
