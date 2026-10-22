@@ -1,4 +1,4 @@
-# Done checklists, all five phases
+# Done checklists: the map, the Advisor Toolkit, and the tour
 
 **Data update:** all four fund layers now use the June 30, 2026 Form 10-Q filings (see `DEMO_GUIDE.md`). The automated suite runs 201 checks, including that every headline number on screen matches the generated data files.
 
@@ -51,3 +51,38 @@ Each line says what was verified and how. "Automated" means a headless-browser t
 | "View on map" jumps to the correct layer | Automated: third button opens Private Equity. |
 | Nothing implies a real product's actual allocation | Framing paragraph says so; closing line repeats it. |
 | All earlier checks still pass; final deploy | Full suite re-run after Phase 5. |
+
+## Advisor Toolkit: Foundation and all seven add-ons
+
+Every phase ran on its own branch (`addon/<tool>-p1` … `-p3`) and merged only after the full check passed: types, lint, unit tests, a production build with browser tests, and the 201-check map regression. Branches are on GitHub.
+
+| Regression item (run after every phase) | How it's verified |
+| --- | --- |
+| `build`, `test` and `e2e` pass | Automated on every phase; merging is blocked if any step fails. Now 104 unit tests and 6 browser tests. |
+| Map loads; every fund layer toggles | Browser test plus the 201-check regression. |
+| Fund panels show chips only for tools that apply | Unit tests (registry, chips) and a browser test that opens every chip's drawer in every fund panel and closes it with Escape. |
+| A switched-off tool vanishes with no gaps | Unit tests render chips and the registry with tools switched off; the Theme row renders nothing when Themes is off. |
+| A crashing tool shows "temporarily unavailable" and the map keeps working | Unit test throws inside the error boundary; browser tests fail if any fallback appears. |
+| Works at 375px with no sideways scrolling | Screenshot check of every tool page and drawer at 375px, light and dark, measuring page width. |
+| SAMPLE / ILLUSTRATIVE badges, dates, sources and the disclosure are visible | Checked on every page; data tests require a source and date on every figure. |
+| No "you should" / "we recommend"; no copied brochure text or charts | Data tests scan every content file for advice wording. All text is our own; charts are drawn from data. |
+| Printouts fit one page | Each tool's Print / Save as PDF output measured as a Letter PDF: one page each. |
+
+| Tool | Phase 1 | Phase 2 | Phase 3 |
+| --- | --- | --- | --- |
+| Liquidity Simulator | Terms and history from each 10-Q and BCRED's tender letters | `simulateRedemption`, tested (under limit fills 100%, 2× limit fills 50%, hand-checked resubmission, never pays more than asked) | Reserve check (`yearsCovered`), drawer, Tax Lens link, print |
+| Index-to-Fund Translator | Fund returns and fees from each 10-Q; index figures marked sample with sources | `buildBridge`, tested (steps add up exactly, zero fees = no change, negative returns) | Drawer in all four panels, print |
+| Tax Lens | Worked example; BREIT's 2020–2025 return-of-capital split from its 10-Ks | `projectTax`, tested (one- and ten-year hand cases, 0% ROC, basis floor, 199A, sale at a loss) | Three-input drawer, Liquidity link, print |
+| Why So Smooth? | Explainer; valuation claims cite the funds' filings | `volatility`, `maxDrawdown`, `desmooth`, tested; sample series clearly labeled | Objections, drawer for BREIT/BX Infra/BXPE, print |
+| Theme Exposure | Theme filter on the map (the one logged exception) | `lookThrough`, tested (four funds plus Nvidia = 27.3%) | Sourced cases for and against, equal space; drawer; print |
+| Drawdown vs. Evergreen | Eight-row comparison, each row sourced | `compare`, tested (100% day-one call = evergreen before fees; fees lower value monotonically) | Family Office mode (toolkit only), IC memo print, drawer |
+| Reality Check | Three claims per fund from the funds' own objectives, draft status for TJ to confirm | CSV update script with row-numbered errors; freshness badge thresholds tested | Drawer with the two claims most worth raising, monthly GitHub reminder, print |
+
+## Guided tour
+
+| Item | Verified |
+| --- | --- |
+| "Take the tour" link on the map and the toolkit | Browser test clicks it from the map. |
+| Every step's live view loads at the right spot | Browser test opens all 16 steps and checks each page loaded with no error or missing tool; step 2 lands on Nevada. |
+| Desktop layout inside the tour on laptop screens | The live view renders at 1280px and scales to fit; checked at 1280 and 1440. |
+| Links into the map are safe | Unit tests: unknown funds, sectors or regions in the address are ignored. |

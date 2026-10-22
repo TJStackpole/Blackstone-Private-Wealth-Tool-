@@ -3,6 +3,7 @@
 A five-minute walkthrough you can follow in an interview, plus honest answers to the questions you are most likely to get.
 
 Live site: https://private-markets-atlas.netlify.app
+Guided tour (all features, step by step): https://private-markets-atlas.netlify.app/demo
 
 ## The one-sentence pitch
 
@@ -30,6 +31,15 @@ Each fund's filing discloses geography at a different level of detail, so each m
 5. **All funds.** "Four funds, four levels of detail." Click **Open** on any card.
 6. **Retirement.** Drag the slider. "This is a business line, not a fund, so every number is labeled illustrative. The timeline items each link to a source."
 7. **Dark mode and phone.** Toggle **Dark**, then narrow the window: the panel becomes a bottom sheet.
+
+## Then the Advisor Toolkit (five more minutes)
+
+8. **From the map.** On BCRED's panel, under **Advisor tools**, click **Liquidity**. A drawer slides in with a quick simulation: "you ask for $500,000; in a stressed quarter about half is paid, and the rest the next quarter if you ask again." Click **Full view**.
+9. **Liquidity Simulator.** Show **How the line works** (everyone in line gets the same fraction), then the presets. Scroll to **When the limits have applied**: BREIT 2022–2024 and BCRED in Q2 and Q3 2026, each linked to the filing or tender letter. Then the **reserve check**: "the question behind 'can I get out?' is 'will I need to?'"
+10. **Index-to-Fund.** Pick BCRED. The index (Cliffwater) made 3.0% in the half-year; Class I made 0.2%. The bridge shows why, step by step, and switching to Class S shows the servicing fee.
+11. **Theme Exposure.** Back on the map, click **AI & data centers** in the Theme row, then switch to Infrastructure: the theme carries over. In the toolkit, the look-through example (four funds plus Nvidia) lands at 27% in one theme. Show the case for and against, sourced on both sides.
+12. **Family Office mode.** Flip the switch at the top right: the tools reorder for a family office, scripts become investment-committee questions, and Drawdown vs. Evergreen prints as a one-page IC memo.
+13. **Reality Check.** Each fund's own stated objectives next to its filing data. The labels are drafts for you to confirm; the code never sets them. The freshness badge shows the data is from June 30.
 
 ## Questions you may get, and honest answers
 
@@ -59,6 +69,18 @@ No. No logo, no fonts from their site, fund names in plain text only. The discla
 
 **"What's the stack?"**
 Next.js, TypeScript, Tailwind. Maps use react-simple-maps over the free us-atlas and world-atlas shapes, so there are no map API keys. Charts use recharts. A Python script parses the SEC filings. There's no backend: it builds to static files and deploys to Netlify or Vercel with no configuration.
+
+**"Where do the toolkit's numbers come from?"**
+Fund terms, fees, returns and tax splits come from each fund's 10-Q and 10-K, with links. Index figures (NFI-ODCE, Cliffwater, Cambridge) are marked SAMPLE because they come from the providers' public releases found through search, not opened documents; private infrastructure indices are licensed, so none is shown. The smoothing chart uses a clearly labeled synthetic series because the real indices are licensed.
+
+**"Isn't the calculator just making things up?"**
+Every calculator is a small, tested function: same inputs, same answer. Each result is labeled ILLUSTRATIVE, shows its inputs, and the defaults come from the filings. There are over 100 automated tests, including hand-checked cases (for example, the Tax Lens one-year case: $5,000 paid, $1,000 taxed now, basis down $4,000).
+
+**"Two details people get wrong."**
+BCRED prorated repurchases in two quarters (Q2 and Q3 2026), not three. And BX Infra's filing doesn't name AirTrunk; the related holding appears as "Eucalyptus I HoldCo (CYM) L.P." in Asia-Pacific digital infrastructure. The site sticks to what the filings say.
+
+**"Could a tool break the map?"**
+No. Each tool lives in its own folders, sits inside an error boundary, and has an on/off switch in `config/addons.ts`. The only changes to the map's own files are the toolkit link, the tool buttons in the panel, the Theme row, and the tour's link support, all listed in the README.
 
 ## Where things live
 
