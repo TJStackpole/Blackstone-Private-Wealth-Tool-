@@ -17,6 +17,10 @@ export interface IndexInfo {
   leverageText: string;
   /** Null when the index isn't published free: no number is shown rather than an invented one. */
   return: { value: number; period: string; note?: string } | null;
+  /** A one-year figure for the bridge, whose fee steps are per year. Null when none is published. */
+  annual: { value: number; period: string } | null;
+  /** The index's own leverage, when published (0 for an unlevered index, null when not given as one figure). */
+  leveragePct: number | null;
   sample: boolean;
   asOf: string;
   verify?: string;
@@ -60,4 +64,10 @@ export const INDEX_VS_FUND: Record<FundCode, IndexVsFund> = {
 
 export function returnFor(d: IndexVsFund, c: ShareClass): ClassReturn | undefined {
   return d.fundSide.returns.find((r) => r.shareClass === c);
+}
+
+/** Starting borrowing for the bridge: the fund's reported leverage less the index's, when both are known; otherwise 0. */
+export function leverageGap(d: IndexVsFund): number {
+  if (!d.leverage || d.index.leveragePct === null) return 0;
+  return Math.max(0, Math.round((d.leverage.value - d.index.leveragePct) * 10) / 10);
 }

@@ -46,3 +46,13 @@ describe("index-vs-fund data", () => {
     expect(titles("BXINFRA")).not.toContain("Different periods");
   });
 });
+
+describe("leverageGap", () => {
+  it("starts the bridge from the difference in reported leverage when both are known, else zero", async () => {
+    const { leverageGap } = await import("@/lib/addons/index-vs-fund/data");
+    expect(leverageGap(INDEX_VS_FUND.BCRED)).toBe(45);
+    expect(leverageGap(INDEX_VS_FUND.BREIT)).toBe(16.9);
+    expect(leverageGap(INDEX_VS_FUND.BXPE)).toBe(0);
+    expect(leverageGap(INDEX_VS_FUND.BXINFRA)).toBe(0);
+  });
+});

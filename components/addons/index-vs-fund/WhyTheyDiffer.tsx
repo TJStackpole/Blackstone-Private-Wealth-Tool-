@@ -1,6 +1,8 @@
 import type { IndexVsFund } from "@/lib/addons/index-vs-fund/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
 
+const lowerFirst = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
+
 /** The reasons an index and a fund's share classes don't land on the same number, written for this fund. */
 export function reasonsFor(d: IndexVsFund): { title: string; body: string }[] {
   const { index, fees, leverage } = d;
@@ -35,7 +37,7 @@ export function reasonsFor(d: IndexVsFund): { title: string; body: string }[] {
   if (index.return && fundPeriod && index.return.period !== fundPeriod)
     out.push({
       title: "Different periods",
-      body: `The index figure covers ${index.return.period.toLowerCase()}; the fund's covers ${fundPeriod.toLowerCase()}. Put side by side, they're a starting point for the conversation, not a like-for-like score.`,
+      body: `The index figure covers ${lowerFirst(index.return.period)}; the fund's covers ${lowerFirst(fundPeriod)}. Put side by side, they're a starting point for the conversation, not a like-for-like score.`,
     });
   return out;
 }

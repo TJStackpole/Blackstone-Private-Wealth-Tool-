@@ -19,7 +19,12 @@
     "source": {
       "name": "NCREIF, NFI-ODCE Snapshot Report 2Q2026",
       "url": "https://ncreif.org/__static/jdj5jdewjdl2y1lmnei2uvv3l0d1nk80/NFI-ODCE-Snapshot-Report-2Q2026.pdf"
-    }
+    },
+    "annual": {
+      "value": 4.45,
+      "period": "1 year ended Jun 30, 2026"
+    },
+    "leveragePct": 27.1
   },
   "fundSide": {
     "label": "Total return, by share class",
