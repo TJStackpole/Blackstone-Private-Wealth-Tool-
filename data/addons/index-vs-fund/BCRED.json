@@ -1,0 +1,112 @@
+{
+  "fund": "BCRED",
+  "asOf": "2026-06-30",
+  "index": {
+    "name": "Cliffwater Direct Lending Index (CDLI)",
+    "measures": "Loans to U.S. middle-market companies, built from the holdings that business development companies (BDCs) report to the SEC.",
+    "feeBasis": "gross",
+    "feeText": "Before fees.",
+    "levered": false,
+    "leverageText": "Unlevered: it measures the loans themselves, with no fund-level borrowing.",
+    "return": {
+      "value": 3.0,
+      "period": "Six months ended Jun 30, 2026 (not annualized)",
+      "note": "Trailing one year: 7.7%."
+    },
+    "sample": true,
+    "asOf": "2026-06-30",
+    "verify": "Figure found through the index provider's public release; confirm against the provider's current report before using it with clients.",
+    "source": {
+      "name": "Cliffwater, CDLI mid-year 2026 release and CDLI fact page",
+      "url": "https://cliffwater.com/files/cdli/docs/CDLI_Fact_Page.pdf"
+    }
+  },
+  "fundSide": {
+    "label": "Total return based on NAV, by share class",
+    "returns": [
+      {
+        "shareClass": "I",
+        "value": 0.2,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+          "page": "Note 10: Financial Highlights and Senior Securities"
+        }
+      },
+      {
+        "shareClass": "S",
+        "value": -0.2,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+          "page": "Note 10: Financial Highlights and Senior Securities"
+        }
+      },
+      {
+        "shareClass": "D",
+        "value": 0.1,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+          "page": "Note 10: Financial Highlights and Senior Securities"
+        }
+      }
+    ],
+    "sample": false
+  },
+  "fees": {
+    "management": {
+      "value": 1.25,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+        "page": "Note 3: Fees, Expenses, Agreements and Related Party Transactions"
+      }
+    },
+    "performance": {
+      "value": 12.5,
+      "hurdle": 5,
+      "label": "Incentive fees",
+      "note": "Two parts: 12.5% of net investment income above a 1.25% quarterly (5% a year) hurdle, with a catch-up, and 12.5% of cumulative realized capital gains.",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+        "page": "Note 3: Fees, Expenses, Agreements and Related Party Transactions"
+      }
+    },
+    "servicing": {
+      "I": 0,
+      "D": 0.25,
+      "S": 0.85,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+        "page": "Note 3: Fees, Expenses, Agreements and Related Party Transactions"
+      }
+    }
+  },
+  "leverage": {
+    "value": 45,
+    "text": "Asset coverage of 221.3% means debt was about 45% of total assets ($35.3 billion of debt against $42.8 billion of net assets).",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+      "page": "Note 7: Borrowings (asset coverage)"
+    }
+  }
+}

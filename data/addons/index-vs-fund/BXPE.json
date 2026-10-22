@@ -1,0 +1,103 @@
+{
+  "fund": "BXPE",
+  "asOf": "2026-06-30",
+  "index": {
+    "name": "Cambridge Associates U.S. Private Equity Index",
+    "measures": "Pooled returns of about 1,800 U.S. private equity funds, including fully liquidated ones, formed since 1983.",
+    "feeBasis": "net",
+    "feeText": "Net of fees, expenses and carried interest.",
+    "levered": true,
+    "leverageText": "Reflects whatever borrowing the underlying companies and funds use; there's no separate fund-level leverage figure.",
+    "return": {
+      "value": 6.42,
+      "period": "1 year ended Mar 31, 2026 (pooled IRR)",
+      "note": "An IRR depends on when cash went in and out, so it isn't directly comparable to a time-weighted return."
+    },
+    "sample": true,
+    "asOf": "2026-03-31",
+    "verify": "Figure found through the index provider's public release; confirm against the provider's current report before using it with clients.",
+    "source": {
+      "name": "Cambridge Associates, U.S. Private Equity Benchmark Book, Q1 2026",
+      "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/08/WEB-2026-Q1-USPE-Benchmark-Book.pdf"
+    }
+  },
+  "fundSide": {
+    "label": "Total return based on NAV, by unit class (BXPE U.S.)",
+    "returns": [
+      {
+        "shareClass": "I",
+        "value": 13.69,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+          "page": "Note 9: Financial Highlights"
+        }
+      },
+      {
+        "shareClass": "S",
+        "value": 13.46,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+          "page": "Note 9: Financial Highlights"
+        }
+      },
+      {
+        "shareClass": "D",
+        "value": 13.55,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+          "page": "Note 9: Financial Highlights"
+        }
+      }
+    ],
+    "sample": false
+  },
+  "fees": {
+    "management": {
+      "value": 1.25,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+        "page": "Note 6: Related Party Transactions"
+      }
+    },
+    "performance": {
+      "value": 12.5,
+      "hurdle": 5,
+      "label": "Performance participation",
+      "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark and full catch-up.",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+        "page": "Note 6: Related Party Transactions"
+      }
+    },
+    "servicing": {
+      "I": 0,
+      "D": 0.25,
+      "S": 0.85,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+        "page": "Note 6: Related Party Transactions"
+      }
+    }
+  },
+  "leverage": null
+}

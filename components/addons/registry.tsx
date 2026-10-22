@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import type { AddonId } from "@/config/addons";
+import IndexVsFundPage from "./index-vs-fund/IndexVsFundPage";
 import LiquidityPage from "./liquidity/LiquidityPage";
 
 /**
@@ -8,4 +9,5 @@ import LiquidityPage from "./liquidity/LiquidityPage";
  */
 export const ADDON_PAGES: Partial<Record<AddonId, ComponentType>> = {
   liquidity: LiquidityPage,
+  "index-vs-fund": IndexVsFundPage,
 };

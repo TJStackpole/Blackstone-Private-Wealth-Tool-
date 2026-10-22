@@ -1,0 +1,99 @@
+{
+  "fund": "BXINFRA",
+  "asOf": "2026-06-30",
+  "index": {
+    "name": "A private infrastructure fund index (for example, Cambridge Associates' or MSCI's)",
+    "measures": "Returns of closed-end private infrastructure funds: toll roads, power, pipelines, data centers and similar assets.",
+    "feeBasis": "net",
+    "feeText": "Usually reported net of fees, expenses and carried interest.",
+    "levered": true,
+    "leverageText": "Reflects the borrowing inside the underlying assets.",
+    "return": null,
+    "sample": true,
+    "asOf": "2026-06-30",
+    "verify": "These indices are licensed and not published free, so no figure is shown. Enter one from a licensed source.",
+    "source": {
+      "name": "Index providers' licensed reports (not public)",
+      "url": "https://www.cambridgeassociates.com/private-investment-benchmarks/"
+    }
+  },
+  "fundSide": {
+    "label": "Total return based on NAV, by unit class (BXINFRA U.S.)",
+    "returns": [
+      {
+        "shareClass": "I",
+        "value": 10.42,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+          "page": "Note 10: Financial Highlights"
+        }
+      },
+      {
+        "shareClass": "S",
+        "value": 10.57,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+          "page": "Note 10: Financial Highlights"
+        }
+      },
+      {
+        "shareClass": "D",
+        "value": 10.43,
+        "period": "Six months ended Jun 30, 2026 (not annualized)",
+        "asOf": "2026-06-30",
+        "source": {
+          "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+          "page": "Note 10: Financial Highlights"
+        }
+      }
+    ],
+    "sample": false
+  },
+  "fees": {
+    "management": {
+      "value": 1.25,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+        "page": "Note 6: Related Party Transactions"
+      }
+    },
+    "performance": {
+      "value": 12.5,
+      "hurdle": 5,
+      "label": "Performance participation",
+      "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark and full catch-up.",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+        "page": "Note 6: Related Party Transactions"
+      }
+    },
+    "servicing": {
+      "I": 0,
+      "D": 0.25,
+      "S": 0.85,
+      "unit": "% of NAV a year",
+      "asOf": "2026-06-30",
+      "verify": "Confirm against current prospectus",
+      "source": {
+        "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+        "page": "Note 6: Related Party Transactions"
+      }
+    }
+  },
+  "leverage": null
+}

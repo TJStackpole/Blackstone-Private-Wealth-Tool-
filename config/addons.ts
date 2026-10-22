@@ -52,6 +52,15 @@ export const ADDONS: AddonDef[] = [
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
+  {
+    id: "index-vs-fund",
+    name: "Index-to-Fund Translator",
+    shortName: "Index vs fund",
+    description: "A brochure's index return next to what each share class of the fund reported, and the reasons they differ: fees, borrowing, cash, servicing fees and timing.",
+    enabled: true,
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    phase: 1,
+  },
 ];
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
