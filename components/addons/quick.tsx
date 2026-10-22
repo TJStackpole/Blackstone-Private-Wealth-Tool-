@@ -15,6 +15,7 @@ export interface QuickProps {
 export const ADDON_QUICK: Partial<Record<AddonId, ComponentType<QuickProps>>> = {
   "index-vs-fund": dynamic(() => import("./index-vs-fund/IndexVsFundQuick"), { ssr: false }),
   liquidity: dynamic(() => import("./liquidity/LiquidityQuick"), { ssr: false }),
+  "reality-check": dynamic(() => import("./reality-check/RealityQuick"), { ssr: false }),
   smoothing: dynamic(() => import("./smoothing/SmoothingQuick"), { ssr: false }),
   "drawdown-vs-evergreen": dynamic(() => import("./drawdown-vs-evergreen/DrawdownQuick"), { ssr: false }),
   themes: dynamic(() => import("./themes/ThemesQuick"), { ssr: false }),

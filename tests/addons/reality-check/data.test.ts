@@ -18,3 +18,18 @@ describe("reality-check data", () => {
     expect(JSON.stringify(CLAIMS)).not.toMatch(/you should|we recommend|\bfail(ed|s)?\b/i);
   });
 });
+
+describe("topClaims", () => {
+  it("puts diverging, then watch, claims first, keeping file order within each", async () => {
+    const { topClaims } = await import("@/lib/addons/reality-check/data");
+    const base = CLAIMS.BREIT.claims[0];
+    const fc = { ...CLAIMS.BREIT, claims: [
+      { ...base, id: "a", status: "consistent" as const },
+      { ...base, id: "b", status: "watch" as const },
+      { ...base, id: "c", status: "diverges" as const },
+      { ...base, id: "d", status: "watch" as const },
+    ] };
+    expect(topClaims(fc).map((c) => c.id)).toEqual(["c", "b"]);
+    expect(topClaims(fc, 3).map((c) => c.id)).toEqual(["c", "b", "d"]);
+  });
+});

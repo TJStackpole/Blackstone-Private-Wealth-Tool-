@@ -1,0 +1,31 @@
+# Opens a reminder issue once a month to refresh the Reality Check data. No server, no data access: just an issue.
+name: Reality Check reminder
+
+on:
+  schedule:
+    - cron: "17 14 1 * *" # 14:17 UTC on the 1st of each month
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open the monthly reminder issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          month=$(date -u +"%B %Y")
+          gh issue create --repo "$REPO" \
+            --title "Update Reality Check data ($month)" \
+            --body "Monthly reminder to refresh the Reality Check snapshot.
+
+          1. \`npm run reality-check:export\` writes the current data to reality-check.csv.
+          2. Update values, dates and sources from the funds' latest filings and fact sheets. Set each status yourself and change status_set_by to TJ once confirmed.
+          3. \`npm run reality-check:update\` checks every row and rewrites the data (nothing changes if a row has a problem).
+          4. Run \`npm test\`, then commit.
+
+          New 10-Qs usually arrive about six weeks after each quarter ends; 10-Ks in March."
