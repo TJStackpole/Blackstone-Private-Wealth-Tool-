@@ -5,6 +5,7 @@ import { FUNDS, NEUTRAL_ACCENT } from "@/lib/addons/shared/funds";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonBoundary from "./AddonBoundary";
 import AddonDisclosure from "./AddonDisclosure";
+import { AudienceToggle } from "./Audience";
 
 interface Props {
   addonId: string;
@@ -26,7 +27,7 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, c
       style={{ ["--layer-light" as string]: accent.color, ["--layer-dark" as string]: accent.colorDark }}
     >
       <header className="mb-6 space-y-4">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-muted-strong">
             <Link href="/" className="hover:text-ink">
               ← Map
@@ -36,7 +37,10 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, c
               Advisor Toolkit
             </Link>
           </nav>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <AudienceToggle />
+            <ThemeToggle />
+          </div>
         </div>
         <div>
           <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[34px]">{title}</h1>

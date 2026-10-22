@@ -9,6 +9,12 @@ export const IVF_SCRIPT = [
   "Here's the index, and here's what each share class of the fund reported for its own period, side by side, with the reasons they differ.",
 ];
 
+export const IC_IVF = [
+  "Is the benchmark in the materials before or after fees, and does it include borrowing?",
+  "What does the bridge from that benchmark to our share class look like after fees, leverage and cash?",
+  "Are the fund and the benchmark measured over the same period and with the same method?",
+];
+
 /** Add-on 1: puts a brochure's index return next to what each share class of the fund actually reported. */
 export default function IndexVsFundPage() {
   return (
@@ -25,7 +31,7 @@ export default function IndexVsFundPage() {
     >
       <div className="space-y-12">
         <UrlView />
-        <ClientScriptCard points={IVF_SCRIPT} />
+        <ClientScriptCard points={IVF_SCRIPT} icPoints={IC_IVF} />
       </div>
     </AddonShell>
   );

@@ -17,6 +17,12 @@ export const TAX_SCRIPT = [
   "The split changes every year and isn't known until the year ends, so this shows how it would have worked, not what will happen. A tax advisor can apply it to the client's situation.",
 ];
 
+export const IC_TAX = [
+  "How much of the distributions has been return of capital, year by year, and how stable is that?",
+  "How much deferred gain builds up in our cost basis, and when would it be taxed?",
+  "Which entity would hold the position, and does that change the tax treatment?",
+];
+
 function Section({ title, id, children }: { title: string; id: string; children: React.ReactNode }) {
   return (
     <section aria-labelledby={`${id}-h`} className="space-y-4">
@@ -89,7 +95,7 @@ export default function TaxLensPage() {
           <OtherFunds />
         </Section>
 
-        <ClientScriptCard points={TAX_SCRIPT} />
+        <ClientScriptCard points={TAX_SCRIPT} icPoints={IC_TAX} />
       </div>
     </AddonShell>
   );

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ADDONS, enabledAddons } from "@/config/addons";
-import { FUNDS } from "@/lib/addons/shared/funds";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
+import { AudienceToggle } from "@/components/addons/shared/Audience";
+import ToolkitCards from "@/components/addons/shared/ToolkitCards";
 
 export const metadata: Metadata = {
   title: "Advisor Toolkit · Blackstone Private Market",
@@ -19,7 +20,10 @@ export default function ToolkitHome() {
           <Link href="/" className="text-xs text-muted-strong hover:text-ink">
             ← Map
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <AudienceToggle />
+            <ThemeToggle />
+          </div>
         </div>
         <div>
           <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[34px]">Advisor Toolkit</h1>
@@ -39,17 +43,7 @@ export default function ToolkitHome() {
             </p>
           </section>
         ) : (
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {list.map((a) => (
-              <li key={a.id}>
-                <Link href={`/toolkit/${a.id}`} className="group block h-full rounded-card border border-line bg-bg-raised p-5 hover:border-muted">
-                  <h2 className="font-serif text-lg font-medium text-ink group-hover:text-accent">{a.name}</h2>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-strong">{a.description}</p>
-                  <p className="mt-3 text-[11px] uppercase tracking-[0.08em] text-muted">{a.appliesTo.map((f) => FUNDS[f].label).join(" · ")}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <ToolkitCards list={list} />
         )}
         <AddonDisclosure />
       </main>

@@ -37,7 +37,7 @@ export default function CompareTable() {
         ))}
       </ul>
       <div className="hidden overflow-hidden rounded-card border border-line md:block print:block">
-        <table className="w-full text-left text-sm print:text-[11px]">
+        <table className="w-full text-left text-sm print:text-[10px]">
           <caption className="sr-only">Drawdown fund vs. evergreen fund</caption>
           <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
             <tr>

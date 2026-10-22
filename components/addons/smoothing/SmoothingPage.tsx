@@ -7,6 +7,12 @@ import Explainer from "./Explainer";
 import Objections from "./Objections";
 import SmoothChart from "./SmoothChart";
 
+export const IC_SMOOTHING = [
+  "How is the value per share set, how often, and who reviews it independently?",
+  "Do we model this with its reported volatility or with a desmoothed estimate?",
+  "What would tell us the value is out of step: redemption requests, secondary-market prices, or both?",
+];
+
 /** Add-on 2: why a private fund's value moves so little, and what that does and doesn't mean. */
 export default function SmoothingPage() {
   return (
@@ -36,7 +42,7 @@ export default function SmoothingPage() {
               </p>
               <SmoothChart />
             </section>
-            <ClientScriptCard title="The 30-second answer to “Why does this look so stable?”" points={CONTENT.script} />
+            <ClientScriptCard title="The 30-second answer to “Why does this look so stable?”" points={CONTENT.script} icPoints={IC_SMOOTHING} />
             <section aria-labelledby="sm-obj-h" className="space-y-4 print:space-y-2">
               <h2 id="sm-obj-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:text-base">
                 If the client says…

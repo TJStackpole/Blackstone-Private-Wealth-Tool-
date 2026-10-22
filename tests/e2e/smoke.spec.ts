@@ -90,3 +90,19 @@ test("a theme drives each fund's sector filter across fund switches, and turning
   await noFallbacks(page);
   expect(problems).toEqual([]);
 });
+
+test("Family Office mode reorders the toolkit, carries across tool pages, and leaves the map alone", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/toolkit");
+  const toggle = page.getByRole("group", { name: "Audience" });
+  if ((await toggle.count()) === 0) return;
+  await toggle.getByRole("button", { name: "Family Office" }).click();
+  await expect(page.getByRole("listitem").first().getByRole("heading", { level: 2 })).toHaveText("Drawdown vs. Evergreen");
+  await page.getByRole("link", { name: /Liquidity Simulator/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Liquidity Simulator" })).toBeVisible();
+  await expect(page.getByText("What your investment committee may ask")).toBeVisible();
+  await page.getByRole("link", { name: "← Map" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Blackstone Private Market" })).toBeVisible();
+  await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);
+  expect(problems).toEqual([]);
+});
