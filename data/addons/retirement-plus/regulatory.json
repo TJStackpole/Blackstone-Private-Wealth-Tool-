@@ -1,0 +1,34 @@
+{
+  "asOf": "2026-10-22",
+  "sample": false,
+  "verify": "Paraphrased from the linked sources; confirm each against its source before relying on it.",
+  "entries": [
+    {
+      "date": "2026-01-16",
+      "title": "Supreme Court agrees to hear Anderson v. Intel",
+      "summary": "The case asks what a worker must show to claim a plan's managers were imprudent to put retirement money into hedge funds and private equity. Lower courts had dismissed it.",
+      "source": {
+        "name": "Ropes & Gray, Supreme Court Chooses to Hear Intel (Jan 2026)",
+        "url": "https://www.ropesgray.com/en/insights/alerts/2026/01/update-on-401k-alternatives-supreme-court-chooses-to-hear-intel-and-dol-guidance-expected-imminently"
+      }
+    },
+    {
+      "date": "2026-03-30",
+      "title": "Labor Department proposes a safe harbor for choosing 401(k) options",
+      "summary": "An employer that weighs six factors (performance after fees, fees, liquidity, valuation, benchmarking and complexity) would be presumed prudent. It covers any option, not only private markets. Comments closed June 1, 2026; it was still a proposal at the last check.",
+      "source": {
+        "name": "International Foundation of Employee Benefit Plans, DOL Proposes Safe Harbor for Fiduciary Duties in Selecting Designated Investment Alternatives (Mar 30, 2026)",
+        "url": "https://www.ifebp.org/detail-pages/news/2026/03/30/dol-proposes-safe-harbor-for-fiduciary-duties-in-selecting-designated-investment-alternatives"
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "title": "Supreme Court hears Anderson v. Intel",
+      "summary": "Oral argument. A decision would shape how courts judge lawsuits over alternative investments in 401(k)s.",
+      "source": {
+        "name": "Supreme Court of the United States, argument audio, No. 25-498",
+        "url": "https://www.supremecourt.gov/oral_arguments/audio/2026/25-498"
+      }
+    }
+  ]
+}

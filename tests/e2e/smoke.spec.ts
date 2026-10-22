@@ -164,3 +164,26 @@ test("the drawer keeps keyboard focus inside it and resets when reopened on anot
   await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Index vs fund" }).click();
   await expect(page.getByRole("dialog").getByText(/Starting from the index's 4.45%/)).toBeVisible();
 });
+
+test("the 401(k) tab: Lab reacts and resets, audience switch keeps the numbers, and cross-links work", async ({ page }) => {
+  test.skip(!ADDONS.find((a) => a.id === "retirement-plus" && a.enabled), "401(k) add-on is off");
+  const problems = watch(page);
+  await page.goto("/?view=retirement");
+  await expect(page.getByRole("heading", { name: "The 0.1% problem" })).toBeVisible();
+  await noFallbacks(page);
+  const diff = page.locator('[data-lab="difference"]');
+  const start = await diff.textContent();
+  const fees = page.getByLabel("Extra fees, private");
+  await fees.fill("2");
+  await fees.blur();
+  await expect(diff).not.toHaveText(start!);
+  await page.getByRole("button", { name: "Reset to paper's assumptions" }).click();
+  await expect(diff).toHaveText(start!);
+  await page.getByRole("button", { name: "Employer", exact: true }).click();
+  await expect(page.locator("[data-section]").first()).toHaveAttribute("data-section", "why");
+  await expect(page.locator("[data-concern]").first()).toHaveAttribute("data-concern", "lawsuits");
+  await expect(diff).toHaveText(start!);
+  await page.getByRole("link", { name: /See how redemption limits work/ }).click();
+  await expect(page).toHaveURL(/\/toolkit\/liquidity$/);
+  expect(problems).toEqual([]);
+});

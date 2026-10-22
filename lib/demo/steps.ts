@@ -74,7 +74,8 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "All four funds, and a retirement lens",
     body: [
-      "'All funds' puts the four side by side. 'Retirement' shows how a private-markets slice might sit inside a 401(k) glide path; every number there is labeled illustrative.",
+      "'All funds' puts the four side by side. 'Retirement' tells the 401(k) story from Blackstone's 2026 paper: pensions hold about 33% in private markets, 401(k)s about 0.1%.",
+      "Its Outcome Lab rebuilds the paper's worker with returns you can change, next to the paper's own result. A Worker / Employer switch changes the wording, never the numbers.",
     ],
     url: "/?view=all",
   },
