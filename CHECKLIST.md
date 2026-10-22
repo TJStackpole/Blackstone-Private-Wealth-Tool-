@@ -58,7 +58,7 @@ Every phase ran on its own branch (`addon/<tool>-p1` … `-p3`) and merged only 
 
 | Regression item (run after every phase) | How it's verified |
 | --- | --- |
-| `build`, `test` and `e2e` pass | Automated on every phase; merging is blocked if any step fails. Now 104 unit tests and 6 browser tests. |
+| `build`, `test` and `e2e` pass | Automated on every phase; merging is blocked if any step fails. Now 112 unit tests and 8 browser tests. |
 | Map loads; every fund layer toggles | Browser test plus the 201-check regression. |
 | Fund panels show chips only for tools that apply | Unit tests (registry, chips) and a browser test that opens every chip's drawer in every fund panel and closes it with Escape. |
 | A switched-off tool vanishes with no gaps | Unit tests render chips and the registry with tools switched off; the Theme row renders nothing when Themes is off. |
@@ -86,3 +86,7 @@ Every phase ran on its own branch (`addon/<tool>-p1` … `-p3`) and merged only 
 | Every step's live view loads at the right spot | Browser test opens all 16 steps and checks each page loaded with no error or missing tool; step 2 lands on Nevada. |
 | Desktop layout inside the tour on laptop screens | The live view renders at 1280px and scales to fit; checked at 1280 and 1440. |
 | Links into the map are safe | Unit tests: unknown funds, sectors or regions in the address are ignored. |
+
+## Independent code review
+
+A separate reviewer read every add-on and the tour, spot-checked fund figures against the SEC filings (all matched), and found eight issues. All are fixed, each with a test: equal fee basis in the cash-drag model; a 0% redemption limit pays nothing; the early-sale deduction ends with the holding period; an exact leverage step in the Index-to-Fund bridge; capital-gains distributions taxed at the capital gains rate in the Tax Lens; impossible CSV dates rejected; the drawer keeps keyboard focus and resets per fund; the theme filter survives other views and "No theme" restores the earlier sector; `?fund=` accepts only real fund codes.
