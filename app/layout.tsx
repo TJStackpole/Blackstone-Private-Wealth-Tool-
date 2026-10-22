@@ -16,7 +16,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Private Markets Atlas",
+  // Every page's tab reads "<page> · Private Markets Atlas"; the map sets its own as the view changes.
+  title: { default: "Private Markets Atlas", template: "%s · Private Markets Atlas" },
   description:
     "An independent, interactive map of where retail private-markets funds invest, built from public filings. Not affiliated with Blackstone. Not investment advice.",
 };

@@ -1,6 +1,6 @@
 import AddonShell from "@/components/addons/shared/AddonShell";
 import { CLAIMS } from "@/lib/addons/reality-check/data";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import ClaimsView from "./ClaimsView";
 
 const all = Object.values(CLAIMS).flatMap((f) => f.claims);

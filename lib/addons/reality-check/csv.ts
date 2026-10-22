@@ -1,3 +1,4 @@
+import { todayInNewYork } from "@/lib/dates";
 import { z } from "zod";
 import type { FundCode } from "@/config/addons";
 import type { Claim, FundClaims } from "./data";
@@ -109,7 +110,8 @@ export function rowsToClaims(text: string, today = new Date()): ParseResult {
       return;
     }
     const v = parsed.data;
-    if (Date.parse(v.as_of) > today.getTime()) errors.push(`Row ${line}, as_of: is in the future`);
+    // Compared as calendar dates in New York, so a filing dated "today" there is never called future.
+    if (v.as_of > todayInNewYork(today)) errors.push(`Row ${line}, as_of: is in the future`);
     if (seen.has(v.id)) errors.push(`Row ${line}, id: "${v.id}" is used more than once`);
     seen.add(v.id);
     (funds[v.fund] ??= []).push({

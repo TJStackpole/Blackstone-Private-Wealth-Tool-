@@ -1,8 +1,11 @@
 import type { FundData } from "@/lib/types";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 
-/** Which filing the numbers came from, how geography is reported, and the standing disclaimer. */
-export default function SourceFooter({ data }: { data?: FundData }) {
+/**
+ * Which filing the numbers came from, how geography is reported, and the standing disclaimer. `disclosure` adds a
+ * view's own wording (the 401(k) tab's calculator disclosure) to the same block, so a page never ends in two.
+ */
+export default function SourceFooter({ data, disclosure }: { data?: FundData; disclosure?: string }) {
   return (
     <footer className="mt-10 border-t border-line pt-5 text-xs leading-relaxed text-muted">
       {data && (
@@ -25,7 +28,14 @@ export default function SourceFooter({ data }: { data?: FundData }) {
           </dd>
         </dl>
       )}
-      <p>Independent prototype built from public filings. Not affiliated with Blackstone. Not investment advice.</p>
+      {disclosure ? (
+        <>
+          <p>{disclosure}</p>
+          <p className="mt-2">Independent prototype built from public filings. Not affiliated with Blackstone.</p>
+        </>
+      ) : (
+        <p>Independent prototype built from public filings. Not affiliated with Blackstone. Not investment advice.</p>
+      )}
     </footer>
   );
 }

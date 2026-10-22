@@ -14,7 +14,7 @@ type Params = { params: Promise<{ addonId: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { addonId } = await params;
   const addon = findAddon(addonId);
-  return { title: addon ? `${addon.name} · Advisor Toolkit` : "Advisor Toolkit" };
+  return { title: addon ? addon.name : "Advisor Toolkit" };
 }
 
 export default async function AddonPage({ params }: Params) {

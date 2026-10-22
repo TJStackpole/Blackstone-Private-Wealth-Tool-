@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { FundCode } from "@/config/addons";
 import { FUNDS, NEUTRAL_ACCENT } from "@/lib/addons/shared/funds";
+import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonBoundary from "./AddonBoundary";
 import AddonDisclosure from "./AddonDisclosure";
@@ -32,9 +33,7 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
       <header className="mb-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-muted-strong">
-            <Link href="/" className="tap inline-flex items-center hover:text-ink">
-              ← Map
-            </Link>
+            <SiteMark />
             <span aria-hidden className="text-muted">/</span>
             <Link href="/toolkit" className="tap inline-flex items-center hover:text-ink">
               Advisor Toolkit

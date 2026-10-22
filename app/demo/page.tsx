@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import Tour from "@/components/demo/Tour";
 
 export const metadata: Metadata = {
-  title: "Guided tour · Private Markets Atlas",
+  title: "Guided tour",
   description: "A step-by-step tour of every feature: the fund maps, the Advisor Toolkit and how the data is sourced. Independent prototype; not affiliated with Blackstone.",
 };
 
@@ -14,9 +14,7 @@ export default function DemoPage() {
       <header className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <nav aria-label="Breadcrumb" className="mb-3 text-xs text-muted-strong">
-            <Link href="/" className="tap inline-flex items-center hover:text-ink">
-              ← Map
-            </Link>
+            <SiteMark />
           </nav>
           <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">Guided tour</h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-strong">

@@ -97,6 +97,9 @@ def build_breit():
     # NAV table
     nav_total = next(l for l in lines if l.startswith("Total | $ |") and l.count("|") == 3)
     nav_total = num(nav_total.split(" | ")[2]) / 1e6  # $ thousands -> $ billions
+    # Balance-sheet total equity, for the side-by-side note: BREIT's $56.6B is NAV at fair value, not GAAP net assets.
+    equity = num(next(l for l in lines if l.startswith("Total equity |")).split(" | ")[1]) / 1e6
+    check(15 < equity < 40, f"BREIT: total equity ${equity:.1f}B")
     class_i = next(l for l in lines if l.startswith("Class I Shares | $ |"))
     class_i_nav = class_i.split(" | ")[-1]
     check(abs(nav_total - 56.567757) < 1e-6, f"BREIT total NAV ${nav_total:.1f}B read from NAV table")
@@ -119,6 +122,7 @@ def build_breit():
                 {"label": "Real estate vs. debt", "value": "97% / 3%", "note": "share of investments at fair value"},
             ],
         },
+        "sizeNote": f"BREIT reports its size as NAV, at fair value (${nav_total:.1f}B). Its balance sheet, which carries property at cost less depreciation, shows total equity of ${equity:.1f}B.",
         # CHART breit-20260630_g3.jpg "Property Sector" (also stated in text for the top three)
         "sectorBasis": "Share of real estate investments by asset value, as charted in the 10-Q.",
         "sectors": [

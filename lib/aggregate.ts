@@ -8,9 +8,3 @@ export function formatPct(n: number): string {
 export function formatMoneyMillions(m: number): string {
   return m >= 1000 ? `$${(m / 1000).toFixed(2)}B` : `$${Math.round(m).toLocaleString("en-US")}M`;
 }
-
-export function formatDate(iso: string): string {
-  const d = new Date(`${iso}T00:00:00Z`);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
-}

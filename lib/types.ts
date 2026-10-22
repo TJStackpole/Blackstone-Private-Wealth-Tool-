@@ -106,6 +106,8 @@ export interface FundData {
   filing: FilingRef;
   locationBasis: "property" | "region";
   summary: { headline: string; stats: Stat[] };
+  /** When the fund's headline size isn't GAAP net assets (BREIT reports NAV), a sentence saying so, from the filing. */
+  sizeNote?: string;
   sectorBasis: string;
   sectors: Share[];
   geography: Geography;

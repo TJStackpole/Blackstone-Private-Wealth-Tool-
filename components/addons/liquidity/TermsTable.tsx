@@ -1,6 +1,6 @@
 import { TERMS } from "@/lib/addons/liquidity/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
-import { formatDate } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 
 /** Each fund's repurchase terms, every number linked to the filing it came from. */
 export default function TermsTable() {

@@ -5,7 +5,6 @@ import type { LayerId } from "@/lib/types";
 import { RETIREMENT } from "@/data/layers";
 import { REGULATORY, ROOM, type AudienceId } from "@/lib/addons/retirement-plus/data";
 import { PAPER_DEFAULTS } from "@/lib/addons/retirement-plus/defaults";
-import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
 import AudienceSwitch from "./AudienceSwitch";
 import Concerns from "./Concerns";
 import GapHero from "./GapHero";
@@ -60,7 +59,6 @@ export default function RetirementPlus({ onOpenLayer }: { onOpenLayer: (id: Laye
           {sections[id]}
         </div>
       ))}
-      <AddonDisclosure />
     </div>
   );
 }
