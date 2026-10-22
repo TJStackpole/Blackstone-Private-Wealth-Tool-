@@ -4,6 +4,7 @@ import type { FundData } from "@/lib/types";
 import { LAYERS } from "@/data/layers";
 import { FUND_CODE } from "@/lib/addons/shared/funds";
 import tags from "@/data/addons/themes/tags.json";
+import bullbear from "@/data/addons/themes/bullbear.json";
 
 export interface Theme {
   id: string;
@@ -42,4 +43,18 @@ export function primarySector(theme: Theme, fund: FundCode, data: Record<FundCod
 /** Share of a fund in a theme, in percent: the sum of its tagged sectors' published weights. */
 export function themeWeight(theme: Theme, fund: FundCode, data: Record<FundCode, FundData> = FUND_DATA): number {
   return Math.round(themeSectors(theme, fund, data).reduce((s, x) => s + x.pct, 0) * 10) / 10;
+}
+
+export interface CasePoint {
+  text: string;
+  source: AddonSource;
+}
+
+export const BULL_BEAR = bullbear as { asOf: string; sample: boolean; note: string; themes: Record<string, { for: CasePoint[]; against: CasePoint[] }> };
+
+/** A fund's themes, largest first, with its share in each (from its published sector weights). */
+export function topThemes(fund: FundCode, data: Record<FundCode, FundData> = FUND_DATA): { theme: Theme; pct: number }[] {
+  return THEMES.map((t) => ({ theme: t, pct: themeWeight(t, fund, data) }))
+    .filter((x) => x.pct > 0)
+    .sort((a, b) => b.pct - a.pct);
 }

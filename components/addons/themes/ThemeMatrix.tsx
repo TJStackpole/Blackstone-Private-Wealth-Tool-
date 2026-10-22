@@ -9,7 +9,7 @@ export default function ThemeMatrix({ only }: { only?: FundCode }) {
   const funds = only ? [only] : ORDER;
   return (
     <div className="overflow-x-auto rounded-card border border-line">
-      <table className="tnum w-full min-w-[560px] text-right text-sm">
+      <table className="tnum w-full min-w-[560px] text-right text-sm print:text-xs">
         <caption className="sr-only">Share of each fund in each theme</caption>
         <thead className="bg-bg-raised text-[11px] uppercase tracking-[0.08em] text-muted">
           <tr>
@@ -26,7 +26,7 @@ export default function ThemeMatrix({ only }: { only?: FundCode }) {
             <tr key={t.id}>
               <th scope="row" className="px-3 py-2 text-left font-normal">
                 <span className="block text-ink">{t.label}</span>
-                <span className="block text-[11px] text-muted">{t.description}</span>
+                <span className="block text-[11px] text-muted print:hidden">{t.description}</span>
               </th>
               {funds.map((f) => {
                 const w = themeWeight(t, f);
