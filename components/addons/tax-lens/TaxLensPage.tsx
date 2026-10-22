@@ -1,5 +1,9 @@
 import Calculator from "./Calculator";
+import Link from "next/link";
+import { findAddon } from "@/config/addons";
 import AddonShell from "@/components/addons/shared/AddonShell";
+import PrintOnePager from "@/components/addons/shared/PrintOnePager";
+import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import ClientScriptCard from "@/components/addons/shared/ClientScriptCard";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { TAX } from "@/lib/addons/tax-lens/data";
@@ -26,6 +30,7 @@ function Section({ title, id, children }: { title: string; id: string; children:
 
 /** Add-on 3: how return of capital is taxed now and at sale, for BREIT. Other funds get a note. */
 export default function TaxLensPage() {
+  const liquidity = findAddon("liquidity");
   return (
     <AddonShell
       addonId="tax-lens"
@@ -55,7 +60,21 @@ export default function TaxLensPage() {
           <p className="max-w-3xl text-sm leading-relaxed text-muted-strong">
             Change any input. Every figure on the right is computed from them; the defaults come from BREIT&apos;s filings and can be overwritten.
           </p>
-          <Calculator />
+          <PrintOnePager title="Tax Lens one-pager">
+            <h2 className="hidden font-serif text-xl print:block">Tax Lens: BREIT return of capital, illustrated</h2>
+            <Calculator />
+            <p className="hidden pt-2 text-[10px] print:block">
+              Return-of-capital share: BREIT reported {TAX.rocHistory.map((y) => `${y.year} ${y.roc}%`).join(", ")} (Form 10-K filings). {ADDON_DISCLOSURE} Consult a tax
+              advisor. Independent prototype built from public filings. Not affiliated with or endorsed by Blackstone.
+            </p>
+          </PrintOnePager>
+          {liquidity && (
+            <p className="text-sm text-muted-strong">
+              <Link href="/toolkit/liquidity?fund=BREIT" className="underline decoration-line underline-offset-2 hover:text-ink">
+                Redeeming early? See when cash arrives and when tax is due in the Liquidity Simulator.
+              </Link>
+            </p>
+          )}
         </Section>
 
         <Section title="How BREIT's payouts were classified" id="history">
