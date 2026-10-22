@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { TAX } from "@/lib/addons/tax-lens/data";
+import { TAX, TAX_FUNDS } from "@/lib/addons/tax-lens/data";
 
 describe("tax-lens data", () => {
   it("each year's split adds to 100% and links to a BREIT annual report on EDGAR", () => {
@@ -13,7 +13,20 @@ describe("tax-lens data", () => {
     expect(TAX.defaultRoc.value).toBe(latest.roc);
     expect(TAX.defaultRoc.verify).toBeTruthy();
   });
-  it("explains the other three funds instead of running the calculator for them", () => {
-    expect(Object.keys(TAX.otherFunds).sort()).toEqual(["BCRED", "BXINFRA", "BXPE"]);
+  it("covers BCRED, BXPE and BX Infra, each from its own filings", () => {
+    const cik = { BCRED: "1803498", BXPE: "1930054", BXINFRA: "2030772" } as const;
+    expect(Object.keys(TAX_FUNDS.funds).sort()).toEqual(["BCRED", "BXINFRA", "BXPE"]);
+    for (const [f, facts] of Object.entries(TAX_FUNDS.funds)) {
+      expect(facts.tiles).toHaveLength(3);
+      for (const t of facts.tiles) expect(t.source.url).toContain(`/edgar/data/${cik[f as keyof typeof cik]}/`);
+      // Every point cites the fund's own filing, except the one IRS rule it explains.
+      for (const p of facts.points) expect(p.source.url.includes(`/edgar/data/${cik[f as keyof typeof cik]}/`) || p.source.url.startsWith("https://www.irs.gov/")).toBe(true);
+    }
+  });
+  it("doesn't reuse BREIT's explanation: BCRED is income when paid, the partnerships are K-1s", () => {
+    expect(TAX_FUNDS.funds.BCRED.history!.rows.every((r) => r.ordinaryPct === 100)).toBe(true);
+    expect(TAX_FUNDS.funds.BXPE.steps).toHaveLength(3);
+    expect(TAX_FUNDS.funds.BXINFRA.steps).toHaveLength(3);
+    expect(JSON.stringify(TAX_FUNDS)).not.toMatch(/return of capital: lowers|1099/);
   });
 });

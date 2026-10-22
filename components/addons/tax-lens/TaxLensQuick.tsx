@@ -4,10 +4,12 @@ import Link from "next/link";
 import type { QuickProps } from "../quick";
 import { findAddon } from "@/config/addons";
 import Calculator from "./Calculator";
+import FundTax from "./FundTax";
 
-/** Drawer view: three inputs (amount, bracket, years) with BREIT's latest return-of-capital share. */
+/** Drawer view: BREIT gets its return-of-capital calculator; the other funds their own tax facts. */
 export default function TaxLensQuick({ fund }: QuickProps) {
   const liquidity = findAddon("liquidity");
+  if (fund !== "BREIT") return <FundTax fund={fund} compact />;
   return (
     <div className="space-y-5">
       <p className="text-sm leading-relaxed text-muted-strong">

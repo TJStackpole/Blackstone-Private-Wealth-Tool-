@@ -73,10 +73,10 @@ export const ADDONS: AddonDef[] = [
     id: "tax-lens",
     name: "Tax Lens",
     shortName: "Tax Lens",
-    description: "Return of capital defers tax on most of the payout until you sell.",
+    description: "How each fund's payouts are taxed, from its own filings.",
     question: "How are the payouts taxed?",
     enabled: true,
-    appliesTo: ["BREIT"],
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
   {
