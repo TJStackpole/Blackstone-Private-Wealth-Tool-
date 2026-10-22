@@ -82,7 +82,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
         Starting from {index.annual ? "the index's" : "a placeholder index return of"} {pct(Math.round(bridge.start * 100) / 100)}, this illustration lands at about {pct(Math.round(bridge.end * 10) / 10)} a year for Class {cls}.
       </p>
 
-      <div className={compact ? "h-64" : "h-80 print:h-56"} role="img" aria-label={`Bridge from ${bridge.start.toFixed(2)}% to ${bridge.end.toFixed(2)}%: ${bridge.steps.map((s) => `${s.label} ${signed(s.delta)}`).join(", ")}`}>
+      <div className={compact ? "h-64" : "h-80 print:h-52"} role="img" aria-label={`Bridge from ${bridge.start.toFixed(2)}% to ${bridge.end.toFixed(2)}%: ${bridge.steps.map((s) => `${s.label} ${signed(s.delta)}`).join(", ")}`}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart accessibilityLayer={false} data={rows} layout="vertical" margin={{ top: 4, right: 48, bottom: 0, left: 0 }}>
             <CartesianGrid horizontal={false} stroke="var(--border)" />

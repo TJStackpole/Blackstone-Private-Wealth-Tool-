@@ -35,7 +35,7 @@ export default function DetailPanel(props: Props) {
   const view = selected ? <SelectionView key={selected} {...props} selected={selected} /> : <Overview key="overview" {...props} />;
 
   return (
-    <div id={`panel-${layer.id}`} role="tabpanel" aria-label={`${layer.fund} details`} className="panel-scroll relative flex max-h-[55vh] flex-col overflow-y-auto lg:max-h-none lg:overflow-visible">
+    <div id={`panel-${layer.id}`} role="tabpanel" aria-label={`${layer.fund} details`} className="panel-scroll relative -mx-2 flex max-h-[55vh] flex-col overflow-y-auto overflow-x-hidden px-2 lg:mx-0 lg:max-h-none lg:overflow-visible lg:px-0">
       <div className="relative">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -385,10 +385,14 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
 
 function SelectionView(props: Props & { selected: string }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  // Focus the heading once this view is on screen, so keyboard users land on the details. Not inside the tour's
+  // Focus the heading once this view is on screen and bring it into view (picking a state from lower in the panel
+  // would otherwise leave its name off-screen), so keyboard users land on the details. Not inside the tour's
   // live-view frame, where taking focus would stop the tour's own arrow keys.
   useEffect(() => {
-    if (window.self === window.top) headingRef.current?.focus({ preventScroll: true });
+    const h = headingRef.current;
+    if (!h || window.self !== window.top) return;
+    h.focus({ preventScroll: true });
+    if (h.getBoundingClientRect().height > 0) h.scrollIntoView({ block: "nearest" });
   }, []);
   return props.data.geography.level === "us-region" ? <StateView {...props} headingRef={headingRef} /> : <RegionView {...props} headingRef={headingRef} />;
 }

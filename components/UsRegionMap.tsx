@@ -63,6 +63,18 @@ export default function UsRegionMap({ data, sector, selected, onSelect, compact 
 
   return (
     <div data-map-root className="relative" onMouseLeave={() => setTip(null)}>
+      {!compact && (
+        <a
+          href="#map-after"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("map-after")?.focus();
+          }}
+          className="sr-only rounded-full border border-line bg-bg-raised px-3 py-1.5 text-xs font-medium text-ink focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-20"
+        >
+          Skip the map
+        </a>
+      )}
       <ComposableMap
         projection="geoAlbersUsa"
         projectionConfig={{ scale: 1280 }}
@@ -101,6 +113,8 @@ export default function UsRegionMap({ data, sector, selected, onSelect, compact 
           </select>
         </label>
       )}
+
+      {!compact && <span id="map-after" tabIndex={-1} className="sr-only" />}
 
       {tip && tipInfo && !compact && (
         <div
@@ -149,10 +163,16 @@ function States({ maxRegion, topStates, counts, selected, onSelect, onHover, onL
         // Centroid in screen space, for the dot and the label.
         const [cx, cy] = pathCentroid(path, f);
         return { abbr: info.abbr, name: info.name, d, cx, cy };
-      }).filter((s): s is NonNullable<typeof s> => s !== null),
+      })
+        .filter((s): s is NonNullable<typeof s> => s !== null)
+        // Alphabetical, so Tab moves through the states in an order people can predict.
+        .sort((a, b) => a.name.localeCompare(b.name)),
     [path],
   );
   const selectedShape = selected ? shapes.find((s) => s.abbr === selected) : undefined;
+  // Keyboard focus is drawn on top, like the selection: a state's own outline is partly covered by its neighbors.
+  const [focused, setFocused] = useState<string | null>(null);
+  const focusedShape = focused ? shapes.find((s) => s.abbr === focused) : undefined;
   const maxCount = Math.max(1, ...Object.values(counts));
 
   return (
@@ -181,6 +201,8 @@ function States({ maxRegion, topStates, counts, selected, onSelect, onHover, onL
             onMouseMove={(e) => onHover(s.abbr, e)}
             onMouseLeave={onLeave}
             onClick={() => !compact && onSelect(selected === s.abbr ? null : s.abbr)}
+            onFocus={(e) => setFocused(e.currentTarget.matches(":focus-visible") ? s.abbr : null)}
+            onBlur={() => setFocused(null)}
             onKeyDown={(e) => {
               if (compact) return;
               if (e.key === "Enter" || e.key === " ") {
@@ -193,6 +215,7 @@ function States({ maxRegion, topStates, counts, selected, onSelect, onHover, onL
         );
       })}
       {selectedShape && <path aria-hidden d={selectedShape.d} fill="none" stroke="var(--text)" strokeWidth={1.75} pointerEvents="none" />}
+      {focusedShape && <path aria-hidden data-focus-ring d={focusedShape.d} fill="none" stroke="var(--focus)" strokeWidth={3} pointerEvents="none" />}
       <g aria-hidden pointerEvents="none">
         {shapes.map((s) => {
           const n = counts[s.abbr] ?? 0;

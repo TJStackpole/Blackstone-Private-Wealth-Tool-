@@ -36,9 +36,13 @@ export const viewport: Viewport = {
   ],
 };
 
-/** Runs before paint so the saved theme never flashes. */
+/**
+ * Runs before paint so the saved theme never flashes. It also follows a theme change made in another tab or frame
+ * (the tour's live view is a frame), through the storage event.
+ */
 const themeScript = `
-(function(){try{var t=localStorage.getItem('pma-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
+(function(){try{var t=localStorage.getItem('pma-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');
+window.addEventListener('storage',function(e){if(e.key==='pma-theme'&&e.newValue)document.documentElement.classList.toggle('dark',e.newValue==='dark');});}catch(e){}})();
 `;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

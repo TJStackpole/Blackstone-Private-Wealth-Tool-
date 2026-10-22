@@ -7,7 +7,7 @@ import { PAPER_DEFAULTS } from "@/lib/addons/retirement-plus/defaults";
 import { premiumSensitivity, projectRetirement, type LabParams } from "@/lib/addons/retirement-plus/model";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput } from "@/components/addons/shared/Inputs";
-import { money, short, signed } from "@/lib/addons/retirement-plus/format";
+import { money, short, shortPair, signed } from "@/lib/addons/retirement-plus/format";
 import Cite from "./Cite";
 import HypotheticalBadge from "./HypotheticalBadge";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
@@ -43,6 +43,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
   const set = (patch: Partial<LabParams>) => onChange({ ...params, ...patch });
   const setPremium = (k: keyof LabParams["premiumPct"]) => (v: number) => set({ premiumPct: { ...params.premiumPct, [k]: v } });
   const r = useMemo(() => projectRetirement(params), [params]);
+  const [pubText, privText] = shortPair(r.endPublicOnly, r.endWithPrivate);
   const strip = useMemo(() => premiumSensitivity(params, PREMIUMS), [params]);
   const valid = params.retireAge > params.startAge;
   const data = r.years.map((y) => ({ age: y.age, publicOnly: Math.round(y.publicOnly), withPrivate: Math.round(y.withPrivate), gap: [Math.round(y.publicOnly), Math.round(y.withPrivate)] }));
@@ -176,7 +177,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                     Public only
                   </dt>
                   <dd className="tnum mt-1 font-serif text-2xl leading-none text-ink sm:text-[30px]" data-lab="public">
-                    {short(r.endPublicOnly)}
+                    {pubText}
                   </dd>
                 </div>
                 <div className="rounded-card border border-line bg-bg-raised p-3 sm:p-4">
@@ -185,7 +186,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                     With {params.privatePct}% private
                   </dt>
                   <dd className="tnum mt-1 font-serif text-2xl leading-none text-ink sm:text-[30px]" data-lab="private">
-                    {short(r.endWithPrivate)}
+                    {privText}
                   </dd>
                 </div>
                 <div className="col-span-2 rounded-card border border-accent/40 bg-bg-raised p-3 sm:col-span-1 sm:p-4">
@@ -200,7 +201,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                 <div
                   className="h-64"
                   role="img"
-                  aria-label={`Balance from age ${params.startAge} to ${params.retireAge}: public only ends at ${short(r.endPublicOnly)}, with the private slice at ${short(r.endWithPrivate)}.${showPaper ? ` The paper's published result at 65: ${short(P.withPrivate)} vs. ${short(P.publicOnly)}.` : ""}`}
+                  aria-label={`Balance from age ${params.startAge} to ${params.retireAge}: public only ends at ${pubText}, with the private slice at ${privText}.${showPaper ? ` The paper's published result at 65: ${short(P.withPrivate)} vs. ${short(P.publicOnly)}.` : ""}`}
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart accessibilityLayer={false} data={data} margin={{ top: 12, right: 16, bottom: 0, left: 0 }}>

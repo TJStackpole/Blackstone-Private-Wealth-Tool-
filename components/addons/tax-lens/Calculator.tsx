@@ -9,7 +9,8 @@ import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
 
 const money = (n: number) => `${n < 0 ? "−" : ""}$${Math.abs(Math.round(n)).toLocaleString("en-US")}`;
-const short = (v: number) => (Math.abs(v) >= 1e6 ? `$${+(v / 1e6).toFixed(1)}M` : Math.abs(v) >= 1000 ? `$${Math.round(v / 1000)}k` : `$${Math.round(v)}`);
+// Axis ticks can fall on half-thousands ($4.5k), so keep one decimal rather than round them to a different number.
+const short = (v: number) => (Math.abs(v) >= 1e6 ? `$${+(v / 1e6).toFixed(1)}M` : Math.abs(v) >= 1000 ? `$${+(v / 1000).toFixed(1)}k` : `$${Math.round(v)}`);
 type Cls = "I" | "D" | "S";
 
 /** A capital gains rate to start from, given an income bracket. A rough pairing; the full view lets you set it exactly. */
@@ -210,7 +211,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                 <CartesianGrid horizontal={false} stroke="var(--border)" />
                 <XAxis type="number" tickFormatter={short} tick={{ fill: "var(--muted)", fontSize: 11 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
                 <YAxis type="category" dataKey="name" width={compact ? 130 : 190} tick={{ fill: "var(--muted-strong)", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Bar dataKey="value" isAnimationActive={false} radius={2} activeBar={false}>
+                <Bar dataKey="value" isAnimationActive={false} radius={2} activeBar={false} minPointSize={2}>
                   {bars.map((b) => (
                     <Cell key={b.name} fill={b.kind === "compare" ? "var(--muted)" : "var(--accent)"} fillOpacity={b.kind === "later" ? 0.6 : 1} />
                   ))}

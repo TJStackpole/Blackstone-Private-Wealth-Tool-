@@ -36,6 +36,9 @@ export default function PrintOnePager({ title, children, screen = true, button =
           html, body, body *:has(.print-onepager) { background: #fff !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; border: 0 !important; }
           .print-onepager { display: block !important; color: #14161a; }
           .print-onepager * { color: #14161a !important; border-color: #c9ccd1 !important; background: transparent !important; }
+          /* Bars drawn as filled boxes keep their fill on paper. */
+          .print-onepager .print-fill { background: #5b6170 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+          .print-onepager .print-fill-light { background: #c9ccd1 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
           .no-print { display: none !important; }
           @page { size: letter; margin: 0.5in; }
         }
