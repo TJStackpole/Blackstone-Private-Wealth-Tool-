@@ -24,6 +24,10 @@ function Section({ title, children, id }: { title: string; children: React.React
   );
 }
 
+
+const terms = (f: string) => TERMS.funds.find((t) => t.fund === f)!;
+const limit = (f: string, i: number) => terms(f).limits[i].value;
+
 /** Add-on 4: how redemption limits work, each fund's terms, and what has happened before. */
 export default function LiquidityPage() {
   const taxLens = findAddon("tax-lens");
@@ -33,9 +37,13 @@ export default function LiquidityPage() {
       title="Liquidity Simulator"
       subtitle="Shares are bought back on a schedule, up to a set limit. Here's when the money arrives."
       glance={[
-        { value: "2% · 5%", label: "BREIT: most it buys back a month · a quarter (% of NAV)" },
-        { value: "5%", label: "BCRED: quarterly target (% of shares)" },
-        { value: "3%", label: "BXPE and BX Infra: quarterly limit (% of units)" },
+        { value: `${limit("BREIT", 0)}% · ${limit("BREIT", 1)}%`, label: "BREIT: most it buys back a month · a quarter (% of NAV)", source: terms("BREIT").limits[0].source },
+        { value: `${limit("BCRED", 0)}%`, label: "BCRED: quarterly target (% of shares)", source: terms("BCRED").limits[0].source },
+        {
+          value: `${limit("BXPE", 0)}%`,
+          label: limit("BXPE", 0) === limit("BXINFRA", 0) ? "BXPE and BX Infra: quarterly limit (% of units)" : "BXPE: quarterly limit (% of units)",
+          source: terms("BXPE").limits[0].source,
+        },
       ]}
       badges={<AsOfSource asOf={TERMS.asOf} source={TERMS.source} />}
     >

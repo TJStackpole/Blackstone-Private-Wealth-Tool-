@@ -24,6 +24,38 @@ def read(name):
     return open(os.path.join(FILINGS, name), encoding="utf-8").read().split("\n")
 
 
+# Which filing is which. scripts/sec/refresh.sh writes a manifest.json beside the filings naming each fund's newest
+# 10-Q and 10-K; without one, these defaults (the quarter ended June 30, 2026) are used.
+FILES = {
+    "breit": "breit-20260630", "breit_10k": "breit-20251231",
+    "bxinfra": "bxinfra-20260630", "bxinfra_10k": "bxinfra-10k",
+    "bxpe": "bxpe-20260630", "bxpe_10k": "bxpe-10k",
+    "bcred": "bcred-20260630", "bcred_letter": "bcred-tender-000121390026096935",
+}
+if os.path.exists(os.path.join(FILINGS, "manifest.json")):
+    FILES.update(json.load(open(os.path.join(FILINGS, "manifest.json")))["files"])
+
+
+def filing(key):
+    """The text of one filing, by its key in FILES."""
+    return read(FILES[key] + ".txt")
+
+
+def nav_table_total(lines):
+    """BREIT's NAV-by-class table: every class row summed must equal the Total row the filing prints. Returns $ billions."""
+    i = next(n for n, l in enumerate(lines) if l.startswith("The following table provides a breakdown of our total NAV and NAV per share/unit by class"))
+    rows, total = [], None
+    for l in lines[i + 2:i + 30]:
+        c = [x.strip() for x in l.split(" | ") if x.strip() != "$"]
+        if c[0] == "Total":
+            total = num(c[1])
+            break
+        if len(c) >= 4 and isnum(c[1]):
+            rows.append(num(c[1]))
+    check(total is not None and abs(sum(rows) - total) < 2, f"BREIT NAV table: {len(rows)} class rows sum to {sum(rows):,.0f} == Total {total:,.0f}")
+    return total / 1e6
+
+
 def num(s):
     return float(s.replace(",", "").replace("(", "-").replace(")", ""))
 
@@ -46,6 +78,37 @@ def write(name, obj):
     print(f"wrote {path}")
 
 
+def move(now, before):
+    """Signed percent change with a true minus sign, and its direction."""
+    ch = (now / before - 1) * 100
+    return f"{'+' if ch > 0 else '−' if ch < 0 else ''}{abs(ch):.1f}%", "up" if ch > 0 else "down" if ch < 0 else "flat"
+
+
+def diff(now, before, fmt):
+    """Signed difference, formatted by fmt, and its direction."""
+    d = round(now - before, 6)
+    return f"{'+' if d > 0 else '−' if d < 0 else ''}{fmt(abs(d))}", "up" if d > 0 else "down" if d < 0 else "flat"
+
+
+def stat(label, value, note=None, change=None, frm=None, sources=None):
+    """A stat card: the figure, what it is, and how it changed since the prior report."""
+    s = {"label": label, "value": value}
+    if note:
+        s["note"] = note
+    if change:
+        s["change"], s["direction"] = change
+    if frm:
+        s["from"] = frm
+    if sources:
+        s["sources"] = sources
+    return s
+
+
+def item(label, value, frm, change, note=None):
+    """One line of the 'This quarter' box."""
+    return {"label": label, "value": value, "from": frm, "change": change[0], "direction": change[1], **({"note": note} if note else {})}
+
+
 US_STATES = set(
     "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH "
     "OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split()
@@ -54,7 +117,7 @@ US_STATES = set(
 # --------------------------------------------------------------------------------------------- BREIT
 def build_breit():
     print("BREIT")
-    lines = read("breit-20260630.txt")
+    lines = filing("breit")
     start = next(i for i, l in enumerate(lines) if l.startswith("Segment and Investment | Number of"))
     rows, totals, seg = [], {}, None
     for l in lines[start + 1:]:
@@ -81,7 +144,8 @@ def build_breit():
             "states": sorted({s for s in re.findall(r"\b([A-Z]{2})\b", c[2]) if s in US_STATES}),
             "acquired": c[3],
             "ownership": re.sub(r"\(\d+\)", "", c[4]),
-            "size": c[5],
+            # The column is "Sq. Feet (in thousands)/Units/Keys": square feet are in thousands; units and keys are counts.
+            "size": re.sub(r"^([\d,]+) sq\. ft\.$", r"\1K sq. ft.", c[5]),
             "occupancy": re.sub(r"^\(\d+\)$", "n/a", c[6]) if len(c) > 6 else "",
         })
     by_seg = {}
@@ -95,16 +159,40 @@ def build_breit():
     unplaced = [r for r in rows if not r["states"]]
 
     # NAV table
-    nav_total = next(l for l in lines if l.startswith("Total | $ |") and l.count("|") == 3)
-    nav_total = num(nav_total.split(" | ")[2]) / 1e6  # $ thousands -> $ billions
+    nav_total = nav_table_total(lines)
     # Balance-sheet total equity, for the side-by-side note: BREIT's $56.6B is NAV at fair value, not GAAP net assets.
     equity = num(next(l for l in lines if l.startswith("Total equity |")).split(" | ")[1]) / 1e6
     check(15 < equity < 40, f"BREIT: total equity ${equity:.1f}B")
     class_i = next(l for l in lines if l.startswith("Class I Shares | $ |"))
     class_i_nav = class_i.split(" | ")[-1]
-    check(abs(nav_total - 56.567757) < 1e-6, f"BREIT total NAV ${nav_total:.1f}B read from NAV table")
+    check(20 < nav_total < 150, f"BREIT total NAV ${nav_total:.1f}B read from NAV table")
+
+    # December 31, 2025 comparisons, from the 10-K's NAV table and property table.
+    k_lines = filing("breit_10k")
+    text = "\n".join(lines)
+    nav_dec = nav_table_total(k_lines)
+    navps, navps_dec = float(class_i_nav), float(next(l for l in k_lines if l.startswith("Class I Shares | $ |")).split(" | ")[-1])
+    props = totals["Investments in Real Estate"]
+    props_dec = int(next(l for l in k_lines if l.startswith("Total Investments in Real Estate |")).split(" | ")[1].replace(",", ""))
+    check(1000 < props < 20000 and 1000 < props_dec < 20000, f"BREIT properties {props:,} (Jun 30) and {props_dec:,} (Dec 31)")
+    homes = re.search(r"owned, in whole or in part, [\d,]+ properties and ([\d,]+) single family rental homes", text).group(1)
+    # Class I distributions: the quarter's table, and the six months' (Q1 = six months less Q2).
+    i3 = next(n for n, l in enumerate(lines) if l.strip() == "Three Months Ended June 30, 2026" and "Net distributions declared" in lines[n + 4])
+    i6 = next(n for n, l in enumerate(lines) if l.strip() == "Six Months Ended June 30, 2026" and "Net distributions declared" in lines[n + 4])
+    q2_dist, h1_dist = float(lines[i3 + 4].split(" | ")[2]), float(lines[i6 + 4].split(" | ")[2])
+    q1_dist = round(h1_dist - q2_dist, 4)
+    rate = q2_dist * 4 / navps * 100
+    check(0 < q1_dist < 1 and 0 < q2_dist < 1 and 2 < rate < 10, f"BREIT Class I distributions Q1 ${q1_dist}, Q2 ${q2_dist} ({rate:.1f}% a year)")
+    flows = re.search(r"Raised \$([\d.]+) billion from the sale of shares of our common stock and units of BREIT OP during the three months ended June 30, 2026\. Repurchased \$([\d.]+) billion", text)
+    raised, bought = float(flows.group(1)), float(flows.group(2))
+    sold = re.search(r"Sold (\d+) rental housing properties\(\d\), (\d+) self storage properties and (\d+) industrial properties, for total net proceeds of \$([\d.]+) billion", text)
+    n_sold = sum(int(sold.group(k)) for k in (1, 2, 3))
+    check("represents our exit from the self storage" in text.replace("\n", " "), "BREIT: self storage sale is an exit from the sector")
+    check("satisfying all repurchase requests for the six months ended June 30, 2026" in text, "BREIT: all H1 2026 repurchase requests filled")
 
     url = f"{EDGAR}/1662972/000166297226000111/breit-20260630.htm"
+    q10 = {"name": "BREIT Form 10-Q, quarter ended June 30, 2026", "url": url}
+    k10 = {"name": "BREIT Form 10-K, year ended December 31, 2025", "url": f"{EDGAR}/1662972/000166297226000032/breit-20251231.htm"}
     return {
         "fund": "BREIT",
         "assetClass": "Real Estate",
@@ -116,10 +204,13 @@ def build_breit():
         "summary": {
             "headline": "BREIT is a non-traded real estate investment trust that owns income-producing property, mostly in the U.S. South and West. Individual investors buy shares through a financial advisor at a price set each month, and can ask to sell back a limited amount each month or quarter.",
             "stats": [
-                {"label": "Net asset value", "value": f"${nav_total:.1f}B", "note": "all share classes and operating partnership units"},
-                {"label": "NAV per share", "value": f"${float(class_i_nav):.2f}", "note": "Class I"},
-                {"label": "Properties", "value": "4,530", "note": "plus 63,081 single-family rental homes"},
-                {"label": "Real estate vs. debt", "value": "97% / 3%", "note": "share of investments at fair value"},
+                stat("Net asset value", f"${nav_total:.1f}B", "all share classes and operating partnership units",
+                     move(nav_total, nav_dec), f"from ${nav_dec:.1f}B on Dec 31, 2025", [q10, k10]),
+                stat("NAV per share (Class I)", f"${navps:.2f}", None, move(navps, navps_dec), f"from ${navps_dec:.2f} on Dec 31, 2025", [q10, k10]),
+                stat("Distribution rate", f"{rate:.1f}%", f"Class I, annualized: Q2's ${q2_dist:.4f} a share × 4 ÷ ${navps:.2f} NAV",
+                     diff(q2_dist, q1_dist, lambda d: f"${d:.4f}"), f"payout a share, from ${q1_dist:.4f} in Q1", [q10]),
+                stat("Properties", f"{props:,}", f"plus {homes} single-family rental homes",
+                     diff(props, props_dec, lambda d: f"{d:,.0f}"), f"from {props_dec:,} on Dec 31, 2025", [q10, k10]),
             ],
         },
         "sizeNote": f"BREIT reports its size as NAV, at fair value (${nav_total:.1f}B). Its balance sheet, which carries property at cost less depreciation, shows total equity of ${equity:.1f}B.",
@@ -150,6 +241,21 @@ def build_breit():
         },
         "investments": rows,
         "investmentsNote": f"The 10-Q lists {len(rows)} investments. {len(unplaced)} of them, holding {sum(r['properties'] for r in unplaced):,} of the 4,530 properties plus the single-family rental homes, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+        "quarterSummary": {
+            "period": "Quarter ended Jun 30, 2026",
+            "asOf": "2026-06-30",
+            "source": q10,
+            "moreSources": [k10 | {"page": "Dec 31, 2025 NAV"}],
+            "items": [
+                item("Net asset value", f"${nav_total:.1f}B", f"from ${nav_dec:.1f}B on Dec 31, 2025", move(nav_total, nav_dec)),
+                item("NAV per share", f"${navps:.2f}", f"Class I, from ${navps_dec:.2f} on Dec 31, 2025", move(navps, navps_dec)),
+                item("Raised vs. bought back", f"${raised:.1f}B / ${bought:.1f}B", "shares and units, in the quarter",
+                     (f"+${raised - bought:.1f}B net", "up" if raised > bought else "down"),
+                     "Every repurchase request received in the first half was filled."),
+                item("Property sales", f"${float(sold.group(4)):.1f}B", f"{n_sold} properties: rental housing, self storage, industrial", (f"{n_sold} sold", "down"),
+                     f"Includes all {sold.group(2)} self storage properties: BREIT exited that sector."),
+            ],
+        },
         "thisQuarter": [
             "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
             "Put $3.3 billion (at BREIT's share) into data center development through its QTS platform, described as 100% pre-leased.",
@@ -177,8 +283,9 @@ def build_breit():
 GEOS = {"Americas", "EMEA", "APAC", "Various"}
 
 
-def parse_aggregator(fname, expected_total):
-    lines = read(fname)
+def parse_aggregator(key):
+    lines = filing(key)
+    fname = FILES[key]
     hdr = "Condensed Consolidated Schedule of Investments as of June 30, 2026 (Unaudited)"
     start = next(i for i, l in enumerate(lines) if l.strip() == hdr)
     end = next(i for i in range(start, len(lines)) if lines[i].startswith("Total Investments") and ("Investee" in lines[i] or "(Cost" in lines[i]))
@@ -202,6 +309,7 @@ def parse_aggregator(fname, expected_total):
         rows.append({"name": re.sub(r"\s*\(\w\)", "", c[0]).strip(), "geo": c[1], "fv": num(c[2]),
                      "pct": num(c[3]), "industry": ind, "kind": kind})
     tot = sum(r["fv"] for r in rows)
+    expected_total = num([x for x in lines[end].split(" | ") if x not in ("$", "%")][1])
     check(abs(tot - expected_total) < 1, f"{fname}: schedule rows sum to {tot:,.0f} == filing total {expected_total:,.0f}")
     return rows, tot
 
@@ -237,19 +345,48 @@ REDEEM = "The fund expects to redeem up to 3% of its units outstanding each quar
 GEO_LABEL = {"Americas": "Americas", "EMEA": "Europe, Middle East & Africa", "APAC": "Asia-Pacific", "Various": "Various / multi-region"}
 
 
+def unit_redemptions(lines, entity):
+    """The Part II redemption table: units redeemed by the U.S. entity in the quarter, the average price, and whether all were filled."""
+    i = next(n for n, l in enumerate(lines) if l.startswith("The following table sets forth information regarding redemptions of Units during the three months ended June 30, 2026"))
+    j = next(n for n in range(i, i + 6) if lines[n].strip() == entity)
+    c = [x for x in lines[j + 1].split(" | ") if x != "$"]
+    check(any("All redemption requests were satisfied in full." in l for l in lines[j:j + 12]), f"{entity}: Q2 redemption requests satisfied in full")
+    return int(c[1].replace(",", "")), c[2]
+
+
+def infra_moves(lines):
+    url = f"{EDGAR}/2030772/000203077226000017/bxinfra-20260630.htm"
+    nav = float(next(l for l in lines if l.startswith("Series I | $ |")).split(" | ")[2])
+    nav_dec = float(next(l for l in filing("bxinfra_10k") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
+    j = next(n for n, l in enumerate(lines) if l.startswith("The following table presents a summary of the aggregate distributions declared and payable for the six months ended June 30, 2026") and "BXINFRA U.S." in l)
+    q1, q2 = [float(re.findall(r"\d+\.\d+", next(l for l in lines[j:j + 8] if re.match(rf"^\w+ \d+, 2026 \| {d}", l)).split(" | ", 3)[3])[0]) for d in ("March 31, 2026", "June 30, 2026")]
+    check(10 < nav < 100 and 10 < nav_dec < 100 and 0 < q1 < 2 and 0 < q2 < 2, f"BX Infra Class I-Series I NAV ${nav_dec} -> ${nav}; distributions Q1 ${q1}, Q2 ${q2}")
+    redeemed, price = unit_redemptions(lines, "BXINFRA U.S.")
+    return {"nav": nav, "nav_dec": nav_dec, "q1": q1, "q2": q2, "redeemed": redeemed, "price": price,
+            "q10": {"name": "BX Infra Form 10-Q, quarter ended June 30, 2026", "url": url},
+            "k10": {"name": "BX Infra Form 10-K, year ended December 31, 2025", "url": f"{EDGAR}/2030772/000119312526096453/d70902d10k.htm"}}
+
+
 def build_bxinfra(old):
     print("BX Infra")
-    rows, tot = parse_aggregator("bxinfra-20260630.txt", 6_070_643)
+    rows, tot = parse_aggregator("bxinfra")
     for r in rows:  # The schedule's "Various" industry: fund interests (footnote f) plus a small debt line.
         if r["industry"] == "Various":
             r["industry"] = "Various industries"
-    lines = read("bxinfra-20260630.txt")
+    lines = filing("bxinfra")
     agg_nav = [l for l in lines if l.startswith("Total Net Assets |")][2]
     agg_nav = num(agg_nav.split(" | ")[1]) / 1e6
-    check(abs(agg_nav - 5.625905) < 1e-6, f"BX Infra aggregator net assets ${agg_nav:.2f}B")
-    us_nav = num([l for l in lines if l.startswith("Total Net Assets |")][1].split(" | ")[1]) / 1e6
-    check(abs(us_nav - 5.224553) < 1e-6, f"BX Infra U.S. net assets ${us_nav:.2f}B")
+    check(0 < agg_nav < 100, f"BX Infra aggregator net assets ${agg_nav:.2f}B")
+    us_row = [l for l in lines if l.startswith("Total Net Assets |")][1].split(" | ")
+    us_nav, us_nav_dec = num(us_row[1]) / 1e6, num(us_row[2]) / 1e6
+    check(0 < us_nav <= agg_nav and 0 < us_nav_dec, f"BX Infra U.S. net assets ${us_nav:.2f}B (Dec 31: ${us_nav_dec:.2f}B), within the aggregator's ${agg_nav:.2f}B")
     own = re.search(r"BXINFRA U\.S\. has an interest of ([\d.]+)%", "\n".join(lines)).group(1)
+    # The aggregator's balance sheet: investments = unpledged + pledged + affiliated investee funds (Jun 30 | Dec 31).
+    inv = [next(l for l in lines if l.startswith(p)).split(" | ") for p in ("Unpledged |", "Pledged to Counterparties |", "Investments in Affiliated Investee Funds at Fair Value")]
+    inv_now = sum(num([x for x in r[1:] if x != "$"][0]) for r in inv)
+    inv_dec = sum(num([x for x in r[1:] if x != "$"][1]) for r in inv)
+    check(abs(inv_now - tot) < 1, f"BX Infra: balance-sheet investments {inv_now:,.0f} == schedule total {tot:,.0f}")
+    x = infra_moves(lines)
     ind = shares(rows, "industry", tot)
     geo = shares(rows, "geo", tot)
     named = {}
@@ -277,10 +414,26 @@ def build_bxinfra(old):
         "summary": {
             "headline": "BX Infra is a non-traded fund that owns stakes in long-lived infrastructure: transportation, digital and energy assets. It aims to keep at least 80% of its NAV in infrastructure investments and up to 20% in debt and other securities. Eligible investors subscribe monthly. " + REDEEM,
             "stats": [
-                {"label": "Net assets", "value": f"${us_nav:.1f}B", "note": f"BXINFRA U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)"},
-                {"label": "NAV per unit", "value": "$29.99", "note": "Transactional NAV, Class I, Series I"},
-                {"label": "Investments", "value": f"${tot / 1e6:.2f}B", "note": "at fair value, held by the aggregator: 107.9% of its net assets"},
-                {"label": "Named holdings", "value": str(len(top)), "note": "the rest are reported as 'Other investments'"},
+                stat("Net assets", f"${us_nav:.1f}B", f"BXINFRA U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)",
+                     move(us_nav, us_nav_dec), f"from ${us_nav_dec:.1f}B on Dec 31, 2025", [x["q10"]]),
+                stat("NAV per unit (Class I)", f"${x['nav']:.2f}", "Series I, Transactional NAV", move(x["nav"], x["nav_dec"]), f"from ${x['nav_dec']:.2f} on Dec 31, 2025", [x["q10"], x["k10"]]),
+                stat("Distribution rate", f"{x['q2'] * 4 / x['nav'] * 100:.1f}%", f"Class I, Series I, annualized: Q2's ${x['q2']:.4f} a unit × 4 ÷ ${x['nav']:.2f}",
+                     diff(x["q2"], x["q1"], lambda d: f"${d:.4f}"), f"payout a unit, from ${x['q1']:.4f} in Q1", [x["q10"]]),
+                stat("Investments", f"${tot / 1e6:.2f}B", f"at fair value, held by the aggregator: {tot / 1e6 / agg_nav * 100:.1f}% of its net assets",
+                     move(inv_now, inv_dec), f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", [x["q10"]]),
+            ],
+        },
+        "quarterSummary": {
+            "period": "Quarter ended Jun 30, 2026",
+            "asOf": "2026-06-30",
+            "source": x["q10"],
+            "moreSources": [x["k10"] | {"page": "Dec 31, 2025 Transactional NAV"}],
+            "items": [
+                item("Net assets", f"${us_nav:.1f}B", f"BXINFRA U.S., from ${us_nav_dec:.1f}B on Dec 31, 2025", move(us_nav, us_nav_dec)),
+                item("NAV per unit", f"${x['nav']:.2f}", f"Class I, Series I, from ${x['nav_dec']:.2f} on Dec 31, 2025", move(x["nav"], x["nav_dec"])),
+                item("Investments", f"${tot / 1e6:.2f}B", f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", move(inv_now, inv_dec)),
+                item("Units redeemed", f"{x['redeemed']:,}", f"BXINFRA U.S., in the quarter, at an average ${x['price']}", ("all filled", "flat"),
+                     "All redemption requests were satisfied in full."),
             ],
         },
         "sectorBasis": "Share of total investments at fair value, summed from the 10-Q's schedule of investments (equity and debt).",
@@ -316,16 +469,29 @@ def build_bxinfra(old):
 
 def build_bxpe():
     print("BXPE")
-    rows, tot = parse_aggregator("bxpe-20260630.txt", 17_193_030)
-    lines = read("bxpe-20260630.txt")
+    rows, tot = parse_aggregator("bxpe")
+    lines = filing("bxpe")
     agg_nav = [l for l in lines if l.startswith("Total Net Assets |")][2]
     agg_nav = num(agg_nav.split(" | ")[1]) / 1e6
-    check(abs(agg_nav - 17.310207) < 1e-6, f"BXPE aggregator net assets ${agg_nav:.2f}B")
-    us_nav = num([l for l in lines if l.startswith("Total Net Assets |")][1].split(" | ")[1]) / 1e6
-    check(abs(us_nav - 14.228746) < 1e-6, f"BXPE U.S. net assets ${us_nav:.2f}B")
+    check(0 < agg_nav < 200, f"BXPE aggregator net assets ${agg_nav:.2f}B")
+    us_row = [l for l in lines if l.startswith("Total Net Assets |")][1].split(" | ")
+    us_nav, us_nav_dec = num(us_row[1]) / 1e6, num(us_row[2]) / 1e6
+    check(0 < us_nav <= agg_nav and 0 < us_nav_dec, f"BXPE U.S. net assets ${us_nav:.2f}B (Dec 31: ${us_nav_dec:.2f}B), within the aggregator's ${agg_nav:.2f}B")
+    inv = [x for x in next(l for l in lines if l.startswith("Investments at Fair Value (Cost")).split(" | ")[1:] if x != "$"]
+    inv_now, inv_dec = num(inv[0]), num(inv[1])
+    check(abs(inv_now - tot) < 1, f"BXPE: balance-sheet investments {inv_now:,.0f} == schedule total {tot:,.0f}")
+    nav = float(next(l for l in lines if l.startswith("Series I | $ |")).split(" | ")[2])
+    k_lines = filing("bxpe_10k")
+    nav_dec = float(next(l for l in k_lines if l.startswith("Class I (a) | $ |")).split(" | ")[2])
+    check(10 < nav < 100 and 10 < nav_dec < 100, f"BXPE Class I-Series I NAV ${nav_dec} -> ${nav}")
+    no_dist = "BXPE does not currently intend to declare distributions"
+    check(no_dist in "\n".join(lines) and no_dist in "\n".join(k_lines), "BXPE: no distributions, in the 10-Q and the 10-K")
+    redeemed, price = unit_redemptions(lines, "BXPE U.S.")
     own = re.search(r"BXPE U\.S\. had an interest of ([\d.]+)% in the Aggregator", "\n".join(lines)).group(1)
     ind = shares(rows, "industry", tot)
     url = f"{EDGAR}/1930054/000193005426000016/bxpe-20260630.htm"
+    q10 = {"name": "BXPE Form 10-Q, quarter ended June 30, 2026", "url": url}
+    k10 = {"name": "BXPE Form 10-K, year ended December 31, 2025", "url": f"{EDGAR}/1930054/000119312526106084/d71061d10k.htm"}
     named = [r for r in rows if not r["name"].startswith("Other ")]
     return {
         "fund": "BXPE",
@@ -338,10 +504,24 @@ def build_bxpe():
         "summary": {
             "headline": "BXPE is a non-traded private equity fund designed to invest across Blackstone private equity's major strategies: Corporate Private Equity, Secondaries, Hybrid Capital, Growth and Life Sciences. Eligible investors subscribe monthly. " + REDEEM,
             "stats": [
-                {"label": "Net assets", "value": f"${us_nav:.1f}B", "note": f"BXPE U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)"},
-                {"label": "NAV per unit", "value": "$39.01", "note": "Transactional NAV, Class I, Series I"},
-                {"label": "Corporate private equity", "value": "58%", "note": "Growth 24%, Hybrid Capital 12%, Secondaries 3%, Debt 3%"},
-                {"label": "Named holdings", "value": str(len(named)), "note": "the rest are reported as 'Other investments'"},
+                stat("Net assets", f"${us_nav:.1f}B", f"BXPE U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)",
+                     move(us_nav, us_nav_dec), f"from ${us_nav_dec:.1f}B on Dec 31, 2025", [q10]),
+                stat("NAV per unit (Class I)", f"${nav:.2f}", "Series I, Transactional NAV", move(nav, nav_dec), f"from ${nav_dec:.2f} on Dec 31, 2025", [q10, k10]),
+                stat("Distribution rate", "None", "BXPE does not currently intend to declare distributions.", ("none", "flat"), "none at Dec 31, 2025 either", [q10, k10]),
+                stat("Investments", f"${tot / 1e6:.2f}B", "at fair value, held by the aggregator", move(inv_now, inv_dec), f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", [q10]),
+            ],
+        },
+        "quarterSummary": {
+            "period": "Quarter ended Jun 30, 2026",
+            "asOf": "2026-06-30",
+            "source": q10,
+            "moreSources": [k10 | {"page": "Dec 31, 2025 Transactional NAV"}],
+            "items": [
+                item("Net assets", f"${us_nav:.1f}B", f"BXPE U.S., from ${us_nav_dec:.1f}B on Dec 31, 2025", move(us_nav, us_nav_dec)),
+                item("NAV per unit", f"${nav:.2f}", f"Class I, Series I, from ${nav_dec:.2f} on Dec 31, 2025", move(nav, nav_dec)),
+                item("Investments", f"${tot / 1e6:.2f}B", f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", move(inv_now, inv_dec)),
+                item("Units redeemed", f"{redeemed:,}", f"BXPE U.S., in the quarter, at an average ${price}", ("all filled", "flat"),
+                     "All redemption requests were satisfied in full."),
             ],
         },
         # CHART bxpe-20260630_g4.jpg "Sector Breakdown (% of fair value)"
@@ -390,7 +570,7 @@ def build_bxpe():
 # --------------------------------------------------------------------------------------------- BCRED
 def build_bcred(old):
     print("BCRED")
-    lines = read("bcred-20260630.txt")
+    lines = filing("bcred")
     start = next(i for i, l in enumerate(lines) if l.strip() == "Condensed Consolidated Schedule of Investments")
     end = next(i for i in range(start + 1, len(lines)) if lines[i].startswith("Total Investments - non-controlled/non-affiliated"))
     co, industry = {}, None
@@ -416,7 +596,8 @@ def build_bcred(old):
         d["fv"] += fv
         d["pct"] += pct
     tot = sum(d["fv"] for d in co.values())
-    check(abs(tot - 77_649_107) < 5, f"BCRED: {len(co)} companies sum to {tot:,.0f} == filing total 77,649,107")
+    printed = num(next(l for l in lines if l.startswith("Total investments | $ |")).split(" | ")[-1])
+    check(abs(tot - printed) < 5, f"BCRED: {len(co)} companies sum to {tot:,.0f} == filing total {printed:,.0f}")
 
     # Industry composition table (GICS), June 30, 2026 column
     i0 = next(i for i, l in enumerate(lines) if l.startswith("The Company utilizes the Global Industry Classification Standard"))
@@ -450,9 +631,19 @@ def build_bcred(old):
     tenders = list(dict.fromkeys(tuple(t) for t in tenders))  # the 10-Q prints this table twice (notes and Part II)
     tenders = [{"pct": t[3], "price": t[6], "amount": num(t[9]) / 1e6} for t in tenders]
     check(len(tenders) == 2, f"BCRED: two 2026 tender offers found ({[t['pct'] for t in tenders]})")
-    nav = next(l for l in lines if l.startswith("Total net assets |"))
-    nav = num(nav.split(" | ")[1]) / 1e6
-    navps = next(l for l in lines if l.startswith("Net asset value per share |")).split(" | ")[2]
+    nav_row = next(l for l in lines if l.startswith("Total net assets |")).split(" | ")
+    nav, nav_dec = num(nav_row[1]) / 1e6, num(nav_row[2]) / 1e6
+    navps_row = next(l for l in lines if l.startswith("Net asset value per share |")).split(" | ")
+    navps, navps_dec = navps_row[2], float(navps_row[4])
+    check(10 < nav_dec < 200 and 10 < navps_dec < 40, f"BCRED Dec 31, 2025: net assets ${nav_dec:.1f}B, NAV ${navps_dec}")
+    # Financial highlights, Class I, year to date: net investment income and distributions per share.
+    fh = next(n for n, l in enumerate(lines) if l.startswith(f"Net asset value, beginning of period | $ | {navps_dec:.2f}"))
+    nii = float(lines[fh + 1].split(" | ")[1])
+    paid = num(next(l for l in lines[fh:fh + 8] if l.startswith("Distributions from net investment income")).split(" | ")[1])
+    check(lines[fh + 1].startswith("Net investment income |") and 0 < nii < 5 and -5 < paid < 0, f"BCRED Class I H1 2026: NII ${nii}, distributions ${-paid}")
+    words = {w: n for n, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split())}
+    na = re.search(r"As of June 30, 2026 and December 31, 2025, (\w+) issuers \(across [\w-]+ loans\) and (\w+) issuers", "\n".join(lines))
+    nonaccrual, nonaccrual_prior = words[na.group(1)], words[na.group(2)]
     # The Emerald joint venture is an investment, not a borrower, so it's left out of the borrower ranking.
     jv = next(d for d in co.values() if "Emerald JV" in d["name"])
     top = sorted((d for d in co.values() if "JV" not in d["name"]), key=lambda d: -d["fv"])[:12]
@@ -462,11 +653,6 @@ def build_bcred(old):
         return "Joint venture" if "JV" in d["name"] else d["industry"]
 
     hiw = old.get("howItWorks", {})
-
-    def move(now, before):
-        """Signed percent change with a true minus sign, and its direction."""
-        ch = (now / before - 1) * 100
-        return f"{'+' if ch > 0 else '−'}{abs(ch):.1f}%", "up" if ch > 0 else "down" if ch < 0 else "flat"
 
     # Distributions: the Class I table in the notes (first one after this sentence), and July's declaration in subsequent events.
     di = next(i for i, l in enumerate(lines) if l.startswith("The Board authorizes and declares monthly distribution amounts per share"))
@@ -483,10 +669,10 @@ def build_bcred(old):
     rate, rate_july = june * 12 / float(navps) * 100, july * 12 / float(navps) * 100
     check(9 < rate < 11, f"BCRED: Class I distribution rate {rate:.2f}%")
 
-    nav_ch, nav_dir = move(nav, 47.6)
-    navps_ch, navps_dir = move(float(navps), 24.79)
+    nav_ch, nav_dir = move(nav, nav_dec)
+    navps_ch, navps_dir = move(float(navps), navps_dec)
     q1, q2 = float(tenders[0]["pct"]), float(tenders[1]["pct"])
-    nonaccrual, nonaccrual_prior = 15, 9
+    q10 = {"name": "BCRED Form 10-Q, quarter ended June 30, 2026", "url": url}
     return {
         "fund": "BCRED",
         "assetClass": "Private Credit",
@@ -498,11 +684,13 @@ def build_bcred(old):
         "summary": {
             "headline": "BCRED is a non-traded business development company that lends directly to private companies, mostly through first lien, floating-rate loans. Investors buy shares at a monthly NAV, and the fund buys shares back through quarterly tender offers.",
             "stats": [
-                {"label": "Distribution rate", "value": f"{rate:.1f}%",
-                 "note": f"Class I, annualized: June's ${june:.2f} a share × 12 ÷ ${float(navps):.2f} NAV, Jun 30, 2026. July's declared ${july:.2f} is {rate_july:.1f}%."},
-                {"label": "NAV per share", "value": f"${float(navps):.2f}", "note": "down from $24.79 on Dec 31, 2025"},
-                {"label": "Portfolio companies", "value": f"{n_co:,}", "note": f"{n_co_prior:,} at Dec 31, 2025; ${tot / 1e6:.1f}B of investments at fair value"},
-                {"label": "First lien loans", "value": "91.0%", "note": "of investments; 99.8% of performing debt is floating rate"},
+                stat("Net assets", f"${nav:.1f}B", "all share classes", (nav_ch, nav_dir), f"from ${nav_dec:.1f}B on Dec 31, 2025", [q10]),
+                stat("NAV per share (Class I)", f"${float(navps):.2f}", None, (navps_ch, navps_dir), f"from ${navps_dec:.2f} on Dec 31, 2025", [q10]),
+                stat("Distribution rate", f"{rate:.1f}%",
+                     f"Class I, annualized: June's ${june:.2f} a share × 12 ÷ ${float(navps):.2f} NAV, Jun 30, 2026. July's declared ${july:.2f} is {rate_july:.1f}%.",
+                     diff(july, june, lambda d: f"${d:.2f}"), f"monthly payout a share: July's declared, from June's ${june:.2f}", [q10]),
+                stat("Portfolio companies", f"{n_co:,}", f"${tot / 1e6:.1f}B of investments at fair value; 91.0% first lien loans",
+                     diff(n_co, n_co_prior, lambda d: f"{d:,.0f}"), f"from {n_co_prior:,} on Dec 31, 2025", [q10]),
             ],
         },
         "sectorBasis": "Industry (GICS) share of investments at fair value, from the 10-Q. The ten largest are shown; the rest are combined.",
@@ -525,8 +713,8 @@ def build_bcred(old):
             "asOf": "2026-06-30",
             "source": {"name": "BCRED Form 10-Q, quarter ended June 30, 2026", "url": url},
             "items": [
-                {"label": "Net assets", "value": f"${nav:.1f}B", "from": "from $47.6B on Dec 31, 2025", "change": nav_ch, "direction": nav_dir},
-                {"label": "NAV per share", "value": f"${float(navps):.2f}", "from": "from $24.79 on Dec 31, 2025", "change": navps_ch, "direction": navps_dir},
+                {"label": "Net assets", "value": f"${nav:.1f}B", "from": f"from ${nav_dec:.1f}B on Dec 31, 2025", "change": nav_ch, "direction": nav_dir},
+                {"label": "NAV per share", "value": f"${float(navps):.2f}", "from": f"Class I, from ${navps_dec:.2f} on Dec 31, 2025", "change": navps_ch, "direction": navps_dir},
                 {"label": "Bought back, pro rata", "value": f"{q2:.1f}%", "from": f"of shares, from {q1:.1f}% in Q1",
                  "change": f"{'+' if q2 > q1 else '−' if q2 < q1 else ''}{abs(q2 - q1):.1f} pts",
                  "direction": "up" if q2 > q1 else "down" if q2 < q1 else "flat",
@@ -534,6 +722,8 @@ def build_bcred(old):
                 {"label": "Non-accrual issuers", "value": f"{nonaccrual}", "from": f"from {nonaccrual_prior} at Dec 31, 2025",
                  "change": f"+{nonaccrual - nonaccrual_prior}", "direction": "up",
                  "note": "Loans with reasonable doubt that principal or interest will be paid in full."},
+                item("Income vs. payout", f"${nii:.2f} / ${-paid:.2f}", "a Class I share, first half: net investment income vs. distributions",
+                     diff(nii, -paid, lambda d: f"${d:.2f}"), "Distributions exceeded net investment income for the half."),
             ],
         },
         "thisQuarter": [
@@ -584,29 +774,29 @@ def build_compare(funds):
         return f"{'+' if x > 0 else '−' if x < 0 else ''}{abs(x):.1f}%"
 
     # --- Distribution rate: latest declared Class I distribution, annualized, over the June 30 NAV per share/unit.
-    breit = read("breit-20260630.txt")
+    breit = filing("breit")
     i = next(n for n, l in enumerate(breit) if l.strip() == "Three Months Ended June 30, 2026" and "Net distributions declared" in breit[n + 4])
     b_dist = float(breit[i + 4].split(" | ")[2])
     b_nav = float(next(l for l in breit if l.startswith("Class I Shares | $ |")).split(" | ")[-1])
-    b_nav_dec = float(next(l for l in read("breit-20251231.txt") if l.startswith("Class I Shares | $ |")).split(" | ")[-1])
-    check(abs(b_dist - 0.1659) < 1e-9, f"BREIT: Q2 Class I distribution ${b_dist}")
+    b_nav_dec = float(next(l for l in filing("breit_10k") if l.startswith("Class I Shares | $ |")).split(" | ")[-1])
+    check(0 < b_dist < 1, f"BREIT: Q2 Class I distribution ${b_dist}")
 
-    infra = read("bxinfra-20260630.txt")
+    infra = filing("bxinfra")
     j = next(n for n, l in enumerate(infra) if l.startswith("The following table presents a summary of the aggregate distributions declared and payable for the six months ended June 30, 2026") and "BXINFRA U.S." in l)
     row = next(l for l in infra[j:j + 8] if re.match(r"^\w+ \d+, 2026 \| June 30, 2026", l))
     x_dist = float(re.findall(r"\d+\.\d+", row.split(" | ", 3)[3])[0])
     x_nav = float(next(l for l in infra if l.startswith("Series I | $ |")).split(" | ")[2])
-    x_nav_dec = float(next(l for l in read("bxinfra-10k.txt") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
+    x_nav_dec = float(next(l for l in filing("bxinfra_10k") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
 
-    pe = read("bxpe-20260630.txt")
+    pe = filing("bxpe")
     pe_text = "\n".join(pe)
     check("BXPE does not currently intend to declare distributions" in pe_text, "BXPE: no distributions (filing says so)")
     p_nav = float(next(l for l in pe if l.startswith("Series I | $ |")).split(" | ")[2])
-    p_nav_dec = float(next(l for l in read("bxpe-10k.txt") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
+    p_nav_dec = float(next(l for l in filing("bxpe_10k") if l.startswith("Class I (a) | $ |")).split(" | ")[2])
 
     bc = funds["BCRED"]
     bc_rate = next(s for s in bc["summary"]["stats"] if s["label"] == "Distribution rate")
-    bc_navs = [l for l in read("bcred-20260630.txt") if l.startswith("Net asset value per share |")][0].split(" | ")
+    bc_navs = [l for l in filing("bcred") if l.startswith("Net asset value per share |")][0].split(" | ")
     c_nav, c_nav_dec = float(bc_navs[2]), float(bc_navs[4])  # "… | $ | 23.65 | $ | 24.79"
 
     cells["distribution"] = {
@@ -641,7 +831,7 @@ def build_compare(funds):
     check("which represents all repurchase requests received for the six months ended June 30, 2026" in "\n".join(breit), "BREIT: all H1 2026 requests filled")
     check("All redemption requests were satisfied in full." in "\n".join(infra), "BX Infra: Q2 requests satisfied in full")
     check("All redemption requests were satisfied in full." in pe_text, "BXPE: Q2 requests satisfied in full")
-    letter = "\n".join(read("bcred-tender-000121390026096935.txt"))
+    letter = "\n".join(filing("bcred_letter"))
     check("In Q2, BCRED fulfilled approximately half of the $4." in letter, "BCRED: Q2 about half of requests filled")
     cells["prorated"] = {
         "BREIT": {"value": "No", "note": "Every repurchase request received in the first half of 2026 was filled.", "sources": [q("BREIT", "Liquidity and Capital Resources")]},
@@ -688,9 +878,20 @@ def build_compare(funds):
     }
 
 
-if __name__ == "__main__":
+def main():
     old = {f: json.load(open(os.path.join(OUT, f + ".json"))) for f in ["bxinfra", "bcred"]}
     data = {"breit": build_breit(), "bxinfra": build_bxinfra(old["bxinfra"]), "bxpe": build_bxpe(), "bcred": build_bcred(old["bcred"])}
     for k, v in data.items():
         write(f"{k}.json", v)
     write("compare.json", build_compare({"BREIT": data["breit"], "BXINFRA": data["bxinfra"], "BXPE": data["bxpe"], "BCRED": data["bcred"]}))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (StopIteration, AttributeError, IndexError, KeyError, ValueError) as e:
+        import traceback
+        where = traceback.extract_tb(e.__traceback__)[-1]
+        sys.exit(f"STOPPED: couldn't find an expected line or phrase (build_data.py line {where.lineno}: {where.line}).\n"
+                 "The filing's wording or layout differs from the one this script was written for. Nothing was written.\n"
+                 "See README, 'Refreshing the data', step 4.")

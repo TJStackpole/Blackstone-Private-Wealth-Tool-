@@ -4,11 +4,15 @@ import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import MemoHeader from "./MemoHeader";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
+import { TERMS } from "@/lib/addons/liquidity/data";
 import CashDrag from "./CashDrag";
 import AtAGlance from "./AtAGlance";
 import CompareTable from "./CompareTable";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
 import WhenEachFits from "./WhenEachFits";
+
+const life = COMPARE.rows.find((r) => r.topic === "Fund life")!;
+const bxpeLimit = TERMS.funds.find((t) => t.fund === "BXPE")!.limits[0];
 
 export const IC_SCRIPT = [
   "How much of our existing drawdown commitments is still uncalled, and what does that cash earn while it waits?",
@@ -36,8 +40,8 @@ export default function DrawdownPage() {
       subtitle="An evergreen fund puts the whole amount to work on day one. No capital calls, no waiting."
       glance={[
         { value: "Day one", label: "Evergreen: the whole amount is invested when you subscribe" },
-        { value: "~10 years", label: "Common life of a traditional drawdown fund" },
-        { value: "3% a quarter", label: "BXPE's redemption limit, across the whole fund" },
+        { value: life.drawdownShort, label: "Common life of a traditional drawdown fund", source: life.sources[0] },
+        { value: `${bxpeLimit.value}% a quarter`, label: "BXPE's redemption limit, across the whole fund", source: bxpeLimit.source },
       ]}
       badges={<AsOfSource asOf={COMPARE.asOf} source={COMPARE.source} />}
     >

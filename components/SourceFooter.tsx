@@ -1,6 +1,7 @@
 import type { FundData } from "@/lib/types";
 import { formatDate } from "@/lib/dates";
 import { nextUpdate } from "@/lib/schedule";
+import BuiltBy from "./BuiltBy";
 
 /**
  * Which filing the numbers came from, how geography is reported, and the standing disclaimer. `disclosure` adds a
@@ -41,10 +42,14 @@ export default function SourceFooter({ data, disclosure }: { data?: FundData; di
       {disclosure ? (
         <>
           <p>{disclosure}</p>
-          <p className="mt-2">Independent prototype built from public filings. Not affiliated with Blackstone.</p>
+          <p className="mt-2">
+            Independent prototype built from public filings. Not affiliated with Blackstone. <BuiltBy />.
+          </p>
         </>
       ) : (
-        <p>Independent prototype built from public filings. Not affiliated with Blackstone. Not investment advice.</p>
+        <p>
+          Independent prototype built from public filings. Not affiliated with Blackstone. Not investment advice. <BuiltBy />.
+        </p>
       )}
     </footer>
   );

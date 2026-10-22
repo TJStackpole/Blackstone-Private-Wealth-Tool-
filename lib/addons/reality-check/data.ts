@@ -23,6 +23,8 @@ export interface Claim {
   /** "draft" until TJ confirms it. */
   statusSetBy: "draft" | "TJ";
   context: string;
+  /** One plain sentence or two an advisor can say to a client: factual and neutral, figures from this claim only. */
+  explain: string;
 }
 
 export interface FundClaims {

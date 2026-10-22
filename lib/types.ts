@@ -26,6 +26,11 @@ export interface Stat {
   label: string;
   value: string;
   note?: string;
+  /** How it moved since the prior report ("+2.8%"), which way, and what it's compared with ("from $14.13 on Dec 31, 2025"). */
+  change?: string;
+  direction?: "up" | "down" | "flat";
+  from?: string;
+  sources?: Source[];
 }
 
 /** Which SEC filing the numbers came from. */
@@ -118,7 +123,7 @@ export interface FundData {
   topHoldings?: { basis: string; items: NamedHolding[] };
   thisQuarter?: string[];
   /** The latest quarter at a glance, shown under the fund title. When present, it replaces the thisQuarter bullets. */
-  quarterSummary?: { period: string; asOf: string; source: Source; items: QuarterMove[] };
+  quarterSummary?: { period: string; asOf: string; source: Source; moreSources?: Source[]; items: QuarterMove[] };
   notDisclosed: string[];
   howItWorks?: { title: string; asOf: string; paragraphs: string[]; source?: Source };
   website?: { text: string; source: Source };

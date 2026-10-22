@@ -21,11 +21,26 @@ export default function ScaledFrame({ src, title }: { src: string; title: string
   }, []);
 
   const scale = size && size.w >= 720 && size.w < DESKTOP ? size.w / DESKTOP : 1;
+  // The frame loads the page without its #anchor and scrolls only itself to it: the browser's own jump to an anchor
+  // inside a same-site frame would scroll the tour page too. The map draws after loading, so it tries for a moment.
+  const [path, anchor] = src.split("#");
+  function toAnchor(frame: HTMLIFrameElement) {
+    const w = frame.contentWindow;
+    if (!anchor || !w) return;
+    let tries = 0;
+    const go = () => {
+      const el = w.document.getElementById(anchor);
+      if (el) w.scrollTo({ top: el.getBoundingClientRect().top + w.scrollY - 16 });
+      else if (++tries < 20) setTimeout(go, 150);
+    };
+    go();
+  }
   return (
     <div ref={box} className="relative h-[72vh] w-full overflow-hidden lg:h-[calc(100vh-170px)]">
       <iframe
         key={src}
-        src={src}
+        src={path}
+        onLoad={(e) => toAnchor(e.currentTarget)}
         title={title}
         className="absolute left-0 top-0 block border-0 bg-bg"
         style={

@@ -20,7 +20,7 @@ describe("fund one-pager (print)", () => {
   for (const l of funds) {
     it(`${l.fund}: title, this quarter, every stat card, the full sector mix, sources and the disclaimer`, () => {
       const d = l.data!;
-      render(<FundPrint data={d} code={FUND_CODE[l.id]} />);
+      render(<FundPrint data={d} />);
       const page = document.querySelector(`[data-fund-print="${d.fund}"]`)!;
       const text = page.textContent!;
       expect(page.querySelector("h1")!.textContent).toBe(`${d.fund} · ${d.assetClass}`);

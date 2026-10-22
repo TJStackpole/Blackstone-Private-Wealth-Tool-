@@ -3,26 +3,22 @@ import { formatPct } from "@/lib/aggregate";
 import { formatDate } from "@/lib/dates";
 import { nextUpdate } from "@/lib/schedule";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
-import { COMPARE } from "@/lib/compare";
-import type { FundCode } from "@/config/addons";
 import type { Source } from "@/lib/types";
 import { SITE_NAME } from "./SiteMark";
 
-/** Funds without their own quarter box print these rows from the side-by-side table instead: same cells, same sources. */
-const QUARTER_ROWS = ["navChange", "prorated", "limit", "distribution"];
+
 
 /**
  * A fund's page on one sheet of paper: title, the quarter, the stat cards, the sector mix, sources and the disclaimer.
  * Print-only; the page's "Print / Save as PDF" buttons open it. Every figure is the same one the page shows.
  */
-export default function FundPrint({ data, code }: { data: FundData; code?: FundCode }) {
+export default function FundPrint({ data }: { data: FundData }) {
   const next = nextUpdate(data.asOf);
   const sectors = [...data.sectors].sort((a, b) => b.pct - a.pct);
   const top = sectors[0]?.pct || 1;
   const geo = [...data.geography.items].sort((a, b) => b.pct - a.pct);
   const q = data.quarterSummary;
-  const rows = !q && code ? COMPARE.rows.filter((r) => QUARTER_ROWS.includes(r.id)).map((r) => ({ label: r.label, cell: r.cells[code] })) : [];
-  const sources: Source[] = [data.source, ...(q ? [q.source] : []), ...rows.flatMap((r) => r.cell.sources ?? [])].filter(
+  const sources: Source[] = [data.source, ...(q ? [q.source, ...(q.moreSources ?? [])] : []), ...data.summary.stats.flatMap((st) => st.sources ?? [])].filter(
     (src, i, all) => all.findIndex((o) => o.url === src.url) === i,
   );
   const entity = data.filing.entity.replace(/\.$/, "");
@@ -50,7 +46,7 @@ export default function FundPrint({ data, code }: { data: FundData; code?: FundC
               <tbody>
                 <tr>
                   {q.items.map((m) => (
-                    <td key={m.label} className="w-1/4 border px-2 py-1 align-top">
+                    <td key={m.label} className="border px-2 py-1 align-top" style={{ width: `${100 / q.items.length}%` }}>
                       <span className="block text-[9px] uppercase tracking-[0.08em]">{m.label}</span>
                       <span className="tnum block font-serif text-[16px]">
                         {m.value} <span className="text-[10px]">({m.change})</span>
@@ -62,31 +58,14 @@ export default function FundPrint({ data, code }: { data: FundData; code?: FundC
               </tbody>
             </table>
           </section>
-        ) : rows.length || data.thisQuarter?.length ? (
+        ) : data.thisQuarter?.length ? (
           <section>
             <h2 className="text-[11px] font-semibold">This quarter</h2>
-            {rows.length > 0 && (
-              <table className="mt-1 w-full border text-left">
-                <tbody>
-                  <tr>
-                    {rows.map(({ label, cell }) => (
-                      <td key={label} className="w-1/4 border px-2 py-1 align-top">
-                        <span className="block text-[9px] uppercase tracking-[0.08em]">{label}</span>
-                        <span className="tnum block font-serif text-[16px]">{cell.value ?? cell.missing ?? "Not in filing"}</span>
-                        {cell.note && <span className="block text-[10px]">{cell.note}</span>}
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
-            )}
-            {data.thisQuarter?.length ? (
-              <ul className="mt-1 list-disc pl-4">
-                {data.thisQuarter.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            ) : null}
+            <ul className="mt-1 list-disc pl-4">
+              {data.thisQuarter.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
           </section>
         ) : null}
 
@@ -96,7 +75,10 @@ export default function FundPrint({ data, code }: { data: FundData; code?: FundC
             {data.summary.stats.map((s) => (
               <div key={s.label}>
                 <dt className="text-[9px] uppercase tracking-[0.08em]">{s.label}</dt>
-                <dd className="tnum font-serif text-[18px] leading-tight">{s.value}</dd>
+                <dd className="tnum font-serif text-[18px] leading-tight">
+                  {s.value} {s.change && <span className="text-[10px]">({s.change})</span>}
+                </dd>
+                {s.from && <dd className="text-[10px]">{s.from}</dd>}
                 {s.note && <dd className="text-[10px]">{s.note}</dd>}
               </div>
             ))}

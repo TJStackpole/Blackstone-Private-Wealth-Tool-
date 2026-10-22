@@ -1,6 +1,8 @@
 import { Fragment, type ReactNode } from "react";
-import { ROOM, type AudienceId } from "@/lib/addons/retirement-plus/data";
+import { MODEL, ROOM, type AudienceId } from "@/lib/addons/retirement-plus/data";
 import Cite from "./Cite";
+
+const slice = MODEL.assumptions.privatePct.value;
 
 const icon = (d: ReactNode) => (
   <svg aria-hidden width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
@@ -84,8 +86,12 @@ export default function HowItGetsIn({ audience }: { audience: AudienceId }) {
         <li className="flex flex-col justify-center gap-2 rounded-card border border-line bg-bg-raised p-3 lg:p-4">
           <span className="text-sm font-medium text-ink">Inside the fund</span>
           <span aria-hidden className="flex h-7 overflow-hidden rounded-md border border-line text-[11px] font-medium">
-            <span className="flex w-4/5 items-center bg-bg px-2 text-muted-strong">Public 80%</span>
-            <span className="flex w-1/5 items-center justify-center bg-accent text-accent-contrast">20%</span>
+            <span className="flex items-center bg-bg px-2 text-muted-strong" style={{ width: `${100 - slice}%` }}>
+              Public {100 - slice}%
+            </span>
+            <span className="flex items-center justify-center bg-accent text-accent-contrast" style={{ width: `${slice}%` }}>
+              {slice}%
+            </span>
           </span>
           <span className="text-xs text-muted-strong">Stocks and bonds, plus a private slice</span>
         </li>

@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { ADDONS, toolkitAddons } from "@/config/addons";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
-import { AudienceToggle } from "@/components/addons/shared/Audience";
 import ToolkitCards from "@/components/addons/shared/ToolkitCards";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Advisor Toolkit",
-  description: "Illustrative tools that help explain perpetual private-markets funds. Independent prototype; not affiliated with Blackstone.",
-};
+  description: "Seven tools that help explain perpetual private-markets funds, each from the funds' SEC filings. Independent prototype; not affiliated with Blackstone.",
+  path: "/toolkit",
+});
 
 export default function ToolkitHome() {
   const list = toolkitAddons(ADDONS);
@@ -25,7 +26,11 @@ export default function ToolkitHome() {
             </Link>
           </nav>
           <div className="flex items-center gap-2">
-            <AudienceToggle />
+            {/*
+              Future feature: Family Office mode. Today it only reorders the cards below, so its switch is hidden.
+              To bring it back, render <AudienceToggle /> (components/addons/shared/Audience.tsx) here; the
+              provider in app/toolkit/layout.tsx and the ordering in lib/addons/shared/audience.ts are still in place.
+            */}
             <ThemeToggle />
           </div>
         </div>

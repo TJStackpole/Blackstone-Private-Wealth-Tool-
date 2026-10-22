@@ -1,7 +1,10 @@
 import Link from "next/link";
 import AddonShell from "@/components/addons/shared/AddonShell";
 import { AsOfSource } from "@/components/addons/shared/Badges";
-import { TAGS } from "@/lib/addons/themes/tags";
+import { FUND_DATA, TAGS, findTheme, themeWeight } from "@/lib/addons/themes/tags";
+import type { FundCode } from "@/config/addons";
+import { formatPct } from "@/lib/aggregate";
+import { formatDate } from "@/lib/dates";
 import BullBear from "./BullBear";
 import LookThroughCalc from "./LookThroughCalc";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
@@ -9,6 +12,11 @@ import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import ThemeMatrix from "./ThemeMatrix";
 
 
+
+/** A headline tile: one fund's share in one theme, from its own 10-Q. */
+function tile(fund: FundCode, themeId: string, label: string) {
+  return { value: formatPct(Math.round(themeWeight(findTheme(themeId)!, fund) * 10) / 10), label, source: FUND_DATA[fund].source };
+}
 
 /** Add-on 6: the themes that run across funds, and how much of each fund sits in each. */
 export default function ThemesPage() {
@@ -18,9 +26,9 @@ export default function ThemesPage() {
       title="Theme Exposure"
       subtitle="Themes like AI run through several funds at once. See each fund's share, and a client's total."
       glance={[
-        { value: "27%", label: "of BREIT in data centers" },
-        { value: "24.1%", label: "of BX Infra in digital infrastructure" },
-        { value: "30.5%", label: "of BCRED in software and IT services" },
+        tile("BREIT", "ai-data-centers", "of BREIT in data centers"),
+        tile("BXINFRA", "ai-data-centers", "of BX Infra in digital infrastructure"),
+        tile("BCRED", "software-tech", "of BCRED in software and IT services"),
       ]}
       badges={<AsOfSource asOf={TAGS.asOf} source={TAGS.source} />}
     >
@@ -29,7 +37,7 @@ export default function ThemesPage() {
           <div className="space-y-12 print:space-y-4">
             <div className="hidden print:block">
               <h2 className="font-serif text-xl">Theme Exposure across BREIT, BX Infra, BXPE and BCRED</h2>
-              <p className="text-xs">Each cell: the fund&apos;s published share in that theme&apos;s sectors, from its Form 10-Q for the quarter ended June 30, 2026.</p>
+              <p className="text-xs">Each cell: the fund&apos;s published share in that theme&apos;s sectors, from its Form 10-Q for the quarter ended {formatDate(TAGS.asOf, "long")}.</p>
             </div>
             <section aria-labelledby="th-matrix-h" className="space-y-4 print:space-y-2">
               <h2 id="th-matrix-h" className="font-serif text-[22px] font-medium leading-tight text-ink print:hidden">

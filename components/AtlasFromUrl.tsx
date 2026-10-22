@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { LAYERS } from "@/data/layers";
 import type { ViewId } from "@/lib/types";
+import { NCREIF_REGION } from "@/lib/regions";
 import Atlas, { type AtlasStart } from "./Atlas";
 
 const noop = () => () => {};
@@ -22,7 +23,7 @@ export function parseStart(search: string): AtlasStart | undefined {
     const sector = p.get("sector");
     if (sector && data.sectors.some((s) => s.key === sector)) start.sector = sector;
     const select = p.get("select");
-    if (select && (data.geography.level === "us-region" ? /^[A-Z]{2}$/.test(select) : data.geography.items.some((i) => i.key === select))) start.select = select;
+    if (select && (data.geography.level === "us-region" ? select in NCREIF_REGION : data.geography.items.some((i) => i.key === select))) start.select = select;
     const theme = p.get("theme");
     if (theme) start.theme = theme;
   }

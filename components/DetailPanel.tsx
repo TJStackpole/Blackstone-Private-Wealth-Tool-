@@ -2,14 +2,15 @@
 
 import { useEffect, useId, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import type { FundData, LayerDef, NamedHolding, QuarterMove, Share, ThirdPartyFact } from "@/lib/types";
+import type { FundData, LayerDef, NamedHolding, Share, ThirdPartyFact } from "@/lib/types";
 import { formatMoneyMillions, formatPct } from "@/lib/aggregate";
 import { formatDate } from "@/lib/dates";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
-import { PrintButton } from "@/components/addons/shared/PrintOnePager";
+import FundActions from "./FundActions";
 import NextUpdate from "./NextUpdate";
+import QuarterBox from "./QuarterBox";
 import FundStats from "./FundStats";
 import AddonChips from "./addons/shared/AddonChips";
 import { holdingsLead } from "./HoldingsLead";
@@ -207,56 +208,6 @@ function Holdings({ items, sector }: { items: NamedHolding[]; sector: string | n
   );
 }
 
-function Arrow({ direction }: { direction: QuarterMove["direction"] }) {
-  if (direction === "flat") return <span aria-hidden>→</span>;
-  return (
-    <svg aria-hidden width="10" height="10" viewBox="0 0 10 10" className={direction === "down" ? "rotate-180" : undefined}>
-      <path d="M5 1.5 9 7.5H1z" fill="currentColor" />
-    </svg>
-  );
-}
-
-/** The latest quarter in four numbers, each with which way it moved and what it's compared with. Direction only: no good or bad colors. */
-function QuarterBox({ q }: { q: NonNullable<FundData["quarterSummary"]> }) {
-  return (
-    <section aria-labelledby="quarter-h" className="overflow-hidden rounded-card border border-line bg-bg-raised">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 border-b border-line px-4 py-2.5">
-        <h3 id="quarter-h" className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink">
-          This quarter
-        </h3>
-        <span className="tnum text-[11px] text-muted">{q.period}</span>
-      </div>
-      <dl className="grid grid-cols-2">
-        {q.items.map((m, i) => (
-          <div key={m.label} className={["flex flex-col gap-1 p-3.5 sm:p-4", i % 2 === 1 ? "border-l border-line" : "", i > 1 ? "border-t border-line" : ""].join(" ")} data-quarter={m.label}>
-            <dt className="text-[11px] uppercase tracking-[0.08em] text-muted" title={m.note}>
-              {m.label}
-            </dt>
-            <dd className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <span className="tnum font-serif text-[22px] leading-none text-ink">{m.value}</span>
-              <span className="tnum inline-flex items-center gap-1 rounded-full border border-line bg-bg px-1.5 py-0.5 text-[11px] font-medium text-ink">
-                <Arrow direction={m.direction} />
-                <span className="sr-only">{m.direction === "up" ? "Up" : m.direction === "down" ? "Down" : "Unchanged"}:</span>
-                {m.change}
-              </span>
-            </dd>
-            <dd className="tnum text-xs leading-snug text-muted">{m.from}</dd>
-            {m.note && <dd className="text-[11px] leading-snug text-muted">{m.note}</dd>}
-          </div>
-        ))}
-      </dl>
-      <p className="border-t border-line px-4 py-2 text-[11px] text-muted">
-        <span className="tnum">As of {formatDate(q.asOf)}</span> · Source:{" "}
-        <a href={q.source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
-          {q.source.name}
-        </a>
-        {" · "}
-        <NextUpdate asOf={q.asOf} />
-      </p>
-    </section>
-  );
-}
-
 /** Facts from outside the filings. Visually separate and cited on their own. */
 function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
   if (facts.length === 0) return null;
@@ -298,12 +249,20 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
             {data.fund} · {data.assetClass}
           </Eyebrow>
           <FilingBadge data={data} />
-          <PrintButton className="ml-auto" />
         </div>
         <h2 className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink">
           {sectorLabel ? `${sectorLabel} in ${data.fund}` : `Where ${data.fund} invests`}
         </h2>
-        {data.quarterSummary && <QuarterBox q={data.quarterSummary} />}
+        {/* Phones have these above the map. */}
+        <div className="hidden lg:block">
+          <FundActions layerId={layer.id} data={data} />
+        </div>
+        {/* Phones show the box above the map instead (with the stat cards), so it isn't read twice. */}
+        {data.quarterSummary && (
+          <div className="hidden lg:block">
+            <QuarterBox q={data.quarterSummary} />
+          </div>
+        )}
         <p className="text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>
       </header>
 
@@ -426,9 +385,10 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
 
 function SelectionView(props: Props & { selected: string }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  // Focus the heading once this view is on screen, so keyboard users land on the details.
+  // Focus the heading once this view is on screen, so keyboard users land on the details. Not inside the tour's
+  // live-view frame, where taking focus would stop the tour's own arrow keys.
   useEffect(() => {
-    headingRef.current?.focus({ preventScroll: true });
+    if (window.self === window.top) headingRef.current?.focus({ preventScroll: true });
   }, []);
   return props.data.geography.level === "us-region" ? <StateView {...props} headingRef={headingRef} /> : <RegionView {...props} headingRef={headingRef} />;
 }
@@ -461,7 +421,7 @@ function StateView({ data, selected: abbr, sector, onSector, headingRef }: ViewP
       <dl className="grid grid-cols-2 gap-4 border-y border-line py-4">
         <div>
           <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{stateName(abbr)}</dt>
-          <dd className="tnum font-serif text-2xl text-ink">{top ? formatPct(top.pct) : "Not reported"}</dd>
+          <dd className="tnum font-serif text-2xl text-ink">{top ? formatPct(top.pct) : "Not in filing"}</dd>
           <dd className="text-xs leading-snug text-muted">{top ? "of real estate; one of the three largest states" : "the filing gives no figure for this state"}</dd>
         </div>
         <div>

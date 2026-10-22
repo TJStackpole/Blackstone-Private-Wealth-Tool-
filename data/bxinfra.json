@@ -21,22 +21,108 @@
       {
         "label": "Net assets",
         "value": "$5.2B",
-        "note": "BXINFRA U.S., which owns 94.5% of the aggregator that holds the investments ($5.6B with a parallel fund)"
+        "note": "BXINFRA U.S., which owns 94.5% of the aggregator that holds the investments ($5.6B with a parallel fund)",
+        "change": "+49.9%",
+        "direction": "up",
+        "from": "from $3.5B on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm"
+          }
+        ]
       },
       {
-        "label": "NAV per unit",
+        "label": "NAV per unit (Class I)",
         "value": "$29.99",
-        "note": "Transactional NAV, Class I, Series I"
+        "note": "Series I, Transactional NAV",
+        "change": "+8.8%",
+        "direction": "up",
+        "from": "from $27.57 on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm"
+          },
+          {
+            "name": "BX Infra Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm"
+          }
+        ]
+      },
+      {
+        "label": "Distribution rate",
+        "value": "2.9%",
+        "note": "Class I, Series I, annualized: Q2's $0.2191 a unit × 4 ÷ $29.99",
+        "change": "−$0.0001",
+        "direction": "down",
+        "from": "payout a unit, from $0.2192 in Q1",
+        "sources": [
+          {
+            "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm"
+          }
+        ]
       },
       {
         "label": "Investments",
         "value": "$6.07B",
-        "note": "at fair value, held by the aggregator: 107.9% of its net assets"
+        "note": "at fair value, held by the aggregator: 107.9% of its net assets",
+        "change": "+45.9%",
+        "direction": "up",
+        "from": "from $4.16B on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm"
+          }
+        ]
+      }
+    ]
+  },
+  "quarterSummary": {
+    "period": "Quarter ended Jun 30, 2026",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm"
+    },
+    "moreSources": [
+      {
+        "name": "BX Infra Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+        "page": "Dec 31, 2025 Transactional NAV"
+      }
+    ],
+    "items": [
+      {
+        "label": "Net assets",
+        "value": "$5.2B",
+        "from": "BXINFRA U.S., from $3.5B on Dec 31, 2025",
+        "change": "+49.9%",
+        "direction": "up"
       },
       {
-        "label": "Named holdings",
-        "value": "9",
-        "note": "the rest are reported as 'Other investments'"
+        "label": "NAV per unit",
+        "value": "$29.99",
+        "from": "Class I, Series I, from $27.57 on Dec 31, 2025",
+        "change": "+8.8%",
+        "direction": "up"
+      },
+      {
+        "label": "Investments",
+        "value": "$6.07B",
+        "from": "from $4.16B on Dec 31, 2025",
+        "change": "+45.9%",
+        "direction": "up"
+      },
+      {
+        "label": "Units redeemed",
+        "value": "356,059",
+        "from": "BXINFRA U.S., in the quarter, at an average $28.46",
+        "change": "all filled",
+        "direction": "flat",
+        "note": "All redemption requests were satisfied in full."
       }
     ]
   },

@@ -21,22 +21,69 @@
       {
         "label": "Net asset value",
         "value": "$56.6B",
-        "note": "all share classes and operating partnership units"
+        "note": "all share classes and operating partnership units",
+        "change": "+4.2%",
+        "direction": "up",
+        "from": "from $54.3B on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          },
+          {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm"
+          }
+        ]
       },
       {
-        "label": "NAV per share",
+        "label": "NAV per share (Class I)",
         "value": "$14.53",
-        "note": "Class I"
+        "change": "+2.8%",
+        "direction": "up",
+        "from": "from $14.13 on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          },
+          {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm"
+          }
+        ]
+      },
+      {
+        "label": "Distribution rate",
+        "value": "4.6%",
+        "note": "Class I, annualized: Q2's $0.1659 a share × 4 ÷ $14.53 NAV",
+        "change": "+$0.0007",
+        "direction": "up",
+        "from": "payout a share, from $0.1652 in Q1",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          }
+        ]
       },
       {
         "label": "Properties",
         "value": "4,530",
-        "note": "plus 63,081 single-family rental homes"
-      },
-      {
-        "label": "Real estate vs. debt",
-        "value": "97% / 3%",
-        "note": "share of investments at fair value"
+        "note": "plus 63,081 single-family rental homes",
+        "change": "+47",
+        "direction": "up",
+        "from": "from 4,483 on Dec 31, 2025",
+        "sources": [
+          {
+            "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+          },
+          {
+            "name": "BREIT Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm"
+          }
+        ]
       }
     ]
   },
@@ -1357,7 +1404,7 @@
       ],
       "acquired": "June & Dec. 2019",
       "ownership": "90%",
-      "size": "1,471 sq. ft.",
+      "size": "1,471K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1370,7 +1417,7 @@
       ],
       "acquired": "June 2021",
       "ownership": "100%",
-      "size": "434 sq. ft.",
+      "size": "434K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1381,7 +1428,7 @@
       "states": [],
       "acquired": "Aug. 2021",
       "ownership": "35.4%",
-      "size": "20,345 sq. ft.",
+      "size": "20,345K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1394,7 +1441,7 @@
       ],
       "acquired": "Apr. 2022",
       "ownership": "100%",
-      "size": "792 sq. ft.",
+      "size": "792K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1405,7 +1452,7 @@
       "states": [],
       "acquired": "Apr. 2017",
       "ownership": "100%",
-      "size": "4,228 sq. ft.",
+      "size": "4,228K sq. ft.",
       "occupancy": "97%"
     },
     {
@@ -1419,7 +1466,7 @@
       ],
       "acquired": "Nov. 2017",
       "ownership": "100%",
-      "size": "806 sq. ft.",
+      "size": "806K sq. ft.",
       "occupancy": "50%"
     },
     {
@@ -1432,7 +1479,7 @@
       ],
       "acquired": "Jan. 2018",
       "ownership": "100%",
-      "size": "1,695 sq. ft.",
+      "size": "1,695K sq. ft.",
       "occupancy": "69%"
     },
     {
@@ -1443,7 +1490,7 @@
       "states": [],
       "acquired": "Mar. 2018",
       "ownership": "Various",
-      "size": "14,127 sq. ft.",
+      "size": "14,127K sq. ft.",
       "occupancy": "93%"
     },
     {
@@ -1454,7 +1501,7 @@
       "states": [],
       "acquired": "May 2018",
       "ownership": "100%",
-      "size": "2,259 sq. ft.",
+      "size": "2,259K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1465,7 +1512,7 @@
       "states": [],
       "acquired": "Nov. 2018",
       "ownership": "100%",
-      "size": "4,455 sq. ft.",
+      "size": "4,455K sq. ft.",
       "occupancy": "85%"
     },
     {
@@ -1478,7 +1525,7 @@
       ],
       "acquired": "Dec. 2018",
       "ownership": "100%",
-      "size": "440 sq. ft.",
+      "size": "440K sq. ft.",
       "occupancy": "90%"
     },
     {
@@ -1491,7 +1538,7 @@
       ],
       "acquired": "Jan. 2019",
       "ownership": "100%",
-      "size": "179 sq. ft.",
+      "size": "179K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1504,7 +1551,7 @@
       ],
       "acquired": "Apr. 2019",
       "ownership": "100%",
-      "size": "2,341 sq. ft.",
+      "size": "2,341K sq. ft.",
       "occupancy": "95%"
     },
     {
@@ -1517,7 +1564,7 @@
       ],
       "acquired": "May 2019",
       "ownership": "100%",
-      "size": "3,738 sq. ft.",
+      "size": "3,738K sq. ft.",
       "occupancy": "90%"
     },
     {
@@ -1530,7 +1577,7 @@
       ],
       "acquired": "Sept. 2019",
       "ownership": "100%",
-      "size": "323 sq. ft.",
+      "size": "323K sq. ft.",
       "occupancy": "93%"
     },
     {
@@ -1541,7 +1588,7 @@
       "states": [],
       "acquired": "Sept. 2019",
       "ownership": "100%",
-      "size": "3,510 sq. ft.",
+      "size": "3,510K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1552,7 +1599,7 @@
       "states": [],
       "acquired": "Sept. 2019",
       "ownership": "Various",
-      "size": "39,538 sq. ft.",
+      "size": "39,538K sq. ft.",
       "occupancy": "93%"
     },
     {
@@ -1565,7 +1612,7 @@
       ],
       "acquired": "Oct. 2019",
       "ownership": "100%",
-      "size": "260 sq. ft.",
+      "size": "260K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1578,7 +1625,7 @@
       ],
       "acquired": "Jan. 2020",
       "ownership": "100%",
-      "size": "2,554 sq. ft.",
+      "size": "2,554K sq. ft.",
       "occupancy": "82%"
     },
     {
@@ -1589,7 +1636,7 @@
       "states": [],
       "acquired": "Feb. 2020",
       "ownership": "100%",
-      "size": "5,539 sq. ft.",
+      "size": "5,539K sq. ft.",
       "occupancy": "77%"
     },
     {
@@ -1600,7 +1647,7 @@
       "states": [],
       "acquired": "Feb. & Apr. 2020",
       "ownership": "100%",
-      "size": "1,867 sq. ft.",
+      "size": "1,867K sq. ft.",
       "occupancy": "92%"
     },
     {
@@ -1613,7 +1660,7 @@
       ],
       "acquired": "Aug. 2020",
       "ownership": "100%",
-      "size": "243 sq. ft.",
+      "size": "243K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1626,7 +1673,7 @@
       ],
       "acquired": "Sept. 2020",
       "ownership": "100%",
-      "size": "404 sq. ft.",
+      "size": "404K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1637,7 +1684,7 @@
       "states": [],
       "acquired": "Dec. 2020",
       "ownership": "100%",
-      "size": "1,384 sq. ft.",
+      "size": "1,384K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1650,7 +1697,7 @@
       ],
       "acquired": "Dec. 2020",
       "ownership": "100%",
-      "size": "425 sq. ft.",
+      "size": "425K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1661,7 +1708,7 @@
       "states": [],
       "acquired": "Jan. & Aug. 2021",
       "ownership": "85%",
-      "size": "2,064 sq. ft.",
+      "size": "2,064K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1672,7 +1719,7 @@
       "states": [],
       "acquired": "Jan. 2021",
       "ownership": "46%",
-      "size": "6,597 sq. ft.",
+      "size": "6,597K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1683,7 +1730,7 @@
       "states": [],
       "acquired": "Feb. 2021",
       "ownership": "100%",
-      "size": "1,041 sq. ft.",
+      "size": "1,041K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1694,7 +1741,7 @@
       "states": [],
       "acquired": "Apr. 2021",
       "ownership": "100%",
-      "size": "2,068 sq. ft.",
+      "size": "2,068K sq. ft.",
       "occupancy": "74%"
     },
     {
@@ -1705,7 +1752,7 @@
       "states": [],
       "acquired": "July & Aug. 2021",
       "ownership": "100%",
-      "size": "739 sq. ft.",
+      "size": "739K sq. ft.",
       "occupancy": "72%"
     },
     {
@@ -1716,7 +1763,7 @@
       "states": [],
       "acquired": "July & Oct. 2021",
       "ownership": "22%",
-      "size": "8,735 sq. ft.",
+      "size": "8,735K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1729,7 +1776,7 @@
       ],
       "acquired": "Sept. 2021",
       "ownership": "100%",
-      "size": "219 sq. ft.",
+      "size": "219K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1740,7 +1787,7 @@
       "states": [],
       "acquired": "Oct. 2021",
       "ownership": "Various",
-      "size": "26,215 sq. ft.",
+      "size": "26,215K sq. ft.",
       "occupancy": "97%"
     },
     {
@@ -1753,7 +1800,7 @@
       ],
       "acquired": "Oct. 2021",
       "ownership": "100%",
-      "size": "122 sq. ft.",
+      "size": "122K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1766,7 +1813,7 @@
       ],
       "acquired": "Oct. 2021",
       "ownership": "100%",
-      "size": "600 sq. ft.",
+      "size": "600K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1777,7 +1824,7 @@
       "states": [],
       "acquired": "Oct. 2021",
       "ownership": "10%",
-      "size": "1,742 sq. ft.",
+      "size": "1,742K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1788,7 +1835,7 @@
       "states": [],
       "acquired": "Nov. 2021",
       "ownership": "99%",
-      "size": "12,725 sq. ft.",
+      "size": "12,725K sq. ft.",
       "occupancy": "90%"
     },
     {
@@ -1801,7 +1848,7 @@
       ],
       "acquired": "Nov. 2021",
       "ownership": "100%",
-      "size": "171 sq. ft.",
+      "size": "171K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1812,7 +1859,7 @@
       "states": [],
       "acquired": "Nov. 2021",
       "ownership": "12%",
-      "size": "69,641 sq. ft.",
+      "size": "69,641K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1823,7 +1870,7 @@
       "states": [],
       "acquired": "Dec. 2021",
       "ownership": "10%",
-      "size": "5,548 sq. ft.",
+      "size": "5,548K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1834,7 +1881,7 @@
       "states": [],
       "acquired": "Dec. 2021",
       "ownership": "100%",
-      "size": "1,850 sq. ft.",
+      "size": "1,850K sq. ft.",
       "occupancy": "95%"
     },
     {
@@ -1847,7 +1894,7 @@
       ],
       "acquired": "Dec. 2021",
       "ownership": "100%",
-      "size": "1,138 sq. ft.",
+      "size": "1,138K sq. ft.",
       "occupancy": "92%"
     },
     {
@@ -1860,7 +1907,7 @@
       ],
       "acquired": "Dec. 2021",
       "ownership": "100%",
-      "size": "512 sq. ft.",
+      "size": "512K sq. ft.",
       "occupancy": "95%"
     },
     {
@@ -1873,7 +1920,7 @@
       ],
       "acquired": "Dec. 2021",
       "ownership": "100%",
-      "size": "529 sq. ft.",
+      "size": "529K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1884,7 +1931,7 @@
       "states": [],
       "acquired": "Dec. 2021",
       "ownership": "23%",
-      "size": "10,811 sq. ft.",
+      "size": "10,811K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1897,7 +1944,7 @@
       ],
       "acquired": "Dec. 2021",
       "ownership": "100%",
-      "size": "217 sq. ft.",
+      "size": "217K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1910,7 +1957,7 @@
       ],
       "acquired": "Mar. 2022",
       "ownership": "100%",
-      "size": "1,280 sq. ft.",
+      "size": "1,280K sq. ft.",
       "occupancy": "96%"
     },
     {
@@ -1923,7 +1970,7 @@
       ],
       "acquired": "Apr. 2022",
       "ownership": "100%",
-      "size": "254 sq. ft.",
+      "size": "254K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1936,7 +1983,7 @@
       ],
       "acquired": "Apr. 2022",
       "ownership": "100%",
-      "size": "132 sq. ft.",
+      "size": "132K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1947,7 +1994,7 @@
       "states": [],
       "acquired": "Various",
       "ownership": "15%",
-      "size": "146,691 sq. ft.",
+      "size": "146,691K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1960,7 +2007,7 @@
       ],
       "acquired": "Nov. 2019",
       "ownership": "49%",
-      "size": "8,507 sq. ft.",
+      "size": "8,507K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1973,7 +2020,7 @@
       ],
       "acquired": "May 2022",
       "ownership": "80%",
-      "size": "6,902 sq. ft.",
+      "size": "6,902K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -1984,7 +2031,7 @@
       "states": [],
       "acquired": "Various",
       "ownership": "25%",
-      "size": "2,488 sq. ft.",
+      "size": "2,488K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -1997,7 +2044,7 @@
       ],
       "acquired": "Oct. 2019",
       "ownership": "100%",
-      "size": "234 sq. ft.",
+      "size": "234K sq. ft.",
       "occupancy": "64%"
     },
     {
@@ -2010,7 +2057,7 @@
       ],
       "acquired": "Oct. 2020",
       "ownership": "100%",
-      "size": "357 sq. ft.",
+      "size": "357K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2023,7 +2070,7 @@
       ],
       "acquired": "May 2021",
       "ownership": "100%",
-      "size": "361 sq. ft.",
+      "size": "361K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2034,7 +2081,7 @@
       "states": [],
       "acquired": "Nov. 2021",
       "ownership": "97%",
-      "size": "259 sq. ft.",
+      "size": "259K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2047,7 +2094,7 @@
       ],
       "acquired": "Mar. 2022",
       "ownership": "49%",
-      "size": "2,086 sq. ft.",
+      "size": "2,086K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -2060,7 +2107,7 @@
       ],
       "acquired": "Mar. 2022",
       "ownership": "90%",
-      "size": "374 sq. ft.",
+      "size": "374K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2071,7 +2118,7 @@
       "states": [],
       "acquired": "Mar. 2022",
       "ownership": "98%",
-      "size": "412 sq. ft.",
+      "size": "412K sq. ft.",
       "occupancy": "94%"
     },
     {
@@ -2084,7 +2131,7 @@
       ],
       "acquired": "June 2022",
       "ownership": "100%",
-      "size": "318 sq. ft.",
+      "size": "318K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2095,7 +2142,7 @@
       "states": [],
       "acquired": "Aug. 2022",
       "ownership": "75%",
-      "size": "517 sq. ft.",
+      "size": "517K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2347,7 +2394,7 @@
       ],
       "acquired": "Mar. 2017",
       "ownership": "100%",
-      "size": "238 sq. ft.",
+      "size": "238K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2360,7 +2407,7 @@
       ],
       "acquired": "Oct. 2017",
       "ownership": "100%",
-      "size": "167 sq. ft.",
+      "size": "167K sq. ft.",
       "occupancy": "98%"
     },
     {
@@ -2373,7 +2420,7 @@
       ],
       "acquired": "Aug. 2018",
       "ownership": "100%",
-      "size": "89 sq. ft.",
+      "size": "89K sq. ft.",
       "occupancy": "99%"
     },
     {
@@ -2386,7 +2433,7 @@
       ],
       "acquired": "June 2019",
       "ownership": "100%",
-      "size": "108 sq. ft.",
+      "size": "108K sq. ft.",
       "occupancy": "97%"
     },
     {
@@ -2399,7 +2446,7 @@
       ],
       "acquired": "Sept. 2019",
       "ownership": "100%",
-      "size": "163 sq. ft.",
+      "size": "163K sq. ft.",
       "occupancy": "99%"
     },
     {
@@ -2412,7 +2459,7 @@
       ],
       "acquired": "Oct. 2019",
       "ownership": "100%",
-      "size": "204 sq. ft.",
+      "size": "204K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2425,7 +2472,7 @@
       ],
       "acquired": "Dec. 2019",
       "ownership": "100%",
-      "size": "274 sq. ft.",
+      "size": "274K sq. ft.",
       "occupancy": "100%"
     },
     {
@@ -2436,7 +2483,7 @@
       "states": [],
       "acquired": "Jan. 2020",
       "ownership": "100%",
-      "size": "685 sq. ft.",
+      "size": "685K sq. ft.",
       "occupancy": "96%"
     },
     {
@@ -2449,7 +2496,7 @@
       ],
       "acquired": "Aug. 2021",
       "ownership": "100%",
-      "size": "301 sq. ft.",
+      "size": "301K sq. ft.",
       "occupancy": "99%"
     },
     {
@@ -2460,7 +2507,7 @@
       "states": [],
       "acquired": "Oct. 2021",
       "ownership": "50%",
-      "size": "1,228 sq. ft.",
+      "size": "1,228K sq. ft.",
       "occupancy": "n/a"
     },
     {
@@ -2471,7 +2518,7 @@
       "states": [],
       "acquired": "Dec. 2021",
       "ownership": "100%",
-      "size": "1,767 sq. ft.",
+      "size": "1,767K sq. ft.",
       "occupancy": "98%"
     },
     {
@@ -2482,7 +2529,7 @@
       "states": [],
       "acquired": "June 2022",
       "ownership": "Various",
-      "size": "3,096 sq. ft.",
+      "size": "3,096K sq. ft.",
       "occupancy": "96%"
     },
     {
@@ -2493,11 +2540,58 @@
       "states": [],
       "acquired": "May 2024",
       "ownership": "12%",
-      "size": "31 sq. ft.",
+      "size": "31K sq. ft.",
       "occupancy": "n/a"
     }
   ],
   "investmentsNote": "The 10-Q lists 191 investments. 60 of them, holding 4,200 of the 4,530 properties plus the single-family rental homes, give their location only as 'Various' or a non-U.S. place, so they can't be pinned to a state.",
+  "quarterSummary": {
+    "period": "Quarter ended Jun 30, 2026",
+    "asOf": "2026-06-30",
+    "source": {
+      "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm"
+    },
+    "moreSources": [
+      {
+        "name": "BREIT Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+        "page": "Dec 31, 2025 NAV"
+      }
+    ],
+    "items": [
+      {
+        "label": "Net asset value",
+        "value": "$56.6B",
+        "from": "from $54.3B on Dec 31, 2025",
+        "change": "+4.2%",
+        "direction": "up"
+      },
+      {
+        "label": "NAV per share",
+        "value": "$14.53",
+        "from": "Class I, from $14.13 on Dec 31, 2025",
+        "change": "+2.8%",
+        "direction": "up"
+      },
+      {
+        "label": "Raised vs. bought back",
+        "value": "$1.1B / $0.9B",
+        "from": "shares and units, in the quarter",
+        "change": "+$0.2B net",
+        "direction": "up",
+        "note": "Every repurchase request received in the first half was filled."
+      },
+      {
+        "label": "Property sales",
+        "value": "$2.1B",
+        "from": "126 properties: rental housing, self storage, industrial",
+        "change": "126 sold",
+        "direction": "down",
+        "note": "Includes all 79 self storage properties: BREIT exited that sector."
+      }
+    ]
+  },
   "thisQuarter": [
     "Sold 20 rental housing, 79 self storage and 27 industrial properties for $2.1 billion, exiting self storage entirely.",
     "Put $3.3 billion (at BREIT's share) into data center development through its QTS platform, described as 100% pre-leased.",

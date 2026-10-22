@@ -89,7 +89,7 @@ export default function CompareTable() {
         </table>
       </div>
       <p className="text-xs leading-relaxed text-muted">
-        <span className="tnum">As of {formatDate(COMPARE.asOf)}</span>, from each fund&apos;s latest 10-Q (and its 10-K for December 31 figures). Distribution rates
+        <span className="tnum">As of {formatDate(COMPARE.asOf)}</span>, from each fund&apos;s latest 10-Q, its 10-K for December 31 figures and, for BCRED&apos;s buybacks, its September 3, 2026 letter to investors. Distribution rates
         annualize the latest declared Class I distribution over that date&apos;s NAV; they are not total returns. Minimum investment is set in each
         fund&apos;s offering documents, not its periodic filings. <NextUpdate asOf={COMPARE.asOf} />.
       </p>

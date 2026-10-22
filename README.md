@@ -102,13 +102,33 @@ npm run build
 | `data/addons/<tool>/` | Each tool's data, every figure with its source and date. |
 | `tests/` | Unit tests per tool, and browser tests in `tests/e2e/`. |
 
-## Updating the data each quarter
+## Refreshing the data
 
-```bash
-export SEC_USER_AGENT="Your Name you@example.com"   # SEC requires a contact for automated downloads
-scripts/sec/fetch_filings.sh ./filings              # update the accession numbers inside first
-python3 -I scripts/sec/build_data.py ./filings data
-npm run build
-```
+When the funds file new 10-Qs (about 45 days after each quarter ends: mid-May, mid-August, mid-November; the 10-K about 90 days after December 31), one command updates all four funds.
 
-The build script stops if any total fails to reconcile with the filing.
+**One-time setup:** install Node.js and Python 3, then run `npm install` in this folder.
+
+**Each time:**
+
+1. Tell the SEC who's asking (it requires a contact name on automated downloads):
+   ```bash
+   export SEC_USER_AGENT="Your Name you@example.com"
+   ```
+2. Run:
+   ```bash
+   npm run refresh-data
+   ```
+   It (1) checks EDGAR for each fund's newest 10-Q and 10-K, (2) downloads them, with the chart images, into `filings/<today>/`, (3) rebuilds every fund file and checks each figure against the totals the filing itself prints, (4) runs all the tests, and (5) prints each headline figure, old → new. **Nothing in `data/` changes unless every check and every test passes.**
+3. What you'll see:
+   - **"Up to date"**: the site already has the newest filings. Nothing to do.
+   - **"Done"** with the old → new table: run `npm run build`, look over the site, then publish.
+   - **"RECONCILIATION FAILED"** or **"STOPPED"**: something didn't match or couldn't be found. Nothing was changed. Go to step 4.
+4. A new quarter usually needs a short by-hand pass the first time, because some things can't be read automatically:
+   - **Chart figures.** BREIT's sector, region and largest-state shares and BXPE's sector and region shares are printed only as charts. Open the chart images in `filings/<today>/` and update the lines marked `CHART` in `scripts/sec/build_data.py`.
+   - **Wording that names the period.** The builder looks for phrases such as "three months ended June 30, 2026" and "six months". A new quarter changes them; the STOPPED message names the line to update.
+   - **BCRED's buyback proration** comes from its letter to investors (an SEC exhibit, not the 10-Q). Save the new letter's text in `filings/<today>/` and point `bcred_letter` in `FILES` (top of `build_data.py`) at it.
+   - **Hand-written text that quotes figures:** talking points (`data/talking-points.json`), Reality Check (see "Updating the Reality Check each quarter" above), the Tax Lens fund pages (`data/addons/tax-lens/funds.json`) and the tour (`lib/demo/steps.ts`). The tests flag talking-point figures that no longer match the data.
+
+   Then run `npm run refresh-data` again. Tip: you can hand this step to Claude Code: "Run npm run refresh-data and fix what it stops on, from the new filings."
+
+Figures that no filing gives stay as "Not in filing"; `MISSING_DATA.md` lists them and where they would come from. To rebuild from the exact June 30, 2026 filings instead, use `scripts/sec/fetch_filings.sh ./filings` then `python3 -I scripts/sec/build_data.py ./filings data`.

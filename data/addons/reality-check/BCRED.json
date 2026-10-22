@@ -22,7 +22,8 @@
       },
       "status": "watch",
       "statusSetBy": "draft",
-      "context": "The fund produced substantial income, but distributed more than it earned in net investment income over the period."
+      "context": "The fund produced substantial income, but distributed more than it earned in net investment income over the period.",
+      "explain": "BCRED paid out $1.20 a share in the first half while earning $1.07 from its loans after expenses. For July it declared $0.18 a share, down from $0.20 a month."
     },
     {
       "id": "bcred-principal",
@@ -42,7 +43,8 @@
       },
       "status": "watch",
       "statusSetBy": "draft",
-      "context": "The portfolio is mostly first lien loans, but the value per share fell over the six months as loans were marked down; total return for Class I was 0.2%."
+      "context": "The portfolio is mostly first lien loans, but the value per share fell over the six months as loans were marked down; total return for Class I was 0.2%.",
+      "explain": "Most of BCRED's loans are first in line to be repaid, yet the value per share fell 4.6% in the first half as some loans were marked down. Counting payouts, Class I returned 0.2%."
     },
     {
       "id": "bcred-monitoring",
@@ -62,7 +64,8 @@
       },
       "status": "watch",
       "statusSetBy": "draft",
-      "context": "Non-accrual means there is reasonable doubt that interest or principal will be paid in full. The count rose over the six months."
+      "context": "Non-accrual means there is reasonable doubt that interest or principal will be paid in full. The count rose over the six months.",
+      "explain": "Fifteen borrowers' loans are on non-accrual, meaning there is doubt they will be repaid in full, up from nine at year-end. The fund lends to 653 companies in all."
     }
   ]
 }

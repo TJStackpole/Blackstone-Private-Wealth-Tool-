@@ -11,9 +11,9 @@ import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
 import FundPrint from "./FundPrint";
-import { FUND_CODE } from "@/lib/addons/shared/funds";
-import { PrintButton } from "@/components/addons/shared/PrintOnePager";
+import FundActions from "./FundActions";
 import FundStats from "./FundStats";
+import QuarterBox from "./QuarterBox";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
@@ -112,7 +112,14 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   // A link ending in #id (the tour's "/?view=all#compare-h") lands on that part of the view once it has drawn.
   // Scrolls this window only, so inside the tour's frame the tour page itself stays put.
   useEffect(() => {
-    const el = window.location.hash.length > 1 ? document.getElementById(decodeURIComponent(window.location.hash.slice(1))) : null;
+    const raw = window.location.hash.slice(1);
+    let id = raw;
+    try {
+      id = decodeURIComponent(raw);
+    } catch {
+      // A malformed hash ("#100%") is just not an id on this page.
+    }
+    const el = id ? document.getElementById(id) : null;
     if (el) requestAnimationFrame(() => window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 16 }));
   }, []);
 
@@ -179,15 +186,22 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
-            {/* Phones: the key numbers first, before the map; the panel below is a collapsed sheet there. */}
+            {/* Phones: this quarter and the key numbers first, before the map; the panel below is a collapsed sheet there. */}
             <div className="mb-5 lg:hidden" data-mobile-stats>
               <div className="mb-1 flex flex-wrap items-center gap-2">
                 <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
                   {data.fund} · {data.assetClass}
                 </p>
                 <FilingBadge data={data} />
-                <PrintButton className="ml-auto" />
               </div>
+              <div className="mb-4 mt-3">
+                <FundActions layerId={layer.id} data={data} />
+              </div>
+              {data.quarterSummary && (
+                <div className="mb-4">
+                  <QuarterBox q={data.quarterSummary} />
+                </div>
+              )}
               <FundStats data={data} />
             </div>
             <div className="mb-4 space-y-3">
@@ -280,7 +294,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} code={FUND_CODE[layer.id]} />}
+      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} />}
 
       <SourceFooter
         data={viewId === "all" || viewId === "retirement" ? undefined : data}

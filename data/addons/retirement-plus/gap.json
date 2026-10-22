@@ -1,7 +1,7 @@
 {
   "asOf": "2026-01-01",
   "sample": false,
-  "verify": "Figure as transcribed in BUILD_PLAN_401K.md from the paper; confirm against the paper's page before relying on it.",
+  "verify": "Figures from Blackstone's 2026 paper, as transcribed, each with its page number; check them against the paper before relying on them.",
   "headline": {
     "pensions": {
       "value": 33,

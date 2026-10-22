@@ -22,7 +22,8 @@
       },
       "status": "consistent",
       "statusSetBy": "draft",
-      "context": "A single six-month period, in a strategy described as medium- to long-term. One period says little about the long run."
+      "context": "A single six-month period, in a strategy described as medium- to long-term. One period says little about the long run.",
+      "explain": "BXPE returned 13.69% in the first half of 2026 (Class I, Series I). It aims for growth over the medium to long term, so one six-month period is an early read."
     },
     {
       "id": "bxpe-income",
@@ -42,7 +43,8 @@
       },
       "status": "watch",
       "statusSetBy": "draft",
-      "context": "Over this period, returns came from changes in value rather than income, which fits a fund where income is a secondary goal."
+      "context": "Over this period, returns came from changes in value rather than income, which fits a fund where income is a secondary goal.",
+      "explain": "Income is a secondary goal. In the first half the fund had a small net investment loss of $0.01 a unit and paid no distributions; its return came from changes in value."
     },
     {
       "id": "bxpe-liquidity",
@@ -62,7 +64,8 @@
       },
       "status": "consistent",
       "statusSetBy": "draft",
-      "context": "Redemptions are periodic and limited, as described. The limit applies across the whole fund, so heavy requests would be prorated (see Liquidity Simulator)."
+      "context": "Redemptions are periodic and limited, as described. The limit applies across the whole fund, so heavy requests would be prorated (see Liquidity Simulator).",
+      "explain": "Investors can add money monthly, but withdrawals are limited to about 3% of units a quarter across the fund. If many ask at once, each request may be filled only in part."
     }
   ]
 }

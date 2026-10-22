@@ -6,6 +6,7 @@ import LiquidityPage from "./liquidity/LiquidityPage";
 import RealityCheckPage from "./reality-check/RealityCheckPage";
 import SmoothingPage from "./smoothing/SmoothingPage";
 import TaxLensPage from "./tax-lens/TaxLensPage";
+import RetirementPointer from "./retirement-plus/RetirementPointer";
 import ThemesPage from "./themes/ThemesPage";
 
 /**
@@ -20,4 +21,5 @@ export const ADDON_PAGES: Partial<Record<AddonId, ComponentType>> = {
   themes: ThemesPage,
   "drawdown-vs-evergreen": DrawdownPage,
   "reality-check": RealityCheckPage,
+  "retirement-plus": RetirementPointer,
 };

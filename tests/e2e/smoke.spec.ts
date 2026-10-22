@@ -91,22 +91,13 @@ test("a theme drives each fund's sector filter across fund switches, and turning
   expect(problems).toEqual([]);
 });
 
-test("Family Office mode reorders the toolkit, is kept while browsing tools, and leaves the map alone", async ({ page }) => {
+test("the Family Office switch is hidden for now (a future feature), and the toolkit keeps its standard order", async ({ page }) => {
   const problems = watch(page);
   await page.goto("/toolkit");
-  const toggle = page.getByRole("group", { name: "Audience" });
-  if ((await toggle.count()) === 0) return;
-  await toggle.getByRole("button", { name: "Family Office" }).click();
-  await expect(page.getByRole("listitem").first().getByRole("heading", { level: 2 })).toHaveText("Drawdown vs. Evergreen");
-  await page.getByRole("link", { name: /Liquidity Simulator/ }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Liquidity Simulator" })).toBeVisible();
-  // The switch only reorders the toolkit's cards, so tool pages don't show it; the choice is still there on return.
+  await expect(page.getByRole("heading", { level: 1, name: "Advisor Toolkit" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);
-  await page.getByRole("link", { name: "Advisor Toolkit" }).click();
-  await expect(page.getByRole("group", { name: "Audience" }).getByRole("button", { name: "Family Office" })).toHaveAttribute("aria-pressed", "true");
-  await page.getByRole("link", { name: "Private Markets Atlas" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Private Markets Atlas" })).toBeVisible();
-  await expect(page.getByRole("group", { name: "Audience" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Family Office" })).toHaveCount(0);
+  await expect(page.getByRole("listitem").first().getByRole("heading", { level: 2 })).not.toHaveText("Drawdown vs. Evergreen");
   expect(problems).toEqual([]);
 });
 

@@ -4,7 +4,7 @@ import { COLUMNS, claimsToCsv, parseCsv, rowsToClaims } from "@/lib/addons/reali
 import { freshness, latestExpectedQuarterEnd } from "@/lib/addons/reality-check/freshness";
 
 const header = COLUMNS.join(",");
-const good = 'BCRED,bcred-x,"Aims to generate current income, mostly.",BCRED 10-K,https://www.sec.gov/a,Item 1,Metric,"$1.07",2026-06-30,BCRED 10-Q,https://www.sec.gov/b,Note 10,watch,draft,"Context that is long enough."';
+const good = 'BCRED,bcred-x,"Aims to generate current income, mostly.",BCRED 10-K,https://www.sec.gov/a,Item 1,Metric,"$1.07",2026-06-30,BCRED 10-Q,https://www.sec.gov/b,Note 10,watch,draft,"Context that is long enough.","A plain line for a client."';
 
 describe("update spreadsheet", () => {
   it("round-trips the live data: export, then import, gives the same claims", () => {

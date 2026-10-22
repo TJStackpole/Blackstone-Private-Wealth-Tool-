@@ -85,6 +85,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
             Published result, not this tool&apos;s estimate. <Cite source={P.source} />
           </p>
           <p>{P.method}</p>
+          <p data-verify>{MODEL.verify}</p>
         </div>
       </div>
 

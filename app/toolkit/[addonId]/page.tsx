@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import { notFound } from "next/navigation";
 import { ALL_ADDON_IDS, findAddon, type AddonId } from "@/config/addons";
 import { ADDON_PAGES } from "@/components/addons/registry";
@@ -14,7 +15,8 @@ type Params = { params: Promise<{ addonId: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { addonId } = await params;
   const addon = findAddon(addonId);
-  return { title: addon ? addon.name : "Advisor Toolkit" };
+  if (!addon) return { title: "Advisor Toolkit" };
+  return pageMeta({ title: addon.name, description: `${addon.description} Independent prototype built from SEC filings; not affiliated with Blackstone.`, path: `/toolkit/${addonId}` });
 }
 
 export default async function AddonPage({ params }: Params) {

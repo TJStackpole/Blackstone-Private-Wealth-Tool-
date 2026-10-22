@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
+import BuiltBy from "@/components/BuiltBy";
 import TourPicker from "@/components/demo/Tour";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Guided tour",
   description: "A six-step tour of the fund maps and the Advisor Toolkit, plus a full tour of every feature. Independent prototype; not affiliated with Blackstone.",
-};
+  path: "/demo",
+});
 
 export default function DemoPage() {
   return (
@@ -27,7 +30,7 @@ export default function DemoPage() {
       <TourPicker />
       <p className="mt-8 border-t border-line pt-4 text-xs text-muted">
         Illustrative only. Not investment, tax, or legal advice. Independent prototype built from public filings. Not affiliated with or endorsed by
-        Blackstone.
+        Blackstone. <BuiltBy />.
       </p>
     </main>
   );

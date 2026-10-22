@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { formatMonth } from "@/lib/dates";
 import { BULL_BEAR, THEMES, findTheme } from "@/lib/addons/themes/tags";
 import type { CasePoint } from "@/lib/addons/themes/tags";
 
@@ -50,7 +51,7 @@ export default function BullBear({ initial = THEMES[0].id }: { initial?: string 
         <Side title="Case for" points={c.for} />
         <Side title="Case against" points={c.against} />
       </div>
-      <p className="text-xs leading-relaxed text-muted">{BULL_BEAR.note} Gathered {BULL_BEAR.asOf.slice(0, 7)}.</p>
+      <p className="text-xs leading-relaxed text-muted">{BULL_BEAR.note} Gathered {formatMonth(BULL_BEAR.asOf, "long")}.</p>
     </div>
   );
 }

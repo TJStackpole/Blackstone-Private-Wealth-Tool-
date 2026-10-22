@@ -2,7 +2,8 @@
 
 import type { QuickProps } from "../quick";
 import { FUNDS } from "@/lib/addons/shared/funds";
-import { BULL_BEAR, themeSectors, topThemes } from "@/lib/addons/themes/tags";
+import { BULL_BEAR, TAGS, themeSectors, topThemes } from "@/lib/addons/themes/tags";
+import { formatDate } from "@/lib/dates";
 
 /** Drawer view: this fund's themes, largest first, with the strongest point on each side for the top one. */
 export default function ThemesQuick({ fund }: QuickProps) {
@@ -10,7 +11,7 @@ export default function ThemesQuick({ fund }: QuickProps) {
   const first = tops[0];
   return (
     <div className="space-y-5">
-      <p className="text-sm text-muted-strong">Share of {FUNDS[fund].label} in each theme, from the sector weights in its June 30, 2026 10-Q.</p>
+      <p className="text-sm text-muted-strong">Share of {FUNDS[fund].label} in each theme, from the sector weights in its {formatDate(TAGS.asOf, "long")} 10-Q.</p>
       <ul className="space-y-2">
         {tops.map(({ theme, pct }) => (
           <li key={theme.id} className="space-y-1">
