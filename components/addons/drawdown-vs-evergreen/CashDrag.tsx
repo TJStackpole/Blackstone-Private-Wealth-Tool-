@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useClient } from "@/components/useClient";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { PrintSized } from "@/components/addons/shared/PrintSized";
 import { DEFAULTS, compare } from "@/lib/addons/drawdown-vs-evergreen/model";
@@ -13,7 +14,10 @@ const short = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(1)}M` : `$${Math.
 
 /** "% of money at work": a drawdown commitment called over time vs. the same amount invested on day one. */
 export default function CashDrag({ compact = false }: { compact?: boolean }) {
-  const [commitment, setCommitment] = useState(DEFAULTS.commitment);
+  // The client's amount (the header's Client button), set once for every tool.
+  const [client, updateClient] = useClient();
+  const commitment = client.amount;
+  const setCommitment = (v: number) => updateClient({ amount: v });
   const [perYear, setPerYear] = useState(25);
   const [cashYield, setCashYield] = useState(DEFAULTS.cashYieldPct);
   const [assetReturn, setAssetReturn] = useState(DEFAULTS.assetReturnPct);
@@ -90,7 +94,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
       {!compact && (
         <>
           <div className="no-print grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <NumberInput label="Commitment" value={commitment} onChange={setCommitment} min={0} step={500000} prefix="$" />
+            <NumberInput label="Commitment" value={commitment} onChange={setCommitment} min={0} step={50000} prefix="$" help="The client's amount; change it here or with the Client button." />
             <PercentInput label="Called each year" value={perYear} onChange={setPerYear} min={1} help="25 means four equal calls. 100 means all on day one." />
             <PercentInput label="Asset return, both (assumption)" value={assetReturn} onChange={setAssetReturn} />
             <PercentInput label="Yield on waiting cash (assumption)" value={cashYield} onChange={setCashYield} />

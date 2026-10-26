@@ -12,6 +12,12 @@ export default function SourceFooter({ data, disclosure }: { data?: FundData; di
   return (
     <footer className="mt-10 border-t border-line pt-5 text-xs leading-relaxed text-muted">
       {data && (
+        // The filing, its date and method, one click away: the boxes above already carry their own dates.
+        <details className="group mb-4">
+          <summary className="tap mb-2 inline-flex cursor-pointer list-none items-center gap-1.5 font-medium text-muted-strong hover:text-ink [&::-webkit-details-marker]:hidden">
+            About this data <span className="tnum font-normal text-muted">· {data.filing.form}, {formatDate(data.asOf)}</span>
+            <span aria-hidden className="transition-transform group-open:rotate-90">›</span>
+          </summary>
         <dl className="mb-4 grid gap-x-8 gap-y-2 sm:grid-cols-[auto_1fr]">
           <dt className="font-medium text-muted-strong">As of</dt>
           <dd className="tnum">{formatDate(data.asOf)}</dd>
@@ -38,6 +44,7 @@ export default function SourceFooter({ data, disclosure }: { data?: FundData; di
             fund&apos;s own, rounded as reported.
           </dd>
         </dl>
+        </details>
       )}
       {disclosure ? (
         <>

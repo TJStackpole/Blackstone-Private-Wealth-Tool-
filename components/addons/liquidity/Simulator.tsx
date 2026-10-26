@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useClient } from "@/components/useClient";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { FundCode } from "@/config/addons";
 import { quarterlyLimit, termsFor } from "@/lib/addons/liquidity/data";
@@ -22,9 +23,13 @@ interface Props {
 }
 
 /** "What happens to my money": a quarter-by-quarter schedule for one redemption request. Every output is illustrative. */
-export default function Simulator({ initialFund = "BCRED", initialAmount = 500_000, initialPreset = "stressed", compact = false }: Props) {
+export default function Simulator({ initialFund = "BCRED", initialAmount, initialPreset = "stressed", compact = false }: Props) {
   const [fund, setFund] = useState<FundCode>(initialFund);
-  const [amount, setAmount] = useState(initialAmount);
+  // The client's amount (the header's Client button), unless a shared link set its own.
+  const [client, updateClient] = useClient();
+  const [linkAmount, setLinkAmount] = useState(initialAmount);
+  const amount = linkAmount ?? client.amount;
+  const setAmount = (v: number) => (linkAmount === undefined ? updateClient({ amount: v }) : setLinkAmount(v));
   const [presetId, setPresetId] = useState<Preset["id"]>(initialPreset);
   const [limitPct, setLimitPct] = useState(quarterlyLimit(initialFund)?.value ?? 5);
   const [resubmit, setResubmit] = useState(true);

@@ -21,19 +21,6 @@ export function talkingPoints(id: LayerId): TalkingPoints | undefined {
  */
 export function talkingPointsSources(id: LayerId, data: FundData): Source[] {
   const code = toFundCode(id);
-  const cells = code ? ["navChange", "prorated"].flatMap((row) => COMPARE_ROWS.find((r) => r.id === row)?.cells[code]?.sources ?? []) : [];
+  const cells = code ? ["value", "prorated"].flatMap((row) => COMPARE_ROWS.find((r) => r.id === row)?.cells[code]?.sources ?? []) : [];
   return [data.source, ...cells].filter((s, i, all) => all.findIndex((o) => o.url === s.url) === i);
-}
-
-/** What the copy button puts on the clipboard: the three sentences, then their sources and the standing disclaimer. */
-export function talkingPointsText(tp: TalkingPoints, data: FundData, sources: Source[] = [data.source]): string {
-  return [
-    tp.does,
-    tp.risk,
-    tp.changed,
-    "",
-    "Sources:",
-    ...sources.map((s) => `${s.name}, ${s.url}`),
-    "Independent summary of public SEC filings. Not investment advice. Not affiliated with Blackstone.",
-  ].join("\n");
 }

@@ -24,13 +24,15 @@ function Side({ title, points }: { title: string; points: CasePoint[] }) {
 }
 
 /** Case for and case against, per theme: same number of points, same space, every point sourced. */
-export default function BullBear({ initial = THEMES[0].id }: { initial?: string }) {
-  const [id, setId] = useState(initial);
+/** The case for and against a theme, each point sourced. `fixed` shows one theme with no switcher (the map's theme row). */
+export default function BullBear({ initial = THEMES[0].id, fixed = false }: { initial?: string; fixed?: boolean }) {
+  const [picked, setId] = useState(initial);
+  const id = fixed ? initial : picked;
   const theme = findTheme(id)!;
   const c = BULL_BEAR.themes[id];
   return (
     <div className="space-y-4 print:space-y-2">
-      <div role="group" aria-label="Theme" className="no-print flex flex-wrap gap-1.5">
+      {!fixed && <div role="group" aria-label="Theme" className="no-print flex flex-wrap gap-1.5">
         {THEMES.map((t) => (
           <button
             key={t.id}
@@ -45,8 +47,8 @@ export default function BullBear({ initial = THEMES[0].id }: { initial?: string 
             {t.label}
           </button>
         ))}
-      </div>
-      <p className="text-sm font-medium text-ink">{theme.label}</p>
+      </div>}
+      {!fixed && <p className="text-sm font-medium text-ink">{theme.label}</p>}
       <div className="grid gap-3 md:grid-cols-2">
         <Side title="Case for" points={c.for} />
         <Side title="Case against" points={c.against} />

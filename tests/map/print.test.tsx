@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import FundPrint from "@/components/FundPrint";
-import DetailPanel from "@/components/DetailPanel";
+import FundBrief from "@/components/FundBrief";
 import { LAYERS } from "@/data/layers";
 import { FUND_CODE } from "@/lib/addons/shared/funds";
 import { formatPct } from "@/lib/aggregate";
@@ -14,9 +14,9 @@ afterEach(cleanup);
 const funds = LAYERS.filter((l) => FUND_CODE[l.id] && l.data);
 
 describe("fund one-pager (print)", () => {
-  it("has a Print / Save as PDF button by the fund's title", () => {
+  it("has a Print / Save as PDF button with the fund's five answers", () => {
     const l = funds[0];
-    render(<DetailPanel layer={l} data={l.data!} sector={null} selected={null} onSelect={() => {}} geoItems={l.data!.geography.items} />);
+    render(<FundBrief layer={l} data={l.data!} details={false} onDetails={() => {}} detailsId="d" />);
     expect(screen.getByRole("button", { name: "Print / Save as PDF" })).toBeTruthy();
   });
 

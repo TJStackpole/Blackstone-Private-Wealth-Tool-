@@ -6,12 +6,15 @@ import type { Source } from "@/lib/types";
 import { formatDate } from "@/lib/dates";
 import { ChangeChip, SourceLinks } from "./QuarterBox";
 import NextUpdate from "./NextUpdate";
+import Sources from "./Sources";
+import Glossed from "./Glossed";
+import type { FundCode } from "@/config/addons";
 
 /**
  * The fund's newest month-end figures, from the filings between 10-Qs: value per share, size, the latest declared
  * distribution. Sits above the quarter's box, dated on its own, so the two dates never blur together.
  */
-export default function LatestBox({ latest, quarterAsOf }: { latest: LatestUpdate; quarterAsOf: string }) {
+export default function LatestBox({ latest, quarterAsOf, fund }: { latest: LatestUpdate; quarterAsOf: string; fund?: FundCode }) {
   const id = useId();
   const odd = latest.items.length % 2 === 1;
   const sources = [...latest.items.flatMap((i) => i.sources), ...latest.notes.flatMap((n) => n.sources)].filter(
@@ -39,7 +42,9 @@ export default function LatestBox({ latest, quarterAsOf }: { latest: LatestUpdat
             ].join(" ")}
             data-latest={m.label}
           >
-            <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">{m.label}</dt>
+            <dt className="text-[11px] uppercase tracking-[0.08em] text-muted">
+              <Glossed text={m.label} fund={fund} />
+            </dt>
             <dd className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <span className="tnum font-serif text-[22px] leading-none text-ink">{m.value}</span>
               {m.change && m.direction && <ChangeChip change={m.change} direction={m.direction} />}
@@ -52,13 +57,17 @@ export default function LatestBox({ latest, quarterAsOf }: { latest: LatestUpdat
       {latest.notes.length > 0 && (
         <ul className="space-y-1 border-t border-line px-4 py-2.5 text-xs leading-snug text-muted-strong">
           {latest.notes.map((n) => (
-            <li key={n.text}>{n.text}</li>
+            <li key={n.text}>
+              <Glossed text={n.text} fund={fund} />
+            </li>
           ))}
         </ul>
       )}
       <p className="border-t border-line px-4 py-2 text-[11px] text-muted">
-        Source: <SourceLinks sources={sources} /> · <NextUpdate asOf={latest.asOf} cadence="monthly" />. The map, sector mix and holdings are from the
-        10-Q for the quarter ended {formatDate(quarterAsOf)}.
+        <NextUpdate asOf={latest.asOf} cadence="monthly" /> · Map and sectors: the 10-Q, {formatDate(quarterAsOf)} ·{" "}
+        <Sources>
+          <SourceLinks sources={sources} />
+        </Sources>
       </p>
     </section>
   );

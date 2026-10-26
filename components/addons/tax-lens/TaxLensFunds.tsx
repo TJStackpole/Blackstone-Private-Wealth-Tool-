@@ -22,8 +22,8 @@ export default function TaxLensFunds({ breit }: { breit: ReactNode }) {
       {fund === "BREIT" ? (
         breit
       ) : (
-        <PrintOnePager title={`Tax Lens one-pager: ${FUNDS[fund].label}`}>
-          <h2 className="hidden font-serif text-xl print:block">Tax Lens: how {FUNDS[fund].label}&apos;s payouts are taxed</h2>
+        <PrintOnePager title={`Taxes one-pager: ${FUNDS[fund].label}`}>
+          <h2 className="hidden font-serif text-xl print:block">Taxes: how {FUNDS[fund].label}&apos;s payouts are taxed</h2>
           <FundTax fund={fund} />
           <p className="hidden pt-2 text-[10px] print:block">
             {ADDON_DISCLOSURE} General education, not tax advice; consult a tax advisor. Independent prototype built from public filings. Not affiliated

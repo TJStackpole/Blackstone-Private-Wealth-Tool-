@@ -11,27 +11,37 @@ export interface TourStep {
 
 const enc = encodeURIComponent;
 
-/** The full tour: every feature, 17 steps. */
+/** The full tour: every feature, 15 steps. */
 export const STEPS: TourStep[] = [
   {
     chapter: "The map",
-    title: "Where four Blackstone funds invest",
+    title: "Start here",
     body: [
-      "This site maps where Blackstone's four perpetual funds for individual investors put their money: real estate (BREIT), infrastructure (BX Infra), private equity (BXPE) and private credit (BCRED).",
-      "Every number comes from each fund's own SEC filings: its 10-Q for the quarter ended June 30, 2026, its 10-K, and the month-end filings since, with September 30 values. Each links back to its source.",
+      "This site explains Blackstone's four perpetual funds for individual investors: real estate (BREIT), infrastructure (BX Infra), private equity (BXPE) and private credit (BCRED).",
+      "It opens on three ways in: explain one fund, compare the funds, or answer a client's question. Below them, 'Ask a question' answers from the funds' filings already on the site, each answer with its date and sources.",
     ],
-    tryThis: "Click the fund tabs along the top to switch funds.",
+    tryThis: "Click one of the example questions under 'Ask a question'.",
     url: "/",
+  },
+  {
+    chapter: "The map",
+    title: "A fund in five answers",
+    body: [
+      "Each fund opens with the five things a client asks first: what it is, what it pays, how to get money out, what changed lately and the main risk. Each answer has its date and a 'Sources' link to the filings.",
+      "Words with a dotted underline, such as non-accrual or tender offer, open a plain definition with the filing's own words. 'Copy these answers' copies all five with their sources.",
+    ],
+    tryThis: "Click a dotted word, then 'See the details'.",
+    url: "/?view=bcred",
   },
   {
     chapter: "The map",
     title: "Real estate, down to the state",
     body: [
-      "BREIT's filing reports its U.S. regions and names each investment with a city, so its map can go down to the state.",
+      "'See the details' opens the map, the sector mix, the newest month's figures and the last quarter's. BREIT's filing names each investment with a city, so its map goes down to the state.",
       "Here Nevada is selected: the panel lists the Nevada investments named in the filing, with units, occupancy and ownership.",
     ],
     tryThis: "Click another state, or use the Tab key to move between them.",
-    url: "/?view=breit&select=NV",
+    url: "/?view=breit&details=1&select=NV",
   },
   {
     chapter: "The map",
@@ -56,7 +66,7 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "Private credit, borrower by borrower",
     body: [
-      "BCRED lends to 653 companies. The panel shows the largest borrowers, the share in each industry, and what changed, such as the value per share and loans on non-accrual (where the fund doubts it will be paid in full).",
+      "BCRED lends to 653 companies. Its details lead with the largest borrowers, then the share in each industry, the newest month's value per share and borrowing, and what moved last quarter, such as loans on non-accrual (where the fund doubts it will be paid in full).",
     ],
     tryThis: "Scroll the panel to 'How this fund works'.",
     url: `/?view=bcred&sector=Software`,
@@ -66,17 +76,17 @@ export const STEPS: TourStep[] = [
     title: "Themes that cut across funds",
     body: [
       "'Explore a theme', above the map, picks the same idea in every fund at once. 'AI & data centers' is Data Centers in BREIT and Digital Infrastructure in BX Infra.",
-      "The theme stays on as you switch funds. 'No theme' turns it off and puts back the sector you had before.",
+      "Under it, 'The case for and against' gives outside views on the theme, each with its source, in equal space. The theme stays on as you switch funds.",
     ],
     tryThis: "With the theme on, click the Infrastructure tab.",
     url: "/?view=breit&theme=ai-data-centers",
   },
   {
     chapter: "The map",
-    title: "All four funds, side by side",
+    title: "The funds, side by side",
     body: [
-      "'All funds' opens with one table comparing the four: distribution rate, fees, buy-back limits, the early-sale deduction, whether last quarter's buy-backs were pro-rated, minimum investment and the change in value per share. Each cell comes from that fund's own filing.",
-      "Below it, each fund's map at the level of detail its filing gives. 'Open' jumps to that fund's page.",
+      "'All funds' is one table: size, value per share and its change since December 31, distribution rate, fees, buy-back limits, the early-sale deduction, whether last quarter's buy-backs were pro-rated, and the minimum investment.",
+      "Pick which funds to compare (two on a phone fits best). 'Show sources' puts each cell's filing under it, and a fund's name opens its page.",
     ],
     url: "/?view=all",
   },
@@ -92,72 +102,47 @@ export const STEPS: TourStep[] = [
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Seven tools for explaining these funds",
+    title: "Four tools, one client question each",
     body: [
-      "Seven tools, each answering one common question about these funds. Every calculator result carries an ILLUSTRATIVE label, and placeholder data a SAMPLE label.",
-      "Each fund's panel on the map also has small buttons for the tools that apply; they open a quick version in a side drawer.",
+      "Getting money out, Taxes, Returns explained and Goals vs. results. Every calculator result carries an ILLUSTRATIVE label, and placeholder data a SAMPLE label.",
+      "The 'Client' button at the top sets your client's state, tax bracket and amount once, and every tool uses them.",
     ],
-    tryThis: "Open any tool, then use its fund tabs to switch funds.",
+    tryThis: "Click 'Client' and change the state.",
     url: "/toolkit",
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Liquidity Simulator: when does the money come back?",
+    title: "Getting money out",
     body: [
-      "These funds buy shares back up to a limit. When more people ask than the limit allows, everyone gets the same fraction.",
-      "The simulator shows, quarter by quarter, how much of a request would be paid, with presets for normal times, stress and a prolonged backlog.",
+      "These funds buy shares back up to a limit. When more people ask than the limit allows, everyone gets the same fraction. The simulator shows, quarter by quarter, how much of a request would be paid.",
+      "Its second part, 'Evergreen or drawdown?', compares these funds with traditional funds that call money over years, and prints as a one-page memo.",
     ],
+    tryThis: "Pick the 'Prolonged backlog' preset.",
     url: "/toolkit/liquidity?fund=BCRED#simulator",
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Index-to-Fund Translator",
-    body: [
-      "Brochures often quote an index return. This walks from the index to a share class, step by step: borrowing, cash held back, and each fee.",
-    ],
-    tryThis: "Switch between Class I, D and S.",
-    url: "/toolkit/index-vs-fund?fund=BCRED#ivf-bridge-h",
-  },
-  {
-    chapter: "Advisor Toolkit",
-    title: "Tax Lens: how are the payouts taxed?",
+    title: "Taxes",
     body: [
       "Each fund's payouts are taxed differently, so each gets its own page from its own filings. Most of BREIT's recent payouts were return of capital: not taxed when received, but they lower cost basis. BCRED's were all ordinary income.",
-      "For BREIT, a calculator shows the tax now and at sale for a client's own numbers.",
+      "Every tax figure adds the federal rate, the investment income tax and the client's state.",
     ],
     tryThis: "Switch between the fund tabs.",
     url: "/toolkit/tax-lens#calculator-h",
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Why so smooth?",
+    title: "Returns, explained",
     body: [
       "Private funds are valued by appraisal, not daily trading, so their values move more gently. This explains why, and what that does and doesn't mean for risk.",
+      "Its second part walks from an index return to a share class's return, step by step: borrowing, cash held back, and each fee.",
     ],
     tryThis: "Tick 'Show market-style estimate' to see the swings widen.",
     url: "/toolkit/smoothing#sm-chart-h",
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Theme Exposure: what does it all add up to?",
-    body: [
-      "Enter what a client holds in each fund, plus any stocks tied to a theme, and see the total by theme. The example, four funds plus Nvidia stock, comes to 27% in AI and data centers.",
-      "Each theme also has a sourced case for and case against, given equal space.",
-    ],
-    url: "/toolkit/themes#th-lt-h",
-  },
-  {
-    chapter: "Advisor Toolkit",
-    title: "Drawdown vs. Evergreen, for family offices",
-    body: [
-      "Family offices often own private assets through traditional funds that call money over years. This compares the two structures and shows how much money is actually at work in each.",
-      "It prints as a one-page memo for an investment committee.",
-    ],
-    url: "/toolkit/drawdown-vs-evergreen#cash-drag-h",
-  },
-  {
-    chapter: "Advisor Toolkit",
-    title: "Reality Check",
+    title: "Goals vs. results",
     body: [
       "Each fund's own stated goals, from its annual report, next to what its latest 10-Q shows, with neutral labels set by a person and a badge showing how old the data is.",
     ],
@@ -167,7 +152,7 @@ export const STEPS: TourStep[] = [
     chapter: "Good to know",
     title: "Built to be trusted",
     body: [
-      "Every figure links to its source. The site never invents fund numbers, labels sample data and illustrations, and avoids advice wording.",
+      "Every figure has its date and a 'Sources' link to the filing it comes from. The site never invents fund numbers, labels sample data and illustrations, and avoids advice wording.",
       "Each fund page and tool page has a Print / Save as PDF button for a one-page handout. Dark mode is in the top corner, and every page works on a phone.",
       "It's an independent prototype built from public filings, not affiliated with or endorsed by Blackstone.",
     ],
@@ -179,25 +164,26 @@ export const STEPS: TourStep[] = [
 export const SHORT_STEPS: TourStep[] = [
   {
     chapter: "The map",
-    title: "One fund, from its own filing",
+    title: "Start here",
     body: [
-      "Each fund has its own page: where the money is, the sector mix and the key numbers. The map and sectors come from its 10-Q for the quarter ended June 30, 2026; the newest values from its September 30 month-end filing. Every figure links back to its source.",
+      "The site opens on three ways in: explain one fund, compare the funds, or answer a client's question. 'Ask a question' answers from the funds' filings, with dates and sources.",
     ],
-    tryThis: "Click a state to see the investments the filing names there.",
-    url: "/?view=breit",
+    tryThis: "Click one of the example questions.",
+    url: "/",
   },
   {
     chapter: "The map",
-    title: "The newest month, then the last quarter",
+    title: "A fund in five answers",
     body: [
-      "BCRED's 'Latest monthly update' has its September 30 value per share, size, payout and borrowing. Below it, 'Last quarterly report' shows what moved by June 30: net assets, value per share, how much it bought back when requests ran over the limit, loans on non-accrual, income against payout, and the number of companies it lends to.",
-      "Each shows which way it moved and what it's compared with.",
+      "What it is, what it pays, how to get money out, what changed lately and the main risk, each dated and sourced. The newest values come from the September 30 month-end filings; the rest from the 10-Q for the quarter ended June 30, 2026.",
+      "Dotted words open a plain definition with the filing's own words.",
     ],
+    tryThis: "Click 'See the details' for the map and the full numbers.",
     url: "/?view=bcred",
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Liquidity: when does the money come back?",
+    title: "Getting money out",
     body: [
       "These funds buy shares back up to a limit. When more people ask than the limit allows, everyone gets the same fraction.",
       "The simulator shows, quarter by quarter, how much of a request would be paid.",
@@ -216,7 +202,7 @@ export const SHORT_STEPS: TourStep[] = [
   },
   {
     chapter: "Advisor Toolkit",
-    title: "Reality Check",
+    title: "Goals vs. results",
     body: [
       "Each fund's own stated goals, from its annual report, next to what its latest 10-Q shows, with neutral labels and a badge showing how old the data is.",
     ],
@@ -224,9 +210,9 @@ export const SHORT_STEPS: TourStep[] = [
   },
   {
     chapter: "The map",
-    title: "All four, side by side",
+    title: "The funds, side by side",
     body: [
-      "One table compares the four funds: distribution rate, fees, buy-back limits, the early-sale deduction, whether last quarter's buy-backs were pro-rated, minimum investment and the change in value per share.",
+      "One table compares the funds you pick: size, value per share, distribution rate, fees, buy-back limits, the early-sale deduction, whether last quarter's buy-backs were pro-rated, and the minimum investment.",
       "Each cell comes from that fund's own filing. Where a filing doesn't say, the cell says 'Not in filing'.",
     ],
     url: "/?view=all#compare-h",

@@ -3,6 +3,8 @@ import AddonShell from "@/components/addons/shared/AddonShell";
 import Steps from "@/components/addons/shared/Steps";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import FundLink from "@/components/addons/shared/FundLink";
+import ToolTabs from "@/components/addons/shared/ToolTabs";
+import { DrawdownBody } from "@/components/addons/drawdown-vs-evergreen/DrawdownBody";
 import { formatDate } from "@/lib/dates";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
@@ -29,14 +31,17 @@ function Section({ title, children, id }: { title: string; children: React.React
 const terms = (f: string) => TERMS.funds.find((t) => t.fund === f)!;
 const limit = (f: string, i: number) => terms(f).limits[i].value;
 
-/** Add-on 4: how redemption limits work, each fund's terms, and what has happened before. */
+/**
+ * Getting money out: how buybacks and their limits work, each fund's terms and track record, and (the second part)
+ * how an evergreen fund compares with a traditional drawdown fund.
+ */
 export default function LiquidityPage() {
   const taxLens = findAddon("tax-lens");
   return (
     <AddonShell
       addonId="liquidity"
-      title="Liquidity Simulator"
-      subtitle="Shares are bought back on a schedule, up to a set limit. Here's when the money arrives."
+      title="Getting money out"
+      subtitle="There's no stock exchange: each fund buys shares back on a schedule, up to a limit. Here's how that works, and when the money arrives."
       glance={[
         { value: `${limit("BREIT", 0)}% · ${limit("BREIT", 1)}%`, label: "BREIT: most it buys back a month · a quarter (% of NAV)", source: terms("BREIT").limits[0].source },
         { value: `${limit("BCRED", 0)}%`, label: "BCRED: quarterly target (% of shares)", source: terms("BCRED").limits[0].source },
@@ -49,8 +54,20 @@ export default function LiquidityPage() {
       ]}
       badges={<AsOfSource asOf={TERMS.asOf} source={TERMS.source} />}
     >
+      <ToolTabs
+        tabs={[
+          { id: "limits", label: "Buybacks and limits", content: <LimitsBody taxLens={!!taxLens} /> },
+          { id: "structure", label: "Evergreen or drawdown?", content: <DrawdownBody /> },
+        ]}
+      />
+    </AddonShell>
+  );
+}
+
+function LimitsBody({ taxLens }: { taxLens: boolean }) {
+  return (
       <div className="space-y-12">
-        <Section title="How the line works" id="line">
+        <Section title="How it works" id="line">
           <Steps
             steps={[
               { title: "You ask to sell", text: "There's no stock exchange, so the fund buys your shares back." },
@@ -66,7 +83,7 @@ export default function LiquidityPage() {
           {taxLens && (
             <p className="text-sm text-muted-strong">
               <FundLink href="/toolkit/tax-lens" className="underline decoration-line underline-offset-4 hover:text-ink">
-                When is tax due on what you receive? See the Tax Lens.
+                When is tax due on what you receive? See Taxes.
               </FundLink>
             </p>
           )}
@@ -94,6 +111,5 @@ export default function LiquidityPage() {
 
         <LiquidityPrint />
       </div>
-    </AddonShell>
   );
 }

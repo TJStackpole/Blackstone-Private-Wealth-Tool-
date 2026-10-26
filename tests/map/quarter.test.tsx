@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
-import DetailPanel from "@/components/DetailPanel";
+import QuarterBox from "@/components/QuarterBox";
 import { LAYERS } from "@/data/layers";
 import { quarterFigures } from "@/lib/quarter";
 import { latestFor } from "@/lib/latest";
@@ -20,7 +20,7 @@ describe("Last quarterly report box", () => {
   for (const l of funds) {
     it(`${l.fund}: each figure once, with a direction that matches its sign, a comparison, and the filing`, () => {
       const d = l.data!;
-      render(<DetailPanel layer={l} data={d} sector={null} selected={null} onSelect={() => {}} geoItems={d.geography.items} />);
+      render(<QuarterBox q={quarterFigures(d, latestFor(l.id))!} />);
       const box = screen.getByRole("region", { name: "Last quarterly report" });
       const items = quarterFigures(d, latestFor(l.id))!.items;
       expect(items.length).toBeGreaterThanOrEqual(4);

@@ -4,11 +4,40 @@ import type { FundCode } from "@/config/addons";
 import { FUNDS, NEUTRAL_ACCENT } from "@/lib/addons/shared/funds";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
+import ClientButton from "@/components/ClientButton";
 import AddonBoundary from "./AddonBoundary";
 import AddonDisclosure from "./AddonDisclosure";
 import BackToFund from "./BackToFund";
 import ToolIcon from "./ToolIcon";
 import type { AddonId } from "@/config/addons";
+
+type Tile = { value: string; label: string; source?: { name: string; url: string }; also?: { name: string; url: string }[] };
+
+/** Up to three key figures as tiles, each with its source. Used under a tool's title, or at the top of one of its tabs. */
+export function Glance({ tiles }: { tiles: Tile[] }) {
+  return (
+    <dl className="grid gap-3 sm:grid-cols-3">
+      {tiles.map((g) => (
+        <div key={g.label} className="flex flex-col gap-2 rounded-card border border-line bg-bg-raised p-4">
+          <dt className="order-2 text-xs leading-snug text-muted-strong">{g.label}</dt>
+          <dd className="tnum order-1 font-serif text-[26px] leading-none text-ink">{g.value}</dd>
+          {g.source && (
+            <dd className="order-3 mt-auto text-[11px] text-muted">
+              {[g.source, ...(g.also ?? [])].map((s, i) => (
+                <span key={s.url}>
+                  {i > 0 && " · "}
+                  <a href={s.url} target="_blank" rel="noreferrer noopener" title={s.name} className="underline decoration-line underline-offset-2 hover:text-ink">
+                    {s.name.split(",")[0]}
+                  </a>
+                </span>
+              ))}
+            </dd>
+          )}
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 interface Props {
   addonId: string;
@@ -19,7 +48,7 @@ interface Props {
   /** Badges row (SampleBadge, IllustrativeBadge, AsOfSource…). */
   badges?: ReactNode;
   /** Up to three key figures shown as tiles under the title. Each must come from the tool's sourced data. */
-  glance?: { value: string; label: string; source?: { name: string; url: string }; also?: { name: string; url: string }[] }[];
+  glance?: Tile[];
   children: ReactNode;
 }
 
@@ -41,7 +70,10 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
             </Link>
             <BackToFund />
           </nav>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <ClientButton />
+            <ThemeToggle />
+          </div>
         </div>
         <div className="flex items-start gap-4">
           <span className="mt-1 hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-line bg-bg-raised text-accent sm:inline-flex">
@@ -52,34 +84,7 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
             {subtitle && <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-strong">{subtitle}</p>}
           </div>
         </div>
-        {glance && glance.length > 0 && (
-          <dl className="grid gap-3 sm:grid-cols-3">
-            {glance.map((g) => (
-              <div key={g.label} className="flex flex-col gap-2 rounded-card border border-line bg-bg-raised p-4">
-                <dt className="order-2 text-xs leading-snug text-muted-strong">{g.label}</dt>
-                <dd className="tnum order-1 font-serif text-[26px] leading-none text-ink">{g.value}</dd>
-                {g.source && (
-                  <dd className="order-3 mt-auto text-[11px] text-muted">
-                    {[g.source, ...(g.also ?? [])].map((s, i) => (
-                      <span key={s.url}>
-                        {i > 0 && " · "}
-                        <a
-                          href={s.url}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          title={s.name}
-                          className="underline decoration-line underline-offset-2 hover:text-ink"
-                        >
-                          {s.name.split(",")[0]}
-                        </a>
-                      </span>
-                    ))}
-                  </dd>
-                )}
-              </div>
-            ))}
-          </dl>
-        )}
+        {glance && glance.length > 0 && <Glance tiles={glance} />}
         {badges && <div className="flex flex-wrap items-center gap-2">{badges}</div>}
       </header>
       <main className="space-y-8">

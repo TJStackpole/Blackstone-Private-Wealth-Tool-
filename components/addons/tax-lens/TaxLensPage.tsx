@@ -28,7 +28,7 @@ export default function TaxLensPage() {
   return (
     <AddonShell
       addonId="tax-lens"
-      title="Tax Lens"
+      title="Taxes"
       subtitle="Each fund's payouts are taxed differently. Pick a fund to see how, from its own filings."
       glance={[
         {
@@ -56,8 +56,8 @@ export default function TaxLensPage() {
         </Section>
 
         <Section title="Your numbers" id="calculator">
-          <PrintOnePager title="Tax Lens one-pager">
-            <h2 className="hidden font-serif text-xl print:block">Tax Lens: BREIT return of capital, illustrated</h2>
+          <PrintOnePager title="Taxes one-pager">
+            <h2 className="hidden font-serif text-xl print:block">Taxes: BREIT return of capital, illustrated</h2>
             <Calculator />
             <p className="hidden pt-2 text-[10px] print:block">
               Return-of-capital share: BREIT reported {TAX.rocHistory.map((y) => `${y.year} ${y.roc}%`).join(", ")} (Form 10-K filings). {ADDON_DISCLOSURE} Consult a tax
@@ -67,7 +67,7 @@ export default function TaxLensPage() {
           {liquidity && (
             <p className="text-sm text-muted-strong">
               <Link href="/toolkit/liquidity?fund=BREIT" className="underline decoration-line underline-offset-2 hover:text-ink">
-                When does the cash arrive if you redeem? See the Liquidity Simulator.
+                When does the cash arrive if you redeem? See Getting money out.
               </Link>
             </p>
           )}

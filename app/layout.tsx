@@ -46,12 +46,12 @@ window.addEventListener('storage',function(e){if(e.key==='pma-theme'&&e.newValue
 `;
 
 /**
- * The map page is exported as BREIT's view; a link to another fund (/?view=bcred) switches once the page's script
- * runs. Until then the map is hidden, so a BCRED link never shows BREIT's numbers. AtlasFromUrl clears the flag
- * after switching; the timer is a backstop.
+ * The map page is exported as its Start screen; a link to a view (/?view=bcred) switches once the page's script runs.
+ * Until then the page is hidden, so a BCRED link never flashes the Start screen. AtlasFromUrl clears the flag after
+ * switching; the timer is a backstop.
  */
 const deepLinkScript = `
-(function(){try{var v=new URLSearchParams(location.search).get('view');if(location.pathname==='/'&&v&&v.toLowerCase()!=='breit'){var h=document.documentElement;h.setAttribute('data-deeplink','');setTimeout(function(){h.removeAttribute('data-deeplink');},4000);}}catch(e){}})();
+(function(){try{var v=new URLSearchParams(location.search).get('view');if(location.pathname==='/'&&v){var h=document.documentElement;h.setAttribute('data-deeplink','');setTimeout(function(){h.removeAttribute('data-deeplink');},4000);}}catch(e){}})();
 `;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

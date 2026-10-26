@@ -1,4 +1,6 @@
-import AddonShell from "@/components/addons/shared/AddonShell";
+import AddonShell, { Glance } from "@/components/addons/shared/AddonShell";
+import ToolTabs from "@/components/addons/shared/ToolTabs";
+import { IndexBody } from "@/components/addons/index-vs-fund/IndexBody";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import Explainer from "./Explainer";
@@ -15,25 +17,43 @@ const BXINFRA_10K = {
   url: "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
 };
 
-/** Add-on 2: why a private fund's value moves so little, and what that does and doesn't mean. */
+/**
+ * Returns, explained: why a private fund's value moves so little and what that does and doesn't mean, and (the second
+ * part) how an index's return becomes a share class's return after fees and borrowing.
+ */
 export default function SmoothingPage() {
   return (
     <AddonShell
       addonId="smoothing"
-      title="Why So Smooth?"
-      subtitle="Appraised values move gently. Here's what that does, and doesn't, mean."
-      glance={[
-        { value: "Monthly", label: "BREIT updates its value per share", source: BREIT_10K },
-        { value: "Yearly", label: "Each BREIT property is re-appraised, at least", source: BREIT_10K },
-        { value: "Quarterly", label: "Full valuations for BX Infra and BXPE, updated monthly", source: BXINFRA_10K, also: [BXPE_10K] },
-      ]}
+      title="Returns, explained"
+      subtitle="Why appraised values move gently, and how a brochure's index return becomes what a share class earned."
     >
+      <ToolTabs
+        tabs={[
+          { id: "smooth", label: "Why values look smooth", content: <SmoothBody /> },
+          { id: "index", label: "From an index to the fund", content: <IndexBody /> },
+        ]}
+      />
+    </AddonShell>
+  );
+}
+
+function SmoothBody() {
+  return (
+    <div className="space-y-8">
+      <Glance
+        tiles={[
+          { value: "Monthly", label: "BREIT updates its value per share", source: BREIT_10K },
+          { value: "Yearly", label: "Each BREIT property is re-appraised, at least", source: BREIT_10K },
+          { value: "Quarterly", label: "Full valuations for BX Infra and BXPE, updated monthly", source: BXINFRA_10K, also: [BXPE_10K] },
+        ]}
+      />
       <div className="space-y-12">
         <Explainer />
-        <PrintOnePager title="Why So Smooth? one-pager">
+        <PrintOnePager title="Returns, explained one-pager">
           <div className="space-y-12 print:space-y-4">
             <div className="hidden print:block">
-              <h2 className="font-serif text-xl">Why So Smooth? Appraised values vs. traded prices</h2>
+              <h2 className="font-serif text-xl">Returns, explained: appraised values vs. traded prices</h2>
               <p className="mt-1 text-xs">
                 Private funds are valued by appraisals and models, not daily trading, so their values move more gradually. That lowers measured volatility, not
                 necessarily risk.
@@ -58,6 +78,6 @@ export default function SmoothingPage() {
           </div>
         </PrintOnePager>
       </div>
-    </AddonShell>
+    </div>
   );
 }

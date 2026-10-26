@@ -125,3 +125,18 @@ Not built: the plan's third "Advisor" view. The tool is meant to be shareable wi
 | Money labels round correctly ($1.0M, not $1000k) and have a billions step | Unit tests. |
 | Typing a number below a field's minimum no longer flashes an error | Unit test: held while typing, raised to the minimum on leaving the field. |
 | Charts inside picture wrappers aren't keyboard stops | Recharts' keyboard layer turned off where the chart is described by its label. |
+
+## Simpler to use (Start here, five answers, four tools)
+
+| Item | Verified |
+| --- | --- |
+| The site opens on **Start here**: explain one fund, compare the funds, answer a client question | Browser test; the old BREIT-first address `/?view=breit` still opens BREIT. Back and Forward move between Start and the views. |
+| **Ask a question** answers only from figures the site already shows, dated and sourced, and says so when it can't match | Unit tests: every example answers with sources; an unrelated question returns no answer. Browser test: an answer's Sources and a definition open. |
+| Each fund opens in **five answers** (what it is, what it pays, getting money out, what changed, the main risk); map and numbers behind **See the details** | Unit test: every figure in every answer is in the fund's data, every answer has a date and sources. `details=1` in the address; a link with a sector, region or theme opens the details. |
+| **Copy these answers** copies all five with every source and the disclaimer | Component test. Replaces the Talking points button. |
+| Dotted words open a **plain definition** with the filing's own words and source | 31 terms; every quote checked word for word against the cited filing; unit test: every figure in a plain line is in its quote. Another fund's definition isn't linked on a fund's own content. BREIT's distribution-rate definition isn't linked, since the site's rate is calculated differently. |
+| Seven tools merged into **four**; old addresses forward, keeping `?fund=` | Browser checks of each old address. Merged parts are tabs, so each still prints its own one-pager. |
+| Fine print behind **Sources** links; the comparison table picks funds (two on a phone) and has **Show sources** | Component tests. Sources always print. |
+| The client's state, bracket and amount are set once (**Client** button) and every tool uses them | Component test: a change reaches the tax calculator. |
+| Every printout fits on one page | 28 Letter PDFs, light and dark, plus Taxes at 30 years: one page each. |
+| Full regression | Types, lint, 231 unit tests, 10 browser tests, the 262-check map regression; desktop and phone, light and dark. |

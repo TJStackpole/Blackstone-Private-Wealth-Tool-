@@ -4,7 +4,7 @@ An interactive map of where Blackstone's four retail private-markets funds (BREI
 Built from public filings as an independent prototype. **Not affiliated with Blackstone. Not investment advice.**
 
 All five phases of `BUILD_PLAN.md` are built: BREIT, BX Infra, BXPE, BCRED, an All funds view, and the Retirement lens.
-All seven add-ons in `BUILD_PLAN_ADDONS.md` are built (three phases each) as the **Advisor Toolkit**, plus a **guided tour** at `/demo` (a six-step short tour by default; `/demo?tour=full` for all 17 steps).
+All seven add-ons in `BUILD_PLAN_ADDONS.md` are built (three phases each), now merged into four tools in the **Advisor Toolkit**, plus a **guided tour** at `/demo` (a six-step short tour by default; `/demo?tour=full` for all 15 steps).
 The **401(k) tab upgrade** in `BUILD_PLAN_401K.md` is built (three phases): see below.
 Live: https://private-markets-atlas.netlify.app
 
@@ -12,22 +12,27 @@ Live: https://private-markets-atlas.netlify.app
 - `CHECKLIST.md` — every phase's done checklist and how each item was verified.
 - `MISSING_DATA.md` — figures the site shows as "Not in filing", and which document and section they would come from.
 
-**On every fund page:** a **Latest monthly update** box with the newest month-end NAV, size and distribution from the filings between 10-Qs (see "Monthly updates"), a "Next update expected" month beside each as-of date (from the SEC schedule: a 10-Q about 45 days after each quarter-end, a 10-K about 90 days after December 31; `lib/schedule.ts`), a **Last quarterly report** box with the 10-Q's figures (each figure shows once: `lib/quarter.ts` folds the stat cards in and leaves the distribution rate to the monthly box when it has a newer one), and **Print / Save as PDF** for a one-page fund summary with a "Getting money out" line. The address follows the tab (`/?view=bcred`), so a fund can be shared as a link. **All funds** opens with a comparison table (distribution rate, fees, repurchase limit, early-sale deduction, proration, minimum investment, NAV change), every cell from that fund's own filing (`data/compare.json`, built by `scripts/sec/build_data.py`).
+**Where the site opens:** a **Start here** screen (`components/StartScreen.tsx`) with three ways in (explain one fund, compare the funds, answer a client question) and an **Ask a question** box. The box matches words in a typed question to the fund and topic (`lib/questions.ts`) and answers only with figures and sentences the site already shows, each with its date and sources; a question it can't match says so. The site's name in the header goes back to Start, and Back/Forward move between Start and the views.
+
+**Each fund opens in five answers** (`components/FundBrief.tsx`, built by `lib/fundBrief.ts`): what it is, what it pays, how to get money out, what changed lately and the main risk, each dated with a **Sources** link, plus **Copy these answers**, **Print / Save as PDF** and the fund's tools. **See the details** (`/?view=bcred&details=1`) opens the map, sector mix, holdings and the two number boxes below.
+
+**Plain definitions:** words with a dotted underline open a pop-up with a one-line definition, the filing's own words and the source (`data/glossary.json`, 31 terms; `components/Term.tsx`, `components/Glossed.tsx`). A definition that states one fund's own terms (BREIT's 2% monthly limit, say) is linked only on that fund's content, or shown as a labeled example in the comparison table. The quotes were checked word for word against the cited filings; `tests/map/glossary.test.tsx` checks every figure in a plain line is in its quote.
+
+**Your client, set once:** the **Client** button in the header holds the client's state, federal bracket and amount (saved in the browser), and every tool uses them.
+
+**In the details:** a **Latest monthly update** box with the newest month-end NAV, size and distribution from the filings between 10-Qs (see "Monthly updates"), a "Next update expected" month beside each as-of date (from the SEC schedule: a 10-Q about 45 days after each quarter-end, a 10-K about 90 days after December 31; `lib/schedule.ts`), a **Last quarterly report** box with the 10-Q's figures (each figure shows once: `lib/quarter.ts` folds the stat cards in and leaves the distribution rate to the monthly box when it has a newer one), and **Print / Save as PDF** for a one-page fund summary with a "Getting money out" line. The address follows the tab (`/?view=bcred`), so a fund can be shared as a link. **All funds** is a comparison table (size, value per share and its change since December 31, distribution rate, fees, repurchase limit, early-sale deduction, proration, minimum investment) for the funds you pick (two on a phone, all four on a wide screen), with a **Show sources** switch; every cell is from that fund's own filing (`data/compare.json`, built by `scripts/sec/build_data.py`, with month-end cells from `data/latest.json`).
 
 ## Advisor Toolkit (add-ons)
 
-| Tool | Page | What it does |
-| --- | --- | --- |
-| Liquidity Simulator | `/toolkit/liquidity` | Redemption limits, each fund's terms and history, a quarter-by-quarter simulator, and a reserve check |
-| Index-to-Fund Translator | `/toolkit/index-vs-fund` | A brochure's index next to each share class, and a step-by-step bridge between them |
-| Tax Lens | `/toolkit/tax-lens` | How each fund's payouts are taxed, from its own filings; for BREIT, return of capital: tax now vs. at sale, year by year |
-| Why So Smooth? | `/toolkit/smoothing` | Appraised vs. traded values, a desmoothing chart, and answers to common pushback |
-| Theme Exposure | `/toolkit/themes` | Themes across funds, a theme filter on the map, a client look-through, and sourced cases for and against |
-| Drawdown vs. Evergreen | `/toolkit/drawdown-vs-evergreen` | The two structures at a glance, a money-at-work model, and a one-page IC memo printout |
-| Reality Check | `/toolkit/reality-check` | Each fund's stated objectives next to its latest filing data, with a freshness badge |
+| Tool | Page | Client question | What it does |
+| --- | --- | --- | --- |
+| Getting money out | `/toolkit/liquidity` | Can my client get their money out? | Redemption limits, each fund's terms and history, a quarter-by-quarter simulator and a reserve check; second tab **Evergreen or drawdown?** (was Drawdown vs. Evergreen) with the money-at-work model and one-page IC memo |
+| Taxes | `/toolkit/tax-lens` | How are the payouts taxed? | How each fund's payouts are taxed, from its own filings; for BREIT, return of capital: tax now vs. at sale, year by year; federal, NIIT and state |
+| Returns, explained | `/toolkit/smoothing` | Why do the returns look the way they do? | Appraised vs. traded values and a desmoothing chart; second tab **From an index to the fund** (was the Index-to-Fund Translator) |
+| Goals vs. results | `/toolkit/reality-check` | Does it do what it says? | Each fund's stated objectives next to its latest filing data, with a freshness badge |
 
-Each tool can be switched off in `config/addons.ts` (`enabled: false`) and disappears everywhere. Each runs inside its own error boundary.
-Fund panels on the map show a button for each tool that applies; it opens a quick version in a side drawer.
+Merged tools keep their old addresses: `/toolkit/drawdown-vs-evergreen` forwards to `/toolkit/liquidity#structure`, `/toolkit/index-vs-fund` to `/toolkit/smoothing#index`, and `/toolkit/themes` to BREIT's map with the AI & data centers theme on (themes live on the map's theme row, with their case for and against under it). Each tool can be switched off in `config/addons.ts` (`enabled: false`) and disappears everywhere. Each runs inside its own error boundary.
+Each fund's page shows a button for each tool that applies; it opens a quick version in a side drawer.
 
 ## 401(k) tab upgrade (`retirement-plus`)
 
@@ -39,7 +44,7 @@ The Retirement tab, rebuilt around Blackstone's 2026 paper *Expanding Retirement
 | The private slice changes with age | The published mix at ages 25 and 65 (p. 9), a straight line between them (stated on the page), and links to each asset type on the map |
 | Outcome Lab | The paper's own result as the headline ($156k vs. $126k a year, p. 4), then its worker (p. 9) with returns you can change; the tool's 4%-of-balance income sits behind "See how this changes with your inputs"; a 0–3% premium strip and the paper's caveats |
 | How it would reach your 401(k) | Worker → plan menu → target date fund → private slice (p. 6) |
-| When many savers want out | What a rush of withdrawals does to the private share, with a link to the Liquidity Simulator |
+| When many savers want out | What a rush of withdrawals does to the private share, with a link to Getting money out |
 | Two-sided questions | Fees (each fund's own fees, from its own 10-Q), liquidity, valuation, lawsuits, complexity: the concern and the response, each sourced |
 | Rules and rulings so far | Dated milestones, each linked to its source |
 
@@ -47,7 +52,7 @@ A **Worker | Employer** switch changes wording and order, never the numbers. **P
 
 **Changes to existing map files (logged, as the add-on plan requires):**
 1. `components/Atlas.tsx`: the "Advisor Toolkit" link (Doorway A) and the `<ThemeBar>` ("Explore a theme") above the map (Add-on 6, Phase 1, the one exception the plan allows). ThemeBar renders nothing when the Themes add-on is off.
-2. `components/DetailPanel.tsx`: `<AddonChips>` (Doorway B).
+2. `components/FundBrief.tsx` (was `components/DetailPanel.tsx`): `<AddonChips>` (Doorway B), under the fund's five answers.
 3. `components/RetirementView.tsx`: one slot that renders `<RetirementPlus />` inside an error boundary when the 401(k) add-on is on (Rule B).
 4. For the guided tour (not an add-on): `components/Atlas.tsx` accepts an optional starting view, and `app/page.tsx` renders it through `components/AtlasFromUrl.tsx`, so links like `/?view=bcred&sector=Software` open the map at that spot. The header also gained a "Take the tour" link.
 
@@ -58,7 +63,7 @@ npm test        # unit tests (Vitest): every calculator and data file
 npm run e2e     # builds the site, then browser tests (Playwright): map, every tool, every drawer, the tour
 ```
 
-## Updating the Reality Check each quarter
+## Updating Goals vs. results (the Reality Check) each quarter
 
 ```bash
 npm run reality-check:export    # writes reality-check.csv from the live data
@@ -127,13 +132,13 @@ When the funds file new 10-Qs (about 45 days after each quarter ends: mid-May, m
    - **Chart figures.** BREIT's sector, region and largest-state shares and BXPE's sector and region shares are printed only as charts. Open the chart images in `filings/<today>/` and update the lines marked `CHART` in `scripts/sec/build_data.py`.
    - **Wording that names the period.** The builder looks for phrases such as "three months ended June 30, 2026" and "six months". A new quarter changes them; the STOPPED message names the line to update.
    - **BCRED's buyback proration** comes from its letter to investors (an SEC exhibit, not the 10-Q). Save the new letter's text in `filings/<today>/` and point `bcred_letter` in `FILES` (top of `build_data.py`) at it.
-   - **Hand-written text that quotes figures:** talking points (`data/talking-points.json`), Reality Check (see "Updating the Reality Check each quarter" above), the Tax Lens fund pages (`data/addons/tax-lens/funds.json`) and the tour (`lib/demo/steps.ts`). The tests flag talking-point figures that no longer match the data.
+   - **Hand-written text that quotes figures:** talking points (`data/talking-points.json`, used in each fund's five answers), Goals vs. results (see "Updating Goals vs. results (the Reality Check) each quarter" above), the Taxes fund pages (`data/addons/tax-lens/funds.json`) and the tour (`lib/demo/steps.ts`). The tests flag talking-point figures that no longer match the data.
 
    Then run `npm run refresh-data` again. Tip: you can hand this step to Claude Code: "Run npm run refresh-data and fix what it stops on, from the new filings."
 
 ### Monthly updates
 
-Between 10-Qs, each fund files its month-end NAV about three weeks after the month ends: an 8-K for BX Infra, BXPE and BCRED, and a prospectus supplement (Form 424B3) for BREIT, which also files an 8-K with its monthly distribution. The site shows these in a **Latest monthly update** box on each fund page, dated on its own, above the quarter's box. They also feed the **Latest NAV** line on All funds and the comparison table's distribution-rate and NAV-change rows. The map, sector mix and holdings stay on the last 10-Q, because the monthly filings don't give them. The figures live in `data/latest.json`, built by `scripts/sec/build_monthly.py`.
+Between 10-Qs, each fund files its month-end NAV about three weeks after the month ends: an 8-K for BX Infra, BXPE and BCRED, and a prospectus supplement (Form 424B3) for BREIT, which also files an 8-K with its monthly distribution. The site shows these in a **Latest monthly update** box on each fund page, dated on its own, above the quarter's box. They also feed each fund's five answers and the comparison table's value-per-share and distribution-rate rows. The map, sector mix and holdings stay on the last 10-Q, because the monthly filings don't give them. The figures live in `data/latest.json`, built by `scripts/sec/build_monthly.py`.
 
 **Each month** (around the 22nd, once all four funds have filed):
 
@@ -148,13 +153,13 @@ Between 10-Qs, each fund files its month-end NAV about three weeks after the mon
    - **"Not every fund has filed this month's figures yet"**: one or more funds haven't filed. Try again in a few days.
    - **"Done"**: run `npm run build`, look over the site, then publish.
    - **"STOPPED"**: a filing's wording changed. Nothing was changed. The message names the line in `scripts/sec/build_monthly.py` to update. You can hand this to Claude Code: "Run npm run refresh-monthly and fix what it stops on, from the new filings."
-4. Hand-written text that quotes these figures: the talking points (`data/talking-points.json`) and the Tax Lens cards for BCRED's distribution rate and BX Infra's quarterly distribution (`data/addons/tax-lens/funds.json`).
+4. Hand-written text that quotes these figures: the talking points (`data/talking-points.json`) and the Taxes cards for BCRED's distribution rate and BX Infra's quarterly distribution (`data/addons/tax-lens/funds.json`).
 
 After a new 10-Q, run `npm run refresh-data` first. The monthly figures are then compared with that quarter.
 
 ### Tax rates (each January)
 
-Every tax figure in the Tax Lens adds three things: the federal rate (bracket and capital gains rate, set in the calculator), the 3.8% federal net investment income tax (IRS Topic 559), and the client's state. State rates are each state's top rate, from the Tax Foundation's yearly table, in `data/addons/tax-lens/states.json`. To update them when the new table comes out:
+Every tax figure in Taxes adds three things: the federal rate (bracket and capital gains rate, set in the calculator), the 3.8% federal net investment income tax (IRS Topic 559), and the client's state. State rates are each state's top rate, from the Tax Foundation's yearly table, in `data/addons/tax-lens/states.json`. To update them when the new table comes out:
 
 ```bash
 curl -sL -A "Mozilla/5.0" -o states.html https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/

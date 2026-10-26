@@ -2,6 +2,7 @@ import type { AddonSource } from "@/lib/addons/shared/types";
 import { formatDate } from "@/lib/dates";
 import { cadenceOf } from "@/lib/schedule";
 import NextUpdate from "@/components/NextUpdate";
+import Sources from "@/components/Sources";
 
 const base = "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em]";
 
@@ -30,17 +31,20 @@ export function AsOfSource({ asOf, source }: { asOf: string; source: AddonSource
   const cadence = cadenceOf(source.name);
   return (
     <p className="text-xs leading-relaxed text-muted">
-      <span className="tnum">As of {formatDate(asOf)}</span> · Source:{" "}
-      <a href={source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
-        {source.name}
-      </a>
-      {source.page ? `, ${source.page}` : ""}
+      <span className="tnum">As of {formatDate(asOf)}</span>
       {cadence && (
         <>
           {" · "}
           <NextUpdate asOf={asOf} cadence={cadence} />
         </>
       )}
+      {" · "}
+      <Sources>
+        <a href={source.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
+          {source.name}
+        </a>
+        {source.page ? `, ${source.page}` : ""}
+      </Sources>
     </p>
   );
 }

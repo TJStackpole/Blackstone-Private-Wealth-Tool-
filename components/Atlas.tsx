@@ -9,11 +9,12 @@ import { stateName } from "@/lib/states";
 import { formatPct } from "@/lib/aggregate";
 import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
-import FilingBadge from "./FilingBadge";
 import FundPrint from "./FundPrint";
 import TourButton from "./TourButton";
-import FundActions from "./FundActions";
-import AddonChips from "./addons/shared/AddonChips";
+import ClientButton from "./ClientButton";
+import FundBrief from "./FundBrief";
+import StartScreen from "./StartScreen";
+import ViewLink from "./ViewLink";
 import { quarterFigures } from "@/lib/quarter";
 import { toFundCode } from "@/lib/addons/shared/funds";
 import { useMediaQuery } from "./useMediaQuery";
@@ -55,18 +56,33 @@ function filterNote(data: FundData, sector: string | null, split: boolean): stri
   return `The filing doesn't split ${label} by region, so the map shows the whole fund.`;
 }
 
-/** Where to open the map: a fund or view, and optionally a sector, a region or state, and a theme (see AtlasFromUrl). */
+/**
+ * Where to open the map: a fund or view, and optionally its details open, a sector, a region or state, and a theme
+ * (see AtlasFromUrl). No start at all is the Start screen.
+ */
 export interface AtlasStart {
   view: ViewId;
+  details?: boolean;
   sector?: string;
   select?: string;
   theme?: string;
 }
 
-/** The whole page: header, tabs, chips, map, panel, footer. Every layer plugs into this. */
+/** The Start screen, or one of the tabs. */
+type Screen = ViewId | "start";
+const isFund = (id: Screen) => id !== "start" && id !== "all" && id !== "retirement";
+
+/** The address for a view, so Back from a tool returns to it and it can be shared as a link. */
+function viewUrl(id: Screen, details: boolean): string {
+  return id === "start" ? "/" : `/?view=${id}${details && isFund(id) ? "&details=1" : ""}`;
+}
+
+/** The whole page: header, tabs, then the Start screen, a fund (its five answers, then details) or a side-by-side view. */
 export default function Atlas({ start }: { start?: AtlasStart }) {
-  const [viewId, setViewId] = useState<ViewId>(start?.view ?? DEFAULT_LAYER_ID);
-  const layerId: LayerId = viewId === "all" ? DEFAULT_LAYER_ID : viewId;
+  const [viewId, setViewId] = useState<Screen>(start?.view ?? "start");
+  const layerId: LayerId = viewId === "all" || viewId === "start" ? DEFAULT_LAYER_ID : viewId;
+  // A link that picks a sector, a region or a theme is about the map, so it opens with the details showing.
+  const [details, setDetails] = useState(!!(start?.details || start?.sector || start?.select || start?.theme));
   const [sector, setSector] = useState<string | null>(start?.sector ?? null);
   const [selected, setSelected] = useState<string | null>(start?.select ?? null);
   const [sheetOpen, setSheetOpen] = useState(!!start?.select);
@@ -87,8 +103,12 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
     setViewId(id);
     setSector(null);
     setSelected(null);
-    // The address follows the tab, so Back from a tool returns to this fund and the view can be shared as a link.
-    window.history.replaceState(window.history.state, "", id === DEFAULT_LAYER_ID ? "/" : `/?view=${id}`);
+    window.history.replaceState(window.history.state, "", viewUrl(id, details));
+  }
+
+  function showDetails(open: boolean) {
+    setDetails(open);
+    window.history.replaceState(window.history.state, "", viewUrl(viewId, open));
   }
 
   /** From All funds or the 401(k) tab, further down a long page: switch, then bring the tabs and map back into view. */
@@ -118,7 +138,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
     data && selected ? (data.geography.level === "us-region" ? stateName(selected) : (geoItems.find((g) => g.key === selected)?.label ?? selected)) : null;
 
   // The browser tab names the view: "BCRED · Private Markets Atlas", "All funds · …", "Retirement · …".
-  const viewTitle = viewId === "all" ? "All funds" : viewId === "retirement" ? "Retirement" : layer.fund;
+  const viewTitle = viewId === "start" ? "Start here" : viewId === "all" ? "All funds" : viewId === "retirement" ? "Retirement" : layer.fund;
   useDocumentTitle(`${viewTitle} · ${SITE_NAME}`);
   // A link ending in #id (the tour's "/?view=all#compare-h") lands on that part of the view once it has drawn.
   // Scrolls this window only, so inside the tour's frame the tour page itself stays put.
@@ -170,7 +190,12 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       <header className="mb-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div>
-            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">{SITE_NAME}</h1>
+            <h1 className="font-serif text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[32px]">
+              {/* The site's name goes back to the Start screen. */}
+              <ViewLink href="/" className="rounded-sm hover:text-accent" title="Start here">
+                {SITE_NAME}
+              </ViewLink>
+            </h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-strong">
               {SITE_TAGLINE}
             </p>
@@ -178,6 +203,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
           <div className="flex shrink-0 flex-wrap items-center gap-2">
             {/* The site opens on the map; the tour is one click away for anyone who wants a guided start. */}
             <TourButton />
+            <ClientButton />
             <Link href="/toolkit" className="tap inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink">
               Advisor Toolkit
             </Link>
@@ -185,37 +211,29 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
           </div>
         </div>
         <div className="mt-5 border-b border-line">
-          <LayerSwitcher layers={LAYERS} activeId={viewId} onChange={changeLayer} allFundsAfter="bcred" />
+          <LayerSwitcher layers={LAYERS} activeId={viewId === "start" ? null : viewId} onChange={changeLayer} allFundsAfter="bcred" />
         </div>
       </header>
 
-      {viewId === "all" ? (
+      {viewId === "start" ? (
+        <StartScreen layers={LAYERS} />
+      ) : viewId === "all" ? (
         <AllFundsView layers={LAYERS} onOpenLayer={openLayer} />
       ) : viewId === "retirement" ? (
         <RetirementView data={RETIREMENT} layers={LAYERS} onOpenLayer={openLayer} />
       ) : data ? (
+        <>
+        <FundBrief layer={layer} data={data} details={details} onDetails={showDetails} detailsId={`details-${layer.id}`} />
+        {details && (
+        <div id={`details-${layer.id}`} data-details>
+        {(latest || quarter) && (
+          <div className="mb-6 grid items-start gap-3 lg:grid-cols-2">
+            {latest && <LatestBox latest={latest} quarterAsOf={data.asOf} fund={toFundCode(layer.id)} />}
+            {quarter && <QuarterBox q={quarter} fund={toFundCode(layer.id)} />}
+          </div>
+        )}
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
-            {/* Phones: what the fund is, its tools and its numbers first, before the map; the panel below is a collapsed sheet there. */}
-            <div className="mb-5 lg:hidden" data-mobile-stats>
-              <div className="mb-1 flex flex-wrap items-center gap-2">
-                <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
-                  {data.fund} · {data.assetClass}
-                </p>
-                <FilingBadge data={data} />
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>
-              <div className="mb-4 mt-3 space-y-3">
-                <FundActions layerId={layer.id} data={data} />
-                <AddonChips fundId={layer.id} />
-              </div>
-              {latest && (
-                <div className="mb-3">
-                  <LatestBox latest={latest} quarterAsOf={data.asOf} />
-                </div>
-              )}
-              {quarter && <QuarterBox q={quarter} />}
-            </div>
             <div className="mb-4 space-y-3">
               <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} theme={theme} onTheme={setTheme} />
               {/* Sectors are picked in the panel's Sector mix; this says what the map is filtered to and clears it. */}
@@ -304,14 +322,17 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
             </motion.div>
           </aside>
         </div>
+        </div>
+        )}
+        </>
       ) : (
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} latest={latest} fund={toFundCode(layer.id)} />}
+      {data && isFund(viewId) && <FundPrint data={data} latest={latest} fund={toFundCode(layer.id)} />}
 
       <SourceFooter
-        data={viewId === "all" || viewId === "retirement" ? undefined : data}
+        data={isFund(viewId) ? data : undefined}
         disclosure={viewId === "retirement" && findAddon("retirement-plus") ? ADDON_DISCLOSURE : undefined}
       />
     </div>

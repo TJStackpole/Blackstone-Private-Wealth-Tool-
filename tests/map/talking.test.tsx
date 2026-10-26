@@ -1,12 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import FundActions from "@/components/FundActions";
+import { describe, expect, it } from "vitest";
 import { LAYERS } from "@/data/layers";
 import { talkingPoints } from "@/lib/talkingPoints";
 import type { FundData, LayerId } from "@/lib/types";
 import { LATEST } from "@/lib/latest";
-
-afterEach(cleanup);
 
 const funds = LAYERS.filter((l) => l.id !== "retirement" && l.data);
 
@@ -35,24 +31,4 @@ describe("talking points", () => {
       }
     });
   }
-
-  it("opens from the button and copies the sentences with the source and disclaimer", async () => {
-    const l = funds.find((f) => f.id === "bcred")!;
-    const writeText = vi.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, { clipboard: { writeText } });
-    render(<FundActions layerId={l.id} data={l.data!} />);
-    expect(screen.queryByRole("region", { name: /Talking points/ })).toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: "Talking points" }));
-    const tp = talkingPoints(l.id)!;
-    expect(screen.getByRole("region", { name: /Talking points/ }).textContent).toContain(tp.risk);
-    fireEvent.click(screen.getByRole("button", { name: "Copy" }));
-    await waitFor(() => expect(screen.getByRole("button", { name: "Copied" })).toBeTruthy());
-    const copied = writeText.mock.calls[0][0] as string;
-    for (const s of [tp.does, tp.risk, tp.changed, l.data!.filing.url, "Not investment advice"]) expect(copied).toContain(s);
-    // "What changed" quotes the Sep 30 month-end figures, so their filing is cited too, on screen and in the copy.
-    for (const s of LATEST.funds.bcred!.items[0].sources) {
-      expect(copied).toContain(s.url);
-      expect(screen.getByRole("region", { name: /Talking points/ }).querySelector(`a[href="${s.url}"]`)).toBeTruthy();
-    }
-  });
 });

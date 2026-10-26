@@ -1,0 +1,516 @@
+{
+ "note": "Plain definitions for the site's jargon. Each quote is copied word for word from the filing (or IRS page) it cites, checked by tests/map/glossary.test.tsx against the figures in it; \"fund\" marks a definition that states one fund's own terms, shown only on that fund's pages or as a labeled example.",
+ "terms": [
+  {
+   "id": "nav",
+   "term": "NAV (net asset value)",
+   "plain": "NAV aims to be the fair value of the fund's assets minus its liabilities; it differs from accounting book value.",
+   "quote": "The calculation of our NAV is intended to be a calculation of the fair value of our assets less our outstanding liabilities as described below and differs materially from the book value of our equity reflected in our financial statements.",
+   "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Part I, Item 2. Management’s Discussion and Analysis — Net Asset Value"
+   },
+   "asOf": "2026-06-30",
+   "match": [
+    "NAV",
+    "net asset value"
+   ]
+  },
+  {
+   "id": "transactional-nav",
+   "term": "Transactional NAV",
+   "plain": "Transactional NAV is the price at which BX Infra sells and redeems units, and certain fees are based on it.",
+   "quote": "Transactional NAV is the price at which the Registrants sell and redeem their Units and serves as a basis for certain fees incurred by BXINFRA.",
+   "source": {
+    "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+    "page": "Part I, Item 2. Management’s Discussion and Analysis — Transactional Net Asset Value"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXINFRA",
+   "match": [
+    "Transactional NAV"
+   ]
+  },
+  {
+   "id": "distribution-rate",
+   "term": "Distribution rate (annualized)",
+   "plain": "Each month's net distribution per share, annualized and divided by the prior month's NAV per share, averaged over three months.",
+   "quote": "The annualized distribution rate is calculated by averaging each of the three months’ annualized distribution rates, which are calculated as the net distribution per share, divided by the prior month’s net asset value per share.",
+   "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Part I, Item 2. Management’s Discussion and Analysis — Q2 2026 Highlights (table note 1)"
+   },
+   "asOf": "2026-06-30",
+   "match": []
+  },
+  {
+   "id": "total-return",
+   "term": "Total return",
+   "plain": "Total return adds the change in NAV per share to distributions declared, assuming those distributions were reinvested.",
+   "quote": "Total return is calculated as the change in NAV per share during the respective periods plus any distributions per share declared in the period, and assumes any distributions are reinvested under our distribution reinvestment plan.",
+   "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Part I, Item 2. Management’s Discussion and Analysis — Q2 2026 Highlights (table note 2)"
+   },
+   "asOf": "2026-06-30",
+   "match": [
+    "total return"
+   ]
+  },
+  {
+   "id": "share-repurchase-plan",
+   "term": "Share repurchase plan",
+   "plain": "Stockholders can ask BREIT each month to buy back their shares, but BREIT isn't obligated to buy any.",
+   "quote": "Our share repurchase plan, which is approved and administered by our board of directors, provides our stockholders with the opportunity to request that we repurchase their shares on a monthly basis, but we are not obligated to repurchase any shares…",
+   "source": {
+    "name": "BREIT Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+    "page": "Cautionary Note Regarding Forward-Looking Statements; Risk Factor Summary"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BREIT",
+   "match": [
+    "share repurchase plan",
+    "repurchase plan"
+   ]
+  },
+  {
+   "id": "repurchase-limit",
+   "term": "Repurchase limit",
+   "plain": "BREIT's total share buybacks are capped at 2% of its NAV per month and 5% per calendar quarter.",
+   "quote": "The aggregate NAV of total repurchases of all share classes… is limited to no more than 2% of our aggregate NAV per month… and no more than 5% of our aggregate NAV per calendar quarter…",
+   "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Part II, Item 2. Unregistered Sales of Equity Securities and Use of Proceeds — Share Repurchases"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BREIT",
+   "match": [
+    "buyback limit",
+    "repurchase limit"
+   ]
+  },
+  {
+   "id": "pro-rata",
+   "term": "Pro rata",
+   "plain": "BCRED offers quarterly buybacks of up to 5% of shares; if requests exceed the approved amount, each is filled proportionally.",
+   "quote": "The Fund’s repurchase program offers quarterly share repurchases of up to 5% of shares outstanding, subject to Board approval, with requests fulfilled on a pro rata basis if they exceed the approved amount.",
+   "source": {
+    "name": "BCRED letter to investors, September 3, 2026 (tender offer exhibit (a)(1)(vii))",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm",
+    "page": "Letter body (“Q3 Distribution and Tender Offer Update”)"
+   },
+   "asOf": "2026-09-03",
+   "fund": "BCRED",
+   "match": [
+    "pro rata",
+    "pro-rated",
+    "pro-rata"
+   ]
+  },
+  {
+   "id": "tender-offer",
+   "term": "Tender offer",
+   "plain": "BCRED expects to buy back shares through tender offers priced at the NAV per share on the quarter's last day.",
+   "quote": "Under the share repurchase program… it is expected to repurchase shares pursuant to tender offers using a purchase price equal to the NAV per share as of the last calendar day of the applicable quarter…",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Share Repurchase Program"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BCRED",
+   "match": [
+    "tender offers",
+    "tender offer"
+   ]
+  },
+  {
+   "id": "early-redemption-deduction",
+   "term": "Early redemption deduction",
+   "plain": "Redeeming units held less than two years costs a 5% deduction from their Transactional NAV.",
+   "quote": "Any redemption requests of Units that have been outstanding for less than two years will be subject to an early redemption deduction equal to 5% of the value of such Transactional NAV of the Units being redeemed…",
+   "source": {
+    "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+    "page": "Part I, Item 1. Financial Statements — BXINFRA U.S. notes, Note 5. Net Assets — Unit Redemption Plan"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXINFRA",
+   "match": [
+    "early-sale deduction",
+    "early redemption deduction"
+   ]
+  },
+  {
+   "id": "management-fee",
+   "term": "Management fee",
+   "plain": "BCRED's adviser is paid a yearly fee of 1.25% of net assets, charged monthly and paid quarterly after the fact.",
+   "quote": "The management fee is payable monthly and is settled and paid quarterly in arrears at an annual rate of 1.25% of the value of our net assets as of the beginning of the first calendar day of the applicable month.",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Management Fees"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BCRED",
+   "match": [
+    "management fee"
+   ]
+  },
+  {
+   "id": "performance-participation",
+   "term": "Performance participation allocation",
+   "plain": "BXPE's general partner receives 12.5% of total return, subject to a 5% yearly hurdle, a high-water mark and full catch-up.",
+   "quote": "The General Partner receives a performance participation allocation (“Performance Participation Allocation”) by BXPE (through the Aggregator) equal to 12.5% of total return subject to a 5% annual hurdle amount and a high water mark with 100% catch-up.",
+   "source": {
+    "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+    "page": "Part I, Item 1. Financial Statements — Aggregator notes, Note 7. Related Party Transactions — Performance Participation Allocation"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXPE",
+   "match": [
+    "performance participation",
+    "performance / incentive fee"
+   ]
+  },
+  {
+   "id": "hurdle",
+   "term": "Hurdle",
+   "plain": "The special limited partner gets no share of annual total return until other unitholders have first received 5%.",
+   "quote": "Under the BREIT OP agreement, the annual total return will be allocated solely to the Special Limited Partner only after the other unitholders have received a total return of 5%…",
+   "source": {
+    "name": "BREIT Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+    "page": "Notes to Consolidated Financial Statements — Note 10. Related Party and Other Transactions — Performance Participation Allocation"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BREIT",
+   "match": [
+    "hurdle"
+   ]
+  },
+  {
+   "id": "high-water-mark",
+   "term": "High-water mark",
+   "plain": "Before the special limited partner shares in returns, unitholders must first recoup any carried-forward losses, then earn 5%.",
+   "quote": "Under the BREIT OP agreement, the annual total return… will be allocated solely to the Special Limited Partner only after such BREIT OP unitholders have received a total return of 5% (after recouping any loss carryforward amount)…",
+   "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Part I, Item 1. Financial Statements — Note 10. Related Party and Other Transactions — Performance Participation Allocation"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BREIT",
+   "match": [
+    "high-water mark",
+    "loss carryforward"
+   ]
+  },
+  {
+   "id": "catch-up",
+   "term": "Catch-up",
+   "plain": "The catch-up is designed to give the adviser about 12.5% of income returns, as if there were no hurdle.",
+   "quote": "This “catch-up” is meant to provide the Adviser with approximately 12.5% of Pre-Incentive Fee Net Investment Income Returns as if a hurdle rate did not apply…",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Incentive Fees — (i) Income Based Incentive Fee"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BCRED",
+   "match": [
+    "catch-up"
+   ]
+  },
+  {
+   "id": "servicing-fee",
+   "term": "Servicing fee",
+   "plain": "Each class's servicing fee is subtracted from its monthly distribution and paid to the distributor, so net payouts differ by class.",
+   "quote": "The net distribution varies for each class based on the applicable stockholder servicing fee, which is deducted from the monthly distribution per share/unit and paid directly to the applicable distributor.",
+   "source": {
+    "name": "BREIT Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+    "page": "Item 5. Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities — Distributions"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BREIT",
+   "match": [
+    "servicing fee",
+    "servicing fees"
+   ]
+  },
+  {
+   "id": "non-accrual",
+   "term": "Non-accrual",
+   "plain": "A loan goes on non-accrual when full repayment is in doubt; interest already booked on it is generally reversed.",
+   "quote": "Loans are placed on non-accrual status when there is reasonable doubt whether principal or interest will be collected in full. Accrued interest is generally reversed when a loan is placed on non-accrual status.",
+   "source": {
+    "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+    "page": "Part I, Item 1. Financial Statements — Note 2. Significant Accounting Policies — Non-Accrual Income"
+   },
+   "asOf": "2026-06-30",
+   "match": [
+    "non-accrual"
+   ]
+  },
+  {
+   "id": "first-lien",
+   "term": "First-lien (senior secured) debt",
+   "plain": "Senior secured debt sits at the top of a borrower's capital structure, so it is paid before junior creditors and shareholders.",
+   "quote": "…senior secured debt is on the top of the capital structure and thus has priority in payment among an issuer’s security holders (i.e., senior secured debt holders are due to receive payment before junior creditors and equity holders).",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Market Opportunity — Attractive Opportunities in Floating Rate, Senior Secured Loans"
+   },
+   "asOf": "2025-12-31",
+   "match": [
+    "first lien",
+    "first-lien",
+    "senior secured"
+   ]
+  },
+  {
+   "id": "floating-rate",
+   "term": "Floating rate",
+   "plain": "BCRED's loans generally pay interest that moves with a variable base rate, such as SOFR.",
+   "quote": "The senior secured loans we invest in will generally pay floating interest rates based on a variable base rate, such as the Secured Overnight Financing Rate (“SOFR”).",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Market Opportunity — Attractive Opportunities in Floating Rate, Senior Secured Loans"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BCRED",
+   "match": [
+    "floating-rate",
+    "floating rate"
+   ]
+  },
+  {
+   "id": "leverage",
+   "term": "Leverage (debt-to-equity)",
+   "plain": "Debt-to-equity compares borrowing to net assets: average daily borrowings in the month divided by average net assets.",
+   "quote": "Represents the average debt-to-equity and has been calculated using the average daily borrowings during the month divided by average net assets.",
+   "source": {
+    "name": "BCRED letter to investors, September 3, 2026 (tender offer exhibit (a)(1)(vii))",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm",
+    "page": "End Notes, note 13"
+   },
+   "asOf": "2026-09-03",
+   "fund": "BCRED",
+   "match": [
+    "leverage",
+    "debt-to-equity"
+   ]
+  },
+  {
+   "id": "asset-coverage",
+   "term": "Asset coverage",
+   "plain": "A ratio of the fund's total assets, less liabilities other than its borrowings, to the amount it has borrowed.",
+   "quote": "Asset coverage per unit is the ratio of the carrying value of the Company’s total assets, less all liabilities excluding indebtedness represented by senior securities in this table, to the aggregate amount of senior securities representing indebtedness.",
+   "source": {
+    "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+    "page": "Part I, Item 1. Financial Statements — Note 10. Financial Highlights and Senior Securities (senior securities table, note 2)"
+   },
+   "asOf": "2026-06-30",
+   "match": [
+    "asset coverage"
+   ]
+  },
+  {
+   "id": "bdc",
+   "term": "BDC (business development company)",
+   "plain": "A BDC must hold at least 70% of assets in securities generally issued privately by U.S. private or thinly traded companies.",
+   "quote": "BDCs are subject to certain restrictions applicable to investment companies under the 1940 Act. As a BDC, at least 70% of our assets must be the type of “qualifying” assets… which are generally privately-offered securities issued by U.S. private or thinly-traded companies.",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Our Company"
+   },
+   "asOf": "2025-12-31",
+   "match": [
+    "business development company",
+    "BDC"
+   ]
+  },
+  {
+   "id": "ric",
+   "term": "RIC (regulated investment company)",
+   "plain": "As a RIC, BCRED generally pays no federal income tax on income and gains it distributes to shareholders each year.",
+   "quote": "As a RIC, the Company generally will not be subject to U.S. federal income tax on its investment company taxable income… and net capital gain… that it distributes in each taxable year to its shareholders…",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Material U.S. Federal Income Tax Considerations"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BCRED",
+   "match": [
+    "regulated investment company",
+    "RIC"
+   ]
+  },
+  {
+   "id": "reit",
+   "term": "REIT (real estate investment trust)",
+   "plain": "BREIT generally avoids federal income tax by staying a REIT and paying out all its net taxable income each year.",
+   "quote": "BREIT is a non-listed, perpetual life real estate investment trust (“REIT”)… We generally will not be subject to U.S. federal income taxes… to the extent we annually distribute all of our net taxable income to stockholders and maintain our qualification as a REIT.",
+   "source": {
+    "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
+    "page": "Part I, Item 2. Management’s Discussion and Analysis — Overview"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BREIT",
+   "match": [
+    "real estate investment trust",
+    "REIT"
+   ]
+  },
+  {
+   "id": "partnership-k1",
+   "term": "Partnership taxation (Schedule K-1)",
+   "plain": "Taxed as a partnership, BXPE U.S. generally pays no federal or state income tax; its taxable income passes to unitholders.",
+   "quote": "BXPE U.S. is treated as a partnership for U.S. federal income tax purposes and therefore generally is not subject to any U.S. federal and state income taxes. Taxable income is allocated to BXPE U.S.’s unitholders.",
+   "source": {
+    "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+    "page": "Part I, Item 1. Financial Statements — BXPE U.S. notes, Note 2. Summary of Significant Accounting Policies — Income Taxes"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXPE",
+   "match": [
+    "Schedule K-1",
+    "K-1",
+    "partnership"
+   ]
+  },
+  {
+   "id": "aggregator",
+   "term": "Aggregator",
+   "plain": "The Aggregator is a Cayman Islands partnership through which BXPE invests all or substantially all of its assets.",
+   "quote": "The term “Aggregator” refers to BXPE US Aggregator (CYM) L.P.… a Cayman Islands exempted limited partnership, together with its consolidated subsidiaries and through which BXPE invests all or substantially all of its assets.",
+   "source": {
+    "name": "BXPE Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000016/bxpe-20260630.htm",
+    "page": "Introductory defined terms (“In this report, except where the context suggests otherwise”)"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXPE",
+   "match": [
+    "Aggregator"
+   ]
+  },
+  {
+   "id": "feeder",
+   "term": "Feeder fund",
+   "plain": "A feeder fund is a vehicle, formed at the general partner's direction, investing substantially all its assets in BXINFRA U.S.",
+   "quote": "The term “Feeder Fund” refers to a limited partner of BXINFRA U.S. that is formed by, or at the direction of, the General Partner… to serve as a vehicle which will invest all or substantially all of its investable assets in BXINFRA U.S.…",
+   "source": {
+    "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+    "page": "Introductory defined terms (“In this report, except where the context suggests otherwise”)"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXINFRA",
+   "match": [
+    "feeder fund",
+    "feeder"
+   ]
+  },
+  {
+   "id": "parallel-vehicles",
+   "term": "Parallel vehicles (parallel funds)",
+   "plain": "Parallel funds invest alongside BXINFRA U.S. so investors with special legal, tax or regulatory needs can join the Aggregator.",
+   "quote": "The term “Parallel Fund” refers to one or more parallel vehicles established… to invest alongside BXINFRA U.S.… Parallel Funds may be established to allow certain investors with particular legal, tax, regulatory, compliance, structuring or certain other operational requirements to participate in the Aggregator.",
+   "source": {
+    "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
+    "page": "Introductory defined terms (“In this report, except where the context suggests otherwise”)"
+   },
+   "asOf": "2026-06-30",
+   "fund": "BXINFRA",
+   "match": [
+    "parallel funds",
+    "parallel vehicles"
+   ]
+  },
+  {
+   "id": "share-class",
+   "term": "Share classes (Class I, D, S)",
+   "plain": "BCRED sells three share classes, I, S and D, which differ in their ongoing servicing and/or distribution fees.",
+   "quote": "The Company offers to sell any combination of three classes of Common Shares, Class I shares, Class S shares, and Class D shares… The share classes have different ongoing shareholder servicing and/or distribution fees.",
+   "source": {
+    "name": "BCRED Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000014/bcred-20251231.htm",
+    "page": "Item 1. Business — Our Company"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BCRED",
+   "match": [
+    "share classes",
+    "share class"
+   ]
+  },
+  {
+   "id": "same-property-noi",
+   "term": "Same-property NOI",
+   "plain": "NOI is operating revenue minus operating expenses; same-property NOI counts only properties owned for the full periods compared.",
+   "quote": "The Company defines NOI as operating revenues less operating expenses… Properties in the Company’s portfolio are considered same property if they were owned for the full periods presented, otherwise they are considered non-same property.",
+   "source": {
+    "name": "BREIT Form 8-K, October 22, 2026",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000156/breit-20261022.htm",
+    "page": "Item 2.02 Results of Operations and Financial Condition"
+   },
+   "asOf": "2026-10-22",
+   "fund": "BREIT",
+   "match": [
+    "same-property net operating income",
+    "same-property NOI"
+   ]
+  },
+  {
+   "id": "appraisal",
+   "term": "Appraisal (how property values are set)",
+   "plain": "BREIT's adviser values properties monthly, checked by an independent valuation advisor; outside appraisers value each property yearly.",
+   "quote": "The Adviser will then value our properties monthly, based on current material market data and other information deemed relevant, with review for reasonableness each month by an independent valuation advisor. Each property will be valued by an independent third-party appraisal firm annually.",
+   "source": {
+    "name": "BREIT Form 10-K, fiscal year ended December 31, 2025",
+    "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+    "page": "Item 1A. Risk Factors — “Valuations and appraisals of our real estate and real estate debt are estimates of fair value and may not necessarily correspond to realizable value.”"
+   },
+   "asOf": "2025-12-31",
+   "fund": "BREIT",
+   "match": [
+    "appraisals",
+    "appraisal"
+   ]
+  },
+  {
+   "id": "niit",
+   "term": "NIIT (net investment income tax)",
+   "plain": "A 3.8% tax that applies to individuals, estates and trusts whose net investment income is above threshold amounts.",
+   "quote": "A 3.8 percent net investment income tax (NIIT) applies to individuals, estates, and trusts that have net investment income above applicable threshold amounts.",
+   "source": {
+    "name": "IRS Tax Topic 559, Net investment income tax",
+    "url": "https://www.irs.gov/taxtopics/tc559",
+    "page": "Topic no. 559, Net investment income tax (opening paragraph)"
+   },
+   "asOf": "2026-09-24",
+   "match": [
+    "net investment income tax",
+    "NIIT"
+   ]
+  }
+ ]
+}

@@ -38,7 +38,7 @@ describe("Latest monthly update", () => {
       const box = screen.getByRole("region", { name: "Latest monthly update" });
       expect(box.textContent).toContain("Values at Sep 30, 2026");
       expect(box.textContent).toContain("filed Oct 22, 2026");
-      expect(box.textContent).toContain("from the 10-Q for the quarter ended Jun 30, 2026");
+      expect(box.textContent).toContain("Map and sectors: the 10-Q, Jun 30, 2026");
       expect(box.textContent).toContain("Next update expected");
       for (const i of m.items) expect(within(box.querySelector(`[data-latest="${i.label}"]`) as HTMLElement).getByText(i.value)).toBeTruthy();
       for (const a of within(box).getAllByRole("link")) expect(a.getAttribute("href")).toMatch(/^https:\/\/www\.sec\.gov\//);

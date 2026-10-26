@@ -28,9 +28,9 @@ function View({ initial }: { initial: FundCode }) {
           Data as of {formatDate(oldest)} · checked {formatDate(d.updated)} · <NextUpdate asOf={oldest} />
         </span>
       </div>
-      <PrintOnePager title="Reality Check one-pager">
+      <PrintOnePager title="Goals vs. results one-pager">
         <div className="space-y-3 print:space-y-2">
-          <h2 className="hidden font-serif text-xl print:block">Reality Check: {FUNDS[fund].label}</h2>
+          <h2 className="hidden font-serif text-xl print:block">Goals vs. results: {FUNDS[fund].label}</h2>
           {d.claims.map((c) => (
             <ClaimCard key={c.id} c={c} />
           ))}

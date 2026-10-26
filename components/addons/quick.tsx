@@ -15,11 +15,8 @@ export interface QuickProps {
  * placeholder instead of an empty panel.
  */
 export const ADDON_QUICK: Partial<Record<AddonId, ComponentType<QuickProps>>> = {
-  "index-vs-fund": dynamic(() => import("./index-vs-fund/IndexVsFundQuick"), { ssr: false, loading: () => <ToolLoading /> }),
   liquidity: dynamic(() => import("./liquidity/LiquidityQuick"), { ssr: false, loading: () => <ToolLoading /> }),
   "reality-check": dynamic(() => import("./reality-check/RealityQuick"), { ssr: false, loading: () => <ToolLoading /> }),
   smoothing: dynamic(() => import("./smoothing/SmoothingQuick"), { ssr: false, loading: () => <ToolLoading /> }),
-  "drawdown-vs-evergreen": dynamic(() => import("./drawdown-vs-evergreen/DrawdownQuick"), { ssr: false, loading: () => <ToolLoading /> }),
-  themes: dynamic(() => import("./themes/ThemesQuick"), { ssr: false, loading: () => <ToolLoading /> }),
   "tax-lens": dynamic(() => import("./tax-lens/TaxLensQuick"), { ssr: false, loading: () => <ToolLoading /> }),
 };

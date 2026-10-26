@@ -31,8 +31,13 @@ export interface AddonDef {
   appliesTo: FundCode[];
   /** Highest phase completed. */
   phase: 1 | 2 | 3;
-  /** "tab" add-ons upgrade a map tab instead of having a Toolkit page or fund chips (e.g. the 401(k) tab). */
-  kind?: "tool" | "tab";
+  /**
+   * "tool" (the default): its own Toolkit page and fund chips. "tab": upgrades a map tab (the 401(k) lens). "map": lives
+   * on the map itself (the theme row). "moved": merged into another tool; its old address forwards to `movedTo`.
+   */
+  kind?: "tool" | "tab" | "map" | "moved";
+  /** Where a moved add-on lives now, e.g. "/toolkit/liquidity#structure". */
+  movedTo?: string;
 }
 
 /** Every add-on id the plan defines, so pages can be pre-built for a static export. */
@@ -51,10 +56,10 @@ export const ALL_ADDON_IDS: AddonId[] = [
 export const ADDONS: AddonDef[] = [
   {
     id: "liquidity",
-    name: "Liquidity Simulator",
-    shortName: "Liquidity",
-    description: "Buybacks on a schedule, up to a set limit. See when the money arrives.",
-    question: "Can I get my money out?",
+    name: "Getting money out",
+    shortName: "Money out",
+    description: "How buybacks work, each fund's limits and what has happened when requests ran over them, and how an evergreen fund compares with a drawdown fund.",
+    question: "Can my client get their money out?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
@@ -63,17 +68,18 @@ export const ADDONS: AddonDef[] = [
     id: "index-vs-fund",
     name: "Index-to-Fund Translator",
     shortName: "Index vs fund",
-    description: "From a brochure's index to each share class, step by step.",
-    question: "What did the fund actually earn?",
+    description: "Now part of Returns, explained.",
     enabled: true,
-    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    appliesTo: [],
     phase: 3,
+    kind: "moved",
+    movedTo: "/toolkit/smoothing#index",
   },
   {
     id: "tax-lens",
-    name: "Tax Lens",
-    shortName: "Tax Lens",
-    description: "How each fund's payouts are taxed, from its own filings.",
+    name: "Taxes",
+    shortName: "Taxes",
+    description: "How each fund's payouts are taxed, and what a client would owe now and at sale: federal, the investment income tax and their state.",
     question: "How are the payouts taxed?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
@@ -81,41 +87,42 @@ export const ADDONS: AddonDef[] = [
   },
   {
     id: "smoothing",
-    name: "Why So Smooth?",
-    shortName: "Why so smooth",
-    description: "Appraised values vs. traded prices, side by side.",
-    question: "Why is the value so steady?",
+    name: "Returns, explained",
+    shortName: "Returns",
+    description: "Why appraised values move gently, and how an index's return becomes a share class's return after fees and borrowing.",
+    question: "Why do the returns look the way they do?",
     enabled: true,
-    appliesTo: ["BREIT", "BXINFRA", "BXPE"],
+    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
   },
   {
     id: "themes",
     name: "Theme Exposure",
     shortName: "Themes",
-    description: "Themes like AI across all four funds, and a client's total.",
-    question: "What am I really exposed to?",
+    description: "Lives on the map: the theme row above each fund's map.",
     enabled: true,
-    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    appliesTo: [],
     phase: 3,
+    kind: "map",
+    movedTo: "/?view=breit&theme=ai-data-centers&details=1",
   },
   {
     id: "drawdown-vs-evergreen",
     name: "Drawdown vs. Evergreen",
     shortName: "Drawdown",
-    description: "Capital calls or day-one investing: cash at work, getting money out, fees and reporting, side by side.",
-    question: "Drawdown or evergreen?",
+    description: "Now part of Getting money out.",
     enabled: true,
-    // Its figures are BXPE's (private equity is where drawdown funds are most common), so it's offered from BXPE's page.
-    appliesTo: ["BXPE"],
+    appliesTo: [],
     phase: 3,
+    kind: "moved",
+    movedTo: "/toolkit/liquidity#structure",
   },
   {
     id: "reality-check",
-    name: "Reality Check",
-    shortName: "Reality check",
-    description: "Each fund's stated goals, next to its latest filing.",
-    question: "Is each fund doing what it says?",
+    name: "Goals vs. results",
+    shortName: "Goals check",
+    description: "Each fund's own stated goals next to what its latest filing shows, with a line on how to explain it to a client.",
+    question: "Does it do what it says?",
     enabled: true,
     appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
     phase: 3,
@@ -138,9 +145,9 @@ export function addonHref(a: AddonDef): string {
   return a.kind === "tab" ? "/?view=retirement" : `/toolkit/${a.id}`;
 }
 
-/** Enabled add-ons that have their own Toolkit page (not tab upgrades). */
+/** Enabled add-ons that have their own Toolkit page (not tab upgrades, map features or merged ones). */
 export function toolkitAddons(list: AddonDef[] = ADDONS): AddonDef[] {
-  return enabledAddons(list).filter((a) => a.kind !== "tab");
+  return enabledAddons(list).filter((a) => !a.kind || a.kind === "tool");
 }
 
 export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
@@ -148,7 +155,7 @@ export function enabledAddons(list: AddonDef[] = ADDONS): AddonDef[] {
 }
 
 export function addonsForFund(fund: FundCode, list: AddonDef[] = ADDONS): AddonDef[] {
-  return enabledAddons(list).filter((a) => a.appliesTo.includes(fund));
+  return toolkitAddons(list).filter((a) => a.appliesTo.includes(fund));
 }
 
 export function findAddon(id: string, list: AddonDef[] = ADDONS): AddonDef | undefined {

@@ -3,13 +3,14 @@ import { pageMeta } from "@/lib/meta";
 import { ADDONS, enabledAddons, toolkitAddons } from "@/config/addons";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
+import ClientButton from "@/components/ClientButton";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
 import ToolkitCards from "@/components/addons/shared/ToolkitCards";
 import TourButton from "@/components/TourButton";
 
 export const metadata: Metadata = pageMeta({
   title: "Advisor Toolkit",
-  description: "Seven tools that help explain perpetual private-markets funds, each from the funds' SEC filings. Independent prototype; not affiliated with Blackstone.",
+  description: "Four tools that help explain perpetual private-markets funds, each from the funds' SEC filings. Independent prototype; not affiliated with Blackstone.",
   path: "/toolkit",
 });
 
@@ -30,6 +31,7 @@ export default function ToolkitHome() {
               To bring it back, render <AudienceToggle /> (components/addons/shared/Audience.tsx) here; the
               provider in app/toolkit/layout.tsx and the ordering in lib/addons/shared/audience.ts are still in place.
             */}
+            <ClientButton />
             <ThemeToggle />
           </div>
         </div>

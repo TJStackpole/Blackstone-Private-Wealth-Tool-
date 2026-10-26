@@ -5,7 +5,7 @@ import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "rec
 import { projectTax } from "@/lib/addons/tax-lens/roc";
 import { stateRate } from "@/lib/addons/tax-lens/states";
 import { RatesUsed, StatePicker, StateSource } from "./StatePicker";
-import { useClientState } from "./useClientState";
+import { useClient } from "@/components/useClient";
 import { TAX } from "@/lib/addons/tax-lens/data";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
@@ -27,7 +27,10 @@ export function cgRateFor(bracket: number): number {
 
 /** The personal calculator: inputs on the left, year-by-year results and "tax now vs. later" on the right. Compact = three inputs. */
 export default function Calculator({ compact = false }: { compact?: boolean }) {
-  const [amount, setAmount] = useState(250_000);
+  // Amount, federal bracket and state are the shared client's (the header's Client button): set in one place.
+  const [client, updateClient] = useClient();
+  const amount = client.amount;
+  const setAmount = (v: number) => updateClient({ amount: v });
   const [cls, setCls] = useState<Cls>("I");
   const narrow = useMediaQuery("(max-width: 420px)");
   const [rate, setRate] = useState(TAX.distributionRates.I.value);
@@ -38,10 +41,12 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
     setRocOnly(v);
     setCgShare(0);
   };
-  const [bracket, setBracket] = useState(37);
+  const bracket = client.bracket;
+  const setBracket = (v: number) => updateClient({ bracket: v });
   const [cgRate, setCgRate] = useState<number | null>(null);
   // The client's state sets the state rate; typing a rate overrides it until another state is picked.
-  const [stateCode, setStateCodeShared] = useClientState();
+  const stateCode = client.state;
+  const setStateCodeShared = (state: string) => updateClient({ state });
   const [stateTyped, setStateTyped] = useState<number | null>(null);
   const setStateCode = (c: string) => {
     setStateCodeShared(c);

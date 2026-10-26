@@ -14,7 +14,7 @@ export default function RealityCheckPage() {
   return (
     <AddonShell
       addonId="reality-check"
-      title="Reality Check"
+      title="Goals vs. results"
       subtitle="Each fund's stated goals, next to its latest filing."
       glance={[
         { value: String(all.length), label: `Goals checked across ${Object.keys(CLAIMS).length} funds` },

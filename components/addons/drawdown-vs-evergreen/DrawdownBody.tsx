@@ -1,11 +1,10 @@
-import AddonShell from "@/components/addons/shared/AddonShell";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
+import { Glance } from "@/components/addons/shared/AddonShell";
 import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import MemoHeader from "./MemoHeader";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
 import { formatDate } from "@/lib/dates";
-import { TERMS } from "@/lib/addons/liquidity/data";
 import CashDrag from "./CashDrag";
 import AtAGlance from "./AtAGlance";
 import CompareTable from "./CompareTable";
@@ -13,7 +12,6 @@ import MoreDetails from "@/components/addons/shared/MoreDetails";
 import WhenEachFits from "./WhenEachFits";
 
 const life = COMPARE.rows.find((r) => r.topic === "Fund life")!;
-const bxpeLimit = TERMS.funds.find((t) => t.fund === "BXPE")!.limits[0];
 
 export const IC_SCRIPT = [
   "How much of our existing drawdown commitments is still uncalled, and what does that cash earn while it waits?",
@@ -32,20 +30,20 @@ function Section({ title, id, children, printHide = false }: { title: string; id
   );
 }
 
-/** Add-on 7: how a traditional drawdown fund and an evergreen fund differ, for investors who already own the first kind. */
-export default function DrawdownPage() {
+/**
+ * How a traditional drawdown fund and an evergreen fund differ, for investors who already own the first kind. The
+ * "Evergreen or drawdown?" part of Getting money out.
+ */
+export function DrawdownBody() {
   return (
-    <AddonShell
-      addonId="drawdown-vs-evergreen"
-      title="Drawdown vs. Evergreen"
-      subtitle="An evergreen fund puts the whole amount to work on day one. No capital calls, no waiting."
-      glance={[
-        { value: "Day one", label: "Evergreen: the whole amount is invested when you subscribe" },
-        { value: life.drawdownShort, label: "Common life of a traditional drawdown fund", source: life.sources[0] },
-        { value: `${bxpeLimit.value}% a quarter`, label: "BXPE's redemption limit, across the whole fund", source: bxpeLimit.source },
-      ]}
-      badges={<AsOfSource asOf={COMPARE.asOf} source={COMPARE.source} />}
-    >
+    <div className="space-y-8">
+      <Glance
+        tiles={[
+          { value: "Day one", label: "Evergreen: the whole amount is invested when you subscribe" },
+          { value: life.drawdownShort, label: "Common life of a traditional drawdown fund", source: life.sources[0] },
+        ]}
+      />
+      <AsOfSource asOf={COMPARE.asOf} source={COMPARE.source} />
       <PrintOnePager title="Investment committee memo">
         <div className="space-y-12 print:space-y-3">
           <MemoHeader />
@@ -90,6 +88,6 @@ export default function DrawdownPage() {
           </p>
         </div>
       </PrintOnePager>
-    </AddonShell>
+    </div>
   );
 }

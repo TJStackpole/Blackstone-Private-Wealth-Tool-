@@ -1,25 +1,19 @@
 import type { ComponentType } from "react";
 import type { AddonId } from "@/config/addons";
-import DrawdownPage from "./drawdown-vs-evergreen/DrawdownPage";
-import IndexVsFundPage from "./index-vs-fund/IndexVsFundPage";
 import LiquidityPage from "./liquidity/LiquidityPage";
 import RealityCheckPage from "./reality-check/RealityCheckPage";
 import SmoothingPage from "./smoothing/SmoothingPage";
 import TaxLensPage from "./tax-lens/TaxLensPage";
 import RetirementPointer from "./retirement-plus/RetirementPointer";
-import ThemesPage from "./themes/ThemesPage";
 
 /**
- * Add-on id → its full-page screen. Each add-on registers here when its Phase 1 is built,
- * e.g. `liquidity: LiquidityPage` imported from components/addons/liquidity/.
+ * Add-on id → its full-page screen. The merged ones (Index-to-Fund, Drawdown vs. Evergreen) and the map's theme row
+ * have no page of their own; their old addresses forward (see app/toolkit/[addonId]/page.tsx).
  */
 export const ADDON_PAGES: Partial<Record<AddonId, ComponentType>> = {
   liquidity: LiquidityPage,
-  "index-vs-fund": IndexVsFundPage,
   "tax-lens": TaxLensPage,
   smoothing: SmoothingPage,
-  themes: ThemesPage,
-  "drawdown-vs-evergreen": DrawdownPage,
   "reality-check": RealityCheckPage,
   "retirement-plus": RetirementPointer,
 };

@@ -15,14 +15,18 @@ async function noFallbacks(page: Page) {
   await expect(page.locator("[data-addon-unavailable]")).toHaveCount(0);
 }
 
-test("map loads and every layer toggles", async ({ page }) => {
+test("the site opens on Start here, and every fund opens with five answers and then its details", async ({ page }) => {
   const problems = watch(page);
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Start here" })).toBeVisible();
   const funds: Record<string, string> = { "Real Estate": "BREIT", Infrastructure: "BX Infra", "Private Equity": "BXPE", Credit: "BCRED" };
   for (const [tab, fund] of Object.entries(funds)) {
     await page.getByRole("tab", { name: new RegExp(tab) }).click();
+    await expect(page.getByRole("heading", { level: 2, name: `${fund}, in five answers` })).toBeVisible();
+    await page.getByRole("button", { name: /See the details/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: `Where ${fund} invests` })).toBeVisible();
+    await page.getByRole("button", { name: /Hide the details/ }).click();
     await noFallbacks(page);
   }
   for (const tab of ["All funds", "Retirement"]) {
@@ -54,8 +58,8 @@ test("every fund panel's add-on chips open their drawer, and Escape closes it", 
   const funds: Record<string, string> = { "Real Estate": "BREIT", Infrastructure: "BX Infra", "Private Equity": "BXPE", Credit: "BCRED" };
   for (const [tab, fund] of Object.entries(funds)) {
     await page.getByRole("tab", { name: new RegExp(tab) }).click();
-    // Count chips only once this fund's panel is showing, not the previous fund's.
-    await expect(page.getByRole("heading", { level: 2, name: `Where ${fund} invests` })).toBeVisible();
+    // Count chips only once this fund's answers are showing, not the previous fund's.
+    await expect(page.getByRole("heading", { level: 2, name: `${fund}, in five answers` })).toBeVisible();
     const tools = page.getByRole("navigation", { name: "Advisor tools for this fund" });
     const chips = tools.getByRole("button");
     const n = await chips.count();
@@ -75,7 +79,7 @@ test("every fund panel's add-on chips open their drawer, and Escape closes it", 
 
 test("a theme drives each fund's sector filter across fund switches, and turning it off restores the map", async ({ page }) => {
   const problems = watch(page);
-  await page.goto("/");
+  await page.goto("/?view=breit&details=1");
   const sectors = page.getByRole("group", { name: "Filter by sector" });
   const themes = page.getByRole("group", { name: "Filter by theme, across funds" });
   if ((await themes.count()) === 0) return; // add-on switched off: nothing to check
@@ -111,8 +115,8 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   await page.getByRole("button", { name: "Next →" }).click();
   await expect(page.getByText("Step 2 of 6", { exact: false })).toBeVisible();
   const frame = page.frameLocator("iframe");
-  // Step 2 opens BCRED with its "Last quarterly report" box.
-  await expect(frame.getByRole("heading", { name: "Last quarterly report" })).toBeVisible();
+  // Step 2 opens BCRED in five answers.
+  await expect(frame.getByRole("heading", { name: "BCRED, in five answers" })).toBeVisible();
   const steps = page.getByRole("navigation", { name: "All steps" }).getByRole("button");
   const visitAll = async () => {
     const count = await steps.count();
@@ -126,15 +130,17 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   };
   expect(await visitAll()).toBe(6);
   // The last short step lands on the comparison table.
-  await expect(frame.getByRole("heading", { name: "The four funds, compared" })).toBeInViewport();
+  await expect(frame.getByRole("heading", { name: "Compare the funds" })).toBeInViewport();
   // The full tour is one click away, and keeps every step.
   await page.getByRole("button", { name: /^Full tour \(\d+ steps\)/ }).click();
-  await expect(page.getByText(/Step 1 of 17/)).toBeVisible();
+  await expect(page.getByText(/Step 1 of 15/)).toBeVisible();
   await expect(page).toHaveURL(/\?tour=full$/);
+  await expect(frame.getByRole("heading", { level: 2, name: "Start here" })).toBeVisible();
   await page.getByRole("button", { name: "Next →" }).click();
-  // Full tour step 2 opens BREIT with Nevada selected.
+  await page.getByRole("button", { name: "Next →" }).click();
+  // Full tour step 3 opens BREIT's details with Nevada selected.
   await expect(frame.getByRole("heading", { level: 2, name: "Nevada" })).toBeVisible();
-  expect(await visitAll()).toBe(17);
+  expect(await visitAll()).toBe(15);
   await page.getByRole("group", { name: "Tour length" }).getByRole("button", { name: /Short tour/ }).click();
   await expect(page.getByText("Step 1 of 6", { exact: false })).toBeVisible();
   expect(problems).toEqual([]);
@@ -142,7 +148,7 @@ test("the guided tour opens from the map, steps through live views, and deep lin
 
 test("a theme survives a visit to All funds, and No theme restores the sector picked before it", async ({ page }) => {
   const problems = watch(page);
-  await page.goto("/");
+  await page.goto("/?view=breit&details=1");
   const sectors = page.getByRole("group", { name: "Filter by sector" });
   const themes = page.getByRole("group", { name: "Filter by theme, across funds" });
   if ((await themes.count()) === 0) return;
@@ -162,18 +168,33 @@ test("a theme survives a visit to All funds, and No theme restores the sector pi
 });
 
 test("the drawer keeps keyboard focus inside it and resets when reopened on another fund", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("tab", { name: /Credit/ }).click();
-  await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Index vs fund" }).click();
+  await page.goto("/?view=bcred");
+  await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Money out" }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
   for (let i = 0; i < 25; i++) await page.keyboard.press("Tab");
   expect(await page.evaluate(() => !!document.activeElement?.closest("[role=dialog]"))).toBe(true);
-  await expect(dialog.getByText(/Starting from the index's 7.7%/)).toBeVisible();
+  await expect(dialog.getByText(/^BCRED: Quarterly tender offers/)).toBeVisible();
   await page.keyboard.press("Escape");
   await page.getByRole("tab", { name: /Real Estate/ }).click();
-  await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Index vs fund" }).click();
-  await expect(page.getByRole("dialog").getByText(/Starting from the index's 4.45%/)).toBeVisible();
+  await page.getByRole("navigation", { name: "Advisor tools for this fund" }).getByRole("button", { name: "Money out" }).click();
+  await expect(page.getByRole("dialog").getByText(/^BREIT: Monthly/)).toBeVisible();
+});
+
+test("Ask a question answers from the filings, and a dotted word opens its definition", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/");
+  await page.getByRole("textbox", { name: "Your question" }).fill("Can my client get money out of BCRED?");
+  await page.getByRole("button", { name: "Ask", exact: true }).click();
+  const answer = page.locator('[data-ask-result="out"]');
+  await expect(answer).toContainText("Buyback limit: 5% a quarter");
+  await answer.getByRole("button", { name: "Sources" }).first().click();
+  await expect(answer.getByRole("link", { name: /BCRED Form 10-Q/ }).first()).toBeVisible();
+  await answer.getByRole("button", { name: "pro rata" }).first().click();
+  await expect(page.getByRole("dialog", { name: "Pro rata: definition" })).toContainText("BCRED letter to investors");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(problems).toEqual([]);
 });
 
 test("the 401(k) tab: Lab reacts and resets, audience switch keeps the numbers, and cross-links work", async ({ page }) => {

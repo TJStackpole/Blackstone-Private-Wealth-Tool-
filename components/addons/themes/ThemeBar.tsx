@@ -7,6 +7,8 @@ import { FUNDS, toFundCode } from "@/lib/addons/shared/funds";
 import { THEMES, findTheme, primarySector, themeSectors, themeWeight } from "@/lib/addons/themes/tags";
 import type { FundCode } from "@/config/addons";
 import AddonBoundary from "@/components/addons/shared/AddonBoundary";
+import MoreDetails from "@/components/addons/shared/MoreDetails";
+import BullBear from "./BullBear";
 import { useEdgeFade } from "@/components/useEdgeFade";
 
 /** The chosen theme, and the sector the person had before picking it (restored by "No theme" on the same fund). */
@@ -112,6 +114,11 @@ function Bar({ layerId, sector, onSector, theme: state, onTheme }: Props) {
             : `${FUNDS[fund].label}'s filing has no sector tagged ${theme.label}. `}
           Across funds: {across.join(" · ")}. Share of each fund, from its 10-Q.
         </p>
+      )}
+      {active && theme && (
+        <MoreDetails summary={`The case for and against ${theme.label}`} hint="Outside views, each with its source; not from the fund filings">
+          <BullBear key={theme.id} initial={theme.id} fixed />
+        </MoreDetails>
       )}
     </div>
   );

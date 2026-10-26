@@ -6,7 +6,8 @@ import { useEdgeFade } from "./useEdgeFade";
 
 interface Props {
   layers: LayerDef[];
-  activeId: ViewId;
+  /** null on the Start screen: no tab is selected, and Tab enters the strip on the first one. */
+  activeId: ViewId | null;
   onChange: (id: ViewId) => void;
   /** Where to place the "All funds" tab; omitted = no such tab. */
   allFundsAfter?: ViewId;
@@ -59,9 +60,12 @@ export default function LayerSwitcher({
     }
   }
 
+  const entry = tabs.some((t) => t.id === activeId) ? activeId : tabs.find((t) => t.ready)?.id;
+
   // Keep the selected tab visible on narrow screens, and move focus with it after an arrow key.
   // Scrolls only the tab strip (not the page), so the browser's Tab order starting point is untouched.
   useEffect(() => {
+    if (!activeId) return;
     const el = refs.current.get(activeId);
     const box = scroller.current;
     if (!el || !box) return;
@@ -82,7 +86,7 @@ export default function LayerSwitcher({
     let next: TabDef | undefined;
     if (e.key === "ArrowRight") next = ready[(i + 1) % ready.length];
     else if (e.key === "ArrowLeft")
-      next = ready[(i - 1 + ready.length) % ready.length];
+      next = ready[i < 0 ? ready.length - 1 : (i - 1 + ready.length) % ready.length];
     else if (e.key === "Home") next = ready[0];
     else if (e.key === "End") next = ready[ready.length - 1];
     if (!next) return;
@@ -120,7 +124,7 @@ export default function LayerSwitcher({
                 aria-selected={active}
                 aria-disabled={!ready || undefined}
                 aria-controls={active ? `panel-${tab.id}` : undefined}
-                tabIndex={active ? 0 : -1}
+                tabIndex={tab.id === entry ? 0 : -1}
                 onClick={() => ready && onChange(tab.id)}
                 title={ready ? undefined : `${tab.label}: coming soon`}
                 style={{

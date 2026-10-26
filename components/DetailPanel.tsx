@@ -8,13 +8,7 @@ import { formatDate } from "@/lib/dates";
 import { stateName } from "@/lib/states";
 import { NCREIF_REGION } from "@/lib/regions";
 import FilingBadge from "./FilingBadge";
-import FundActions from "./FundActions";
 import NextUpdate from "./NextUpdate";
-import QuarterBox from "./QuarterBox";
-import LatestBox from "./LatestBox";
-import { latestFor } from "@/lib/latest";
-import { quarterFigures } from "@/lib/quarter";
-import AddonChips from "./addons/shared/AddonChips";
 import { holdingsLead } from "./HoldingsLead";
 
 interface Props {
@@ -257,32 +251,15 @@ function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
 function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) {
   const facts = (data.context ?? []).filter((f) => !f.appliesTo || !sector || f.appliesTo === sector);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
-  const latest = latestFor(layer.id);
-  const quarter = quarterFigures(data, latest);
   return (
     <div className="space-y-7">
       <header className="space-y-3 pr-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <Eyebrow>
-            {data.fund} · {data.assetClass}
-          </Eyebrow>
-          <FilingBadge data={data} />
-        </div>
+        <Eyebrow>
+          {data.fund} · {data.assetClass}
+        </Eyebrow>
         <h2 id={`overview-h-${layer.id}`} tabIndex={-1} className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink outline-none">
           {sectorLabel ? `${sectorLabel} in ${data.fund}` : `Where ${data.fund} invests`}
         </h2>
-        {/* Phones have the summary, actions, tools and both boxes above the map, so the sheet doesn't repeat them. */}
-        <p className="hidden text-sm leading-relaxed text-muted-strong lg:block">{data.summary.headline}</p>
-        <div className="hidden space-y-4 lg:block">
-          <FundActions layerId={layer.id} data={data} />
-          <AddonChips fundId={layer.id} />
-        </div>
-        {(latest || quarter) && (
-          <div className="hidden space-y-3 lg:block">
-            {latest && <LatestBox latest={latest} quarterAsOf={data.asOf} />}
-            {quarter && <QuarterBox q={quarter} />}
-          </div>
-        )}
       </header>
 
       <section>

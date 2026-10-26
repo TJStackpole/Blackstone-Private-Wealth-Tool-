@@ -4,6 +4,9 @@ import { useId } from "react";
 import type { FundData, QuarterMove, Source } from "@/lib/types";
 import { formatDate } from "@/lib/dates";
 import NextUpdate from "./NextUpdate";
+import Sources from "./Sources";
+import Glossed from "./Glossed";
+import type { FundCode } from "@/config/addons";
 
 function Arrow({ direction }: { direction: QuarterMove["direction"] }) {
   if (direction === "flat") return <span aria-hidden>→</span>;
@@ -54,9 +57,10 @@ export function SourceLinks({ sources }: { sources: Source[] }) {
 
 /**
  * The last quarterly report (10-Q) in four to six numbers, each with which way it moved and what it's compared with.
- * Pass it quarterFigures(), which folds in the stat cards so each figure shows once.
+ * Pass it quarterFigures(), which folds in the stat cards so each figure shows once, and the fund, so its labels link
+ * to that fund's definitions.
  */
-export default function QuarterBox({ q }: { q: NonNullable<FundData["quarterSummary"]> }) {
+export default function QuarterBox({ q, fund }: { q: NonNullable<FundData["quarterSummary"]>; fund?: FundCode }) {
   const id = useId();
   const odd = q.items.length % 2 === 1;
   return (
@@ -80,7 +84,7 @@ export default function QuarterBox({ q }: { q: NonNullable<FundData["quarterSumm
             data-quarter={m.label}
           >
             <dt className="text-[11px] uppercase tracking-[0.08em] text-muted" title={m.note}>
-              {m.label}
+              <Glossed text={m.label} fund={fund} />
             </dt>
             <dd className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <span className="tnum font-serif text-[22px] leading-none text-ink">{m.value}</span>
@@ -92,9 +96,10 @@ export default function QuarterBox({ q }: { q: NonNullable<FundData["quarterSumm
         ))}
       </dl>
       <p className="border-t border-line px-4 py-2 text-[11px] text-muted">
-        <span className="tnum">As of {formatDate(q.asOf)}</span> · Source: <SourceLinks sources={[q.source, ...(q.moreSources ?? [])]} />
-        {" · "}
-        <NextUpdate asOf={q.asOf} />
+        <span className="tnum">As of {formatDate(q.asOf)}</span> · <NextUpdate asOf={q.asOf} /> ·{" "}
+        <Sources>
+          <SourceLinks sources={[q.source, ...(q.moreSources ?? [])]} />
+        </Sources>
       </p>
     </section>
   );

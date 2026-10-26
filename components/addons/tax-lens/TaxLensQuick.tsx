@@ -18,7 +18,7 @@ export default function TaxLensQuick({ fund }: QuickProps) {
       <Calculator compact />
       {liquidity && (
         <Link href={`/toolkit/liquidity?fund=${fund}`} className="block text-sm text-muted-strong underline decoration-line underline-offset-4 hover:text-ink">
-          When does the cash arrive if you redeem? See the Liquidity Simulator.
+          When does the cash arrive if you redeem? See Getting money out.
         </Link>
       )}
     </div>

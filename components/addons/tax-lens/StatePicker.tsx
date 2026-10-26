@@ -5,6 +5,7 @@ import { fieldClass } from "@/components/addons/shared/Inputs";
 import { formatDate } from "@/lib/dates";
 import { STATES, stateRate, stateRateLine } from "@/lib/addons/tax-lens/states";
 import { combinedRates, type TaxParams } from "@/lib/addons/tax-lens/roc";
+import Glossed from "@/components/Glossed";
 
 const pct = (n: number) => `${+n.toFixed(2)}%`;
 
@@ -53,7 +54,7 @@ export function RatesUsed({ p, stateName, gains = true }: { p: Pick<TaxParams, "
     [`${pct(fed)} ${fedLabel}`, r.niit ? `${pct(r.niit)} NIIT` : null, `${pct(r.state)} ${stateName}`].filter(Boolean).join(" + ");
   return (
     <p className="tnum text-xs leading-relaxed text-muted-strong" data-rates-used>
-      Rates used: payouts taxed as income at {parts(r.fedIncome, p.qrdDeduction ? `federal (${pct(p.ordinaryRatePct)} less the 199A deduction)` : "federal")} ={" "}
+      Rates used: payouts taxed as income at <Glossed text={parts(r.fedIncome, p.qrdDeduction ? `federal (${pct(p.ordinaryRatePct)} less the 199A deduction)` : "federal")} /> ={" "}
       <span className="font-medium text-ink">{pct(r.income)}</span>
       {gains && (
         <>

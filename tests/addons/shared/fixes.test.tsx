@@ -23,9 +23,11 @@ describe("toolkit fixes", () => {
     expect(addonHref(ADDONS.find((a) => a.id === "liquidity")!)).toBe("/toolkit/liquidity");
   });
 
-  it("the drawdown comparison, built on BXPE's figures, is offered from BXPE's page only", () => {
-    expect(addonsForFund("BXPE").some((a) => a.id === "drawdown-vs-evergreen")).toBe(true);
-    for (const f of ["BREIT", "BCRED", "BXINFRA"] as const) expect(addonsForFund(f).some((a) => a.id === "drawdown-vs-evergreen")).toBe(false);
+  it("four tools, by the question each answers; the merged ones forward to their new home", () => {
+    expect(toolkitAddons(ADDONS).map((a) => a.id)).toEqual(["liquidity", "tax-lens", "smoothing", "reality-check"]);
+    for (const f of ["BREIT", "BCRED", "BXPE", "BXINFRA"] as const) expect(addonsForFund(f).map((a) => a.id)).toEqual(["liquidity", "tax-lens", "smoothing", "reality-check"]);
+    expect(ADDONS.find((a) => a.id === "drawdown-vs-evergreen")!.movedTo).toBe("/toolkit/liquidity#structure");
+    expect(ADDONS.find((a) => a.id === "index-vs-fund")!.movedTo).toBe("/toolkit/smoothing#index");
   });
 
   it("fund codes map back to their map tabs", () => {
