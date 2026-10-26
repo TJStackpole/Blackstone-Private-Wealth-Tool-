@@ -102,11 +102,12 @@ export const ADDONS: AddonDef[] = [
   {
     id: "drawdown-vs-evergreen",
     name: "Drawdown vs. Evergreen",
-    shortName: "Vs. drawdown",
-    description: "Invested on day one, with no capital calls. See how much more money is at work.",
-    question: "Why evergreen?",
+    shortName: "Drawdown",
+    description: "Capital calls or day-one investing: cash at work, getting money out, fees and reporting, side by side.",
+    question: "Drawdown or evergreen?",
     enabled: true,
-    appliesTo: ["BREIT", "BCRED", "BXPE", "BXINFRA"],
+    // Its figures are BXPE's (private equity is where drawdown funds are most common), so it's offered from BXPE's page.
+    appliesTo: ["BXPE"],
     phase: 3,
   },
   {
@@ -121,15 +122,21 @@ export const ADDONS: AddonDef[] = [
   },
   {
     id: "retirement-plus",
-    name: "401(k) tab upgrade",
-    shortName: "401(k)",
-    description: "The 401(k) tab's story, published glidepath, Outcome Lab and audience views.",
+    name: "401(k) lens",
+    shortName: "401(k) lens",
+    description: "Why private markets are mostly missing from 401(k)s, a published glidepath and an Outcome Lab, on the map's Retirement tab.",
+    question: "What about my 401(k)?",
     enabled: true,
     appliesTo: [],
     phase: 1,
     kind: "tab",
   },
 ];
+
+/** Where an add-on lives: its own Toolkit page, or (a tab upgrade) the map's tab it upgrades. */
+export function addonHref(a: AddonDef): string {
+  return a.kind === "tab" ? "/?view=retirement" : `/toolkit/${a.id}`;
+}
 
 /** Enabled add-ons that have their own Toolkit page (not tab upgrades). */
 export function toolkitAddons(list: AddonDef[] = ADDONS): AddonDef[] {

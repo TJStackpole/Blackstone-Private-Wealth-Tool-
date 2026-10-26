@@ -6,6 +6,7 @@ import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonBoundary from "./AddonBoundary";
 import AddonDisclosure from "./AddonDisclosure";
+import BackToFund from "./BackToFund";
 import ToolIcon from "./ToolIcon";
 import type { AddonId } from "@/config/addons";
 
@@ -18,7 +19,7 @@ interface Props {
   /** Badges row (SampleBadge, IllustrativeBadge, AsOfSource…). */
   badges?: ReactNode;
   /** Up to three key figures shown as tiles under the title. Each must come from the tool's sourced data. */
-  glance?: { value: string; label: string; source?: { name: string; url: string } }[];
+  glance?: { value: string; label: string; source?: { name: string; url: string }; also?: { name: string; url: string }[] }[];
   children: ReactNode;
 }
 
@@ -38,6 +39,7 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
             <Link href="/toolkit" className="tap inline-flex items-center hover:text-ink">
               Advisor Toolkit
             </Link>
+            <BackToFund />
           </nav>
           <ThemeToggle />
         </div>
@@ -57,16 +59,21 @@ export default function AddonShell({ addonId, title, subtitle, fundId, badges, g
                 <dt className="order-2 text-xs leading-snug text-muted-strong">{g.label}</dt>
                 <dd className="tnum order-1 font-serif text-[26px] leading-none text-ink">{g.value}</dd>
                 {g.source && (
-                  <dd className="order-3 mt-auto">
-                    <a
-                      href={g.source.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      title={g.source.name}
-                      className="text-[11px] text-muted underline decoration-line underline-offset-2 hover:text-ink"
-                    >
-                      {g.source.name.split(",")[0]}
-                    </a>
+                  <dd className="order-3 mt-auto text-[11px] text-muted">
+                    {[g.source, ...(g.also ?? [])].map((s, i) => (
+                      <span key={s.url}>
+                        {i > 0 && " · "}
+                        <a
+                          href={s.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          title={s.name}
+                          className="underline decoration-line underline-offset-2 hover:text-ink"
+                        >
+                          {s.name.split(",")[0]}
+                        </a>
+                      </span>
+                    ))}
                   </dd>
                 )}
               </div>

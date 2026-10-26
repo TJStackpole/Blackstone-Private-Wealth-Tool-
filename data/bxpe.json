@@ -54,8 +54,8 @@
         "label": "Distribution rate",
         "value": "None",
         "note": "BXPE does not currently intend to declare distributions.",
-        "change": "none",
-        "direction": "flat",
+        "change": "",
+        "direction": "none",
         "from": "none at Dec 31, 2025 either",
         "sources": [
           {
@@ -71,7 +71,7 @@
       {
         "label": "Investments",
         "value": "$17.19B",
-        "note": "at fair value, held by the aggregator",
+        "note": "at fair value, held by the aggregator; not counting $1.09B in affiliated investee funds",
         "change": "+50.3%",
         "direction": "up",
         "from": "from $11.44B on Dec 31, 2025",
@@ -125,7 +125,7 @@
         "value": "1,587,622",
         "from": "BXPE U.S., in the quarter, at an average $38.38",
         "change": "all filled",
-        "direction": "flat",
+        "direction": "none",
         "note": "All redemption requests were satisfied in full."
       }
     ]

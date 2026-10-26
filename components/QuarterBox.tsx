@@ -14,12 +14,17 @@ function Arrow({ direction }: { direction: QuarterMove["direction"] }) {
   );
 }
 
-/** "▲ +2.8%": which way a figure moved. Direction only: no good or bad colors. */
+/** "▲ +2.8%": which way a figure moved. Direction only: no good or bad colors. A status ("all filled") has no arrow. */
 export function ChangeChip({ change, direction }: { change: string; direction: QuarterMove["direction"] }) {
+  if (!change) return null;
   return (
     <span className="tnum inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-line bg-bg px-1.5 py-0.5 text-[11px] font-medium text-ink">
-      <Arrow direction={direction} />
-      <span className="sr-only">{direction === "up" ? "Up" : direction === "down" ? "Down" : "Unchanged"}:</span>
+      {direction !== "none" && (
+        <>
+          <Arrow direction={direction} />
+          <span className="sr-only">{direction === "up" ? "Up" : direction === "down" ? "Down" : "Unchanged"}:</span>
+        </>
+      )}
       {change}
     </span>
   );
@@ -47,7 +52,10 @@ export function SourceLinks({ sources }: { sources: Source[] }) {
   );
 }
 
-/** The latest quarter in four or five numbers, each with which way it moved and what it's compared with. */
+/**
+ * The last quarterly report (10-Q) in four to six numbers, each with which way it moved and what it's compared with.
+ * Pass it quarterFigures(), which folds in the stat cards so each figure shows once.
+ */
 export default function QuarterBox({ q }: { q: NonNullable<FundData["quarterSummary"]> }) {
   const id = useId();
   const odd = q.items.length % 2 === 1;
@@ -55,7 +63,7 @@ export default function QuarterBox({ q }: { q: NonNullable<FundData["quarterSumm
     <section aria-labelledby={id} className="overflow-hidden rounded-card border border-line bg-bg-raised" data-quarter-box>
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 border-b border-line px-4 py-2.5">
         <h3 id={id} className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink">
-          This quarter
+          Last quarterly report
         </h3>
         <span className="tnum text-[11px] text-muted">{q.period}</span>
       </div>

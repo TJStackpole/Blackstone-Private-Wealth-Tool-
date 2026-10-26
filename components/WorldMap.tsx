@@ -27,13 +27,13 @@ const HEIGHT = 470;
  * the filing gives no split inside the group.
  */
 export default function WorldMap({ level, items, selected, onSelect, fundLabel, ofWhat, compact = false }: Props) {
-  const [tip, setTip] = useState<{ key: string; country: string; x: number; y: number } | null>(null);
+  const [tip, setTip] = useState<{ key: string; country: string; x: number; y: number; w: number } | null>(null);
   const byKey = useMemo(() => Object.fromEntries(items.map((i) => [i.key, i])), [items]);
   const max = Math.max(0.1, ...items.filter((i) => mappable(level, i.key)).map((i) => i.pct));
 
   const onMove = useCallback((key: string, country: string, e: React.MouseEvent) => {
     const rect = e.currentTarget.closest("[data-map-root]")?.getBoundingClientRect();
-    if (rect) setTip({ key, country, x: e.clientX - rect.left, y: e.clientY - rect.top });
+    if (rect) setTip({ key, country, x: e.clientX - rect.left, y: e.clientY - rect.top, w: rect.width });
   }, []);
 
   const tipShare = tip ? byKey[tip.key] : undefined;
@@ -55,12 +55,18 @@ export default function WorldMap({ level, items, selected, onSelect, fundLabel, 
         <div
           role="tooltip"
           className="pointer-events-none absolute z-10 whitespace-nowrap rounded-card border border-line bg-bg-raised px-3 py-2 text-xs shadow-sm"
-          style={{ left: Math.min(tip.x + 14, 9999), top: tip.y + 14 }}
+          // Right half of the map: open to the left of the pointer, so the tip never runs off the edge.
+          style={{ ...(tip.x > tip.w / 2 ? { right: tip.w - tip.x + 14 } : { left: tip.x + 14 }), top: tip.y + 14 }}
         >
           <div className="font-medium text-ink">{tip.country}</div>
           {tipShare ? (
             <div className="tnum mt-0.5 text-muted-strong">
               In &ldquo;{tipShare.label}&rdquo;: {formatPct(tipShare.pct)} of {ofWhat}
+            </div>
+          ) : tip.key && GROUP_LABEL[level][tip.key] ? (
+            // A group the filing reports, with none of this selection in it (a sector filter is on).
+            <div className="mt-0.5 text-muted">
+              In {GROUP_LABEL[level][tip.key]}: none of {ofWhat}
             </div>
           ) : (
             <div className="mt-0.5 text-muted">Not in any group the filing reports</div>
@@ -70,6 +76,12 @@ export default function WorldMap({ level, items, selected, onSelect, fundLabel, 
     </div>
   );
 }
+
+/** What each mappable key is called, for a tooltip over a group with no share in the current view. */
+const GROUP_LABEL: Record<Props["level"], Record<string, string>> = {
+  "world-region": { Americas: "the Americas", EMEA: "Europe, Middle East and Africa", APAC: "Asia-Pacific" },
+  "country-group": { US: "the United States", Europe: "Europe", Canada: "Canada", AusNZ: "Australia/New Zealand", Asia: "Asia" },
+};
 
 /** Keys that correspond to shapes on the map. */
 export function mappable(level: Props["level"], key: string): boolean {

@@ -33,8 +33,11 @@ export default function PrintOnePager({ title, children, screen = true, button =
         @media print {
           /* Remove everything except the one-pager and the elements that contain it, so nothing else takes up paper. */
           body *:not(:has(.print-onepager)):not(.print-onepager):not(.print-onepager *) { display: none !important; }
+          /* Dark mode sets a dark page canvas; paper is white, margins included. */
+          :root { color-scheme: light !important; }
           html, body, body *:has(.print-onepager) { background: #fff !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; border: 0 !important; }
-          .print-onepager { display: block !important; color: #14161a; }
+          /* Paper is light even when the screen is dark: charts that read the color tokens get the light ones. */
+          .print-onepager { display: block !important; color: #14161a; --text: #14161a; --muted: #5f656e; --muted-strong: #4a4f57; --border: #c9ccd1; --bg: #fff; --bg-raised: #fff; --map-empty: #e4e0d6; --accent: #1f3a5f; }
           .print-onepager * { color: #14161a !important; border-color: #c9ccd1 !important; background: transparent !important; }
           /* Bars drawn as filled boxes keep their fill on paper. */
           .print-onepager .print-fill { background: #5b6170 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }

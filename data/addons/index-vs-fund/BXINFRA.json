@@ -74,7 +74,7 @@
       "value": 12.5,
       "hurdle": 5,
       "label": "Performance participation",
-      "note": "12.5% of total return above a 5% annual hurdle, with a high-water mark and full catch-up.",
+      "note": "12.5% of total return once it clears a 5% annual hurdle, with a full catch-up and a high-water mark.",
       "asOf": "2026-06-30",
       "verify": "Confirm against current prospectus",
       "source": {

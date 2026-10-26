@@ -4,6 +4,7 @@ import { ADDON_DISCLOSURE } from "@/components/addons/shared/AddonDisclosure";
 import MemoHeader from "./MemoHeader";
 import { AsOfSource } from "@/components/addons/shared/Badges";
 import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
+import { formatDate } from "@/lib/dates";
 import { TERMS } from "@/lib/addons/liquidity/data";
 import CashDrag from "./CashDrag";
 import AtAGlance from "./AtAGlance";
@@ -73,6 +74,16 @@ export default function DrawdownPage() {
               ))}
             </ul>
           </section>
+          {/* The table's per-row sources are screen-only; on paper they're listed once, with the date. */}
+          <p className="hidden text-[9px] print:block" data-print-sources>
+            {COMPARE.evergreenExample} figures as of {formatDate(COMPARE.asOf, "long")}. Sources:{" "}
+            {COMPARE.rows
+              .flatMap((r) => r.sources ?? [])
+              .filter((s, i, all) => s.url.startsWith("http") && all.findIndex((o) => o.url === s.url) === i)
+              .map((s) => s.name)
+              .join("; ")}
+            .
+          </p>
           <p className="hidden border-t pt-1 text-[9px] print:block">
             {ADDON_DISCLOSURE} Illustrative model; both structures are assumed to earn the same return. Independent prototype built from public filings. Not
             affiliated with or endorsed by Blackstone.

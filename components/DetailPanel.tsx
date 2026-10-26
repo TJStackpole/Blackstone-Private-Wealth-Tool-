@@ -13,7 +13,7 @@ import NextUpdate from "./NextUpdate";
 import QuarterBox from "./QuarterBox";
 import LatestBox from "./LatestBox";
 import { latestFor } from "@/lib/latest";
-import FundStats from "./FundStats";
+import { quarterFigures } from "@/lib/quarter";
 import AddonChips from "./addons/shared/AddonChips";
 import { holdingsLead } from "./HoldingsLead";
 
@@ -34,6 +34,19 @@ interface Props {
 export default function DetailPanel(props: Props) {
   const { selected, onSelect, layer } = props;
   const reduce = useReducedMotion();
+  // Leaving a state or region unmounts the control that had focus ("← Overview", the sector menu). Put focus on the
+  // overview's heading then, so keyboard and screen-reader users aren't dropped at the top of the page.
+  const prev = useRef(selected);
+  useEffect(() => {
+    const left = prev.current && !selected;
+    prev.current = selected;
+    if (!left) return;
+    const t = setTimeout(() => {
+      const a = document.activeElement;
+      if (!a || a === document.body) document.getElementById(`overview-h-${layer.id}`)?.focus({ preventScroll: true });
+    }, 200);
+    return () => clearTimeout(t);
+  }, [selected, layer.id]);
   const view = selected ? <SelectionView key={selected} {...props} selected={selected} /> : <Overview key="overview" {...props} />;
 
   return (
@@ -86,12 +99,13 @@ function Bars({ rows, highlight }: { rows: Share[]; highlight?: string | null })
       {rows.map((r) => {
         const dim = highlight && r.key !== highlight;
         return (
-          <li key={r.key} className={["text-xs transition-opacity", dim ? "opacity-45" : ""].join(" ")}>
+          <li key={r.key} className="text-xs">
             <div className="mb-1 flex items-baseline justify-between gap-3">
-              <span className="truncate text-ink">{r.label}</span>
+              <span className={["truncate", dim ? "text-muted-strong" : "text-ink"].join(" ")}>{r.label}</span>
               <span className="tnum shrink-0 text-muted-strong">{formatPct(r.pct)}</span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-map-empty">
+            {/* Other rows fade only their bars when one is highlighted, so their labels and figures stay readable. */}
+            <div className={["h-1.5 w-full overflow-hidden rounded-full bg-map-empty transition-opacity", dim ? "opacity-40" : ""].join(" ")}>
               <div className="h-full rounded-full bg-accent transition-[width] duration-300" style={{ width: `${(r.pct / max) * 100}%` }} />
             </div>
           </li>
@@ -127,17 +141,17 @@ function SectorFilter({ rows, active, onSector }: { rows: Share[]; active: strin
           const body = (
             <>
               <span className="mb-1 flex items-baseline justify-between gap-3 text-xs">
-                <span className={["truncate", on ? "font-medium text-ink" : "text-ink"].join(" ")}>{r.label}</span>{" "}
+                <span className={["truncate", on ? "font-medium text-ink" : dim ? "text-muted-strong" : "text-ink"].join(" ")}>{r.label}</span>{" "}
                 <span className="tnum shrink-0 text-muted-strong">{formatPct(r.pct)}</span>
               </span>
-              <span aria-hidden className="block h-1.5 w-full overflow-hidden rounded-full bg-map-empty">
+              <span aria-hidden className={["block h-1.5 w-full overflow-hidden rounded-full bg-map-empty transition-opacity", dim ? "opacity-40" : ""].join(" ")}>
                 <span className="block h-full rounded-full bg-accent transition-[width] duration-300" style={{ width: `${(r.pct / max) * 100}%` }} />
               </span>
             </>
           );
           // "All other …" is a remainder, not a sector the filing breaks out, so it can't be picked.
           return (
-            <li key={r.key} className={["transition-opacity", dim ? "opacity-45" : ""].join(" ")}>
+            <li key={r.key}>
               {r.key.startsWith("All other") ? (
                 <div className="px-2 py-1.5">{body}</div>
               ) : (
@@ -243,6 +257,8 @@ function ContextCard({ facts }: { facts: ThirdPartyFact[] }) {
 function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) {
   const facts = (data.context ?? []).filter((f) => !f.appliesTo || !sector || f.appliesTo === sector);
   const sectorLabel = data.sectors.find((s) => s.key === sector)?.label;
+  const latest = latestFor(layer.id);
+  const quarter = quarterFigures(data, latest);
   return (
     <div className="space-y-7">
       <header className="space-y-3 pr-2">
@@ -252,29 +268,22 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
           </Eyebrow>
           <FilingBadge data={data} />
         </div>
-        <h2 className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink">
+        <h2 id={`overview-h-${layer.id}`} tabIndex={-1} className="font-serif text-[28px] font-medium leading-[1.1] tracking-[-0.01em] text-ink outline-none">
           {sectorLabel ? `${sectorLabel} in ${data.fund}` : `Where ${data.fund} invests`}
         </h2>
-        {/* Phones have these above the map. */}
-        <div className="hidden lg:block">
+        {/* Phones have the summary, actions, tools and both boxes above the map, so the sheet doesn't repeat them. */}
+        <p className="hidden text-sm leading-relaxed text-muted-strong lg:block">{data.summary.headline}</p>
+        <div className="hidden space-y-4 lg:block">
           <FundActions layerId={layer.id} data={data} />
+          <AddonChips fundId={layer.id} />
         </div>
-        {/* Phones show the box above the map instead (with the stat cards), so it isn't read twice. */}
-        {(latestFor(layer.id) || data.quarterSummary) && (
+        {(latest || quarter) && (
           <div className="hidden space-y-3 lg:block">
-            {latestFor(layer.id) && <LatestBox latest={latestFor(layer.id)!} quarterAsOf={data.asOf} />}
-            {data.quarterSummary && <QuarterBox q={data.quarterSummary} />}
+            {latest && <LatestBox latest={latest} quarterAsOf={data.asOf} />}
+            {quarter && <QuarterBox q={quarter} />}
           </div>
         )}
-        <p className="text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>
       </header>
-
-      {/* On phones these sit above the map instead (the panel is a sheet there), so they aren't read twice. */}
-      <div className="hidden lg:block">
-        <FundStats data={data} />
-      </div>
-
-      <AddonChips fundId={layer.id} />
 
       <section>
         {onSector ? (

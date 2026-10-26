@@ -9,6 +9,7 @@ const BREIT_10K = {
   name: "BREIT Form 10-K, year ended December 31, 2025",
   url: "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
 };
+const BXPE_10K = { name: "BXPE Form 10-K, year ended December 31, 2025", url: "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm" };
 const BXINFRA_10K = {
   name: "BX Infra Form 10-K, year ended December 31, 2025",
   url: "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
@@ -24,7 +25,7 @@ export default function SmoothingPage() {
       glance={[
         { value: "Monthly", label: "BREIT updates its value per share", source: BREIT_10K },
         { value: "Yearly", label: "Each BREIT property is re-appraised, at least", source: BREIT_10K },
-        { value: "Quarterly", label: "Full valuations for BX Infra and BXPE, updated monthly", source: BXINFRA_10K },
+        { value: "Quarterly", label: "Full valuations for BX Infra and BXPE, updated monthly", source: BXINFRA_10K, also: [BXPE_10K] },
       ]}
     >
       <div className="space-y-12">

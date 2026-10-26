@@ -22,14 +22,14 @@ const ICONS: Record<string, ReactNode> = {
   ),
 };
 
-/** The two structures in a few words per topic; the full comparison with sources sits below it. */
+/** The two structures in a few words per topic, side by side and styled alike; the full comparison with sources sits below it. */
 export default function AtAGlance() {
   return (
     <div className="overflow-hidden rounded-card border border-line">
       <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] bg-bg-raised text-[11px] font-semibold uppercase tracking-[0.08em] sm:grid-cols-[200px_minmax(0,1fr)_minmax(0,1fr)]">
         <span className="hidden px-4 py-3 text-muted sm:block">Topic</span>
         <span className="px-4 py-3 text-muted">Traditional drawdown</span>
-        <span className="border-l border-line bg-accent/[0.06] px-4 py-3 text-accent">Evergreen (e.g. {COMPARE.evergreenExample})</span>
+        <span className="border-l border-line px-4 py-3 text-muted">Evergreen (e.g. {COMPARE.evergreenExample})</span>
       </div>
       <ul className="divide-y divide-line">
         {COMPARE.rows.map((r) => (
@@ -41,12 +41,8 @@ export default function AtAGlance() {
               {r.topic}
             </span>
             <span className="px-4 py-2.5 text-sm text-muted-strong sm:py-3.5">{r.drawdownShort}</span>
-            <span className="flex items-start gap-2 border-l border-line bg-accent/[0.06] px-4 py-2.5 text-sm font-medium text-ink sm:py-3.5">
-              <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-accent">
-                <path d="M5 12.5l4.5 4.5L19 7.5" />
-              </svg>
-              {r.evergreenShort}
-            </span>
+            {/* Both sides styled alike: the table describes, it doesn't pick. */}
+            <span className="border-l border-line px-4 py-2.5 text-sm text-muted-strong sm:py-3.5">{r.evergreenShort}</span>
           </li>
         ))}
       </ul>

@@ -5,23 +5,33 @@ import { nextUpdate } from "@/lib/schedule";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import type { Source } from "@/lib/types";
 import type { LatestUpdate } from "@/lib/latest";
+import type { FundCode } from "@/config/addons";
+import { quarterFigures } from "@/lib/quarter";
+import { TERMS, termsFor } from "@/lib/addons/liquidity/data";
+import { COMPARE_ROWS } from "@/lib/compare";
 import { SITE_NAME } from "./SiteMark";
 
 /**
- * A fund's page on one sheet of paper: title, the quarter, the stat cards, the sector mix, sources and the disclaimer.
- * Print-only; the page's "Print / Save as PDF" buttons open it. Every figure is the same one the page shows.
+ * A fund's page on one sheet of paper: title, the latest month and the last quarter, getting money out, the sector mix,
+ * sources and the disclaimer. Print-only; the page's "Print / Save as PDF" buttons open it. Every figure is the same
+ * one the page shows, once.
  */
-export default function FundPrint({ data, latest }: { data: FundData; latest?: LatestUpdate }) {
+export default function FundPrint({ data, latest, fund }: { data: FundData; latest?: LatestUpdate; fund?: FundCode }) {
   const next = nextUpdate(data.asOf);
   const sectors = [...data.sectors].sort((a, b) => b.pct - a.pct);
   const top = sectors[0]?.pct || 1;
   const geo = [...data.geography.items].sort((a, b) => b.pct - a.pct);
-  const q = data.quarterSummary;
+  const q = quarterFigures(data, latest);
+  const terms = fund ? termsFor(fund) : undefined;
+  const lastRound = fund ? COMPARE_ROWS.find((r) => r.id === "prorated")?.cells[fund] : undefined;
+  const lastRoundLabel = COMPARE_ROWS.find((r) => r.id === "prorated")?.label;
+  const word = terms && /units/.test(terms.limits[0].unit) ? "Units" : "Shares";
   const sources: Source[] = [
-    ...(latest ? latest.items.flatMap((i) => i.sources) : []),
+    ...(latest ? [...latest.items.flatMap((i) => i.sources), ...latest.notes.flatMap((n) => n.sources)] : []),
     data.source,
     ...(q ? [q.source, ...(q.moreSources ?? [])] : []),
-    ...data.summary.stats.flatMap((st) => st.sources ?? []),
+    ...(terms ? [terms.limits[0].source, terms.earlyDeduction.source] : []),
+    ...(lastRound?.sources ?? []),
   ].filter(
     (src, i, all) => all.findIndex((o) => o.url === src.url) === i,
   );
@@ -69,7 +79,7 @@ export default function FundPrint({ data, latest }: { data: FundData; latest?: L
 
         {q ? (
           <section>
-            <h2 className="text-[11px] font-semibold">This quarter · {q.period}</h2>
+            <h2 className="text-[11px] font-semibold">Last quarterly report · {q.period}</h2>
             <table className="mt-1 w-full border text-left">
               <tbody>
                 <tr>
@@ -77,7 +87,7 @@ export default function FundPrint({ data, latest }: { data: FundData; latest?: L
                     <td key={m.label} className="border px-2 py-1 align-top" style={{ width: `${100 / q.items.length}%` }}>
                       <span className="block text-[9px] uppercase tracking-[0.08em]">{m.label}</span>
                       <span className="tnum block font-serif text-[16px]">
-                        {m.value} <span className="text-[10px]">({m.change})</span>
+                        {m.value} {m.change && <span className="text-[10px]">({m.change})</span>}
                       </span>
                       <span className="block text-[10px]">{m.from}</span>
                     </td>
@@ -85,6 +95,7 @@ export default function FundPrint({ data, latest }: { data: FundData; latest?: L
                 </tr>
               </tbody>
             </table>
+            {data.sizeNote && <p className="mt-1 text-[10px]">{data.sizeNote}</p>}
           </section>
         ) : data.thisQuarter?.length ? (
           <section>
@@ -97,22 +108,16 @@ export default function FundPrint({ data, latest }: { data: FundData; latest?: L
           </section>
         ) : null}
 
-        <section>
-          <h2 className="text-[11px] font-semibold">Key numbers · as of {formatDate(data.asOf, "long")}</h2>
-          <dl className="mt-1 grid grid-cols-4 gap-3">
-            {data.summary.stats.map((s) => (
-              <div key={s.label}>
-                <dt className="text-[9px] uppercase tracking-[0.08em]">{s.label}</dt>
-                <dd className="tnum font-serif text-[18px] leading-tight">
-                  {s.value} {s.change && <span className="text-[10px]">({s.change})</span>}
-                </dd>
-                {s.from && <dd className="text-[10px]">{s.from}</dd>}
-                {s.note && <dd className="text-[10px]">{s.note}</dd>}
-              </div>
-            ))}
-          </dl>
-          {data.sizeNote && <p className="mt-1 text-[10px]">{data.sizeNote}</p>}
-        </section>
+        {terms && (
+          <section data-print-liquidity>
+            <h2 className="text-[11px] font-semibold">Getting money out · as of {formatDate(TERMS.asOf, "long")}</h2>
+            <p className="mt-0.5">
+              {terms.howOften}. {terms.limits.map((l) => `${l.label}: ${l.value}${l.unit}`).join("; ")}. {word} held less than {terms.earlyDeduction.heldUnder} are
+              bought back at {100 - terms.earlyDeduction.value}% of NAV. {terms.discretion}
+              {lastRound?.value && ` ${lastRoundLabel?.replace(/\?$/, "")}: ${lastRound.value}. ${lastRound.note ?? ""}`}
+            </p>
+          </section>
+        )}
 
         <section className="grid grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-5">
           <div>

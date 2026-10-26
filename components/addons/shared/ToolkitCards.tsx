@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { AddonDef } from "@/config/addons";
+import { addonHref, type AddonDef } from "@/config/addons";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { orderFor } from "@/lib/addons/shared/audience";
 import { useAudience } from "./Audience";
@@ -15,7 +15,7 @@ export default function ToolkitCards({ list }: { list: AddonDef[] }) {
       {ordered.map((a) => (
         <li key={a.id}>
           <Link
-            href={`/toolkit/${a.id}`}
+            href={addonHref(a)}
             className="group flex h-full flex-col gap-4 rounded-card border border-line bg-bg-raised p-5 transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-muted hover:shadow-[0_8px_24px_-12px_rgba(20,22,26,0.18)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             <div className="flex items-center justify-between gap-3">
@@ -31,14 +31,14 @@ export default function ToolkitCards({ list }: { list: AddonDef[] }) {
               {a.question && <p className="mt-1.5 font-serif text-[22px] leading-tight text-ink">{a.question}</p>}
               <p className="mt-2 text-sm leading-relaxed text-muted-strong">{a.description}</p>
             </div>
-            <ul aria-label="Applies to" className="flex flex-wrap gap-x-3 gap-y-1">
+            {a.appliesTo.length > 0 && <ul aria-label="Applies to" className="flex flex-wrap gap-x-3 gap-y-1">
               {a.appliesTo.map((f) => (
                 <li key={f} className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.06em] text-muted">
                   <span aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ background: FUNDS[f].color }} />
                   {FUNDS[f].label}
                 </li>
               ))}
-            </ul>
+            </ul>}
           </Link>
         </li>
       ))}

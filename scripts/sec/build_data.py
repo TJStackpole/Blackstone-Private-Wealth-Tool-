@@ -252,7 +252,7 @@ def build_breit():
                 item("Raised vs. bought back", f"${raised:.1f}B / ${bought:.1f}B", "shares and units, in the quarter",
                      (f"+${raised - bought:.1f}B net", "up" if raised > bought else "down"),
                      "Every repurchase request received in the first half was filled."),
-                item("Property sales", f"${float(sold.group(4)):.1f}B", f"{n_sold} properties: rental housing, self storage, industrial", (f"{n_sold} sold", "down"),
+                item("Property sales", f"${float(sold.group(4)):.1f}B", f"{n_sold} properties: rental housing, self storage, industrial", (f"{n_sold} sold", "none"),
                      f"Includes all {sold.group(2)} self storage properties: BREIT exited that sector."),
             ],
         },
@@ -432,7 +432,7 @@ def build_bxinfra(old):
                 item("Net assets", f"${us_nav:.1f}B", f"BXINFRA U.S., from ${us_nav_dec:.1f}B on Dec 31, 2025", move(us_nav, us_nav_dec)),
                 item("NAV per unit", f"${x['nav']:.2f}", f"Class I, Series I, from ${x['nav_dec']:.2f} on Dec 31, 2025", move(x["nav"], x["nav_dec"])),
                 item("Investments", f"${tot / 1e6:.2f}B", f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", move(inv_now, inv_dec)),
-                item("Units redeemed", f"{x['redeemed']:,}", f"BXINFRA U.S., in the quarter, at an average ${x['price']}", ("all filled", "flat"),
+                item("Units redeemed", f"{x['redeemed']:,}", f"BXINFRA U.S., in the quarter, at an average ${x['price']}", ("all filled", "none"),
                      "All redemption requests were satisfied in full."),
             ],
         },
@@ -480,6 +480,9 @@ def build_bxpe():
     inv = [x for x in next(l for l in lines if l.startswith("Investments at Fair Value (Cost")).split(" | ")[1:] if x != "$"]
     inv_now, inv_dec = num(inv[0]), num(inv[1])
     check(abs(inv_now - tot) < 1, f"BXPE: balance-sheet investments {inv_now:,.0f} == schedule total {tot:,.0f}")
+    # BX Infra's investments line includes its affiliated investee funds; BXPE's balance sheet shows them on their own line.
+    aff = num([x for x in next(l for l in lines if l.startswith("Investments in Affiliated Investee Funds at Fair Value")).split(" | ")[1:] if x != "$"][0])
+    check(0 <= aff < inv_now, f"BXPE: affiliated investee funds {aff:,.0f}, shown apart from investments")
     nav = float(next(l for l in lines if l.startswith("Series I | $ |")).split(" | ")[2])
     k_lines = filing("bxpe_10k")
     nav_dec = float(next(l for l in k_lines if l.startswith("Class I (a) | $ |")).split(" | ")[2])
@@ -507,8 +510,8 @@ def build_bxpe():
                 stat("Net assets", f"${us_nav:.1f}B", f"BXPE U.S., which owns {own}% of the aggregator that holds the investments (${agg_nav:.1f}B with a parallel fund)",
                      move(us_nav, us_nav_dec), f"from ${us_nav_dec:.1f}B on Dec 31, 2025", [q10]),
                 stat("NAV per unit (Class I)", f"${nav:.2f}", "Series I, Transactional NAV", move(nav, nav_dec), f"from ${nav_dec:.2f} on Dec 31, 2025", [q10, k10]),
-                stat("Distribution rate", "None", "BXPE does not currently intend to declare distributions.", ("none", "flat"), "none at Dec 31, 2025 either", [q10, k10]),
-                stat("Investments", f"${tot / 1e6:.2f}B", "at fair value, held by the aggregator", move(inv_now, inv_dec), f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", [q10]),
+                stat("Distribution rate", "None", "BXPE does not currently intend to declare distributions.", ("", "none"), "none at Dec 31, 2025 either", [q10, k10]),
+                stat("Investments", f"${tot / 1e6:.2f}B", f"at fair value, held by the aggregator; not counting ${aff / 1e6:.2f}B in affiliated investee funds", move(inv_now, inv_dec), f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", [q10]),
             ],
         },
         "quarterSummary": {
@@ -520,7 +523,7 @@ def build_bxpe():
                 item("Net assets", f"${us_nav:.1f}B", f"BXPE U.S., from ${us_nav_dec:.1f}B on Dec 31, 2025", move(us_nav, us_nav_dec)),
                 item("NAV per unit", f"${nav:.2f}", f"Class I, Series I, from ${nav_dec:.2f} on Dec 31, 2025", move(nav, nav_dec)),
                 item("Investments", f"${tot / 1e6:.2f}B", f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", move(inv_now, inv_dec)),
-                item("Units redeemed", f"{redeemed:,}", f"BXPE U.S., in the quarter, at an average ${price}", ("all filled", "flat"),
+                item("Units redeemed", f"{redeemed:,}", f"BXPE U.S., in the quarter, at an average ${price}", ("all filled", "none"),
                      "All redemption requests were satisfied in full."),
             ],
         },
@@ -723,7 +726,7 @@ def build_bcred(old):
                  "change": f"+{nonaccrual - nonaccrual_prior}", "direction": "up",
                  "note": "Loans with reasonable doubt that principal or interest will be paid in full."},
                 item("Income vs. payout", f"${nii:.2f} / ${-paid:.2f}", "a Class I share, first half: net investment income vs. distributions",
-                     diff(nii, -paid, lambda d: f"${d:.2f}"), "Distributions exceeded net investment income for the half."),
+                     (f"${-paid - nii:.2f} short" if -paid > nii else "covered", "none"), "Distributions exceeded net investment income for the half."),
             ],
         },
         "thisQuarter": [
@@ -827,17 +830,25 @@ def build_compare(funds):
         note = f"{word[f]}" + ("; a target the board can change" if f == "BCRED" else "")
         cells["limit"][f] = {"value": v, "note": note, "sources": [t["limits"][0]["source"]]}
 
+    # --- The early-sale deduction: what a holder gives up selling soon after buying (same terms file, each from its 10-Q).
+    cells["early"] = {}
+    for f, t in terms.items():
+        e = t["earlyDeduction"]
+        cells["early"][f] = {"value": f"{e['value']}%", "note": f"if held less than {e['heldUnder']}: bought back at {100 - e['value']}% of NAV", "sources": [e["source"]]}
+
     # --- Were last quarter's (Q2 2026) repurchases pro-rated? Only what each filing says.
     check("which represents all repurchase requests received for the six months ended June 30, 2026" in "\n".join(breit), "BREIT: all H1 2026 requests filled")
     check("All redemption requests were satisfied in full." in "\n".join(infra), "BX Infra: Q2 requests satisfied in full")
     check("All redemption requests were satisfied in full." in pe_text, "BXPE: Q2 requests satisfied in full")
     letter = "\n".join(filing("bcred_letter"))
     check("In Q2, BCRED fulfilled approximately half of the $4." in letter, "BCRED: Q2 about half of requests filled")
+    q3 = re.search(r"Overall repurchase requests in Q3 were an estimated \$([\d.]+) billion,\d*\s*representing approximately (\d+)% of shares outstanding\.\d*\s*BCRED will fulfill repurchase requests representing (\d+)% of shares outstanding", letter)
+    check(q3 is not None, "BCRED: the letter's Q3 requests and the share it will buy back")
     cells["prorated"] = {
         "BREIT": {"value": "No", "note": "Every repurchase request received in the first half of 2026 was filled.", "sources": [q("BREIT", "Liquidity and Capital Resources")]},
         "BXINFRA": {"value": "No", "note": "All redemption requests were satisfied in full.", "sources": [q("BX Infra", "Part II, Item 2: Unit Redemptions")]},
         "BXPE": {"value": "No", "note": "All redemption requests were satisfied in full.", "sources": [q("BXPE", "Part II, Item 2: Unit Redemptions")]},
-        "BCRED": {"value": "Yes", "note": "Requests above the 5% amount were filled pro rata: about half of the $4.5 billion requested.",
+        "BCRED": {"value": "Yes", "note": f"Requests above the 5% amount were filled pro rata: about half of the $4.5 billion requested. For Q3 the letter estimates ${q3.group(1)} billion requested, about {q3.group(2)}% of shares, and says BCRED will buy back {q3.group(3)}%.",
                   "sources": [{"name": "BCRED letter to investors, September 3, 2026 (SEC filing)", "url": BCRED_Q3_LETTER}]},
     }
 
@@ -846,7 +857,7 @@ def build_compare(funds):
         "BREIT": "BREIT's prospectus (Form 424B3), \"Plan of Distribution\" / \"How to Subscribe\"",
         "BCRED": "BCRED's prospectus (Form 424B3), \"Plan of Distribution\" / \"How to Subscribe\"",
         "BXPE": "BXPE's private placement memorandum (subscription terms); not filed on EDGAR",
-        "BXINFRA": "BX Infra's private placement memorandum (subscription terms); not filed on EDGAR",
+        "BXINFRA": "BX Infra's private placement memorandum (subscription terms); not filed on EDGAR. Its 10-K gives minimums only for two institutional classes: $50 million (Class I-Series II) and $250 million (Class I-Series III)",
     }
     cells["minimum"] = {f: {"value": None, "missing": "Not in filing", "where": w} for f, w in where.items()}
 
@@ -867,6 +878,7 @@ def build_compare(funds):
         ("management", "Management fee", None),
         ("performance", "Performance / incentive fee", None),
         ("limit", "Repurchase limit", None),
+        ("early", "Early-sale deduction", "Selling soon after buying"),
         ("prorated", "Buybacks pro-rated, Q2 2026?", "Did requests exceed what the fund bought back?"),
         ("minimum", "Minimum investment", None),
         ("navChange", "NAV change since Dec 31, 2025", "Class I, to June 30, 2026"),

@@ -6,7 +6,7 @@
     "ai-data-centers": {
       "for": [
         {
-          "text": "Data centers used about 4.4% of U.S. electricity in 2023, and the national lab's scenarios put that at roughly 7% to 12% by 2028.",
+          "text": "Data centers used about 4.4% of U.S. electricity in 2023, and the national lab's scenarios put that at 6.7% to 12% by 2028.",
           "source": {
             "name": "U.S. Department of Energy, on Lawrence Berkeley National Laboratory's 2024 data center energy report",
             "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
@@ -49,8 +49,8 @@
         {
           "text": "Even lenders worried about AI don't expect the whole software market to collapse at once; they see pressure arriving gradually and unevenly, company by company.",
           "source": {
-            "name": "RBC BlueBay, AI software disruption and credit markets",
-            "url": "https://institutional.rbcgam.com/_assets/insight-article/pdfs/AI-software-disruption-credit-markets.pdf"
+            "name": "RBC BlueBay, AI & software disruption: impact on credit markets (May 2026)",
+            "url": "https://www.rbcbluebay.com/globalassets/documents/ai-and-software-disruption-impact-on-credit-markets.pdf"
           }
         }
       ],

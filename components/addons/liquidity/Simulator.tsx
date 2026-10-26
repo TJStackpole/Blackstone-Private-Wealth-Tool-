@@ -10,7 +10,7 @@ import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput, SelectFund } from "@/components/addons/shared/Inputs";
 
 const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
-const short = (v: number) => (v >= 1e6 ? `$${+(v / 1e6).toFixed(1)}M` : v >= 1000 ? `$${Math.round(v / 1000)}k` : `$${Math.round(v)}`);
+const short = (v: number) => (v >= 1e6 ? `$${+(v / 1e6).toFixed(2)}M` : v >= 1000 ? `$${+(v / 1000).toFixed(1)}k` : `$${Math.round(v)}`);
 const QUARTERS = 8;
 
 interface Props {

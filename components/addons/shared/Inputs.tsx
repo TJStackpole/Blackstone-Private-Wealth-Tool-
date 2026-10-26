@@ -11,9 +11,9 @@ const field = fieldClass;
 
 const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 });
 
-/** Reads what a person typed: commas, spaces, "$" and "%" are ignored. Returns null if it isn't a number yet. */
+/** Reads what a person typed: commas, spaces, "$" and "%" are ignored, and "−" (as the site prints it) is a minus. Null if it isn't a number yet. */
 export function parseNumber(raw: string): number | null {
-  const cleaned = raw.replace(/[,\s$%]/g, "");
+  const cleaned = raw.replace(/[,\s$%]/g, "").replace(/^[\u2212\u2013]/, "-");
   if (!/^-?(\d+\.?\d*|\.\d+)$/.test(cleaned)) return null;
   const n = Number(cleaned);
   return Number.isFinite(n) ? n : null;

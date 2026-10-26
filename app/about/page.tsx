@@ -62,8 +62,10 @@ export default function AboutPage() {
           How it&apos;s built
         </h2>
         <p>
-          Every fund figure comes from the funds&apos; own 10-Q and 10-K filings on SEC EDGAR. The numbers are parsed from the filings and checked against
-          the totals the filings print, and each one links back to its source with an as-of date. Where a filing doesn&apos;t give a figure, the site
+          Every fund figure comes from the funds&apos; own filings on SEC EDGAR: their 10-Qs and 10-Ks, the month-end NAV filings in between (8-Ks, and
+          BREIT&apos;s prospectus supplements) and BCRED&apos;s letters to investors on its buybacks. Facts from elsewhere are marked as such and cited to
+          their own source. The numbers are parsed from the filings and checked against the totals the filings print, and each one links back to its
+          source with an as-of date. Where a filing doesn&apos;t give a figure, the site
           says &ldquo;Not in filing&rdquo; instead of estimating it. Calculators are labeled Illustrative.
         </p>
         <p>

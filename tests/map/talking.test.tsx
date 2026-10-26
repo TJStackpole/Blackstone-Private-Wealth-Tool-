@@ -49,5 +49,10 @@ describe("talking points", () => {
     await waitFor(() => expect(screen.getByRole("button", { name: "Copied" })).toBeTruthy());
     const copied = writeText.mock.calls[0][0] as string;
     for (const s of [tp.does, tp.risk, tp.changed, l.data!.filing.url, "Not investment advice"]) expect(copied).toContain(s);
+    // "What changed" quotes the Sep 30 month-end figures, so their filing is cited too, on screen and in the copy.
+    for (const s of LATEST.funds.bcred!.items[0].sources) {
+      expect(copied).toContain(s.url);
+      expect(screen.getByRole("region", { name: /Talking points/ }).querySelector(`a[href="${s.url}"]`)).toBeTruthy();
+    }
   });
 });

@@ -110,7 +110,7 @@ export default function LookThroughCalc({ compactFund }: { compactFund?: FundCod
                 <ReferenceLine x={threshold} stroke="var(--text)" strokeDasharray="4 3" label={{ value: `${threshold}%`, position: "top", fill: "var(--muted-strong)", fontSize: 11 }} />
                 <Bar dataKey="pct" isAnimationActive={false} radius={2} activeBar={false}>
                   {data.map((d) => (
-                    <Cell key={d.name} fill={d.untagged ? "var(--border)" : "var(--accent)"} fillOpacity={d.over ? 1 : 0.6} />
+                    <Cell key={d.name} fill={d.untagged ? "var(--muted)" : "var(--accent)"} fillOpacity={d.untagged ? 0.45 : d.over ? 1 : 0.6} />
                   ))}
                   <LabelList dataKey="pct" position="right" formatter={(v) => `${v}%`} style={{ fill: "var(--text)", fontSize: 11 }} />
                 </Bar>

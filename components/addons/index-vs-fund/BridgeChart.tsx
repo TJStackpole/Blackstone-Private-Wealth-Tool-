@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, LabelList, ReferenceLine, XAxis, YAxis } from "recharts";
 import type { IndexVsFund, ShareClass } from "@/lib/addons/index-vs-fund/data";
 import { SHARE_CLASSES, leverageGap, returnFor } from "@/lib/addons/index-vs-fund/data";
 import { buildBridge } from "@/lib/addons/index-vs-fund/bridge";
@@ -9,6 +9,7 @@ import MoreDetails from "@/components/addons/shared/MoreDetails";
 import { IllustrativeBadge, SampleBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
 import { pct } from "./ComparisonCard";
+import { PrintSized } from "@/components/addons/shared/PrintSized";
 
 const lowerFirst = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
 const signed = (v: number) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(2)}`;
@@ -52,6 +53,8 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
     { name: `Class ${cls} estimate`, range: [Math.min(0, bridge.end), Math.max(0, bridge.end)], label: pct(Math.round(bridge.end * 100) / 100), kind: "total" },
   ];
   const reported = returnFor(data, cls);
+  // Whose number the bridge starts from: the index's own, the tool's placeholder, or one typed in.
+  const startFrom = indexReturn === (index.annual?.value ?? 8) ? (index.annual ? "the index's" : "a placeholder index return of") : "an index return you entered of";
 
   return (
     <div className="space-y-5 print:space-y-2">
@@ -79,11 +82,11 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
       </div>
 
       <p className="rounded-card border border-line bg-bg-raised p-4 sm:p-5 font-serif text-lg print:p-2 print:text-base leading-snug text-ink" aria-live="polite">
-        Starting from {index.annual ? "the index's" : "a placeholder index return of"} {pct(Math.round(bridge.start * 100) / 100)}, this illustration lands at about {pct(Math.round(bridge.end * 10) / 10)} a year for Class {cls}.
+        Starting from {startFrom} {pct(Math.round(bridge.start * 100) / 100)}, this illustration lands at about {pct(Math.round(bridge.end * 10) / 10)} a year for Class {cls}.
       </p>
 
       <div className={compact ? "h-64" : "h-80 print:h-52"} role="img" aria-label={`Bridge from ${bridge.start.toFixed(2)}% to ${bridge.end.toFixed(2)}%: ${bridge.steps.map((s) => `${s.label} ${signed(s.delta)}`).join(", ")}`}>
-        <ResponsiveContainer width="100%" height="100%">
+        <PrintSized height={208} off={compact}>
           <BarChart accessibilityLayer={false} data={rows} layout="vertical" margin={{ top: 4, right: 48, bottom: 0, left: 0 }}>
             <CartesianGrid horizontal={false} stroke="var(--border)" />
             <XAxis type="number" tick={{ fill: "var(--muted)", fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} axisLine={{ stroke: "var(--border)" }} tickLine={false} domain={["auto", "auto"]} />
@@ -96,7 +99,7 @@ export default function BridgeChart({ data, compact = false }: { data: IndexVsFu
               <LabelList dataKey="label" position="right" style={{ fill: "var(--text)", fontSize: 11 }} />
             </Bar>
           </BarChart>
-        </ResponsiveContainer>
+        </PrintSized>
       </div>
 
       {reported && (

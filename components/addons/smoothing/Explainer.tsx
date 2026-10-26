@@ -53,6 +53,19 @@ export default function Explainer() {
                       >
                         Source: {p.source.name}
                       </a>
+                      {p.also && (
+                        <>
+                          {" · "}
+                          <a
+                            href={p.also.url}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink"
+                          >
+                            {p.also.name}
+                          </a>
+                        </>
+                      )}
                     </>
                   )}
                 </p>

@@ -2,7 +2,8 @@
 
 import { useEffect, useId, useState } from "react";
 import type { FundData, LayerId } from "@/lib/types";
-import { talkingPoints, talkingPointsText } from "@/lib/talkingPoints";
+import { talkingPoints, talkingPointsSources, talkingPointsText } from "@/lib/talkingPoints";
+import { SourceLinks } from "@/components/QuarterBox";
 import { formatDate } from "@/lib/dates";
 import { PrintButton } from "@/components/addons/shared/PrintOnePager";
 
@@ -31,6 +32,7 @@ async function copyText(text: string): Promise<boolean> {
 /** "Talking points" (three sentences to copy) and "Print / Save as PDF", by the fund's title. */
 export default function FundActions({ layerId, data }: { layerId: LayerId; data: FundData }) {
   const tp = talkingPoints(layerId);
+  const sources = talkingPointsSources(layerId, data);
   const id = useId();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<"yes" | "no" | null>(null);
@@ -68,12 +70,12 @@ export default function FundActions({ layerId, data }: { layerId: LayerId; data:
           </ol>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
             <p className="text-[11px] leading-snug text-muted">
-              From the {data.filing.form} for the period ended {formatDate(data.asOf)}. Not investment advice.
+              As of {formatDate(data.asOf)} unless a sentence gives a later date. Sources: <SourceLinks sources={sources} />. Not investment advice.
             </p>
             <button
               type="button"
               className={btn}
-              onClick={async () => setCopied((await copyText(talkingPointsText(tp, data))) ? "yes" : "no")}
+              onClick={async () => setCopied((await copyText(talkingPointsText(tp, data, sources))) ? "yes" : "no")}
             >
               {copied === "yes" ? "Copied" : "Copy"}
             </button>

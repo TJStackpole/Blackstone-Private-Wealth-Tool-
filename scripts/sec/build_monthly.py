@@ -202,7 +202,7 @@ def build_units(fund, key, entity, label, d):
     sec = s[s.index("The Transactional NAV per Unit for each class of the Funds as of"):]
     navpu = float(find(r"\n" + re.escape(entity) + r"\nClass I Unit\nSeries I \| \$ \| ([\d.]+)", sec, f"{label}'s Class I-Series I NAV").group(1))
     agg = find(r"As of " + re.escape(as_of_long) + r", (BXINFRA|BXPE).s aggregate Transactional NAV was approximately \$([\d.]+) billion", s, f"{label}'s total Transactional NAV")
-    raise_ = re.search(r"On (\w+ \d+, \d{4}), the (BXINFRA|BXPE) Fund Program \(inclusive of the Funds\) issued interests for an? ?aggregate consideration of approximately \$([\d.]+) (million|billion)", s)
+    raise_ = re.search(r"On (\w+ \d+, \d{4}), the (BXINFRA|BXPE) Fund Program \(inclusive of the Funds\) issued interests for an? ?aggregate consideration of approximately \$([\d.]+) (million|billion)(, excluding interests sold through the Funds. distribution reinvestment plan)?", s)
     navpu_q = float(re.search(r"\$([\d.]+)", stat(d, "NAV per unit")["value"]).group(1))
     navpu_dec = float(re.search(r"from \$([\d.]+) on " + re.escape(DEC_SHORT), stat(d, "NAV per unit")["from"]).group(1))
     check(10 < navpu < 100, f"{label} {as_of_long}: Class I-Series I Transactional NAV ${navpu} ({Q_SHORT}: ${navpu_q})")
@@ -231,7 +231,7 @@ def build_units(fund, key, entity, label, d):
                   "from": f"{agg.group(1)}: the U.S. fund, its feeder and parallel vehicles (not the Luxembourg fund), {short(as_of_long)}", "sources": [s_src]})
     if raise_:
         amount = float(raise_.group(3)) * (1000 if raise_.group(4) == "billion" else 1)
-        out["notes"].append({"text": f"New money: the {raise_.group(2)} Fund Program issued about ${amount:,.1f} million of interests on {short(raise_.group(1))}.",
+        out["notes"].append({"text": f"New money: the {raise_.group(2)} Fund Program issued about ${amount:,.1f} million of interests on {short(raise_.group(1))}{', not counting reinvested distributions' if raise_.group(5) else ''}.",
                              "sources": [src(key, "Item 3.02: Unregistered Sales of Equity Securities")]})
     return out
 
@@ -249,6 +249,9 @@ def build_bcred(d):
     navps_q = float(re.search(r"\$([\d.]+)", stat(d, "NAV per share")["value"]).group(1))
     navps_dec = float(re.search(r"from \$([\d.]+) on " + re.escape(DEC_SHORT), stat(d, "NAV per share")["from"]).group(1))
     june = float(re.search(re.escape(Q_MONTH) + r"'s \$([\d.]+) a share", stat(d, "Distribution rate")["note"]).group(1))  # the quarter's last month
+    # What the fund earned against what it paid, from the 10-Q, so the lower payout is read next to it.
+    earned = next(m for m in d["quarterSummary"]["items"] if m["label"] == "Income vs. payout")
+    nii, paid = (float(x) for x in re.findall(r"\$([\d.]+)", earned["value"]))
     rate = dist * 12 / navps * 100
     check(10 < navps < 40 and 7 < rate < 12, f"BCRED {as_of_long}: NAV ${navps}, {dist_month} ${dist} ({rate:.2f}% a year)")
     s_nav = src("bcred", f"Item 8.01: Net Asset Value as of {as_of_long}")
@@ -262,7 +265,8 @@ def build_bcred(d):
         {"label": "Distribution rate", "value": f"{rate:.1f}%", "from": f"Class I: {dist_month.split()[0]}'s ${dist:.2f} a share × 12 ÷ ${navps:.2f} NAV",
          **({"change": f"{'+' if dist > june else '−'}${abs(dist - june):.2f} a month", "direction": "up" if dist > june else "down"}
             if round(dist, 4) != round(june, 4) else {"change": "no change", "direction": "flat"}),
-         "note": f"Monthly payout, from ${june:.2f} in {Q_MONTH}.", "sources": sources(s_dist, s_nav)},
+         "note": f"The monthly payout is down from ${june:.2f} in {Q_MONTH}. In the first half, BCRED paid ${paid:.2f} a share and earned ${nii:.2f} of net investment income.",
+         "sources": sources(s_dist, s_nav, d["quarterSummary"]["source"])},
         {"label": "Leverage", "value": f"{float(agg.group(5)):.2f}x", "from": f"debt to equity, {agg.group(4)} average; ${float(agg.group(3)):.1f}B of debt",
          "sources": [s_nav]},
     ]

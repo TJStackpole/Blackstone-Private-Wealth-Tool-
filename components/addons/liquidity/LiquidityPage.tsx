@@ -1,8 +1,9 @@
-import Link from "next/link";
 import { findAddon } from "@/config/addons";
 import AddonShell from "@/components/addons/shared/AddonShell";
 import Steps from "@/components/addons/shared/Steps";
 import { AsOfSource } from "@/components/addons/shared/Badges";
+import FundLink from "@/components/addons/shared/FundLink";
+import { formatDate } from "@/lib/dates";
 import { HISTORY, TERMS } from "@/lib/addons/liquidity/data";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
 import FillChart from "./FillChart";
@@ -43,6 +44,7 @@ export default function LiquidityPage() {
           value: `${limit("BXPE", 0)}%`,
           label: limit("BXPE", 0) === limit("BXINFRA", 0) ? "BXPE and BX Infra: quarterly limit (% of units)" : "BXPE: quarterly limit (% of units)",
           source: terms("BXPE").limits[0].source,
+          ...(limit("BXPE", 0) === limit("BXINFRA", 0) ? { also: [terms("BXINFRA").limits[0].source] } : {}),
         },
       ]}
       badges={<AsOfSource asOf={TERMS.asOf} source={TERMS.source} />}
@@ -63,9 +65,9 @@ export default function LiquidityPage() {
           <UrlSimulator />
           {taxLens && (
             <p className="text-sm text-muted-strong">
-              <Link href="/toolkit/tax-lens" className="underline decoration-line underline-offset-4 hover:text-ink">
-                Redeeming early? See when cash arrives and when tax is due in the Tax Lens.
-              </Link>
+              <FundLink href="/toolkit/tax-lens" className="underline decoration-line underline-offset-4 hover:text-ink">
+                When is tax due on what you receive? See the Tax Lens.
+              </FundLink>
             </p>
           )}
         </Section>
@@ -76,7 +78,10 @@ export default function LiquidityPage() {
 
         <Section title="When the limits have applied" id="history">
           <FillChart />
-          <AsOfSource asOf={HISTORY.asOf} source={HISTORY.events[HISTORY.events.length - 1].source} />
+          {/* Each bar has its own filing (BREIT's 10-K and 10-Qs, BCRED's 10-Q and letters), listed event by event below. */}
+          <p className="text-xs leading-relaxed text-muted">
+            <span className="tnum">As of {formatDate(HISTORY.asOf)}</span> · Sources: each event&apos;s own filing, under &ldquo;Each event, with sources&rdquo; below.
+          </p>
           <div className="space-y-3">
             <MoreDetails id="events" summary="Each event, with sources" hint="BREIT 2022–2024 and BCRED 2026, from the funds' filings">
               <HistoryTimeline />

@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import DetailPanel from "@/components/DetailPanel";
 import { LAYERS } from "@/data/layers";
+import { quarterFigures } from "@/lib/quarter";
+import { latestFor } from "@/lib/latest";
 
 afterEach(cleanup);
 
@@ -10,19 +12,22 @@ const bcred = LAYERS.find((l) => l.id === "bcred")!;
 const q = bcred.data!.quarterSummary!;
 const signOf = (change: string) => (change.startsWith("+") ? "up" : change.startsWith("−") ? "down" : null);
 
-describe("This quarter box", () => {
+describe("Last quarterly report box", () => {
   it("every fund has one", () => {
     expect(funds.map((l) => l.fund)).toEqual(["BREIT", "BX Infra", "BXPE", "BCRED"]);
   });
 
   for (const l of funds) {
-    it(`${l.fund}: each move has a direction that matches its sign, a comparison, and the filing`, () => {
+    it(`${l.fund}: each figure once, with a direction that matches its sign, a comparison, and the filing`, () => {
       const d = l.data!;
       render(<DetailPanel layer={l} data={d} sector={null} selected={null} onSelect={() => {}} geoItems={d.geography.items} />);
-      const box = screen.getByRole("region", { name: "This quarter" });
-      const items = d.quarterSummary!.items;
+      const box = screen.getByRole("region", { name: "Last quarterly report" });
+      const items = quarterFigures(d, latestFor(l.id))!.items;
       expect(items.length).toBeGreaterThanOrEqual(4);
-      expect(items.length).toBeLessThanOrEqual(5);
+      expect(items.length).toBeLessThanOrEqual(6);
+      // One figure per label, and nothing the monthly box shows newer.
+      expect(new Set(items.map((m) => m.label)).size).toBe(items.length);
+      expect(items.some((m) => m.label === "Distribution rate" && latestFor(l.id)!.items.some((i) => i.label === "Distribution rate"))).toBe(false);
       for (const m of items) {
         const cell = box.querySelector(`[data-quarter="${m.label}"]`) as HTMLElement;
         expect(within(cell).getByText(m.value)).toBeTruthy();
@@ -30,20 +35,33 @@ describe("This quarter box", () => {
         expect(cell.textContent).toContain(m.from);
         const sign = signOf(m.change);
         if (sign) expect(m.direction).toBe(sign);
-        expect(cell.textContent).toContain(m.direction === "up" ? "Up:" : m.direction === "down" ? "Down:" : "Unchanged:");
+        if (m.direction === "none") expect(cell.textContent).not.toMatch(/Up:|Down:|Unchanged:/);
+        else if (m.change) expect(cell.textContent).toContain(m.direction === "up" ? "Up:" : m.direction === "down" ? "Down:" : "Unchanged:");
       }
       expect(within(box).getAllByRole("link")[0].getAttribute("href")).toBe(d.source.url);
       expect(box.textContent).toContain("Next update expected");
+      // The stat cards are folded in, so there's no second block repeating these numbers.
+      expect(document.querySelector("[data-stat]")).toBeNull();
     });
   }
 
-  it("BCRED: the five moves the plan asks for, from the 10-Q", () => {
-    expect(q.items.map((m) => m.label)).toEqual(["Net assets", "NAV per share", "Bought back, pro rata", "Non-accrual issuers", "Income vs. payout"]);
+  it("BCRED: the plan's five moves from the 10-Q, then its portfolio companies", () => {
+    const items = quarterFigures(bcred.data!, latestFor("bcred"))!.items;
+    expect(items.map((m) => m.label)).toEqual(["Net assets", "NAV per share", "Bought back, pro rata", "Non-accrual issuers", "Income vs. payout", "Portfolio companies"]);
     expect(q.items[0]).toMatchObject({ value: "$42.8B", direction: "down", change: `−${((1 - 42_775_600 / 47_612_086) * 100).toFixed(1)}%` });
     expect(q.items[1]).toMatchObject({ value: "$23.65", direction: "down", change: "−4.6%" });
     expect(q.items[2]).toMatchObject({ value: "5.0%", direction: "down", change: "−2.0 pts" });
     expect(q.items[3]).toMatchObject({ value: "15", direction: "up", change: "+6" });
-    expect(q.items[4]).toMatchObject({ value: "$1.07 / $1.20", direction: "down", change: "−$0.13" });
+    // A gap between two figures, not a change over time: no arrow.
+    expect(q.items[4]).toMatchObject({ value: "$1.07 / $1.20", direction: "none", change: "$0.13 short" });
+    expect(items[5]).toMatchObject({ value: "653", direction: "down", change: "−47" });
+  });
+
+  it("a stat card's note carries over to the matching figure", () => {
+    const breit = LAYERS.find((l) => l.id === "breit")!;
+    const items = quarterFigures(breit.data!, latestFor("breit"))!.items;
+    expect(items.find((m) => m.label === "Net asset value")!.note).toBe("all share classes and operating partnership units");
+    expect(items.find((m) => m.label === "Properties")).toMatchObject({ value: "4,530", note: "plus 63,081 single-family rental homes" });
   });
 });
 
@@ -56,7 +74,8 @@ describe("Stat cards", () => {
       expect(stats[1].label).toMatch(/^NAV per (share|unit) \(Class I\)$/);
       expect(stats[2].label).toBe("Distribution rate");
       for (const s of stats) {
-        expect(s.change && s.direction && s.from).toBeTruthy();
+        expect(s.direction && s.from).toBeTruthy();
+        if (s.direction !== "none") expect(s.change).toBeTruthy();
         expect(s.sources?.length).toBeGreaterThan(0);
         for (const src of s.sources!) expect(src.url).toMatch(/^https:\/\/www\.sec\.gov\//);
         const sign = signOf(s.change!);

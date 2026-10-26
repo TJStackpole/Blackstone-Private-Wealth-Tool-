@@ -37,7 +37,7 @@ export default function TaxLensPage() {
           source: TAX.source,
         },
         { value: TAX_FUNDS.funds.BCRED.tiles[0].value, label: "BCRED: dividends that were ordinary income, 2023–2025", source: TAX_FUNDS.funds.BCRED.tiles[0].source },
-        { value: "K-1", label: "BXPE and BX Infra: partnerships; investors are taxed on their share of income", source: TAX_FUNDS.funds.BXPE.tiles[1].source },
+        { value: "K-1", label: "BXPE and BX Infra: partnerships; investors are taxed on their share of income", source: TAX_FUNDS.funds.BXPE.tiles[1].source, also: [TAX_FUNDS.funds.BXINFRA.tiles[1].source] },
       ]}
       badges={<span className="text-xs text-muted">General education, not tax advice. Consult a tax advisor.</span>}
     >
@@ -67,7 +67,7 @@ export default function TaxLensPage() {
           {liquidity && (
             <p className="text-sm text-muted-strong">
               <Link href="/toolkit/liquidity?fund=BREIT" className="underline decoration-line underline-offset-2 hover:text-ink">
-                Redeeming early? See when cash arrives and when tax is due in the Liquidity Simulator.
+                When does the cash arrive if you redeem? See the Liquidity Simulator.
               </Link>
             </p>
           )}

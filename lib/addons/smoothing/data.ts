@@ -6,6 +6,8 @@ export interface Paragraph {
   text: string;
   /** Null for the tool's own explanation or analogy; every factual claim carries one. */
   source: AddonSource | null;
+  /** A second filing, when the sentence covers two funds. */
+  also?: AddonSource;
 }
 
 export interface SmoothingContent {

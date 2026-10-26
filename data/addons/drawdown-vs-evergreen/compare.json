@@ -86,7 +86,7 @@
   {
    "topic": "Fee structure",
    "drawdown": "Commonly a management fee charged on committed capital during the investment period, and carried interest (often 20%) on profits above a preferred return; terms vary by fund.",
-   "evergreen": "BXPE: 1.25% a year of net asset value, plus 12.5% of total return above a 5% annual hurdle, with a high-water mark. Share classes add servicing fees of up to 0.85% a year.",
+   "evergreen": "BXPE: 1.25% a year of net asset value, plus 12.5% of total return once it clears a 5% annual hurdle, with a full catch-up and a high-water mark. Share classes add servicing fees of up to 0.85% a year.",
    "sources": [
     {
      "name": "PIMCO, Understanding alternatives: speak the language",

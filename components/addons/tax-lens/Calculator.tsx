@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "recharts";
 import { projectTax } from "@/lib/addons/tax-lens/roc";
 import { TAX } from "@/lib/addons/tax-lens/data";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
 import MoreDetails from "@/components/addons/shared/MoreDetails";
+import { PrintSized } from "@/components/addons/shared/PrintSized";
+import { useMediaQuery } from "@/components/useMediaQuery";
 
 const money = (n: number) => `${n < 0 ? "−" : ""}$${Math.abs(Math.round(n)).toLocaleString("en-US")}`;
 // Axis ticks can fall on half-thousands ($4.5k), so keep one decimal rather than round them to a different number.
@@ -24,6 +26,7 @@ export function cgRateFor(bracket: number): number {
 export default function Calculator({ compact = false }: { compact?: boolean }) {
   const [amount, setAmount] = useState(250_000);
   const [cls, setCls] = useState<Cls>("I");
+  const narrow = useMediaQuery("(max-width: 420px)");
   const [rate, setRate] = useState(TAX.distributionRates.I.value);
   const [roc, setRocOnly] = useState(TAX.defaultRoc.value);
   // Share of the payout classified as capital gains: set by the past-year buttons, cleared when the ROC share is typed.
@@ -63,12 +66,14 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
   }
 
   const bars = [
-    { name: "Tax on payouts, as received", value: Math.round(r.totalTaxNow), kind: "now" },
-    { name: "Tax at sale", value: Math.round(r.taxOnSale), kind: "later" },
-    { name: "If every payout were taxed as income", value: Math.round(r.taxIfAllTaxedNow), kind: "compare" },
+    { name: "Tax on payouts, as received", label: "Tax now", value: Math.round(r.totalTaxNow), kind: "now" },
+    { name: "Tax at sale", label: "Tax at sale", value: Math.round(r.taxOnSale), kind: "later" },
+    { name: "If every payout were taxed as income", label: "All as income", value: Math.round(r.taxIfAllTaxedNow), kind: "compare" },
   ];
 
-  const yearTable = (
+  // On paper, a long holding period shows the first five years and the last, so the page stays one sheet.
+  const printRows = r.rows.length > 9 ? [...r.rows.slice(0, 5), ...r.rows.slice(-1)] : r.rows;
+  const yearTable = (rows: typeof r.rows) => (
           <div className="overflow-x-auto rounded-card border border-line">
             <table className="tnum w-full min-w-[640px] text-right text-sm">
               <caption className="sr-only">Year-by-year tax on payouts</caption>
@@ -84,8 +89,8 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
-                {r.rows.map((y) => (
-                  <tr key={y.year}>
+                {rows.map((y, i) => (
+                  <tr key={y.year} className={rows !== r.rows && i === rows.length - 1 ? "border-t-2" : undefined}>
                     <th scope="row" className="px-3 py-2 text-left font-normal text-ink">{y.year}</th>
                     <td className="px-3 py-2 text-ink">{money(y.cash)}</td>
                     <td className="px-3 py-2 text-muted-strong">{money(y.taxable + y.capitalGainDist + y.excessGain)}</td>
@@ -206,11 +211,12 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
 
         <figure className="space-y-2">
           <div className={compact ? "h-40" : "h-48"} role="img" aria-label={bars.map((b) => `${b.name}: ${money(b.value)}`).join("; ")}>
-            <ResponsiveContainer width="100%" height="100%">
+            <PrintSized height={192} off={compact}>
               <BarChart accessibilityLayer={false} data={bars} layout="vertical" margin={{ top: 0, right: 64, bottom: 0, left: 0 }}>
                 <CartesianGrid horizontal={false} stroke="var(--border)" />
                 <XAxis type="number" tickFormatter={short} tick={{ fill: "var(--muted)", fontSize: 11 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
-                <YAxis type="category" dataKey="name" width={compact ? 130 : 190} tick={{ fill: "var(--muted-strong)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                {/* Small phones get short labels, so the bars keep most of the width. */}
+                <YAxis type="category" dataKey={narrow ? "label" : "name"} width={narrow ? 84 : compact ? 130 : 190} tick={{ fill: "var(--muted-strong)", fontSize: 11 }} axisLine={false} tickLine={false} />
                 <Bar dataKey="value" isAnimationActive={false} radius={2} activeBar={false} minPointSize={2}>
                   {bars.map((b) => (
                     <Cell key={b.name} fill={b.kind === "compare" ? "var(--muted)" : "var(--accent)"} fillOpacity={b.kind === "later" ? 0.6 : 1} />
@@ -218,7 +224,7 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
                   <LabelList dataKey="value" position="right" formatter={(v) => money(Number(v))} style={{ fill: "var(--text)", fontSize: 11 }} />
                 </Bar>
               </BarChart>
-            </ResponsiveContainer>
+            </PrintSized>
           </div>
           <figcaption className="text-xs text-muted">
             Tax now vs. tax later. The comparison bar taxes every payout at the income rate as received. Ignores the 3.8% net investment income tax and
@@ -237,9 +243,12 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         {!compact && (
           <>
             <MoreDetails summary="Year by year" hint="Cash, tax now and cost basis each year, then the sale">
-              {yearTable}
+              {yearTable(r.rows)}
             </MoreDetails>
-            <div className="hidden print:block">{yearTable}</div>
+            <div className="hidden print:block">
+              {yearTable(printRows)}
+              {printRows !== r.rows && <p className="mt-1 text-[10px]">Years 6 to {r.rows.length - 1} are left out here; the page shows every year.</p>}
+            </div>
           </>
         )}
       </div>

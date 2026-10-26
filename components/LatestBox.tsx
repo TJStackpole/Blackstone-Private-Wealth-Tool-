@@ -6,7 +6,6 @@ import type { Source } from "@/lib/types";
 import { formatDate } from "@/lib/dates";
 import { ChangeChip, SourceLinks } from "./QuarterBox";
 import NextUpdate from "./NextUpdate";
-import { nextUpdate } from "@/lib/schedule";
 
 /**
  * The fund's newest month-end figures, from the filings between 10-Qs: value per share, size, the latest declared
@@ -14,7 +13,6 @@ import { nextUpdate } from "@/lib/schedule";
  */
 export default function LatestBox({ latest, quarterAsOf }: { latest: LatestUpdate; quarterAsOf: string }) {
   const id = useId();
-  const nextQ = nextUpdate(quarterAsOf);
   const odd = latest.items.length % 2 === 1;
   const sources = [...latest.items.flatMap((i) => i.sources), ...latest.notes.flatMap((n) => n.sources)].filter(
     (s: Source, i, all) => all.findIndex((o) => o.url === s.url) === i,
@@ -60,7 +58,7 @@ export default function LatestBox({ latest, quarterAsOf }: { latest: LatestUpdat
       )}
       <p className="border-t border-line px-4 py-2 text-[11px] text-muted">
         Source: <SourceLinks sources={sources} /> · <NextUpdate asOf={latest.asOf} cadence="monthly" />. The map, sector mix and holdings are from the
-        10-Q for the quarter ended {formatDate(quarterAsOf)}{nextQ ? `; the next is expected in ${nextQ.month}` : ""}.
+        10-Q for the quarter ended {formatDate(quarterAsOf)}.
       </p>
     </section>
   );

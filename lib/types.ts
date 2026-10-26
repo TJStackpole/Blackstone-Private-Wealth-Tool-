@@ -28,7 +28,8 @@ export interface Stat {
   note?: string;
   /** How it moved since the prior report ("+2.8%"), which way, and what it's compared with ("from $14.13 on Dec 31, 2025"). */
   change?: string;
-  direction?: "up" | "down" | "flat";
+  /** "none": a status or a count, not a change over time ("all filled", "126 sold"). */
+  direction?: "up" | "down" | "flat" | "none";
   from?: string;
   sources?: Source[];
 }
@@ -100,7 +101,8 @@ export interface QuarterMove {
   /** What it's compared with, e.g. "from $47.6B on Dec 31, 2025". */
   from: string;
   change: string;
-  direction: "up" | "down" | "flat";
+  /** "none": a status or a count, not a change over time ("all filled", "126 sold"). */
+  direction: "up" | "down" | "flat" | "none";
   note?: string;
 }
 

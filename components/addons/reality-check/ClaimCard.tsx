@@ -20,7 +20,8 @@ export default function ClaimCard({ c, compact = false }: { c: Claim; compact?: 
   return (
     <article className="rounded-card border border-line bg-bg-raised">
       <div className={compact ? "grid" : "grid md:grid-cols-2 print:grid-cols-2"}>
-        <div className="space-y-2 border-line p-4 md:border-r print:space-y-1 print:border-r print:p-2">
+        {/* The drawer is narrow at any window size, so its card stacks and keeps the divider between claim and data. */}
+        <div className={["space-y-2 border-line p-4 print:space-y-1 print:border-r print:p-2", compact ? "" : "md:border-r"].join(" ")}>
           <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">The claim</p>
           <p className="font-serif text-lg leading-snug text-ink print:text-sm">{c.claim}</p>
           <p className="text-xs text-muted">
@@ -31,7 +32,7 @@ export default function ClaimCard({ c, compact = false }: { c: Claim; compact?: 
             {c.claimSource.page ? `, ${c.claimSource.page}` : ""}
           </p>
         </div>
-        <div className="space-y-2 border-t border-line p-4 md:border-t-0 print:space-y-1 print:border-t-0 print:p-2">
+        <div className={["space-y-2 border-t border-line p-4 print:space-y-1 print:border-t-0 print:p-2", compact ? "" : "md:border-t-0"].join(" ")}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">What the data shows</p>
             <StatusLabel c={c} />
@@ -40,7 +41,8 @@ export default function ClaimCard({ c, compact = false }: { c: Claim; compact?: 
           <p className="tnum text-sm font-medium text-ink print:text-xs">{c.value}</p>
           {/* On paper the client line below says it in plainer words, which keeps the handout to one page. */}
           {!compact && <p className="text-sm leading-relaxed text-muted-strong print:hidden">{c.context}</p>}
-          {!compact && (
+          {/* The client line is the point of the tool, so the drawer keeps it too. */}
+          {c.explain && (
             <div className="rounded-md border-l-2 border-accent bg-bg px-3 py-2 print:px-2 print:py-0.5" data-explain>
               <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">How to explain this to a client</p>
               <p className="mt-0.5 text-sm leading-relaxed text-ink print:text-[11px] print:leading-snug">{c.explain}</p>

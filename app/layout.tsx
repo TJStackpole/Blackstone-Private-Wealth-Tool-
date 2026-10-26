@@ -45,11 +45,21 @@ const themeScript = `
 window.addEventListener('storage',function(e){if(e.key==='pma-theme'&&e.newValue)document.documentElement.classList.toggle('dark',e.newValue==='dark');});}catch(e){}})();
 `;
 
+/**
+ * The map page is exported as BREIT's view; a link to another fund (/?view=bcred) switches once the page's script
+ * runs. Until then the map is hidden, so a BCRED link never shows BREIT's numbers. AtlasFromUrl clears the flag
+ * after switching; the timer is a backstop.
+ */
+const deepLinkScript = `
+(function(){try{var v=new URLSearchParams(location.search).get('view');if(location.pathname==='/'&&v&&v.toLowerCase()!=='breit'){var h=document.documentElement;h.setAttribute('data-deeplink','');setTimeout(function(){h.removeAttribute('data-deeplink');},4000);}}catch(e){}})();
+`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: deepLinkScript }} />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
     </html>

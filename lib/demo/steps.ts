@@ -18,7 +18,7 @@ export const STEPS: TourStep[] = [
     title: "Where four Blackstone funds invest",
     body: [
       "This site maps where Blackstone's four perpetual funds for individual investors put their money: real estate (BREIT), infrastructure (BX Infra), private equity (BXPE) and private credit (BCRED).",
-      "Every number comes from each fund's own SEC filings, mainly its 10-Q for the quarter ended June 30, 2026 and its 10-K, and links back to its source.",
+      "Every number comes from each fund's own SEC filings: its 10-Q for the quarter ended June 30, 2026, its 10-K, and the month-end filings since, with September 30 values. Each links back to its source.",
     ],
     tryThis: "Click the fund tabs along the top to switch funds.",
     url: "/",
@@ -56,7 +56,7 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "Private credit, borrower by borrower",
     body: [
-      "BCRED lends to 653 companies. The panel shows the largest borrowers, the share in each industry, and what changed in the quarter, such as the value per share and loans that stopped paying.",
+      "BCRED lends to 653 companies. The panel shows the largest borrowers, the share in each industry, and what changed, such as the value per share and loans on non-accrual (where the fund doubts it will be paid in full).",
     ],
     tryThis: "Scroll the panel to 'How this fund works'.",
     url: `/?view=bcred&sector=Software`,
@@ -75,8 +75,8 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "All four funds, side by side",
     body: [
-      "'All funds' puts the four next to each other, each at the level of detail its filing gives. 'Open' jumps to that fund's map.",
-      "Below the maps, one table compares them: distribution rate, fees, buy-back limits, minimum investment and the change in value per share. Each cell comes from that fund's own filing.",
+      "'All funds' opens with one table comparing the four: distribution rate, fees, buy-back limits, the early-sale deduction, minimum investment and the change in value per share. Each cell comes from that fund's own filing.",
+      "Below it, each fund's map at the level of detail its filing gives. 'Open' jumps to that fund's page.",
     ],
     url: "/?view=all",
   },
@@ -159,7 +159,7 @@ export const STEPS: TourStep[] = [
     chapter: "Advisor Toolkit",
     title: "Reality Check",
     body: [
-      "Each fund's own stated goals, from its annual report, next to what its latest filing shows, with neutral labels set by a person and a badge showing how old the data is.",
+      "Each fund's own stated goals, from its annual report, next to what its latest 10-Q shows, with neutral labels set by a person and a badge showing how old the data is.",
     ],
     url: "/toolkit/reality-check?fund=BCRED",
   },
@@ -181,16 +181,16 @@ export const SHORT_STEPS: TourStep[] = [
     chapter: "The map",
     title: "One fund, from its own filing",
     body: [
-      "Each fund has its own page: where the money is, the sector mix and the key numbers. Every figure comes from the fund's own SEC filings, mainly its 10-Q for the quarter ended June 30, 2026, and links back to its source.",
+      "Each fund has its own page: where the money is, the sector mix and the key numbers. The map and sectors come from its 10-Q for the quarter ended June 30, 2026; the newest values from its September 30 month-end filing. Every figure links back to its source.",
     ],
     tryThis: "Click a state to see the investments the filing names there.",
     url: "/?view=breit",
   },
   {
     chapter: "The map",
-    title: "This quarter, in four numbers",
+    title: "The newest month, then the last quarter",
     body: [
-      "BCRED's 'This quarter' box shows what moved: net assets, value per share, how much of the buy-back requests were paid, and loans that stopped paying.",
+      "BCRED's 'Latest monthly update' has its September 30 value per share, size, payout and borrowing. Below it, 'Last quarterly report' shows what moved by June 30: net assets, value per share, how much it bought back when requests ran over the limit, loans on non-accrual, income against payout, and the number of companies it lends to.",
       "Each shows which way it moved and what it's compared with.",
     ],
     url: "/?view=bcred",
@@ -218,7 +218,7 @@ export const SHORT_STEPS: TourStep[] = [
     chapter: "Advisor Toolkit",
     title: "Reality Check",
     body: [
-      "Each fund's own stated goals, from its annual report, next to what its latest filing shows, with neutral labels and a badge showing how old the data is.",
+      "Each fund's own stated goals, from its annual report, next to what its latest 10-Q shows, with neutral labels and a badge showing how old the data is.",
     ],
     url: "/toolkit/reality-check?fund=BCRED",
   },
@@ -226,7 +226,7 @@ export const SHORT_STEPS: TourStep[] = [
     chapter: "The map",
     title: "All four, side by side",
     body: [
-      "One table compares the four funds: distribution rate, fees, buy-back limits, whether last quarter's buy-backs were pro-rated, minimum investment and the change in value per share.",
+      "One table compares the four funds: distribution rate, fees, buy-back limits, the early-sale deduction, whether last quarter's buy-backs were pro-rated, minimum investment and the change in value per share.",
       "Each cell comes from that fund's own filing. Where a filing doesn't say, the cell says 'Not in filing'.",
     ],
     url: "/?view=all#compare-h",

@@ -207,7 +207,7 @@ export default function OutcomeLab({ params, onChange }: { params: LabParams; on
                     <ComposedChart accessibilityLayer={false} data={data} margin={{ top: 12, right: 16, bottom: 0, left: 0 }}>
                       <CartesianGrid vertical={false} stroke="var(--border)" />
                       <XAxis dataKey="age" type="number" domain={[params.startAge, params.retireAge]} allowDecimals={false} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
-                      <YAxis domain={[0, yTicks.at(-1)!]} ticks={yTicks} tickFormatter={short} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} width={48} />
+                      <YAxis domain={[0, yTicks.at(-1)!]} ticks={yTicks} tickFormatter={(v: number) => short(v)} tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} width={48} />
                       <Tooltip
                         formatter={(v, name) => [money(Number(v)), name]}
                         labelFormatter={(a) => `Age ${a}`}

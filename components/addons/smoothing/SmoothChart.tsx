@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CartesianGrid, Line, LineChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from "recharts";
 import { SERIES } from "@/lib/addons/smoothing/data";
 import { desmooth, levels, maxDrawdown, volatility } from "@/lib/addons/smoothing/stats";
 import { AsOfSource, IllustrativeBadge, SampleBadge } from "@/components/addons/shared/Badges";
+import { PrintSized } from "@/components/addons/shared/PrintSized";
 
 const pct = (v: number) => `${(v * 100).toFixed(1)}%`;
 
@@ -43,8 +44,8 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
 
       <figure className="space-y-2">
         <div className={compact ? "h-48" : "h-72 print:h-40"} role="img" aria-label={`Growth of 100: ${appraised.label} and ${traded.label}, ${period}. Worst fall of the traded series shaded.`}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
+          <PrintSized height={160} off={compact}>
+            <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <ReferenceArea x1={labels[ddT.peak]} x2={labels[ddT.trough]} fill="var(--muted)" fillOpacity={0.15} ifOverflow="hidden" />
               <XAxis dataKey="q" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} interval={compact ? 11 : 7} tickFormatter={(q: string) => (q === "Start" ? "" : q.slice(0, 4))} />
@@ -54,7 +55,7 @@ export default function SmoothChart({ compact = false }: { compact?: boolean }) 
               <Line dataKey="appraised" name={appraised.label} stroke="var(--accent)" strokeWidth={2} dot={false} isAnimationActive={false} />
               {show && <Line dataKey="estimate" name="Market-style estimate" stroke="var(--accent)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} isAnimationActive={false} />}
             </LineChart>
-          </ResponsiveContainer>
+          </PrintSized>
         </div>
         <figcaption className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
           <span className="inline-flex items-center gap-1.5">

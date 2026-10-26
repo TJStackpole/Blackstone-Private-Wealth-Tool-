@@ -292,8 +292,8 @@
         "label": "Income vs. payout",
         "value": "$1.07 / $1.20",
         "from": "a Class I share, first half: net investment income vs. distributions",
-        "change": "−$0.13",
-        "direction": "down",
+        "change": "$0.13 short",
+        "direction": "none",
         "note": "Distributions exceeded net investment income for the half."
       }
     ]

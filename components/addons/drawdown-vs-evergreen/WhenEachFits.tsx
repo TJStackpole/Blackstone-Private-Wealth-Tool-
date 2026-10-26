@@ -3,8 +3,8 @@ import { COMPARE } from "@/lib/addons/drawdown-vs-evergreen/data";
 /** Neutral, two-sided: the situations each structure suits. */
 export default function WhenEachFits() {
   const cols = [
-    { title: "A drawdown fund can fit", items: COMPARE.fits.drawdown },
-    { title: "An evergreen fund can fit", items: COMPARE.fits.evergreen },
+    { title: "Where a drawdown structure is commonly used", items: COMPARE.fits.drawdown },
+    { title: "Where an evergreen structure is commonly used", items: COMPARE.fits.evergreen },
   ];
   return (
     <div className="grid gap-3 md:grid-cols-2">

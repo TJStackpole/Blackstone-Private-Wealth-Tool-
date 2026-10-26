@@ -10,7 +10,7 @@ afterEach(cleanup);
 
 describe("side-by-side comparison table", () => {
   it("has the requested rows, one cell per fund", () => {
-    expect(COMPARE.rows.map((r) => r.id)).toEqual(["distribution", "management", "performance", "limit", "prorated", "minimum", "navChange"]);
+    expect(COMPARE.rows.map((r) => r.id)).toEqual(["distribution", "management", "performance", "limit", "early", "prorated", "minimum", "navChange"]);
     for (const r of COMPARE.rows) expect(Object.keys(r.cells).sort()).toEqual([...COMPARE.funds].sort());
   });
   it("sources every figure to a filing, and says 'Not in filing' with where it would come from otherwise", () => {

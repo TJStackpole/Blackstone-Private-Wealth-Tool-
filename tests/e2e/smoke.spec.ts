@@ -111,8 +111,8 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   await page.getByRole("button", { name: "Next →" }).click();
   await expect(page.getByText("Step 2 of 6", { exact: false })).toBeVisible();
   const frame = page.frameLocator("iframe");
-  // Step 2 opens BCRED with its "This quarter" box.
-  await expect(frame.getByRole("heading", { name: "This quarter" })).toBeVisible();
+  // Step 2 opens BCRED with its "Last quarterly report" box.
+  await expect(frame.getByRole("heading", { name: "Last quarterly report" })).toBeVisible();
   const steps = page.getByRole("navigation", { name: "All steps" }).getByRole("button");
   const visitAll = async () => {
     const count = await steps.count();

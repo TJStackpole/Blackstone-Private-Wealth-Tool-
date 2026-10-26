@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
-import { ADDONS, toolkitAddons } from "@/config/addons";
+import { ADDONS, enabledAddons, toolkitAddons } from "@/config/addons";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
@@ -14,7 +14,8 @@ export const metadata: Metadata = pageMeta({
 });
 
 export default function ToolkitHome() {
-  const list = toolkitAddons(ADDONS);
+  // The tools with their own page, then the 401(k) lens, which lives on the map's Retirement tab.
+  const list = [...toolkitAddons(ADDONS), ...enabledAddons(ADDONS).filter((a) => a.kind === "tab")];
   return (
     <div className="atlas mx-auto w-full max-w-[1100px] px-4 pb-16 pt-5 sm:px-6 lg:pt-7" style={{ ["--layer-light" as string]: "#4A5568", ["--layer-dark" as string]: "#A0AEC0" }}>
       <header className="mb-8 space-y-4">

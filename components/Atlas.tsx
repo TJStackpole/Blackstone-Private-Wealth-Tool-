@@ -12,7 +12,10 @@ import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
 import FundPrint from "./FundPrint";
 import FundActions from "./FundActions";
-import FundStats from "./FundStats";
+import AddonChips from "./addons/shared/AddonChips";
+import { quarterFigures } from "@/lib/quarter";
+import { toFundCode } from "@/lib/addons/shared/funds";
+import { useMediaQuery } from "./useMediaQuery";
 import QuarterBox from "./QuarterBox";
 import LatestBox from "./LatestBox";
 import { latestFor } from "@/lib/latest";
@@ -70,10 +73,12 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
   const [geoOpen, setGeoOpen] = useState(!!start?.select);
   const [theme, setTheme] = useState<ThemeState>(start?.theme ? { id: start.theme, before: null } : NO_THEME);
   const reduce = useReducedMotion();
+  const desktop = useMediaQuery("(min-width: 1024px)");
 
   const layer = LAYERS.find((l) => l.id === layerId) ?? LAYERS[0];
   const data = layer.data;
   const latest = latestFor(layer.id);
+  const quarter = data ? quarterFigures(data, latest) : undefined;
 
   const { items: geoItems, split } = useMemo(() => (data ? geoFor(data, sector) : { items: [], split: false }), [data, sector]);
 
@@ -81,6 +86,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
     setViewId(id);
     setSector(null);
     setSelected(null);
+    // The address follows the tab, so Back from a tool returns to this fund and the view can be shared as a link.
+    window.history.replaceState(window.history.state, "", id === DEFAULT_LAYER_ID ? "/" : `/?view=${id}`);
   }
 
   /** From All funds or the 401(k) tab, further down a long page: switch, then bring the tabs and map back into view. */
@@ -189,7 +196,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
       ) : data ? (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
-            {/* Phones: this quarter and the key numbers first, before the map; the panel below is a collapsed sheet there. */}
+            {/* Phones: what the fund is, its tools and its numbers first, before the map; the panel below is a collapsed sheet there. */}
             <div className="mb-5 lg:hidden" data-mobile-stats>
               <div className="mb-1 flex flex-wrap items-center gap-2">
                 <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
@@ -197,20 +204,17 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
                 </p>
                 <FilingBadge data={data} />
               </div>
-              <div className="mb-4 mt-3">
+              <p className="mt-2 text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>
+              <div className="mb-4 mt-3 space-y-3">
                 <FundActions layerId={layer.id} data={data} />
+                <AddonChips fundId={layer.id} />
               </div>
               {latest && (
                 <div className="mb-3">
                   <LatestBox latest={latest} quarterAsOf={data.asOf} />
                 </div>
               )}
-              {data.quarterSummary && (
-                <div className="mb-4">
-                  <QuarterBox q={data.quarterSummary} />
-                </div>
-              )}
-              <FundStats data={data} />
+              {quarter && <QuarterBox q={quarter} />}
             </div>
             <div className="mb-4 space-y-3">
               <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} theme={theme} onTheme={setTheme} />
@@ -281,7 +285,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
             >
               <span className="mx-auto mb-2.5 h-1 w-10 rounded-full bg-line" aria-hidden />
               <span className="flex w-full items-center justify-between">
-                <span className="text-sm font-medium text-ink">{selectedLabel ? `${selectedLabel} · ${data.fund}` : `${data.fund} overview`}</span>
+                <span className="text-sm font-medium text-ink">{selectedLabel ? `${selectedLabel} · ${data.fund}` : `${data.fund} details`}</span>
                 <span className="text-xs text-muted-strong">{sheetOpen ? "Hide" : "Show"}</span>
               </span>
             </button>
@@ -291,6 +295,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
               initial={false}
               animate={{ height: sheetOpen ? "auto" : 0 }}
               transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0, 1] }}
+              // A closed sheet is out of reach: no invisible focus stops, nothing read aloud.
+              inert={!sheetOpen && !desktop}
             >
               <div className="px-5 pb-6 pt-1 lg:p-0">
                 <DetailPanel layer={layer} data={data} sector={sector} selected={selected} onSelect={select} onSector={changeSector} geoItems={geoItems} />
@@ -302,7 +308,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} latest={latest} />}
+      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} latest={latest} fund={toFundCode(layer.id)} />}
 
       <SourceFooter
         data={viewId === "all" || viewId === "retirement" ? undefined : data}

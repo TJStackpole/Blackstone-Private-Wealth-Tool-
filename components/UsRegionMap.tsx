@@ -30,7 +30,7 @@ const HEIGHT = 600;
  * the 10-Q lists in each state, which shows where the filing names places, not how much money is there.
  */
 export default function UsRegionMap({ data, sector, selected, onSelect, compact = false }: Props) {
-  const [tip, setTip] = useState<{ abbr: string; x: number; y: number } | null>(null);
+  const [tip, setTip] = useState<{ abbr: string; x: number; y: number; w: number } | null>(null);
   const regionPct = useMemo(() => Object.fromEntries(data.geography.items.map((i) => [i.key, i.pct])), [data]);
   const maxRegion = Math.max(...Object.values(regionPct));
   const topStates = useMemo(() => Object.fromEntries((data.geography.topStates ?? []).map((t) => [t.state, t.pct])), [data]);
@@ -45,7 +45,7 @@ export default function UsRegionMap({ data, sector, selected, onSelect, compact 
 
   const onMove = useCallback((abbr: string, e: React.MouseEvent) => {
     const rect = e.currentTarget.closest("[data-map-root]")?.getBoundingClientRect();
-    if (rect) setTip({ abbr, x: e.clientX - rect.left, y: e.clientY - rect.top });
+    if (rect) setTip({ abbr, x: e.clientX - rect.left, y: e.clientY - rect.top, w: rect.width });
   }, []);
 
   const describe = (abbr: string) => {
@@ -120,7 +120,8 @@ export default function UsRegionMap({ data, sector, selected, onSelect, compact 
         <div
           role="tooltip"
           className="pointer-events-none absolute z-10 whitespace-nowrap rounded-card border border-line bg-bg-raised px-3 py-2 text-xs shadow-sm"
-          style={{ left: tip.x + 14, top: tip.y + 14 }}
+          // Right half of the map: open to the left of the pointer, so the tip never runs off the edge.
+          style={{ ...(tip.x > tip.w / 2 ? { right: tip.w - tip.x + 14 } : { left: tip.x + 14 }), top: tip.y + 14 }}
         >
           <div className="font-medium text-ink">{stateName(tip.abbr)}</div>
           {tipInfo.statePct !== undefined && (

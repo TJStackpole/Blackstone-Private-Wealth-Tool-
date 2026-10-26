@@ -23,3 +23,8 @@ export const NEUTRAL_ACCENT = { color: "#4A5568", colorDark: "#A0AEC0" };
 export function toFundCode(id: LayerId | FundCode): FundCode | undefined {
   return (FUNDS as Record<string, unknown>)[id] ? (id as FundCode) : FUND_CODE[id as LayerId];
 }
+
+/** Add-on fund code → Atlas layer id ("BCRED" → "bcred"), for links back to the map. */
+export function toLayerId(code: FundCode): LayerId {
+  return (Object.keys(FUND_CODE) as LayerId[]).find((id) => FUND_CODE[id] === code)!;
+}

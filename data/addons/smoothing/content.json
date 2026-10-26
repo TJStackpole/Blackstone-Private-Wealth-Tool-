@@ -33,6 +33,11 @@
             "name": "BX Infra Form 10-K, year ended December 31, 2025",
             "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
             "page": "Net Asset Value: valuation policy"
+          },
+          "also": {
+            "name": "BXPE Form 10-K, year ended December 31, 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+            "page": "Net Asset Value: valuations"
           }
         }
       ],

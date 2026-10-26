@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { PrintSized } from "@/components/addons/shared/PrintSized";
 import { DEFAULTS, compare } from "@/lib/addons/drawdown-vs-evergreen/model";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
@@ -69,8 +70,8 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
 
       <figure className="space-y-2 print:hidden">
         <div className={compact ? "h-48" : "h-64 print:h-40"} role="img" aria-label={`Share of money at work by year: ${data.map((d) => `${d.year} drawdown ${d.drawdown}%`).join(", ")}; evergreen 100% throughout`}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: compact ? -16 : 0 }}>
+          <PrintSized height={160} off={compact}>
+            <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis dataKey="year" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
               <YAxis domain={[0, 100]} unit="%" tick={{ fill: "var(--muted)", fontSize: 11 }} tickLine={false} axisLine={false} width={44} />
@@ -79,7 +80,7 @@ export default function CashDrag({ compact = false }: { compact?: boolean }) {
               <Line type="stepAfter" dataKey="evergreen" name="Evergreen: % at work" stroke="var(--muted)" strokeWidth={2} dot={false} isAnimationActive={false} />
               <Line type="stepAfter" dataKey="drawdown" name="Drawdown: % at work" stroke="var(--accent)" strokeWidth={2} dot={{ r: 2.5 }} isAnimationActive={false} />
             </LineChart>
-          </ResponsiveContainer>
+          </PrintSized>
         </div>
         <figcaption className="text-xs leading-relaxed text-muted">
           Same return assumed for both, so the gap is timing and fees only. Leaves out performance fees, taxes and redemption cash.

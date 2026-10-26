@@ -194,20 +194,6 @@ body {
   outline-offset: 6px;
 }
 
-/* Phones: fade the right edge of the tab strip so it's obvious there are more tabs to swipe to. */
-@media (max-width: 639px) {
-  .tab-strip::after {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(90deg, transparent, var(--bg));
-  }
-}
-
 /* Respect "reduce motion" everywhere, not only on the map. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -266,4 +252,9 @@ h3 {
   --pe: #d98a8a;
   --ra: #6fc3bc;
   --pc: #d9b07a;
+}
+
+/* A link to another fund's view: hide the map page until it has switched (see deepLinkScript in app/layout.tsx). */
+html[data-deeplink] .atlas {
+  visibility: hidden;
 }

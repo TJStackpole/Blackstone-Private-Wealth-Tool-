@@ -15,13 +15,14 @@ interface Props {
   onOpenLayer: (id: LayerId) => void;
 }
 
-/** Four small maps side by side, one per fund, each drawn at the level its own filing reports. */
+/** The comparison table first (the side-by-side answer), then four small maps, each drawn at the level its own filing reports. */
 export default function AllFundsView({ layers, onOpenLayer }: Props) {
   const funds = layers.filter((l) => l.status === "active" && l.data);
 
   return (
     <section id="panel-all" role="tabpanel" aria-label="All funds side by side" className="space-y-5">
-      <div className="max-w-2xl">
+      <CompareTable />
+      <div className="max-w-2xl pt-6">
         <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em]">Four funds, four levels of detail</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-strong">
           Each map is drawn at the level its fund&apos;s filing reports. BREIT reports U.S. regions and its largest states. BX Infra and BXPE report
@@ -31,7 +32,7 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
       <ul className="grid gap-4 sm:grid-cols-2">
         {funds.map((layer) => {
           const data = layer.data!;
-          // Fund size, wherever the fund's data keeps it (BCRED's is in its This quarter box).
+          // Fund size, wherever the fund's data keeps it (BCRED's is in its quarterly report box).
           const nav = data.summary.stats.find((s) => /^Net asset/.test(s.label)) ?? data.quarterSummary?.items.find((m) => m.label === "Net assets") ?? data.summary.stats[0];
           const lead = [...data.geography.items].sort((a, b) => b.pct - a.pct)[0];
           const latest = latestFor(layer.id);
@@ -96,7 +97,12 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
                     <dt className="text-muted">Latest NAV</dt>
                     <dd className="tnum flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-ink" data-latest-nav>
                       {latestNav.value} {latestNav.label.replace("NAV ", "")}, {formatDate(latest.asOf)}
-                      {latestNav.change && latestNav.direction && <ChangeChip change={latestNav.change} direction={latestNav.direction} />}
+                      {latestNav.change && latestNav.direction && (
+                        <>
+                          <ChangeChip change={latestNav.change} direction={latestNav.direction} />
+                          <span className="text-muted">since {formatDate(data.asOf)}</span>
+                        </>
+                      )}
                       <a
                         href={latestNav.sources[0].url}
                         target="_blank"
@@ -114,9 +120,6 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
           );
         })}
       </ul>
-      <div className="mt-10">
-        <CompareTable />
-      </div>
     </section>
   );
 }

@@ -43,10 +43,10 @@ function CharacterBars({ fund }: { fund: OtherFund }) {
         <span className="text-sm font-medium text-ink">How each year&apos;s payout was taxed</span>
         <span className="flex items-center gap-3 text-[11px] text-muted-strong">
           <span className="flex items-center gap-1.5">
-            <span aria-hidden className="h-2.5 w-2.5 rounded-sm bg-accent" /> Taxed when paid
+            <span aria-hidden className="print-fill h-2.5 w-2.5 rounded-sm bg-accent" /> Taxed when paid
           </span>
           <span className="flex items-center gap-1.5">
-            <span aria-hidden className="h-2.5 w-2.5 rounded-sm bg-muted/40" /> Return of capital (deferred to sale)
+            <span aria-hidden className="print-fill-light h-2.5 w-2.5 rounded-sm bg-muted/40" /> Return of capital (deferred to sale)
           </span>
         </span>
       </figcaption>

@@ -30,5 +30,7 @@ describe("reserveSentence", () => {
 describe("reserveSentence wording", () => {
   it("says '1 month', not '1 months'", () => {
     expect(reserveSentence(10_000 / 150_000)).toBe("About 1 month of spending covered without redeeming.");
+    // A couple of days' worth isn't rounded up to a month.
+    expect(reserveSentence(1_000 / 150_000)).toBe("Less than a month of spending covered without redeeming.");
   });
 });

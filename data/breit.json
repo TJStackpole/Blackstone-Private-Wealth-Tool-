@@ -2587,7 +2587,7 @@
         "value": "$2.1B",
         "from": "126 properties: rental housing, self storage, industrial",
         "change": "126 sold",
-        "direction": "down",
+        "direction": "none",
         "note": "Includes all 79 self storage properties: BREIT exited that sector."
       }
     ]

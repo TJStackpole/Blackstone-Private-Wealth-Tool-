@@ -145,7 +145,7 @@
       ],
       "notes": [
         {
-          "text": "New money: the BXINFRA Fund Program issued about $381.6 million of interests on Oct 1, 2026.",
+          "text": "New money: the BXINFRA Fund Program issued about $381.6 million of interests on Oct 1, 2026, not counting reinvested distributions.",
           "sources": [
             {
               "name": "BX Infra Form 8-K, October 22, 2026",
@@ -238,12 +238,16 @@
           "from": "Class I: October's $0.18 a share × 12 ÷ $23.51 NAV",
           "change": "−$0.02 a month",
           "direction": "down",
-          "note": "Monthly payout, from $0.20 in June.",
+          "note": "The monthly payout is down from $0.20 in June. In the first half, BCRED paid $1.20 a share and earned $1.07 of net investment income.",
           "sources": [
             {
               "name": "BCRED Form 8-K, October 21, 2026",
               "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
               "page": "Item 7.01: October 2026 Distributions"
+            },
+            {
+              "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm"
             }
           ]
         },

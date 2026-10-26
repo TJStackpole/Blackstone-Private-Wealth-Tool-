@@ -106,7 +106,7 @@
   },
   "leverage": {
     "value": 45,
-    "text": "Asset coverage of 221.3% means debt was about 45% of total assets ($35.3 billion of debt against $42.8 billion of net assets).",
+    "text": "Asset coverage of 221.3% means debt was about 45% of debt plus net assets ($35.3 billion of debt against $42.8 billion of net assets), or about 43% of total assets.",
     "asOf": "2026-06-30",
     "source": {
       "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
