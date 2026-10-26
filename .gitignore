@@ -46,3 +46,6 @@ reality-check.csv
 
 # SEC filings downloaded by npm run refresh-data
 /filings/
+
+# Python bytecode
+__pycache__/

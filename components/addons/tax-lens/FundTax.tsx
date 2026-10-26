@@ -125,7 +125,9 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
 
       {!compact && (
         <p className="text-xs leading-relaxed text-muted">
-          <span className="tnum">As of {formatDate(TAX_FUNDS.asOf)}</span> · <NextUpdate asOf={TAX_FUNDS.asOf} />. {TAX_FUNDS.verify}
+          <span className="tnum">As of {formatDate(TAX_FUNDS.asOf)}</span>
+          {f.tiles.some((t) => /\b8-K\b/.test(t.source.name)) ? ", except the card from a later monthly 8-K, dated on the card" : ""} ·{" "}
+          <NextUpdate asOf={TAX_FUNDS.asOf} />. {TAX_FUNDS.verify}
         </p>
       )}
     </div>

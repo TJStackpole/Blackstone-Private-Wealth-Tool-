@@ -4,21 +4,25 @@ import { formatDate } from "@/lib/dates";
 import { nextUpdate } from "@/lib/schedule";
 import PrintOnePager from "@/components/addons/shared/PrintOnePager";
 import type { Source } from "@/lib/types";
+import type { LatestUpdate } from "@/lib/latest";
 import { SITE_NAME } from "./SiteMark";
-
-
 
 /**
  * A fund's page on one sheet of paper: title, the quarter, the stat cards, the sector mix, sources and the disclaimer.
  * Print-only; the page's "Print / Save as PDF" buttons open it. Every figure is the same one the page shows.
  */
-export default function FundPrint({ data }: { data: FundData }) {
+export default function FundPrint({ data, latest }: { data: FundData; latest?: LatestUpdate }) {
   const next = nextUpdate(data.asOf);
   const sectors = [...data.sectors].sort((a, b) => b.pct - a.pct);
   const top = sectors[0]?.pct || 1;
   const geo = [...data.geography.items].sort((a, b) => b.pct - a.pct);
   const q = data.quarterSummary;
-  const sources: Source[] = [data.source, ...(q ? [q.source, ...(q.moreSources ?? [])] : []), ...data.summary.stats.flatMap((st) => st.sources ?? [])].filter(
+  const sources: Source[] = [
+    ...(latest ? latest.items.flatMap((i) => i.sources) : []),
+    data.source,
+    ...(q ? [q.source, ...(q.moreSources ?? [])] : []),
+    ...data.summary.stats.flatMap((st) => st.sources ?? []),
+  ].filter(
     (src, i, all) => all.findIndex((o) => o.url === src.url) === i,
   );
   const entity = data.filing.entity.replace(/\.$/, "");
@@ -38,6 +42,30 @@ export default function FundPrint({ data }: { data: FundData }) {
           </p>
           <p className="mt-1">{data.summary.headline}</p>
         </header>
+
+        {latest && (
+          <section data-print-latest>
+            <h2 className="text-[11px] font-semibold">
+              Latest monthly update · values at {formatDate(latest.asOf, "long")}, filed {formatDate(latest.filed, "long")}
+            </h2>
+            <table className="mt-1 w-full border text-left">
+              <tbody>
+                <tr>
+                  {latest.items.map((m) => (
+                    <td key={m.label} className="border px-2 py-1 align-top" style={{ width: `${100 / latest.items.length}%` }}>
+                      <span className="block text-[9px] uppercase tracking-[0.08em]">{m.label}</span>
+                      <span className="tnum block font-serif text-[16px]">
+                        {m.value} {m.change && <span className="text-[10px]">({m.change})</span>}
+                      </span>
+                      <span className="block text-[10px]">{m.from}</span>
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+            {latest.notes.length > 0 && <p className="mt-1 text-[10px]">{latest.notes.map((n) => n.text).join(" ")}</p>}
+          </section>
+        )}
 
         {q ? (
           <section>
@@ -70,7 +98,7 @@ export default function FundPrint({ data }: { data: FundData }) {
         ) : null}
 
         <section>
-          <h2 className="text-[11px] font-semibold">Key numbers</h2>
+          <h2 className="text-[11px] font-semibold">Key numbers · as of {formatDate(data.asOf, "long")}</h2>
           <dl className="mt-1 grid grid-cols-4 gap-3">
             {data.summary.stats.map((s) => (
               <div key={s.label}>

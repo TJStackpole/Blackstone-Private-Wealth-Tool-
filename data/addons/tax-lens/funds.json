@@ -26,12 +26,12 @@
      }
     },
     {
-     "value": "10.1%",
-     "label": "Class I distribution rate: June 2026's $0.20 × 12 ÷ $23.65 NAV",
+     "value": "9.2%",
+     "label": "Class I distribution rate: October 2026's $0.18 × 12 ÷ $23.51 NAV at Sep 30, 2026",
      "source": {
-      "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
-      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
-      "page": "Note 9: Distributions"
+      "name": "BCRED Form 8-K, October 21, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+      "page": "Items 7.01 and 8.01: October 2026 Distributions; Net Asset Value"
      }
     }
    ],
@@ -86,7 +86,7 @@
     }
    ],
    "example": {
-    "distributionPct": 10.1,
+    "distributionPct": 9.2,
     "bracketPct": 37
    }
   },
@@ -168,12 +168,12 @@
    "summary": "Taxed on your share, paid quarterly",
    "tiles": [
     {
-     "value": "$0.2191",
-     "label": "Class I, Series I distribution per unit for Q2 2026 (paid quarterly)",
+     "value": "$0.2289",
+     "label": "Class I, Series I distribution per unit for Q3 2026, up from $0.2191 for Q2 (paid quarterly)",
      "source": {
-      "name": "BX Infra Form 10-Q, quarter ended June 30, 2026",
-      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
-      "page": "BXINFRA U.S. Distributions"
+      "name": "BX Infra Form 8-K, October 22, 2026",
+      "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+      "page": "Item 7.01: Distributions"
      }
     },
     {

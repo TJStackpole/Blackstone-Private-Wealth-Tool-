@@ -12,7 +12,8 @@
     "reality-check:export": "tsx scripts/update-reality-check.ts --export reality-check.csv",
     "reality-check:update": "tsx scripts/update-reality-check.ts reality-check.csv",
     "og-image": "node scripts/og-image.mjs",
-    "refresh-data": "bash scripts/sec/refresh.sh"
+    "refresh-data": "bash scripts/sec/refresh.sh",
+    "refresh-monthly": "bash scripts/sec/refresh_monthly.sh"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",

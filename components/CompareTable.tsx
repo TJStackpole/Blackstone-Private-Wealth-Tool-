@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { COMPARE, type CompareCell } from "@/lib/compare";
+import { COMPARE, COMPARE_ROWS, type CompareCell } from "@/lib/compare";
+import { LATEST } from "@/lib/latest";
+import { nextUpdate } from "@/lib/schedule";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import { formatDate } from "@/lib/dates";
 import NextUpdate from "./NextUpdate";
@@ -40,6 +42,22 @@ function Cell({ c }: { c: CompareCell }) {
   );
 }
 
+/** "Next updates expected: November 2026 (…)", from the monthly and quarterly schedules. */
+function nextLine() {
+  const m = nextUpdate(LATEST.asOf, "monthly");
+  const q = nextUpdate(COMPARE.asOf);
+  if (!m || !q) return <NextUpdate asOf={COMPARE.asOf} />;
+  return m.month === q.month ? (
+    <span className="tnum" title={`${m.basis} ${q.basis}`}>
+      Next updates expected: {q.month} (the next month-end NAVs and the 10-Qs).
+    </span>
+  ) : (
+    <>
+      <NextUpdate asOf={LATEST.asOf} cadence="monthly" /> (monthly); <NextUpdate asOf={COMPARE.asOf} /> (10-Q).
+    </>
+  );
+}
+
 /** The four funds compared on the questions advisors get most. Every cell comes from that fund's own filing. */
 export default function CompareTable() {
   const scroller = useRef<HTMLDivElement>(null);
@@ -72,7 +90,7 @@ export default function CompareTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-line align-top">
-            {COMPARE.rows.map((r) => (
+            {COMPARE_ROWS.map((r) => (
               <tr key={r.id} data-compare-row={r.id}>
                 <th scope="row" className="sticky left-0 z-10 bg-bg-raised px-3 py-3 text-left font-normal shadow-[1px_0_0_var(--border)] sm:px-4 sm:shadow-none">
                   <span className="block text-[13px] font-medium text-ink sm:text-sm">{r.label}</span>
@@ -89,9 +107,11 @@ export default function CompareTable() {
         </table>
       </div>
       <p className="text-xs leading-relaxed text-muted">
-        <span className="tnum">As of {formatDate(COMPARE.asOf)}</span>, from each fund&apos;s latest 10-Q, its 10-K for December 31 figures and, for BCRED&apos;s buybacks, its September 3, 2026 letter to investors. Distribution rates
-        annualize the latest declared Class I distribution over that date&apos;s NAV; they are not total returns. Minimum investment is set in each
-        fund&apos;s offering documents, not its periodic filings. <NextUpdate asOf={COMPARE.asOf} />.
+        <span className="tnum">Distribution rate and NAV change: values at {formatDate(LATEST.asOf)}</span>, from each fund&apos;s latest monthly filing (an
+        8-K; BREIT&apos;s NAV prospectus supplement), with December 31 NAVs from its 10-K (BCRED&apos;s from its 10-Q).{" "}
+        <span className="tnum">Everything else: as of {formatDate(COMPARE.asOf)}</span>, from each fund&apos;s 10-Q and, for BCRED&apos;s buybacks, its September
+        3, 2026 letter to investors. Distribution rates annualize the latest declared Class I distribution over that NAV; they are not total returns.
+        Minimum investment is set in each fund&apos;s offering documents, not its periodic filings. {nextLine()}
       </p>
     </section>
   );

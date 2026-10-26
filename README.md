@@ -12,7 +12,7 @@ Live: https://private-markets-atlas.netlify.app
 - `CHECKLIST.md` — every phase's done checklist and how each item was verified.
 - `MISSING_DATA.md` — figures the site shows as "Not in filing", and which document and section they would come from.
 
-**On every fund page:** a "Next update expected" month beside each as-of date (from the SEC schedule: a 10-Q about 45 days after each quarter-end, a 10-K about 90 days after December 31; `lib/schedule.ts`), and **Print / Save as PDF** for a one-page fund summary. **All funds** adds a comparison table (distribution rate, fees, repurchase limit, proration, minimum investment, NAV change), every cell from that fund's own filing (`data/compare.json`, built by `scripts/sec/build_data.py`).
+**On every fund page:** a **Latest monthly update** box with the newest month-end NAV, size and distribution from the filings between 10-Qs (see "Monthly updates"), a "Next update expected" month beside each as-of date (from the SEC schedule: a 10-Q about 45 days after each quarter-end, a 10-K about 90 days after December 31; `lib/schedule.ts`), and **Print / Save as PDF** for a one-page fund summary. **All funds** adds a comparison table (distribution rate, fees, repurchase limit, proration, minimum investment, NAV change), every cell from that fund's own filing (`data/compare.json`, built by `scripts/sec/build_data.py`).
 
 ## Advisor Toolkit (add-ons)
 
@@ -130,5 +130,26 @@ When the funds file new 10-Qs (about 45 days after each quarter ends: mid-May, m
    - **Hand-written text that quotes figures:** talking points (`data/talking-points.json`), Reality Check (see "Updating the Reality Check each quarter" above), the Tax Lens fund pages (`data/addons/tax-lens/funds.json`) and the tour (`lib/demo/steps.ts`). The tests flag talking-point figures that no longer match the data.
 
    Then run `npm run refresh-data` again. Tip: you can hand this step to Claude Code: "Run npm run refresh-data and fix what it stops on, from the new filings."
+
+### Monthly updates
+
+Between 10-Qs, each fund files its month-end NAV about three weeks after the month ends: an 8-K for BX Infra, BXPE and BCRED, and a prospectus supplement (Form 424B3) for BREIT, which also files an 8-K with its monthly distribution. The site shows these in a **Latest monthly update** box on each fund page, dated on its own, above the quarter's box. They also feed the **Latest NAV** line on All funds and the comparison table's distribution-rate and NAV-change rows. The map, sector mix and holdings stay on the last 10-Q, because the monthly filings don't give them. The figures live in `data/latest.json`, built by `scripts/sec/build_monthly.py`.
+
+**Each month** (around the 22nd, once all four funds have filed):
+
+1. Set `SEC_USER_AGENT` as in step 1 above.
+2. Run:
+   ```bash
+   npm run refresh-monthly
+   ```
+   It (1) finds each fund's month-end filings on EDGAR that are newer than the site's, reading each filing to tell which is which, (2) saves them in `filings/<today>-monthly/`, (3) reads every figure and checks it (BREIT's NAV by class must add up to the total the filing prints), (4) runs all the tests, and (5) prints each figure, old → new. **Nothing in `data/` changes unless every check and every test passes.**
+3. What you'll see:
+   - **"Up to date"**: nothing newer yet.
+   - **"Not every fund has filed this month's figures yet"**: one or more funds haven't filed. Try again in a few days.
+   - **"Done"**: run `npm run build`, look over the site, then publish.
+   - **"STOPPED"**: a filing's wording changed. Nothing was changed. The message names the line in `scripts/sec/build_monthly.py` to update. You can hand this to Claude Code: "Run npm run refresh-monthly and fix what it stops on, from the new filings."
+4. Hand-written text that quotes these figures: the talking points (`data/talking-points.json`) and the Tax Lens cards for BCRED's distribution rate and BX Infra's quarterly distribution (`data/addons/tax-lens/funds.json`).
+
+After a new 10-Q, run `npm run refresh-data` first. The monthly figures are then compared with that quarter.
 
 Figures that no filing gives stay as "Not in filing"; `MISSING_DATA.md` lists them and where they would come from. To rebuild from the exact June 30, 2026 filings instead, use `scripts/sec/fetch_filings.sh ./filings` then `python3 -I scripts/sec/build_data.py ./filings data`.

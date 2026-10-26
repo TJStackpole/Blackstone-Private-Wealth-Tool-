@@ -7,6 +7,8 @@ import CompareTable from "./CompareTable";
 import UsRegionMap from "./UsRegionMap";
 import WorldMap from "./WorldMap";
 import NextUpdate from "./NextUpdate";
+import { latestFor } from "@/lib/latest";
+import { ChangeChip } from "./QuarterBox";
 
 interface Props {
   layers: LayerDef[];
@@ -32,6 +34,8 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
           // Fund size, wherever the fund's data keeps it (BCRED's is in its This quarter box).
           const nav = data.summary.stats.find((s) => /^Net asset/.test(s.label)) ?? data.quarterSummary?.items.find((m) => m.label === "Net assets") ?? data.summary.stats[0];
           const lead = [...data.geography.items].sort((a, b) => b.pct - a.pct)[0];
+          const latest = latestFor(layer.id);
+          const latestNav = latest?.items.find((i) => /^NAV per/.test(i.label));
           return (
             <li
               key={layer.id}
@@ -87,6 +91,23 @@ export default function AllFundsView({ layers, onOpenLayer }: Props) {
                   </a>
                   <NextUpdate asOf={data.asOf} className="block text-[11px] text-muted" />
                 </dd>
+                {latest && latestNav && (
+                  <>
+                    <dt className="text-muted">Latest NAV</dt>
+                    <dd className="tnum flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-ink" data-latest-nav>
+                      {latestNav.value} {latestNav.label.replace("NAV ", "")}, {formatDate(latest.asOf)}
+                      {latestNav.change && latestNav.direction && <ChangeChip change={latestNav.change} direction={latestNav.direction} />}
+                      <a
+                        href={latestNav.sources[0].url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="text-muted-strong underline decoration-line underline-offset-2 hover:text-ink"
+                      >
+                        {latestNav.sources[0].name.replace(/, \w+ \d+, \d{4}$/, "").replace(/ \(Form 424B3\)/, "")}
+                      </a>
+                    </dd>
+                  </>
+                )}
               </dl>
               {data.sizeNote && <p className="mt-2 text-[11px] leading-snug text-muted">¹ {data.sizeNote}</p>}
             </li>

@@ -3,16 +3,17 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import FundActions from "@/components/FundActions";
 import { LAYERS } from "@/data/layers";
 import { talkingPoints } from "@/lib/talkingPoints";
-import type { FundData } from "@/lib/types";
+import type { FundData, LayerId } from "@/lib/types";
+import { LATEST } from "@/lib/latest";
 
 afterEach(cleanup);
 
 const funds = LAYERS.filter((l) => l.id !== "retirement" && l.data);
 
-/** Everything the site shows for a fund, as text: its data file plus its sector and region shares written as "42%". */
-function facts(d: FundData): string {
+/** Everything the site shows for a fund, as text: its data file, its newest monthly figures and table cells, and its sector and region shares written as "42%". */
+function facts(d: FundData, id: LayerId): string {
   const shares = [...d.sectors, ...d.geography.items].map((s) => `${s.pct}%`);
-  return JSON.stringify(d) + " " + shares.join(" ");
+  return [JSON.stringify(d), JSON.stringify(LATEST.funds[id] ?? {}), JSON.stringify(LATEST.compare), shares.join(" ")].join(" ");
 }
 
 /** Figures in a sentence, leaving out dates ("December 31, 2025", "June 30"). */
@@ -26,7 +27,7 @@ describe("talking points", () => {
     it(`${l.fund}: three neutral sentences, and every figure in them is one the site shows from the filing`, () => {
       const tp = talkingPoints(l.id)!;
       expect(tp).toBeTruthy();
-      const text = facts(l.data!);
+      const text = facts(l.data!, l.id);
       for (const s of [tp.does, tp.risk, tp.changed]) {
         expect(s.trim().endsWith(".")).toBe(true);
         expect(s).not.toMatch(/\byou\b|should|recommend|guarantee|\bsafe\b/i);

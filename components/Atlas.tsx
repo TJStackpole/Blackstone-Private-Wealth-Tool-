@@ -14,6 +14,8 @@ import FundPrint from "./FundPrint";
 import FundActions from "./FundActions";
 import FundStats from "./FundStats";
 import QuarterBox from "./QuarterBox";
+import LatestBox from "./LatestBox";
+import { latestFor } from "@/lib/latest";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
@@ -71,6 +73,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
 
   const layer = LAYERS.find((l) => l.id === layerId) ?? LAYERS[0];
   const data = layer.data;
+  const latest = latestFor(layer.id);
 
   const { items: geoItems, split } = useMemo(() => (data ? geoFor(data, sector) : { items: [], split: false }), [data, sector]);
 
@@ -197,6 +200,11 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
               <div className="mb-4 mt-3">
                 <FundActions layerId={layer.id} data={data} />
               </div>
+              {latest && (
+                <div className="mb-3">
+                  <LatestBox latest={latest} quarterAsOf={data.asOf} />
+                </div>
+              )}
               {data.quarterSummary && (
                 <div className="mb-4">
                   <QuarterBox q={data.quarterSummary} />
@@ -294,7 +302,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
         <p className="py-20 text-center text-sm text-muted">This layer is coming in a later phase.</p>
       )}
 
-      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} />}
+      {data && viewId !== "all" && viewId !== "retirement" && <FundPrint data={data} latest={latest} />}
 
       <SourceFooter
         data={viewId === "all" || viewId === "retirement" ? undefined : data}

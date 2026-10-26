@@ -1,0 +1,391 @@
+{
+  "asOf": "2026-09-30",
+  "funds": {
+    "breit": {
+      "asOf": "2026-09-30",
+      "filed": "2026-10-22",
+      "items": [
+        {
+          "label": "NAV per share",
+          "value": "$14.65",
+          "from": "Class I, from $14.53 on Jun 30, 2026",
+          "change": "+0.8%",
+          "direction": "up",
+          "sources": [
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        },
+        {
+          "label": "Net asset value",
+          "value": "$57.7B",
+          "from": "from $56.6B on Jun 30, 2026",
+          "change": "+2.1%",
+          "direction": "up",
+          "sources": [
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        },
+        {
+          "label": "Distribution rate",
+          "value": "4.5%",
+          "from": "Class I: September's $0.0554 a share × 12 ÷ $14.65 NAV",
+          "sources": [
+            {
+              "name": "BREIT Form 8-K, September 29, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000138/breit-20260929.htm"
+            },
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        },
+        {
+          "label": "Data center development",
+          "value": "$9.1B",
+          "from": "nine months to Sep 30, 2026, at BREIT's share",
+          "change": "+129% vs. a year earlier",
+          "direction": "up",
+          "sources": [
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "text": "Class I total return for the month: 0.1% (not annualized).",
+          "sources": [
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        },
+        {
+          "text": "Preliminary estimate: same-property net operating income for the nine months to Sep 30, 2026 up about 3% from a year earlier. The fund says its review isn't finished.",
+          "sources": [
+            {
+              "name": "BREIT Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000156/breit-20261022.htm"
+            }
+          ]
+        }
+      ]
+    },
+    "bxinfra": {
+      "asOf": "2026-09-30",
+      "filed": "2026-10-22",
+      "items": [
+        {
+          "label": "NAV per unit",
+          "value": "$31.41",
+          "from": "Class I, Series I, from $29.99 on Jun 30, 2026",
+          "change": "+4.7%",
+          "direction": "up",
+          "sources": [
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 7.01: Transactional NAV as of September 30, 2026"
+            }
+          ]
+        },
+        {
+          "label": "Quarter's distribution",
+          "value": "$0.2289",
+          "from": "a unit, Class I, Series I, from $0.2191 for the second quarter",
+          "change": "+$0.0098",
+          "direction": "up",
+          "sources": [
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 7.01: Distributions"
+            }
+          ]
+        },
+        {
+          "label": "Distribution rate",
+          "value": "2.9%",
+          "from": "$0.2289 × 4 ÷ $31.41",
+          "sources": [
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 7.01: Distributions"
+            }
+          ]
+        },
+        {
+          "label": "Total Transactional NAV",
+          "value": "$6.7B",
+          "from": "BXINFRA: the U.S. fund, its feeder and parallel vehicles (not the Luxembourg fund), Sep 30, 2026",
+          "sources": [
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 7.01: Transactional NAV as of September 30, 2026"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "text": "New money: the BXINFRA Fund Program issued about $381.6 million of interests on Oct 1, 2026.",
+          "sources": [
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 3.02: Unregistered Sales of Equity Securities"
+            }
+          ]
+        }
+      ]
+    },
+    "bxpe": {
+      "asOf": "2026-09-30",
+      "filed": "2026-10-22",
+      "items": [
+        {
+          "label": "NAV per unit",
+          "value": "$39.91",
+          "from": "Class I, Series I, from $39.01 on Jun 30, 2026",
+          "change": "+2.3%",
+          "direction": "up",
+          "sources": [
+            {
+              "name": "BXPE Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000035/bxpe-20261022.htm",
+              "page": "Item 7.01: Transactional NAV as of September 30, 2026"
+            }
+          ]
+        },
+        {
+          "label": "Total Transactional NAV",
+          "value": "$19.9B",
+          "from": "BXPE: the U.S. fund, its feeder and parallel vehicles (not the Luxembourg fund), Sep 30, 2026",
+          "sources": [
+            {
+              "name": "BXPE Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000035/bxpe-20261022.htm",
+              "page": "Item 7.01: Transactional NAV as of September 30, 2026"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "text": "New money: the BXPE Fund Program issued about $974.8 million of interests on Oct 1, 2026.",
+          "sources": [
+            {
+              "name": "BXPE Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000035/bxpe-20261022.htm",
+              "page": "Item 3.02: Unregistered Sales of Equity Securities"
+            }
+          ]
+        }
+      ]
+    },
+    "bcred": {
+      "asOf": "2026-09-30",
+      "filed": "2026-10-22",
+      "items": [
+        {
+          "label": "NAV per share",
+          "value": "$23.51",
+          "from": "Class I, from $23.65 on Jun 30, 2026",
+          "change": "−0.6%",
+          "direction": "down",
+          "sources": [
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 8.01: Net Asset Value as of September 30, 2026"
+            }
+          ]
+        },
+        {
+          "label": "Net assets",
+          "value": "$41.1B",
+          "from": "approximate, from $42.8B on Jun 30, 2026",
+          "change": "−3.9%",
+          "direction": "down",
+          "sources": [
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 8.01: Net Asset Value as of September 30, 2026"
+            }
+          ]
+        },
+        {
+          "label": "Distribution rate",
+          "value": "9.2%",
+          "from": "Class I: October's $0.18 a share × 12 ÷ $23.51 NAV",
+          "change": "−$0.02 a month",
+          "direction": "down",
+          "note": "Monthly payout, from $0.20 in June.",
+          "sources": [
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 7.01: October 2026 Distributions"
+            }
+          ]
+        },
+        {
+          "label": "Leverage",
+          "value": "0.82x",
+          "from": "debt to equity, September 2026 average; $34.8B of debt",
+          "sources": [
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 8.01: Net Asset Value as of September 30, 2026"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "text": "Portfolio at fair value: about $75.6 billion at Sep 30, 2026.",
+          "sources": [
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 8.01: Net Asset Value as of September 30, 2026"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "compare": {
+    "distribution": {
+      "help": "Class I, latest declared distribution, annualized, over the Sep 30, 2026 NAV",
+      "cells": {
+        "BREIT": {
+          "value": "4.5%",
+          "note": "Class I: September 2026's $0.0554 a share × 12 ÷ $14.65 NAV",
+          "sources": [
+            {
+              "name": "BREIT Form 8-K, September 29, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000138/breit-20260929.htm"
+            },
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "2.9%",
+          "note": "Class I, Series I: Q3 2026's $0.2289 a unit × 4 ÷ $31.41 NAV",
+          "sources": [
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 7.01: Distributions"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "9.2%",
+          "note": "Class I: October 2026's $0.18 a share × 12 ÷ $23.51 NAV",
+          "sources": [
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 7.01: October 2026 Distributions"
+            }
+          ]
+        }
+      }
+    },
+    "navChange": {
+      "label": "NAV change since Dec 31, 2025",
+      "help": "Class I, to Sep 30, 2026",
+      "cells": {
+        "BREIT": {
+          "value": "+3.6%",
+          "note": "Class I: $14.13 → $14.65",
+          "sources": [
+            {
+              "name": "BREIT Form 10-K, year ended December 31, 2025",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+              "page": "NAV per share by class, Dec 31, 2025"
+            },
+            {
+              "name": "BREIT prospectus supplement (Form 424B3), October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000154/breitnavseptember2026.htm",
+              "page": "September 30, 2026 NAV per Share"
+            }
+          ]
+        },
+        "BXINFRA": {
+          "value": "+13.9%",
+          "note": "Class I, Series I, Transactional NAV: $27.57 → $31.41",
+          "sources": [
+            {
+              "name": "BX Infra Form 10-K, year ended December 31, 2025",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000119312526096453/d70902d10k.htm",
+              "page": "Transactional NAV per Unit, Dec 31, 2025"
+            },
+            {
+              "name": "BX Infra Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/2030772/000203077226000032/bxinfra-20261022.htm",
+              "page": "Item 7.01: Transactional NAV as of September 30, 2026"
+            }
+          ]
+        },
+        "BXPE": {
+          "value": "+16.8%",
+          "note": "Class I, Series I, Transactional NAV: $34.16 → $39.91",
+          "sources": [
+            {
+              "name": "BXPE Form 10-K, year ended December 31, 2025",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
+              "page": "Transactional NAV per Unit, Dec 31, 2025"
+            },
+            {
+              "name": "BXPE Form 8-K, October 22, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1930054/000193005426000035/bxpe-20261022.htm",
+              "page": "Item 7.01: Transactional NAV as of September 30, 2026"
+            }
+          ]
+        },
+        "BCRED": {
+          "value": "−5.2%",
+          "note": "Class I: $24.79 → $23.51",
+          "sources": [
+            {
+              "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
+              "page": "Financial Highlights"
+            },
+            {
+              "name": "BCRED Form 8-K, October 21, 2026",
+              "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000056/bcred-20261021.htm",
+              "page": "Item 8.01: Net Asset Value as of September 30, 2026"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

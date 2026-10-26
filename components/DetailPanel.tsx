@@ -11,6 +11,8 @@ import FilingBadge from "./FilingBadge";
 import FundActions from "./FundActions";
 import NextUpdate from "./NextUpdate";
 import QuarterBox from "./QuarterBox";
+import LatestBox from "./LatestBox";
+import { latestFor } from "@/lib/latest";
 import FundStats from "./FundStats";
 import AddonChips from "./addons/shared/AddonChips";
 import { holdingsLead } from "./HoldingsLead";
@@ -258,9 +260,10 @@ function Overview({ layer, data, sector, geoItems, onSelect, onSector }: Props) 
           <FundActions layerId={layer.id} data={data} />
         </div>
         {/* Phones show the box above the map instead (with the stat cards), so it isn't read twice. */}
-        {data.quarterSummary && (
-          <div className="hidden lg:block">
-            <QuarterBox q={data.quarterSummary} />
+        {(latestFor(layer.id) || data.quarterSummary) && (
+          <div className="hidden space-y-3 lg:block">
+            {latestFor(layer.id) && <LatestBox latest={latestFor(layer.id)!} quarterAsOf={data.asOf} />}
+            {data.quarterSummary && <QuarterBox q={data.quarterSummary} />}
           </div>
         )}
         <p className="text-sm leading-relaxed text-muted-strong">{data.summary.headline}</p>

@@ -6,10 +6,13 @@ import { formatDate, formatMonth } from "./dates";
  */
 export const LAG_DAYS = { "10-Q": 45, "10-K": 90 } as const;
 
-export type Cadence = "quarterly" | "annual";
+/** Month-end NAVs: each fund files its month-end NAV in an 8-K (BREIT: a prospectus supplement) about three weeks after. */
+export const MONTHLY_LAG_DAYS = 21;
+
+export type Cadence = "quarterly" | "annual" | "monthly";
 
 export interface NextUpdate {
-  form: "10-Q" | "10-K";
+  form: "10-Q" | "10-K" | "8-K";
   /** The period the next report covers (YYYY-MM-DD). */
   period: string;
   /** About when it's due (YYYY-MM-DD). */
@@ -35,6 +38,19 @@ const QUARTER_ENDS = [
 export function nextUpdate(asOf: string, cadence: Cadence = "quarterly"): NextUpdate | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(asOf)) return null;
   const [y, m, d] = asOf.split("-").map(Number);
+  if (cadence === "monthly") {
+    // The next month-end after asOf (day 0 of the month after next is the last day of next month).
+    const end = Date.UTC(y, d >= new Date(Date.UTC(y, m, 0)).getUTCDate() ? m + 1 : m, 0);
+    const due = new Date(end + MONTHLY_LAG_DAYS * DAY).toISOString().slice(0, 10);
+    const period = new Date(end).toISOString().slice(0, 10);
+    return {
+      form: "8-K",
+      period,
+      due,
+      month: formatMonth(due, "long"),
+      basis: `The fund files its NAV for ${formatDate(period, "long")} about three weeks after that month ends.`,
+    };
+  }
   const after = Date.UTC(y, m - 1, d);
   const ends = cadence === "annual" ? QUARTER_ENDS.slice(3) : QUARTER_ENDS;
   let end = 0;
