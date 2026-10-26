@@ -152,4 +152,16 @@ Between 10-Qs, each fund files its month-end NAV about three weeks after the mon
 
 After a new 10-Q, run `npm run refresh-data` first. The monthly figures are then compared with that quarter.
 
+### Tax rates (each January)
+
+Every tax figure in the Tax Lens adds three things: the federal rate (bracket and capital gains rate, set in the calculator), the 3.8% federal net investment income tax (IRS Topic 559), and the client's state. State rates are each state's top rate, from the Tax Foundation's yearly table, in `data/addons/tax-lens/states.json`. To update them when the new table comes out:
+
+```bash
+curl -sL -A "Mozilla/5.0" -o states.html https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/
+python3 -I scripts/sec/html2txt.py states.html states.txt
+python3 -I scripts/tax/state_rates.py states.txt data/addons/tax-lens/states.json
+```
+
+(Change `2026` in the address to the new year, and the same year in `URL` at the top of `scripts/tax/state_rates.py`.) The script stops without writing anything unless it finds all 50 states and DC.
+
 Figures that no filing gives stay as "Not in filing"; `MISSING_DATA.md` lists them and where they would come from. To rebuild from the exact June 30, 2026 filings instead, use `scripts/sec/fetch_filings.sh ./filings` then `python3 -I scripts/sec/build_data.py ./filings data`.

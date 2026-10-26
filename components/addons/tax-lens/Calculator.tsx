@@ -3,6 +3,9 @@
 import { useMemo, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "recharts";
 import { projectTax } from "@/lib/addons/tax-lens/roc";
+import { stateRate } from "@/lib/addons/tax-lens/states";
+import { RatesUsed, StatePicker, StateSource } from "./StatePicker";
+import { useClientState } from "./useClientState";
 import { TAX } from "@/lib/addons/tax-lens/data";
 import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import { NumberInput, PercentInput } from "@/components/addons/shared/Inputs";
@@ -37,7 +40,16 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
   };
   const [bracket, setBracket] = useState(37);
   const [cgRate, setCgRate] = useState<number | null>(null);
-  const [state, setState] = useState(0);
+  // The client's state sets the state rate; typing a rate overrides it until another state is picked.
+  const [stateCode, setStateCodeShared] = useClientState();
+  const [stateTyped, setStateTyped] = useState<number | null>(null);
+  const setStateCode = (c: string) => {
+    setStateCodeShared(c);
+    setStateTyped(null);
+  };
+  const place = stateRate(stateCode);
+  const state = stateTyped ?? place.top;
+  const [niit, setNiit] = useState(true);
   const [years, setYears] = useState(5);
   const [qrd, setQrd] = useState(true);
   const [price, setPrice] = useState(0);
@@ -53,11 +65,12 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
         ordinaryRatePct: bracket,
         capitalGainsRatePct: cg,
         stateRatePct: state,
+        niit,
         years,
         qrdDeduction: qrd,
         priceChangePct: price,
       }),
-    [amount, rate, roc, cgShare, bracket, cg, state, years, qrd, price],
+    [amount, rate, roc, cgShare, bracket, cg, state, niit, years, qrd, price],
   );
 
   function pickClass(c: Cls) {
@@ -125,8 +138,13 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
           label="Federal income tax bracket"
           value={bracket}
           onChange={setBracket}
-          help={compact ? `Capital gains rate assumed: ${cg}%. Set it exactly in the full view.` : undefined}
+          help={
+            compact
+              ? `Capital gains rate assumed: ${cg}%, plus the 3.8% net investment income tax. Set them in the full view.`
+              : "For 2026 the top bracket, 37%, starts at $768,700 of joint taxable income (IRS, 2026 inflation adjustments)."
+          }
         />
+        <StatePicker code={stateCode} onChange={setStateCode} compact={compact} />
         <NumberInput label="Years held" value={years} onChange={(v) => setYears(Math.round(v))} min={0} max={30} step={1} />
         {!compact && (
           <>
@@ -180,7 +198,21 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
               </div>
             </div>
             <PercentInput label="Long-term capital gains rate" value={cg} onChange={setCgRate} />
-            <PercentInput label="State income tax rate" value={state} onChange={setState} />
+            <PercentInput
+              label="State income tax rate"
+              value={state}
+              onChange={setStateTyped}
+              help={stateTyped === null ? `${place.name}'s top rate. Type the client's own rate if it's lower.` : `Typed in. Pick a state to use its top rate again.`}
+            />
+            <label className="flex items-start gap-2 text-sm text-muted-strong">
+              <input type="checkbox" checked={niit} onChange={(e) => setNiit(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--accent)]" />
+              <span>
+                Add the 3.8% net investment income tax on payouts and gains (applies above $250,000 of joint income).{" "}
+                <a href={TAX.irs.niit.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
+                  IRS
+                </a>
+              </span>
+            </label>
             <NumberInput label="Share price change per year" value={price} onChange={setPrice} min={-50} max={50} step={0.5} suffix="%" help="0 means sold at the price paid." />
             <label className="flex items-start gap-2 text-sm text-muted-strong">
               <input type="checkbox" checked={qrd} onChange={(e) => setQrd(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--accent)]" />
@@ -197,8 +229,9 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
 
       <div className="min-w-0 space-y-5 print:space-y-3">
         <p className="hidden text-xs print:block">
-          Inputs: {money(amount)} invested, Class {cls}, {rate}% payout, {roc}% return of capital, {bracket}% income bracket{qrd ? " (199A deduction applied)" : ""},{" "}
-          {cg}% capital gains, {state}% state, {years} years, {price}% price change per year.
+          Inputs: {money(amount)} invested, Class {cls}, {rate}% payout, {roc}% return of capital, {bracket}% federal income bracket{qrd ? " (199A deduction applied)" : ""},{" "}
+          {cg}% federal capital gains, {niit ? "3.8% net investment income tax, " : ""}
+          {state}% state ({place.name}), {years} years, {price}% price change per year.
         </p>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs text-muted-strong">Consult a tax advisor. This is general education, not tax advice.</p>
@@ -208,6 +241,9 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
           Over {years} year{years === 1 ? "" : "s"}, about {money(r.totalTaxNow)} of tax is due as payouts arrive and about {money(r.taxOnSale)} at sale, against{" "}
           {money(r.taxIfAllTaxedNow)} if every payout were taxed as income.
         </p>
+        <RatesUsed p={{ ordinaryRatePct: bracket, capitalGainsRatePct: cg, stateRatePct: state, niit, qrdDeduction: qrd }} stateName={place.name} />
+        {/* The full view shows the state's source under its picker; the drawer shows it here. */}
+        {compact && <StateSource code={place.code} />}
 
         <figure className="space-y-2">
           <div className={compact ? "h-40" : "h-48"} role="img" aria-label={bars.map((b) => `${b.name}: ${money(b.value)}`).join("; ")}>
@@ -227,8 +263,9 @@ export default function Calculator({ compact = false }: { compact?: boolean }) {
             </PrintSized>
           </div>
           <figcaption className="text-xs text-muted">
-            Tax now vs. tax later. The comparison bar taxes every payout at the income rate as received. Ignores the 3.8% net investment income tax and
-            assumes payouts are taken in cash.
+            Tax now vs. tax later: federal, {niit ? "the net investment income tax and " : ""}state tax at the rates above. The comparison bar taxes every
+            payout at the income rate as received. Leaves out local income taxes and the federal deduction for state taxes, and assumes payouts are taken
+            in cash.
           </figcaption>
         </figure>
 

@@ -1,0 +1,333 @@
+{
+ "asOf": "2026-01-01",
+ "source": {
+  "name": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026",
+  "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+  "page": "Rates and brackets as of January 1, 2026"
+ },
+ "basis": "Each state's top rate on income and, for married couples filing jointly, the taxable income where it starts. Local income taxes (New York City's, for example) are left out.",
+ "default": "IL",
+ "states": [
+  {
+   "code": "AL",
+   "name": "Alabama",
+   "top": 5.0,
+   "from": 6000
+  },
+  {
+   "code": "AK",
+   "name": "Alaska",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "AZ",
+   "name": "Arizona",
+   "top": 2.5,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "AR",
+   "name": "Arkansas",
+   "top": 3.9,
+   "from": 4600
+  },
+  {
+   "code": "CA",
+   "name": "California",
+   "top": 13.3,
+   "from": 1485906
+  },
+  {
+   "code": "CO",
+   "name": "Colorado",
+   "top": 4.4,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "CT",
+   "name": "Connecticut",
+   "top": 6.99,
+   "from": 1000000
+  },
+  {
+   "code": "DE",
+   "name": "Delaware",
+   "top": 6.6,
+   "from": 60000
+  },
+  {
+   "code": "DC",
+   "name": "District of Columbia",
+   "top": 10.75,
+   "from": 1000000
+  },
+  {
+   "code": "FL",
+   "name": "Florida",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "GA",
+   "name": "Georgia",
+   "top": 5.19,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "HI",
+   "name": "Hawaii",
+   "top": 11.0,
+   "from": 650000
+  },
+  {
+   "code": "ID",
+   "name": "Idaho",
+   "top": 5.3,
+   "from": 9622,
+   "flat": true
+  },
+  {
+   "code": "IL",
+   "name": "Illinois",
+   "top": 4.95,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "IN",
+   "name": "Indiana",
+   "top": 2.95,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "IA",
+   "name": "Iowa",
+   "top": 3.8,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "KS",
+   "name": "Kansas",
+   "top": 5.58,
+   "from": 46000
+  },
+  {
+   "code": "KY",
+   "name": "Kentucky",
+   "top": 3.5,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "LA",
+   "name": "Louisiana",
+   "top": 3.0,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "ME",
+   "name": "Maine",
+   "top": 7.15,
+   "from": 129749
+  },
+  {
+   "code": "MD",
+   "name": "Maryland",
+   "top": 6.5,
+   "from": 1200000
+  },
+  {
+   "code": "MA",
+   "name": "Massachusetts",
+   "top": 9.0,
+   "from": 1083150
+  },
+  {
+   "code": "MI",
+   "name": "Michigan",
+   "top": 4.25,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "MN",
+   "name": "Minnesota",
+   "top": 9.85,
+   "from": 337930
+  },
+  {
+   "code": "MS",
+   "name": "Mississippi",
+   "top": 4.0,
+   "from": 10000,
+   "flat": true
+  },
+  {
+   "code": "MO",
+   "name": "Missouri",
+   "top": 4.7,
+   "from": 9436
+  },
+  {
+   "code": "MT",
+   "name": "Montana",
+   "top": 5.65,
+   "from": 95000
+  },
+  {
+   "code": "NE",
+   "name": "Nebraska",
+   "top": 4.55,
+   "from": 49530
+  },
+  {
+   "code": "NV",
+   "name": "Nevada",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "NH",
+   "name": "New Hampshire",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "NJ",
+   "name": "New Jersey",
+   "top": 10.75,
+   "from": 1000000
+  },
+  {
+   "code": "NM",
+   "name": "New Mexico",
+   "top": 5.9,
+   "from": 315000
+  },
+  {
+   "code": "NY",
+   "name": "New York",
+   "top": 10.9,
+   "from": 25000000
+  },
+  {
+   "code": "NC",
+   "name": "North Carolina",
+   "top": 3.99,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "ND",
+   "name": "North Dakota",
+   "top": 2.5,
+   "from": 298075
+  },
+  {
+   "code": "OH",
+   "name": "Ohio",
+   "top": 2.75,
+   "from": 26050,
+   "flat": true
+  },
+  {
+   "code": "OK",
+   "name": "Oklahoma",
+   "top": 4.5,
+   "from": 14400
+  },
+  {
+   "code": "OR",
+   "name": "Oregon",
+   "top": 9.9,
+   "from": 250000
+  },
+  {
+   "code": "PA",
+   "name": "Pennsylvania",
+   "top": 3.07,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "RI",
+   "name": "Rhode Island",
+   "top": 5.99,
+   "from": 186450
+  },
+  {
+   "code": "SC",
+   "name": "South Carolina",
+   "top": 6.0,
+   "from": 18230
+  },
+  {
+   "code": "SD",
+   "name": "South Dakota",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "TN",
+   "name": "Tennessee",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "TX",
+   "name": "Texas",
+   "top": 0,
+   "note": "No state income tax."
+  },
+  {
+   "code": "UT",
+   "name": "Utah",
+   "top": 4.5,
+   "from": 0,
+   "flat": true
+  },
+  {
+   "code": "VT",
+   "name": "Vermont",
+   "top": 8.75,
+   "from": 304000
+  },
+  {
+   "code": "VA",
+   "name": "Virginia",
+   "top": 5.75,
+   "from": 17000
+  },
+  {
+   "code": "WA",
+   "name": "Washington",
+   "top": 0,
+   "note": "Taxes long-term capital gains only, not dividends: 7% on gains above a $278,000 deduction, 9% above $1,000,000. The calculator counts none."
+  },
+  {
+   "code": "WV",
+   "name": "West Virginia",
+   "top": 4.82,
+   "from": 60000
+  },
+  {
+   "code": "WI",
+   "name": "Wisconsin",
+   "top": 7.65,
+   "from": 443630
+  },
+  {
+   "code": "WY",
+   "name": "Wyoming",
+   "top": 0,
+   "note": "No state income tax."
+  }
+ ]
+}

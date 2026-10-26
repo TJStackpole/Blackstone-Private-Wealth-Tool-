@@ -124,6 +124,14 @@
     "qbi": {
       "name": "IRS, Qualified business income deduction",
       "url": "https://www.irs.gov/newsroom/qualified-business-income-deduction"
+    },
+    "niit": {
+      "name": "IRS Tax Topic 559, Net investment income tax",
+      "url": "https://www.irs.gov/taxtopics/tc559"
+    },
+    "brackets": {
+      "name": "IRS, Tax inflation adjustments for tax year 2026",
+      "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill"
     }
   }
 }

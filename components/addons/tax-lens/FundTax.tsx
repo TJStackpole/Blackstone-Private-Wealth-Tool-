@@ -1,3 +1,5 @@
+"use client";
+
 import { TAX, TAX_FUNDS, type OtherFund } from "@/lib/addons/tax-lens/data";
 import { FUNDS } from "@/lib/addons/shared/funds";
 import type { AddonSource } from "@/lib/addons/shared/types";
@@ -5,6 +7,10 @@ import { IllustrativeBadge } from "@/components/addons/shared/Badges";
 import Steps from "@/components/addons/shared/Steps";
 import { formatDate } from "@/lib/dates";
 import NextUpdate from "@/components/NextUpdate";
+import { combinedRates } from "@/lib/addons/tax-lens/roc";
+import { stateRate } from "@/lib/addons/tax-lens/states";
+import { StatePicker, StateSource } from "./StatePicker";
+import { useClientState } from "./useClientState";
 
 const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 
@@ -115,11 +121,7 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
             <p className="text-sm font-medium text-ink">In round numbers</p>
             <IllustrativeBadge />
           </div>
-          <p className="text-sm leading-relaxed text-muted-strong">
-            $100,000 at a {ex.distributionPct}% distribution rate pays about {money(100_000 * (ex.distributionPct / 100))} a year. At a {ex.bracketPct}% bracket, about{" "}
-            {money(100_000 * (ex.distributionPct / 100) * (ex.bracketPct / 100))} of that is due in the year it&apos;s paid, with nothing deferred to the sale.
-          </p>
-          <p className="text-[11px] text-muted">Federal income tax only; leaves out state tax and any deductions. Not tax advice.</p>
+          <RoundNumbers distributionPct={ex.distributionPct} bracketPct={ex.bracketPct} compact={compact} />
         </div>
       )}
 
@@ -131,5 +133,31 @@ export default function FundTax({ fund, compact = false }: { fund: OtherFund; co
         </p>
       )}
     </div>
+  );
+}
+
+/**
+ * A payout taxed as income in the year it's paid, at the top federal bracket, the 3.8% NIIT and the client's state.
+ * (A BDC's dividends don't get the 199A deduction REIT dividends do.)
+ */
+function RoundNumbers({ distributionPct, bracketPct, compact }: { distributionPct: number; bracketPct: number; compact: boolean }) {
+  const [code, setCode] = useClientState();
+  const place = stateRate(code);
+  const params = { ordinaryRatePct: bracketPct, capitalGainsRatePct: 0, stateRatePct: place.top, niit: true, qrdDeduction: false };
+  const rate = combinedRates(params).income;
+  const paid = 100_000 * (distributionPct / 100);
+  return (
+    <>
+      <p className="text-sm leading-relaxed text-muted-strong">
+        $100,000 at a {distributionPct}% distribution rate pays about {money(paid)} a year. Taxed as income at {+rate.toFixed(2)}% ({bracketPct}% federal, 3.8% net
+        investment income tax and {place.top ? `${place.top}% ${place.name}` : `no ${place.name} income tax`}), about {money(paid * (rate / 100))} of that is due in the
+        year it&apos;s paid, with nothing deferred to the sale.
+      </p>
+      <div className={compact ? "space-y-1" : "grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-start"}>
+        <StatePicker code={place.code} onChange={setCode} compact />
+        <StateSource code={place.code} />
+      </div>
+      <p className="text-[11px] text-muted">Top federal bracket. Leaves out local income taxes and deductions. Not tax advice.</p>
+    </>
   );
 }

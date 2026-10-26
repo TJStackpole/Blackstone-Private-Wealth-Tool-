@@ -18,7 +18,7 @@ export interface TaxLensData {
   rocHistory: RocYear[];
   defaultRoc: FundParam<number>;
   distributionRates: Record<"I" | "D" | "S", FundParam<number>>;
-  irs: { roc: AddonSource; qbi: AddonSource };
+  irs: { roc: AddonSource; qbi: AddonSource; niit: AddonSource; brackets: AddonSource };
 }
 
 export const TAX = raw as TaxLensData;
