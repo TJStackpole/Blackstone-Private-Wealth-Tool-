@@ -11,6 +11,7 @@ import AllFundsView from "./AllFundsView";
 import DetailPanel from "./DetailPanel";
 import FilingBadge from "./FilingBadge";
 import FundPrint from "./FundPrint";
+import TourButton from "./TourButton";
 import FundActions from "./FundActions";
 import AddonChips from "./addons/shared/AddonChips";
 import { quarterFigures } from "@/lib/quarter";
@@ -175,9 +176,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2">
-            <Link href="/demo" className="tap inline-flex h-9 items-center rounded-full px-3 text-xs font-medium text-muted-strong underline decoration-line underline-offset-4 transition-colors hover:text-ink">
-              Take the tour
-            </Link>
+            {/* The site opens on the map; the tour is one click away for anyone who wants a guided start. */}
+            <TourButton />
             <Link href="/toolkit" className="tap inline-flex h-9 items-center rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink">
               Advisor Toolkit
             </Link>

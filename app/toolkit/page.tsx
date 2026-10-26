@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
-import Link from "next/link";
 import { ADDONS, enabledAddons, toolkitAddons } from "@/config/addons";
 import SiteMark from "@/components/SiteMark";
 import ThemeToggle from "@/components/ThemeToggle";
 import AddonDisclosure from "@/components/addons/shared/AddonDisclosure";
 import ToolkitCards from "@/components/addons/shared/ToolkitCards";
+import TourButton from "@/components/TourButton";
 
 export const metadata: Metadata = pageMeta({
   title: "Advisor Toolkit",
@@ -22,9 +22,7 @@ export default function ToolkitHome() {
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-strong">
             <SiteMark />
-            <Link href="/demo" className="tap inline-flex items-center whitespace-nowrap underline decoration-line underline-offset-4 hover:text-ink">
-              Take the tour
-            </Link>
+            <TourButton />
           </nav>
           <div className="flex items-center gap-2">
             {/*
