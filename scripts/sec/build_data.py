@@ -386,6 +386,7 @@ def build_bxinfra(old):
     inv_now = sum(num([x for x in r[1:] if x != "$"][0]) for r in inv)
     inv_dec = sum(num([x for x in r[1:] if x != "$"][1]) for r in inv)
     check(abs(inv_now - tot) < 1, f"BX Infra: balance-sheet investments {inv_now:,.0f} == schedule total {tot:,.0f}")
+    aff = num([v for v in inv[2][1:] if v != "$"][0])  # affiliated investee funds, part of the total above
     x = infra_moves(lines)
     ind = shares(rows, "industry", tot)
     geo = shares(rows, "geo", tot)
@@ -419,7 +420,7 @@ def build_bxinfra(old):
                 stat("NAV per unit (Class I)", f"${x['nav']:.2f}", "Series I, Transactional NAV", move(x["nav"], x["nav_dec"]), f"from ${x['nav_dec']:.2f} on Dec 31, 2025", [x["q10"], x["k10"]]),
                 stat("Distribution rate", f"{x['q2'] * 4 / x['nav'] * 100:.1f}%", f"Class I, Series I, annualized: Q2's ${x['q2']:.4f} a unit × 4 ÷ ${x['nav']:.2f}",
                      diff(x["q2"], x["q1"], lambda d: f"${d:.4f}"), f"payout a unit, from ${x['q1']:.4f} in Q1", [x["q10"]]),
-                stat("Investments", f"${tot / 1e6:.2f}B", f"at fair value, held by the aggregator: {tot / 1e6 / agg_nav * 100:.1f}% of its net assets",
+                stat("Investments", f"${tot / 1e6:.2f}B", f"at fair value, held by the aggregator, including ${aff / 1e6:.2f}B in affiliated investee funds: {tot / 1e6 / agg_nav * 100:.1f}% of its net assets",
                      move(inv_now, inv_dec), f"from ${inv_dec / 1e6:.2f}B on Dec 31, 2025", [x["q10"]]),
             ],
         },
@@ -806,7 +807,7 @@ def build_compare(funds):
         "BREIT": {"value": pct(b_dist * 4 / b_nav * 100), "note": f"Class I: Q2 2026's ${b_dist:.4f} a share × 4 ÷ ${b_nav:.2f} NAV", "sources": [q("BREIT", "Note: Distributions; Net Asset Value")]},
         "BXINFRA": {"value": pct(x_dist * 4 / x_nav * 100), "note": f"Class I, Series I: Q2 2026's ${x_dist:.4f} a unit × 4 ÷ ${x_nav:.2f} Transactional NAV", "sources": [q("BX Infra", "BXINFRA U.S. Distributions; Transactional NAV")]},
         "BXPE": {"value": "None", "note": "BXPE does not currently intend to declare distributions.", "sources": [q("BXPE", "Liquidity and Capital Resources")]},
-        "BCRED": {"value": bc_rate["value"], "note": "Class I: June 2026's $0.20 a share × 12 ÷ $23.65 NAV. July's declared $0.18 is 9.1%.", "sources": [q("BCRED", "Note 9: Distributions; Subsequent Events")]},
+        "BCRED": {"value": bc_rate["value"], "note": "Class I: June 2026's $0.20 a share × 12 ÷ $23.65 NAV. July's declared $0.18 is 9.1%.", "sources": [q("BCRED", "Note 9: Net Assets (Distributions); Subsequent Events")]},
     }
 
     # --- Fees, from each fund's own 10-Q (already in the Index-to-Fund data, each with its note).
@@ -874,7 +875,7 @@ def build_compare(funds):
         print(f"  {f}: NAV {c['note']} ({c['value']})")
 
     rows = [
-        ("distribution", "Distribution rate", "Class I, latest declared distribution, annualized, over NAV"),
+        ("distribution", "Distribution rate", "Class I, the period's last distribution, annualized, over NAV"),
         ("management", "Management fee", None),
         ("performance", "Performance / incentive fee", None),
         ("limit", "Repurchase limit", None),

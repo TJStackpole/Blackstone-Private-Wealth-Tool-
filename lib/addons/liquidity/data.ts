@@ -22,6 +22,8 @@ export interface CapEvent {
   title: string;
   detail: string;
   source: AddonSource;
+  /** Further filings the event draws on. */
+  also?: AddonSource[];
   /** Share of requests filled, as the filing states it; filledApprox when worked out from the amounts it gives. */
   filledPct?: number;
   filledApprox?: boolean;

@@ -20,7 +20,7 @@
     "leveragePct": null
   },
   "fundSide": {
-    "label": "Total return based on NAV, by unit class (BXINFRA U.S.)",
+    "label": "Total return based on NAV, by unit class (BXINFRA U.S.; GAAP NAV per unit, not the Transactional NAV units are bought and sold at)",
     "returns": [
       {
         "shareClass": "I",

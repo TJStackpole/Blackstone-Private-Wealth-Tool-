@@ -12,7 +12,7 @@
         "url": "https://www.sec.gov/Archives/edgar/data/1930054/000119312526106084/d71061d10k.htm",
         "page": "Item 1: Investment Objectives"
       },
-      "metric": "Total return based on NAV, six months to June 30, 2026 (BXPE U.S., Class I Series I)",
+      "metric": "Total return based on NAV, six months to June 30, 2026 (BXPE U.S., Class I Series I; GAAP NAV per unit, $33.72 to $38.33, not the Transactional NAV on the fund page)",
       "value": "13.69% (not annualized)",
       "asOf": "2026-06-30",
       "source": {

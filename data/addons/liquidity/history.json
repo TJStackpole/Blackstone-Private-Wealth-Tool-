@@ -85,11 +85,21 @@
    "title": "Requests prorated at 5%",
    "detail": "Requests reached about 10% of shares. BCRED repurchased 5.0%, filling requests pro rata: roughly half of the $4.5 billion requested.",
    "source": {
-    "name": "BCRED Form 10-Q, June 30, 2026, and September 3, 2026 letter",
+    "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
     "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm"
    },
    "filledPct": 50,
-   "filledApprox": true
+   "filledApprox": true,
+   "also": [
+    {
+     "name": "BCRED letter to investors, June 4, 2026 (requests of about 10%)",
+     "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026065024/ea0292864-01_ex99a1vii.htm"
+    },
+    {
+     "name": "BCRED letter to investors, September 3, 2026 (about half of $4.5 billion filled)",
+     "url": "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ea0244647-03_ex99a1vii.htm"
+    }
+   ]
   },
   {
    "date": "2026-09-03",

@@ -10,7 +10,7 @@
     {
       "id": "distribution",
       "label": "Distribution rate",
-      "help": "Class I, latest declared distribution, annualized, over NAV",
+      "help": "Class I, the period's last distribution, annualized, over NAV",
       "cells": {
         "BREIT": {
           "value": "4.6%",
@@ -52,7 +52,7 @@
             {
               "name": "BCRED Form 10-Q, quarter ended June 30, 2026",
               "url": "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
-              "page": "Note 9: Distributions; Subsequent Events"
+              "page": "Note 9: Net Assets (Distributions); Subsequent Events"
             }
           ]
         }

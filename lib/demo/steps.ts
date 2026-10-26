@@ -75,7 +75,7 @@ export const STEPS: TourStep[] = [
     chapter: "The map",
     title: "All four funds, side by side",
     body: [
-      "'All funds' opens with one table comparing the four: distribution rate, fees, buy-back limits, the early-sale deduction, minimum investment and the change in value per share. Each cell comes from that fund's own filing.",
+      "'All funds' opens with one table comparing the four: distribution rate, fees, buy-back limits, the early-sale deduction, whether last quarter's buy-backs were pro-rated, minimum investment and the change in value per share. Each cell comes from that fund's own filing.",
       "Below it, each fund's map at the level of detail its filing gives. 'Open' jumps to that fund's page.",
     ],
     url: "/?view=all",

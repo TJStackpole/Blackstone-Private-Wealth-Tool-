@@ -17,9 +17,16 @@ export default function HistoryTimeline({ fund }: { fund?: FundCode }) {
           </p>
           <h4 className="mt-0.5 text-sm font-medium text-ink">{e.title}</h4>
           <p className="mt-1 text-sm leading-relaxed text-muted-strong">{e.detail}</p>
-          <a href={e.source.url} target="_blank" rel="noreferrer noopener" className="mt-1 inline-block text-xs text-muted underline decoration-line underline-offset-2 hover:text-ink">
-            Source: {e.source.name}
-          </a>
+          <p className="mt-1 text-xs text-muted">
+            {[e.source, ...(e.also ?? [])].map((s, i) => (
+              <span key={s.url}>
+                {i === 0 ? "Source: " : " · "}
+                <a href={s.url} target="_blank" rel="noreferrer noopener" className="underline decoration-line underline-offset-2 hover:text-ink">
+                  {s.name}
+                </a>
+              </span>
+            ))}
+          </p>
         </li>
       ))}
     </ol>

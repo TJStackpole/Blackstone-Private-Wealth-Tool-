@@ -95,12 +95,12 @@
       "D": 0.25,
       "S": 0.85,
       "unit": "% of NAV a year",
-      "asOf": "2026-06-30",
+      "asOf": "2025-12-31",
       "verify": "Confirm against current prospectus",
       "source": {
-        "name": "BREIT Form 10-Q, quarter ended June 30, 2026",
-        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
-        "page": "Note 10: Related Party and Other Transactions (Class D rate from the 2025 Form 10-K)"
+        "name": "BREIT Form 10-K, year ended December 31, 2025",
+        "url": "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000032/breit-20251231.htm",
+        "page": "Related Party Transactions: stockholder servicing fees (0.85% Class S, 0.25% Class D)"
       }
     }
   },
