@@ -49,7 +49,7 @@ function newId() {
 
 /**
  * The AI assistant: a button in the bottom-right corner that opens a chat panel (full screen on phones). Questions
- * go to /api/chat, which answers only from Blackstone's official sites and the funds' 10-Q and 10-K filings. The
+ * go to /api/chat, which answers only from Blackstone's official sites and the funds' own SEC filings. The
  * conversation lasts for the browser tab's session.
  */
 export default function ChatAssistant() {
@@ -202,7 +202,7 @@ export default function ChatAssistant() {
                 Ask about the funds
               </h2>
               <p className="mt-0.5 text-xs leading-snug text-muted">
-                AI answers from Blackstone&rsquo;s official sites and the funds&rsquo; 10-Q and 10-K filings, with links.
+                AI answers from Blackstone&rsquo;s official sites and the funds&rsquo; own SEC filings, with links.
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-1">

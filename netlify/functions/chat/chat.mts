@@ -4,7 +4,7 @@ import { getStore } from "@netlify/blobs";
 import { QUESTIONS_PER_HOUR, type ChatEvent } from "../../../lib/chat/limits";
 import { DEADLINE_MS, MAX_OUTPUT_TOKENS, MODEL, SYSTEM_PROMPT, TOOLS, dateLine } from "./policy";
 import { MAX_BODY_BYTES, checkRequest } from "./validate";
-import { cleanAnswer, cleanSources, type Source } from "./sanitize";
+import { cleanAnswer, cleanSources, linksIn, type Source } from "./sanitize";
 import { checkAndRecord, visitorKey } from "./rateLimit";
 
 /**
@@ -166,7 +166,10 @@ async function answer(
   } else if (cut) {
     text += "\n\n(This answer was cut short. Ask a narrower question for the rest.)";
   }
-  return { text: cleanAnswer(text), sources: cleanSources(sources) };
+  const cleaned = cleanAnswer(text);
+  // Search citations first, then the pages the answer links to (searches run inside the model's filtering step often
+  // come back without formal citations).
+  return { text: cleaned, sources: cleanSources([...sources, ...linksIn(cleaned)]) };
 }
 
 /** A progress line for a search or page read, from the tool call's input. */

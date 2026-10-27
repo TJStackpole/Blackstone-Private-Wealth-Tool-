@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ALLOWED_DOMAINS, MAX_QUESTION_CHARS, QUESTIONS_PER_HOUR, isAllowedUrl } from "@/lib/chat/limits";
 import { checkRequest } from "@/netlify/functions/chat/validate";
-import { cleanAnswer, cleanSources } from "@/netlify/functions/chat/sanitize";
+import { cleanAnswer, cleanSources, linksIn } from "@/netlify/functions/chat/sanitize";
 import { checkAndRecord, visitorKey, type LimitStore } from "@/netlify/functions/chat/rateLimit";
 import { DISCLAIMER, MAX_OUTPUT_TOKENS, MODEL, SYSTEM_PROMPT, TOOLS } from "@/netlify/functions/chat/policy";
 
@@ -16,6 +16,9 @@ describe("approved links", () => {
       "https://www.sec.gov/Archives/edgar/data/1662972/000166297226000111/breit-20260630.htm",
       "https://www.sec.gov/Archives/edgar/data/1803498/000180349826000048/bcred-20260630.htm",
       "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001930054",
+      // EDGAR's zero-padded form of the same fund number, and SEC's filing viewer.
+      "https://www.sec.gov/Archives/edgar/data/0001803498/000180349826000048/bcred-20260630.htm",
+      "https://www.sec.gov/ix?doc=/Archives/edgar/data/2030772/000203077226000017/bxinfra-20260630.htm",
     ])
       expect(isAllowedUrl(ok), ok).toBe(true);
     for (const bad of [
@@ -23,6 +26,9 @@ describe("approved links", () => {
       "https://www.sec.gov/Archives/edgar/data/1393818/000139381826000010/bx-10q.htm", // Blackstone Inc., not one of the funds
       "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1393818",
       "https://www.sec.gov/news/press-release",
+      "https://www.sec.gov/Archives/edgar/data/00001393818/x.htm", // padded Blackstone Inc.
+      "https://www.sec.gov/Archives/edgar/data/16629720/x.htm", // a different number that starts like BREIT's
+      "https://www.sec.gov/ix?doc=/Archives/edgar/data/1393818/x.htm",
       "http://www.breit.com/", // not https
       "https://breit.com.evil.example/",
       "https://notblackstone.com/",
@@ -66,6 +72,11 @@ describe("answer clean-up", () => {
     expect(out.endsWith(DISCLAIMER)).toBe(true);
     // Not doubled when the answer already has it.
     expect(cleanAnswer(`Hi.\n\n${DISCLAIMER}`).split(DISCLAIMER).length).toBe(2);
+  });
+  it("takes the answer's own approved links as sources", () => {
+    expect(linksIn("From [BCRED 10-Q](https://www.sec.gov/Archives/edgar/data/0001803498/x.htm) and [a blog](https://blog.example/x).")).toEqual([
+      { url: "https://www.sec.gov/Archives/edgar/data/0001803498/x.htm", title: "BCRED 10-Q" },
+    ]);
   });
   it("lists only approved sources, each once", () => {
     expect(
@@ -130,9 +141,13 @@ describe("model and tools", () => {
       "bxpe.com",
       "bxinfra.com",
       "sec.gov/Archives/edgar/data/1662972",
+      "sec.gov/Archives/edgar/data/0001662972",
       "sec.gov/Archives/edgar/data/1803498",
+      "sec.gov/Archives/edgar/data/0001803498",
       "sec.gov/Archives/edgar/data/1930054",
+      "sec.gov/Archives/edgar/data/0001930054",
       "sec.gov/Archives/edgar/data/2030772",
+      "sec.gov/Archives/edgar/data/0002030772",
     ]);
     expect(fetch.allowed_domains).toEqual([...ALLOWED_DOMAINS]);
     expect(fetch.url_sources).toEqual({
@@ -149,7 +164,7 @@ describe("model and tools", () => {
     for (const rule of [
       "never answer from memory",
       "Never use news articles, blogs, opinion pieces",
-      "use only 10-Q and 10-K filings filed by BREIT, BCRED, BXPE or BXINFRA",
+      "use only filings filed by BREIT, BCRED, BXPE or BXINFRA themselves",
       "Every answer needs at least one link",
       "Never link to YouTube",
       "If the official sources don't answer the question, say so",

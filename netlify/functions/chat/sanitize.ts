@@ -28,6 +28,11 @@ export function cleanAnswer(text: string): string {
   return out;
 }
 
+/** The approved links an answer makes, as sources: `[BREIT 10-Q](https://www.sec.gov/...)` gives that page and title. */
+export function linksIn(text: string): Source[] {
+  return [...text.matchAll(MD_LINK)].filter((m) => isAllowedUrl(m[2])).map((m) => ({ url: m[2], title: m[1] }));
+}
+
 /** The answer's cited pages, approved ones only, each once, in the order cited. */
 export function cleanSources(found: Source[]): Source[] {
   const seen = new Set<string>();

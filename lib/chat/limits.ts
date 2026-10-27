@@ -64,8 +64,12 @@ export function isAllowedUrl(raw: string): boolean {
   if (!domain) return false;
   if (domain !== "sec.gov") return true;
   const path = u.pathname.replace(/\/+/g, "/");
-  if (FUND_CIKS.some((cik) => path.startsWith(`/Archives/edgar/data/${cik}/`) || path === `/Archives/edgar/data/${cik}`)) return true;
+  const fund = (cik: string | undefined) => !!cik && (FUND_CIKS as readonly string[]).includes(cik.replace(/^0+/, ""));
+  // A filing: /Archives/edgar/data/1803498/... (EDGAR also writes the number zero-padded, 0001803498).
+  const filing = (p: string) => fund(p.match(/^\/Archives\/edgar\/data\/(\d+)(?:\/|$)/)?.[1]);
+  if (filing(path)) return true;
+  // The same filing in SEC's viewer: /ix?doc=/Archives/edgar/data/1803498/...
+  if (path === "/ix") return filing((u.searchParams.get("doc") ?? "").replace(/\/+/g, "/"));
   // EDGAR company pages: /cgi-bin/browse-edgar?action=getcompany&CIK=1662972, /edgar/browse/?CIK=1662972.
-  const cik = (u.searchParams.get("CIK") ?? u.searchParams.get("cik") ?? "").replace(/^0+/, "");
-  return (path === "/cgi-bin/browse-edgar" || path.startsWith("/edgar/browse")) && (FUND_CIKS as readonly string[]).includes(cik);
+  return (path === "/cgi-bin/browse-edgar" || path.startsWith("/edgar/browse")) && fund(u.searchParams.get("CIK") ?? u.searchParams.get("cik") ?? undefined);
 }
