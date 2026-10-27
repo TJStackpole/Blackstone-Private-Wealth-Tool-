@@ -2,15 +2,15 @@
 
 import type { LayerDef } from "@/lib/types";
 import { addonHref, toolkitAddons, findAddon } from "@/config/addons";
-import AskBox from "./AskBox";
 import ViewLink from "./ViewLink";
+import InlineChat from "./chat/InlineChat";
 
 const card = "flex flex-col rounded-card border border-line bg-bg-raised p-4 sm:p-5";
 const step = "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line font-serif text-sm text-muted-strong";
 
 /**
- * Where the site opens: three ways in (one fund, the funds side by side, a client's question) and a box to type a
- * question into. No figures of its own; each path leads to sourced ones.
+ * Where the site opens: three ways in (one fund, the funds side by side, a client's question) and, below them, the AI
+ * assistant with ready-made questions. No figures of its own; each path leads to sourced ones.
  */
 export default function StartScreen({ layers }: { layers: LayerDef[] }) {
   const funds = layers.filter((l) => l.data && l.status === "active");
@@ -97,7 +97,7 @@ export default function StartScreen({ layers }: { layers: LayerDef[] }) {
         </li>
       </ol>
 
-      <AskBox />
+      <InlineChat />
     </section>
   );
 }

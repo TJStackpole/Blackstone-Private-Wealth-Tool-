@@ -12,7 +12,7 @@ Live: https://private-markets-atlas.netlify.app
 - `CHECKLIST.md` — every phase's done checklist and how each item was verified.
 - `MISSING_DATA.md` — figures the site shows as "Not in filing", and which document and section they would come from.
 
-**Where the site opens:** a **Start here** screen (`components/StartScreen.tsx`) with three ways in (explain one fund, compare the funds, answer a client question) and an **Ask a question** box. The box matches words in a typed question to the fund and topic (`lib/questions.ts`) and answers only with figures and sentences the site already shows, each with its date and sources; a question it can't match says so. The site's name in the header goes back to Start, and Back/Forward move between Start and the views.
+**Where the site opens:** a **Start here** screen (`components/StartScreen.tsx`) with three ways in (explain one fund, compare the funds, answer a client question) and, below them, **Ask AI**: the AI assistant built into the page (`components/chat/InlineChat.tsx`) with ready-made questions to click. It is the same assistant and the same conversation as the corner panel (see AI assistant below); while it is on screen the corner button steps aside. The site's name in the header goes back to Start, and Back/Forward move between Start and the views.
 
 **Each fund opens in five answers** (`components/FundBrief.tsx`, built by `lib/fundBrief.ts`): what it is, what it pays, how to get money out, what changed lately and the main risk, each dated with a **Sources** link, plus **Copy these answers**, **Print / Save as PDF** and the fund's tools. **See the details** (`/?view=bcred&details=1`) opens the map, sector mix, holdings and the two number boxes below.
 
@@ -58,15 +58,17 @@ A **Worker | Employer** switch changes wording and order, never the numbers. **P
 
 ## AI assistant ("Ask AI")
 
-A chat panel on every page (button bottom-right; full screen on phones) that answers questions about BREIT, BCRED, BXPE and BX Infra. The conversation lasts for the browser tab's session.
+A chat panel on every page (button bottom-right; full screen on phones), also built into the bottom of the opening page, that answers questions about BREIT, BCRED, BXPE and BX Infra. Both show one conversation (`components/chat/useChat.ts`), which lasts for the browser tab's session.
 
-**How it works.** The panel (`components/chat/ChatAssistant.tsx`) posts the question and the recent conversation to `/api/chat`, a Netlify Function (`netlify/functions/chat/chat.mts`). The function calls the Anthropic Messages API with `claude-sonnet-5-5` and streams the answer back. The API key is read **only** there, from the `ANTHROPIC_API_KEY` environment variable; it is never in front-end code or any committed file.
+**How it works.** The panel (`components/chat/ChatAssistant.tsx`) or the opening page's chat posts the question and the recent conversation to `/api/chat`, a Netlify Function (`netlify/functions/chat/chat.mts`). The function calls the Anthropic Messages API with `claude-sonnet-5-5` and streams the answer back. The API key is read **only** there, from the `ANTHROPIC_API_KEY` environment variable; it is never in front-end code or any committed file.
 
 **Sources are locked down** (`netlify/functions/chat/policy.ts`):
 - Web search (`web_search_20260318`) may return only blackstone.com, breit.com, bcred.com, bxpe.com, bxinfra.com and, on sec.gov, only the four funds' own EDGAR folders (CIKs 1662972, 1803498, 1930054, 2030772).
 - Web fetch (`web_fetch_20260318`) has the same sites (it can't be narrowed by path, so it gets sec.gov by domain) and may open only addresses those searches returned, not ones a visitor pastes in.
 - The system prompt tells the model to use only those sources and the four funds' own SEC filings (10-Q, 10-K, 8-K, prospectus supplements, tender offers), never news, blogs or memory; to cite a link in every answer; to link only official videos on Blackstone's sites; to say when an answer isn't in an official source; to give no investment advice; to stay on topic; and to end with the educational note.
 - A final check (`sanitize.ts`) strips any link outside those sites before it is shown, and adds the educational note if missing.
+
+**Speed.** Answers take about 5 to 10 seconds. Both tools are called directly (`allowed_callers: ["direct"]`) rather than through dynamic filtering, which ran a round of code for every search and made answers take 15 to 40 seconds, and the model runs at `low` effort (`EFFORT` in `policy.ts`), which suits look-up questions. Raise it to `medium` for more careful, slower answers.
 
 **Safeguards:** at most 3,000 output tokens per answer, 3 searches and 2 page reads; questions up to 1,000 characters; 20 questions per visitor (by hashed IP) per rolling hour, counted in Netlify Blobs (`rateLimit.ts`), plus Netlify's edge limit of 6 a minute per IP; the function stops itself at 52 seconds (Netlify's limit is 60). A declined answer is retried on another model by the API's server-side fallback (`fallbacks: "default"`); remove those two lines in `chat.mts` to turn that off.
 

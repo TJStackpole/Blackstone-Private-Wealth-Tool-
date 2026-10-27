@@ -133,7 +133,7 @@ describe("model and tools", () => {
   });
   it("gives the model web search and web fetch, both locked to the approved sites and nothing else", () => {
     expect(TOOLS.map((t) => t.type)).toEqual(["web_search_20260318", "web_fetch_20260318"]);
-    const [search, fetch] = TOOLS as unknown as { allowed_domains: string[]; blocked_domains?: unknown; url_sources?: unknown; max_uses: number }[];
+    const [search, fetch] = TOOLS as unknown as { allowed_domains: string[]; blocked_domains?: unknown; url_sources?: unknown; max_uses: number; allowed_callers?: string[] }[];
     expect(search.allowed_domains).toEqual([
       "blackstone.com",
       "breit.com",
@@ -158,6 +158,8 @@ describe("model and tools", () => {
     for (const t of [search, fetch]) {
       expect(t.blocked_domains).toBeUndefined();
       expect(t.max_uses).toBeGreaterThan(0);
+      // Called directly, not through dynamic filtering, which made answers several times slower.
+      expect(t.allowed_callers).toEqual(["direct"]);
     }
   });
   it("tells the model the rules: official sources only, cite every answer, official videos only, no advice, stay on topic", () => {

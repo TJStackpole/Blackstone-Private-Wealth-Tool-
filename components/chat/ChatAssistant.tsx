@@ -1,19 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { CHAT_ENDPOINT, MAX_ANSWER_CHARS, MAX_HISTORY_MESSAGES, MAX_QUESTION_CHARS, type ChatEvent, type ChatTurn } from "@/lib/chat/limits";
-import Markdown from "./Markdown";
+import { ChatComposer, ChatThread } from "./ChatThread";
+import { ask, newChat, useChat } from "./useChat";
 
-interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  sources?: { url: string; title: string }[];
-  /** On a question whose answer failed: what went wrong. */
-  error?: string;
-}
-
-const STORAGE_KEY = "pma-chat-v1";
 const EXAMPLES = [
   "How do BREIT's share buybacks work?",
   "What does BCRED invest in?",
@@ -21,66 +11,19 @@ const EXAMPLES = [
   "What fees does BX Infra charge?",
 ];
 
-/** The earlier answered questions to send back with a new one, oldest first, ending before the new question. */
-export function historyFor(messages: Message[]): ChatTurn[] {
-  const pairs: ChatTurn[][] = [];
-  for (let i = 0; i < messages.length - 1; i++) {
-    const q = messages[i];
-    const a = messages[i + 1];
-    if (q.role === "user" && !q.error && a.role === "assistant") pairs.push([{ role: "user", content: q.content }, { role: "assistant", content: a.content.slice(0, MAX_ANSWER_CHARS) }]);
-  }
-  return pairs.slice(-Math.floor(MAX_HISTORY_MESSAGES / 2)).flat();
-}
-
-function loadSaved(): Message[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? "[]");
-    return Array.isArray(saved) ? saved.filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string") : [];
-  } catch {
-    // Storage blocked or unreadable: start fresh.
-    return [];
-  }
-}
-
-function newId() {
-  return Math.random().toString(36).slice(2, 10);
-}
-
 /**
  * The AI assistant: a button in the bottom-right corner that opens a chat panel (full screen on phones). Questions
  * go to /api/chat, which answers only from Blackstone's official sites and the funds' own SEC filings. The
- * conversation lasts for the browser tab's session.
+ * conversation is the same one the opening page's chat shows, and lasts for the browser tab's session.
  */
 export default function ChatAssistant() {
   const [open, setOpen] = useState(false);
-  // The conversation lasts for this tab's session: kept across page changes and reloads, gone when the tab closes.
-  // Read on first render; the server renders the panel closed, so nothing it draws depends on this.
-  const [messages, setMessages] = useState<Message[]>(loadSaved);
+  const { messages, pending, inlineInView } = useChat();
   const [input, setInput] = useState("");
-  const [pending, setPending] = useState<{ status: string; text: string } | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLTextAreaElement>(null);
-  const scroller = useRef<HTMLDivElement>(null);
   const panelId = useId();
   const titleId = useId();
-
-  useEffect(() => {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-    } catch {
-      // Storage full or blocked: the chat still works for this page.
-    }
-  }, [messages]);
-
-  useEffect(() => () => abortRef.current?.abort(), []);
-
-  // Keep the newest message in view.
-  useEffect(() => {
-    const el = scroller.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, pending, open]);
 
   useEffect(() => {
     if (open) box.current?.focus();
@@ -91,84 +34,15 @@ export default function ChatAssistant() {
     requestAnimationFrame(() => launcher.current?.focus());
   }, []);
 
-  async function ask(question: string, base: Message[]) {
-    const q = question.trim();
-    if (!q || pending || q.length > MAX_QUESTION_CHARS) return;
-    const userMsg: Message = { id: newId(), role: "user", content: q };
-    const next = [...base, userMsg];
-    setMessages(next);
+  function send(question: string) {
     setInput("");
-    setPending({ status: "Searching Blackstone's sites and the funds' filings…", text: "" });
-    const controller = new AbortController();
-    abortRef.current = controller;
-    try {
-      const res = await fetch(CHAT_ENDPOINT, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ messages: [...historyFor(base), { role: "user", content: q }] }),
-        signal: controller.signal,
-      });
-      if (!res.ok || !res.body) {
-        const data = await res.json().catch(() => null);
-        throw new Error(
-          (data && typeof data.error === "string" && data.error) ||
-            (res.status === 429 ? "You're asking quickly. Wait a minute and try again." : "The assistant couldn't answer just now. Try again in a moment."),
-        );
-      }
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let finished: Message | null = null;
-      for (;;) {
-        const { value, done } = await reader.read();
-        if (value) buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = done ? "" : (lines.pop() ?? "");
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          let e: ChatEvent;
-          try {
-            e = JSON.parse(line);
-          } catch {
-            continue;
-          }
-          if (e.t === "status") setPending((p) => p && { ...p, status: e.text });
-          else if (e.t === "delta") setPending((p) => p && { status: "Writing the answer…", text: p.text + e.text });
-          else if (e.t === "reset") setPending((p) => p && { ...p, text: "" });
-          else if (e.t === "error") throw new Error(e.message);
-          else if (e.t === "done") finished = { id: newId(), role: "assistant", content: e.text, sources: e.sources };
-        }
-        if (done) break;
-      }
-      if (!finished) throw new Error("The answer was interrupted. Try again.");
-      setMessages([...next, finished]);
-    } catch (err) {
-      if (controller.signal.aborted) return;
-      const message = err instanceof Error && err.message && err.name !== "TypeError" ? err.message : "Couldn't reach the assistant. Check your connection and try again.";
-      setMessages([...base, { ...userMsg, error: message }]);
-    } finally {
-      if (abortRef.current === controller) {
-        abortRef.current = null;
-        setPending(null);
-      }
-    }
+    ask(question);
   }
-
-  function newChat() {
-    abortRef.current?.abort();
-    abortRef.current = null;
-    setPending(null);
-    setMessages([]);
-    setInput("");
-    box.current?.focus();
-  }
-
-  const over = input.length > MAX_QUESTION_CHARS;
-  const canSend = !!input.trim() && !over && !pending;
 
   return (
     <div className="no-print" data-hide-framed>
-      {!open && (
+      {/* The opening page has the chat built in; the corner button steps aside while that one is on screen. */}
+      {!open && !inlineInView && (
         <button
           ref={launcher}
           type="button"
@@ -207,7 +81,15 @@ export default function ChatAssistant() {
             </div>
             <div className="flex shrink-0 items-center gap-1">
               {messages.length > 0 && (
-                <button type="button" onClick={newChat} className="tap-sm h-8 rounded-full px-2.5 text-xs font-medium text-muted-strong hover:text-ink">
+                <button
+                  type="button"
+                  onClick={() => {
+                    newChat();
+                    setInput("");
+                    box.current?.focus();
+                  }}
+                  className="tap-sm h-8 rounded-full px-2.5 text-xs font-medium text-muted-strong hover:text-ink"
+                >
                   New chat
                 </button>
               )}
@@ -219,8 +101,11 @@ export default function ChatAssistant() {
             </div>
           </header>
 
-          <div ref={scroller} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-4" aria-live="polite" aria-busy={!!pending}>
-            {messages.length === 0 && !pending && (
+          <ChatThread
+            messages={messages}
+            pending={pending}
+            className="min-h-0 flex-1 px-4 py-4"
+            empty={
               <div className="space-y-3">
                 <p className="text-sm leading-relaxed text-muted-strong">
                   Ask about BREIT, BCRED, BXPE or BX Infra: how they work, their fees, buybacks, holdings or latest reports. Each answer links to its
@@ -228,111 +113,24 @@ export default function ChatAssistant() {
                 </p>
                 <div className="flex flex-col items-start gap-2" role="group" aria-label="Example questions">
                   {EXAMPLES.map((q) => (
-                    <button key={q} type="button" onClick={() => ask(q, messages)} className="tap inline-flex min-h-9 items-center rounded-full border border-line bg-bg px-3 py-1.5 text-left text-sm text-ink hover:border-muted">
+                    <button key={q} type="button" onClick={() => send(q)} className="tap inline-flex min-h-9 items-center rounded-full border border-line bg-bg px-3 py-1.5 text-left text-sm text-ink hover:border-muted">
                       {q}
                     </button>
                   ))}
                 </div>
               </div>
-            )}
+            }
+          />
 
-            {messages.map((m) =>
-              m.role === "user" ? (
-                <div key={m.id} className="flex flex-col items-end gap-1">
-                  <p className="max-w-[85%] whitespace-pre-wrap break-words rounded-2xl rounded-br-md bg-accent px-3.5 py-2 text-sm leading-relaxed text-accent-contrast">{m.content}</p>
-                  {m.error && (
-                    <div className="flex max-w-[85%] flex-wrap items-center justify-end gap-2 text-xs" role="alert">
-                      <span className="text-sample">{m.error}</span>
-                      <button
-                        type="button"
-                        disabled={!!pending}
-                        onClick={() => ask(m.content, messages.filter((x) => x.id !== m.id))}
-                        className="tap-sm font-medium text-ink underline decoration-line underline-offset-2 hover:decoration-ink disabled:opacity-50"
-                      >
-                        Try again
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <article key={m.id} className="rounded-card border border-line bg-bg p-3.5 text-sm leading-relaxed text-ink" data-chat-answer>
-                  <Markdown text={m.content} />
-                  {m.sources && m.sources.length > 0 && (
-                    <div className="mt-3 border-t border-line pt-2">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">Sources</p>
-                      <ul className="mt-1 space-y-1">
-                        {m.sources.map((s) => (
-                          <li key={s.url} className="text-xs leading-snug">
-                            <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-muted-strong underline decoration-line underline-offset-2 hover:text-ink">
-                              {s.title}
-                            </a>
-                            <span className="text-muted"> · {new URL(s.url).hostname.replace(/^www\./, "")}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </article>
-              ),
-            )}
-
-            {pending && (
-              <div className="rounded-card border border-dashed border-line bg-bg p-3.5 text-sm" data-chat-pending>
-                <p className="flex items-center gap-2 text-xs text-muted-strong">
-                  <span aria-hidden className="flex gap-1">
-                    {[0, 1, 2].map((i) => (
-                      <span key={i} className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent motion-reduce:animate-none" style={{ animationDelay: `${i * 150}ms` }} />
-                    ))}
-                  </span>
-                  {pending.status}
-                </p>
-                {pending.text && <p className="mt-2 whitespace-pre-wrap leading-relaxed text-ink">{pending.text}</p>}
-              </div>
-            )}
-          </div>
-
-          <form
+          <ChatComposer
+            id={panelId}
+            value={input}
+            onChange={setInput}
+            onSend={() => send(input)}
+            busy={!!pending}
+            boxRef={box}
             className="border-t border-line px-3 pb-[max(12px,env(safe-area-inset-bottom))] pt-3"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (canSend) ask(input, messages);
-            }}
-          >
-            <div className="flex items-end gap-2">
-              <label htmlFor={`${panelId}-q`} className="sr-only">
-                Your question
-              </label>
-              <textarea
-                ref={box}
-                id={`${panelId}-q`}
-                rows={2}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-                    e.preventDefault();
-                    if (canSend) ask(input, messages);
-                  }
-                }}
-                placeholder="Ask about BREIT, BCRED, BXPE or BX Infra…"
-                aria-describedby={`${panelId}-count`}
-                className="max-h-40 min-h-11 flex-1 resize-none rounded-card border border-line bg-bg px-3 py-2.5 text-[15px] leading-snug text-ink placeholder:text-muted focus-visible:border-accent sm:text-sm"
-              />
-              <button
-                type="submit"
-                disabled={!canSend}
-                className="tap inline-flex h-11 shrink-0 items-center rounded-full bg-accent px-4 text-sm font-semibold text-accent-contrast hover:opacity-90 disabled:opacity-40"
-              >
-                Send
-              </button>
-            </div>
-            <div className="mt-1.5 flex items-start justify-between gap-3 px-1 text-[11px] leading-snug text-muted">
-              <span>AI can make mistakes; check the linked source. Educational only, not investment advice.</span>
-              <span id={`${panelId}-count`} className={["tnum shrink-0", over ? "font-semibold text-sample" : ""].join(" ")}>
-                {input.length.toLocaleString("en-US")}/{MAX_QUESTION_CHARS.toLocaleString("en-US")}
-              </span>
-            </div>
-          </form>
+          />
         </section>
       )}
     </div>

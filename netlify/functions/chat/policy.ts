@@ -30,14 +30,15 @@ const SEARCH_DOMAINS = [
   ...FUND_CIKS.flatMap((cik) => [`sec.gov/Archives/edgar/data/${cik}`, `sec.gov/Archives/edgar/data/${cik.padStart(10, "0")}`]),
 ];
 
+// Both tools are called directly, not through dynamic filtering: filtering runs a round of code for each search or
+// page, which made answers take 15-40 seconds. Direct searches also return the citations the Sources box lists.
 export const TOOLS: Anthropic.Beta.BetaToolUnion[] = [
   {
     type: "web_search_20260318",
     name: "web_search",
     max_uses: MAX_SEARCHES,
     allowed_domains: SEARCH_DOMAINS,
-    // The raw search results are read by the model, not by this site, so they needn't come back in the response.
-    response_inclusion: "excluded",
+    allowed_callers: ["direct"],
   },
   {
     type: "web_fetch_20260318",
@@ -45,14 +46,17 @@ export const TOOLS: Anthropic.Beta.BetaToolUnion[] = [
     max_uses: MAX_FETCHES,
     max_content_tokens: MAX_FETCH_TOKENS,
     allowed_domains: [...ALLOWED_DOMAINS],
+    allowed_callers: ["direct"],
     url_sources: {
       user_input: { type: "none" },
       client_tool_results: { type: "none" },
       server_tool_results: { type: "only", tools: [{ type: "tool_reference", name: "web_search" }] },
     },
-    response_inclusion: "excluded",
   },
 ];
+
+/** How much the model thinks before answering: "low" suits look-up questions and starts the answer sooner. */
+export const EFFORT = "low";
 
 /** Closing line every answer carries. */
 export const DISCLAIMER = "_Educational information only, not investment advice._";

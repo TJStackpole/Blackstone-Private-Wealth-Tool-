@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import type { Config, Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { QUESTIONS_PER_HOUR, type ChatEvent } from "../../../lib/chat/limits";
-import { DEADLINE_MS, MAX_OUTPUT_TOKENS, MODEL, SYSTEM_PROMPT, TOOLS, dateLine } from "./policy";
+import { DEADLINE_MS, EFFORT, MAX_OUTPUT_TOKENS, MODEL, SYSTEM_PROMPT, TOOLS, dateLine } from "./policy";
 import { MAX_BODY_BYTES, checkRequest } from "./validate";
 import { cleanAnswer, cleanSources, linksIn, type Source } from "./sanitize";
 import { checkAndRecord, visitorKey } from "./rateLimit";
@@ -106,7 +106,7 @@ async function answer(
         // A declined answer is retried on another model where the API's fallback covers the category.
         betas: ["server-side-fallback-2026-07-01"],
         fallbacks: "default",
-        output_config: { effort: "medium" },
+        output_config: { effort: EFFORT },
         system: [
           { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
           { type: "text", text: dateLine() },

@@ -1,11 +1,19 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import ChatAssistant, { historyFor } from "@/components/chat/ChatAssistant";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import ChatAssistant from "@/components/chat/ChatAssistant";
+import InlineChat from "@/components/chat/InlineChat";
 import Markdown from "@/components/chat/Markdown";
+import { historyFor, resetChat } from "@/components/chat/useChat";
 import { MAX_QUESTION_CHARS } from "@/lib/chat/limits";
 
-afterEach(cleanup);
-beforeEach(() => sessionStorage.clear());
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
+beforeEach(() => {
+  sessionStorage.clear();
+  resetChat();
+});
 
 /** A streamed reply from /api/chat: one JSON event per line. */
 function streamed(events: object[]): Response {
@@ -103,5 +111,55 @@ describe("chat panel", () => {
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(screen.queryByRole("dialog")).toBeNull();
     await waitFor(() => expect(document.activeElement?.textContent).toContain("Ask AI"));
+  });
+});
+
+describe("chat on the opening page", () => {
+  it("answers a ready-made question in the page, and the corner panel shows the same conversation", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      streamed([{ t: "done", text: "BCRED buys back up to 5% a quarter ([BCRED](https://www.bcred.com/x)).", sources: [{ url: "https://www.bcred.com/x", title: "BCRED terms" }] }]),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const { container } = render(
+      <>
+        <InlineChat />
+        <ChatAssistant />
+      </>,
+    );
+    const inline = container.querySelector("[data-inline-chat]") as HTMLElement;
+    fireEvent.click(screen.getByRole("button", { name: "Can my client get money out of BCRED?" }));
+    await waitFor(() => expect(inline.querySelector("[data-chat-answer]")?.textContent).toContain("5% a quarter"));
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).messages).toEqual([{ role: "user", content: "Can my client get money out of BCRED?" }]);
+    fireEvent.click(screen.getByRole("button", { name: "Ask AI" }));
+    const dialog = screen.getByRole("dialog", { name: "Ask about the funds" });
+    expect(dialog.querySelector("[data-chat-answer]")?.textContent).toContain("5% a quarter");
+    // New chat in the panel clears the page's copy too.
+    fireEvent.click(within(dialog).getByRole("button", { name: "New chat" }));
+    expect(inline.querySelector("[data-chat-answer]")).toBeNull();
+  });
+
+  it("moves the corner button aside while the page's chat is on screen", () => {
+    let report: ((e: { isIntersecting: boolean }[]) => void) | undefined;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(cb: (e: { isIntersecting: boolean }[]) => void) {
+          report = cb;
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    render(
+      <>
+        <InlineChat />
+        <ChatAssistant />
+      </>,
+    );
+    expect(screen.getByRole("button", { name: "Ask AI" })).toBeTruthy();
+    act(() => report!([{ isIntersecting: true }]));
+    expect(screen.queryByRole("button", { name: "Ask AI" })).toBeNull();
+    act(() => report!([{ isIntersecting: false }]));
+    expect(screen.getByRole("button", { name: "Ask AI" })).toBeTruthy();
   });
 });

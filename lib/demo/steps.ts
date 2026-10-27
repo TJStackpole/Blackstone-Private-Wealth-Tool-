@@ -18,9 +18,9 @@ export const STEPS: TourStep[] = [
     title: "Start here",
     body: [
       "This site explains Blackstone's four perpetual funds for individual investors: real estate (BREIT), infrastructure (BX Infra), private equity (BXPE) and private credit (BCRED).",
-      "It opens on three ways in: explain one fund, compare the funds, or answer a client's question. Below them, 'Ask a question' answers from the funds' filings already on the site, each answer with its date and sources.",
+      "It opens on three ways in: explain one fund, compare the funds, or answer a client's question. Below them, 'Ask AI' answers questions from Blackstone's official sites and the funds' own SEC filings, with links to the sources.",
     ],
-    tryThis: "Scroll down in the page to 'Ask a question' and click one of the example questions.",
+    tryThis: "Scroll down in the page to 'Ask AI' and click one of the ready-made questions. The answer takes a few seconds.",
     url: "/",
   },
   {
@@ -166,9 +166,9 @@ export const SHORT_STEPS: TourStep[] = [
     chapter: "Getting started",
     title: "Start here",
     body: [
-      "The site opens on three ways in: explain one fund, compare the funds, or answer a client's question. 'Ask a question' answers from the funds' filings, with dates and sources.",
+      "The site opens on three ways in: explain one fund, compare the funds, or answer a client's question. Below them, 'Ask AI' answers from Blackstone's sites and the funds' SEC filings, with links.",
     ],
-    tryThis: "Scroll down in the page to 'Ask a question' and click one of the example questions.",
+    tryThis: "Scroll down in the page to 'Ask AI' and click one of the ready-made questions. The answer takes a few seconds.",
     url: "/",
   },
   {

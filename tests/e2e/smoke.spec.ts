@@ -187,19 +187,35 @@ test("the drawer keeps keyboard focus inside it and resets when reopened on anot
   await expect(page.getByRole("dialog").getByText(/^BREIT: Monthly/)).toBeVisible();
 });
 
-test("Ask a question answers from the filings, and a dotted word opens its definition", async ({ page }) => {
+test("the opening page's Ask AI answers a ready-made question in place, with its sources", async ({ page }) => {
   const problems = watch(page);
+  // A stand-in for the server's answer stream, so the test needs no AI key.
+  await page.route("**/api/chat", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/x-ndjson",
+      body:
+        [
+          { t: "status", text: "Searching: BCRED repurchases" },
+          {
+            t: "done",
+            text: "BCRED offers to buy back up to 5% of its shares each quarter ([BCRED offering terms](https://www.bcred.com/offering-terms/)).\n\n_Educational information only, not investment advice._",
+            sources: [{ url: "https://www.bcred.com/offering-terms/", title: "BCRED offering terms" }],
+          },
+        ]
+          .map((e) => JSON.stringify(e))
+          .join("\n") + "\n",
+    }),
+  );
   await page.goto("/");
-  await page.getByRole("textbox", { name: "Your question" }).fill("Can my client get money out of BCRED?");
-  await page.getByRole("button", { name: "Ask", exact: true }).click();
-  const answer = page.locator('[data-ask-result="out"]');
-  await expect(answer).toContainText("Buyback limit: 5% a quarter");
-  await answer.getByRole("button", { name: "Sources" }).first().click();
-  await expect(answer.getByRole("link", { name: /BCRED Form 10-Q/ }).first()).toBeVisible();
-  await answer.getByRole("button", { name: "pro rata" }).first().click();
-  await expect(page.getByRole("dialog", { name: "Pro rata: definition" })).toContainText("BCRED letter to investors");
-  await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog")).toHaveCount(0);
+  const chat = page.locator("[data-inline-chat]");
+  await expect(chat.getByRole("heading", { name: "Ask AI" })).toBeVisible();
+  await chat.getByRole("button", { name: "Can my client get money out of BCRED?" }).click();
+  const answer = chat.locator("[data-chat-answer]");
+  await expect(answer).toContainText("up to 5% of its shares each quarter");
+  await expect(answer.getByRole("link", { name: "BCRED offering terms" }).first()).toHaveAttribute("href", "https://www.bcred.com/offering-terms/");
+  // While the page's chat is on screen, the corner button steps aside.
+  await expect(page.locator("[data-chat-launcher]")).toHaveCount(0);
   expect(problems).toEqual([]);
 });
 
