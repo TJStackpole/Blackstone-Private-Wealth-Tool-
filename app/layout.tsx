@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { pageMeta, SITE_URL } from "@/lib/meta";
+import ChatAssistant from "@/components/chat/ChatAssistant";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -67,7 +68,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: deepLinkScript }} />
         <script dangerouslySetInnerHTML={{ __html: framedScript }} />
       </head>
-      <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
+      <body className="min-h-full flex flex-col bg-bg text-ink">
+        {children}
+        {/* The AI assistant's button and panel, on every page. */}
+        <ChatAssistant />
+      </body>
     </html>
   );
 }

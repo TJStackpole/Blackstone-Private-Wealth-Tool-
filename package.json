@@ -16,6 +16,8 @@
     "refresh-monthly": "bash scripts/sec/refresh_monthly.sh"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "@netlify/blobs": "^11.1.6",
     "d3-geo": "^3.1.1",
     "framer-motion": "^14.2.0",
     "next": "16.4.1",
@@ -28,6 +30,7 @@
     "world-atlas": "^2.0.2"
   },
   "devDependencies": {
+    "@netlify/functions": "^6.0.3",
     "@playwright/test": "1.56.1",
     "@tailwindcss/turbopack": "^4",
     "@testing-library/dom": "^10.4.0",

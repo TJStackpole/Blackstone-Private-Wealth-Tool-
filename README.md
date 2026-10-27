@@ -56,6 +56,42 @@ A **Worker | Employer** switch changes wording and order, never the numbers. **P
 3. `components/RetirementView.tsx`: one slot that renders `<RetirementPlus />` inside an error boundary when the 401(k) add-on is on (Rule B).
 4. For the guided tour (not an add-on): `components/Atlas.tsx` accepts an optional starting view, and `app/page.tsx` renders it through `components/AtlasFromUrl.tsx`, so links like `/?view=bcred&sector=Software` open the map at that spot. The header also gained a "Take the tour" link.
 
+## AI assistant ("Ask AI")
+
+A chat panel on every page (button bottom-right; full screen on phones) that answers questions about BREIT, BCRED, BXPE and BX Infra. The conversation lasts for the browser tab's session.
+
+**How it works.** The panel (`components/chat/ChatAssistant.tsx`) posts the question and the recent conversation to `/api/chat`, a Netlify Function (`netlify/functions/chat/chat.mts`). The function calls the Anthropic Messages API with `claude-sonnet-5-5` and streams the answer back. The API key is read **only** there, from the `ANTHROPIC_API_KEY` environment variable; it is never in front-end code or any committed file.
+
+**Sources are locked down** (`netlify/functions/chat/policy.ts`):
+- Web search (`web_search_20260318`) may return only blackstone.com, breit.com, bcred.com, bxpe.com, bxinfra.com and, on sec.gov, only the four funds' own EDGAR folders (CIKs 1662972, 1803498, 1930054, 2030772).
+- Web fetch (`web_fetch_20260318`) has the same sites (it can't be narrowed by path, so it gets sec.gov by domain) and may open only addresses those searches returned, not ones a visitor pastes in.
+- The system prompt tells the model to use only those sources and the funds' 10-Q and 10-K filings, never news, blogs or memory; to cite a link in every answer; to link only official videos on Blackstone's sites; to say when an answer isn't in an official source; to give no investment advice; to stay on topic; and to end with the educational note.
+- A final check (`sanitize.ts`) strips any link outside those sites before it is shown, and adds the educational note if missing.
+
+**Safeguards:** at most 3,000 output tokens per answer, 3 searches and 2 page reads; questions up to 1,000 characters; 20 questions per visitor (by hashed IP) per rolling hour, counted in Netlify Blobs (`rateLimit.ts`), plus Netlify's edge limit of 6 a minute per IP; the function stops itself at 52 seconds (Netlify's limit is 60). A declined answer is retried on another model by the API's server-side fallback (`fallbacks: "default"`); remove those two lines in `chat.mts` to turn that off.
+
+**Settings** (Netlify, Site configuration, Environment variables; scope must include Functions):
+
+| Variable | Required | What it does |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` | Yes | The Anthropic key. Mark it as a secret. |
+| `CHAT_ENABLED` | No | `false` switches the assistant off (it answers "switched off for now"). |
+| `CHAT_QUESTIONS_PER_HOUR` | No | Changes the hourly limit (default 20). |
+| `CHAT_IP_SALT` | No | Any random text; mixed into the IP hash. |
+
+Also set a monthly spend limit for the key's workspace in the Claude Console, and check that web search is enabled for the organization there (Settings, Capabilities). Web search costs $10 per 1,000 searches plus tokens; web fetch costs tokens only.
+
+**Test it locally.** Install the Netlify CLI, link the site and run `netlify dev` (it loads the site's environment variables, including the key, for local use only):
+
+```bash
+npm install -g netlify-cli
+netlify login
+netlify link          # pick the private-markets-atlas site
+netlify dev           # opens http://localhost:8888 with /api/chat
+```
+
+**Deploy.** Commit and push; if the site deploys from Git, Netlify builds the site and the function together. Or from the CLI: `netlify deploy` for a draft URL to try first, then `netlify deploy --prod`. After a deploy, the function's logs are under Logs, Functions, `chat` in the Netlify UI.
+
 ## Tests
 
 ```bash
