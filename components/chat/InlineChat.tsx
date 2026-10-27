@@ -32,7 +32,8 @@ export default function InlineChat() {
   useEffect(() => {
     const el = root.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(([e]) => setInlineInView(e.isIntersecting), { threshold: 0.15 });
+    // Any part on screen counts, so the corner button never sits over the chat.
+    const io = new IntersectionObserver(([e]) => setInlineInView(e.isIntersecting), { threshold: 0 });
     io.observe(el);
     return () => {
       io.disconnect();
