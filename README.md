@@ -60,7 +60,7 @@ A **Worker | Employer** switch changes wording and order, never the numbers. **P
 
 A chat panel on every page (button bottom-right; full screen on phones), also built into the bottom of the opening page, that answers questions about BREIT, BCRED, BXPE and BX Infra. Both show one conversation (`components/chat/useChat.ts`), which lasts for the browser tab's session.
 
-**How it works.** The panel (`components/chat/ChatAssistant.tsx`) or the opening page's chat posts the question and the recent conversation to `/api/chat`, a Netlify Function (`netlify/functions/chat/chat.mts`). The function calls the Anthropic Messages API with `claude-sonnet-5-5` and streams the answer back. The API key is read **only** there, from the `ANTHROPIC_API_KEY` environment variable; it is never in front-end code or any committed file.
+**How it works.** The panel (`components/chat/ChatAssistant.tsx`) or the opening page's chat posts the question and the recent conversation to `/api/chat`, a Netlify Function (`netlify/functions/chat/chat.mts`). The function calls the Anthropic Messages API with `claude-haiku-5-5` (Haiku, the fastest model; set `MODEL` in `policy.ts` to change it) and streams the answer back. The API key is read **only** there, from the `ANTHROPIC_API_KEY` environment variable; it is never in front-end code or any committed file.
 
 **Sources are locked down** (`netlify/functions/chat/policy.ts`):
 - Web search (`web_search_20260318`) may return only blackstone.com, breit.com, bcred.com, bxpe.com, bxinfra.com and, on sec.gov, only the four funds' own EDGAR folders (CIKs 1662972, 1803498, 1930054, 2030772).
@@ -72,7 +72,7 @@ A chat panel on every page (button bottom-right; full screen on phones), also bu
 
 **Plain answers.** The instructions ask for answers a reader with no finance background can follow: the answer first in a sentence or two, up to four short points, terms explained the first time, under about 150 words. Under the newest answer, **Explain it more simply** asks for a simpler version of it, without a new search.
 
-**Safeguards:** at most 3,000 output tokens per answer, 3 searches and 2 page reads; questions up to 1,000 characters; 20 questions per visitor (by hashed IP) per rolling hour, counted in Netlify Blobs (`rateLimit.ts`), plus Netlify's edge limit of 6 a minute per IP; the function stops itself at 52 seconds (Netlify's limit is 60). A declined answer is retried on another model by the API's server-side fallback (`fallbacks: "default"`); remove those two lines in `chat.mts` to turn that off.
+**Safeguards:** at most 3,000 output tokens per answer, 3 searches and 2 page reads; questions up to 1,000 characters; 20 questions per visitor (by hashed IP) per rolling hour, counted in Netlify Blobs (`rateLimit.ts`), plus Netlify's edge limit of 6 a minute per IP; the function stops itself at 52 seconds (Netlify's limit is 60). A declined answer says so; Haiku has no server-side fallback to another model (with `claude-sonnet-5-5`, adding `betas: ["server-side-fallback-2026-07-01"]` and `fallbacks: "default"` to the request in `chat.mts` would retry a decline on another model).
 
 **Settings** (Netlify, Site configuration, Environment variables; scope must include Functions):
 
