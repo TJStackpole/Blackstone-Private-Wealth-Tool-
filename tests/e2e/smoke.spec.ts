@@ -115,8 +115,13 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   await page.getByRole("button", { name: "Next →" }).click();
   await expect(page.getByText("Step 2 of 6", { exact: false })).toBeVisible();
   const frame = page.frameLocator("iframe");
-  // Step 2 opens BCRED in five answers.
+  // Step 2 opens BCRED in five answers. Inside the live view there's no second tour button or theme switch.
   await expect(frame.getByRole("heading", { name: "BCRED, in five answers" })).toBeVisible();
+  await expect(frame.getByRole("link", { name: "Take the tour" })).toHaveCount(0);
+  await expect(frame.getByRole("button", { name: /Switch to (dark|light) mode/ })).toHaveCount(0);
+  // Step 3, the comparison, lands on its table.
+  await page.getByRole("button", { name: "Next →" }).click();
+  await expect(frame.getByRole("heading", { name: "Compare the funds" })).toBeInViewport();
   const steps = page.getByRole("navigation", { name: "All steps" }).getByRole("button");
   const visitAll = async () => {
     const count = await steps.count();
@@ -129,8 +134,8 @@ test("the guided tour opens from the map, steps through live views, and deep lin
     return count;
   };
   expect(await visitAll()).toBe(6);
-  // The last short step lands on the comparison table.
-  await expect(frame.getByRole("heading", { name: "Compare the funds" })).toBeInViewport();
+  // The last short step is Goals vs. results.
+  await expect(frame.getByRole("heading", { level: 1, name: "Goals vs. results" })).toBeVisible();
   // The full tour is one click away, and keeps every step.
   await page.getByRole("button", { name: /^Full tour \(\d+ steps\)/ }).click();
   await expect(page.getByText(/Step 1 of 15/)).toBeVisible();
@@ -138,8 +143,9 @@ test("the guided tour opens from the map, steps through live views, and deep lin
   await expect(frame.getByRole("heading", { level: 2, name: "Start here" })).toBeVisible();
   await page.getByRole("button", { name: "Next →" }).click();
   await page.getByRole("button", { name: "Next →" }).click();
-  // Full tour step 3 opens BREIT's details with Nevada selected.
+  // Full tour step 3 opens BREIT's details with Nevada selected, scrolled to the map.
   await expect(frame.getByRole("heading", { level: 2, name: "Nevada" })).toBeVisible();
+  await expect(frame.locator("#map-breit")).toBeInViewport();
   expect(await visitAll()).toBe(15);
   await page.getByRole("group", { name: "Tour length" }).getByRole("button", { name: /Short tour/ }).click();
   await expect(page.getByText("Step 1 of 6", { exact: false })).toBeVisible();

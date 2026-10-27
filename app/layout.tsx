@@ -50,6 +50,11 @@ window.addEventListener('storage',function(e){if(e.key==='pma-theme'&&e.newValue
  * Until then the page is hidden, so a BCRED link never flashes the Start screen. AtlasFromUrl clears the flag after
  * switching; the timer is a backstop.
  */
+/** Inside the guided tour's live view, marks the page as framed before paint, so its own tour button and theme switch never show. */
+const framedScript = `
+(function(){try{if(window.self!==window.top)document.documentElement.setAttribute('data-framed','');}catch(e){document.documentElement.setAttribute('data-framed','');}})();
+`;
+
 const deepLinkScript = `
 (function(){try{var v=new URLSearchParams(location.search).get('view');if(location.pathname==='/'&&v){var h=document.documentElement;h.setAttribute('data-deeplink','');setTimeout(function(){h.removeAttribute('data-deeplink');},4000);}}catch(e){}})();
 `;
@@ -60,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script dangerouslySetInnerHTML={{ __html: deepLinkScript }} />
+        <script dangerouslySetInnerHTML={{ __html: framedScript }} />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
     </html>

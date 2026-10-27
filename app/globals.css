@@ -254,6 +254,11 @@ h3 {
   --pc: #d9b07a;
 }
 
+/* Inside the guided tour's live view (see framedScript in app/layout.tsx): no second tour button or theme switch. */
+html[data-framed] [data-hide-framed] {
+  display: none !important;
+}
+
 /* A link to another fund's view: hide the map page until it has switched (see deepLinkScript in app/layout.tsx). */
 html[data-deeplink] .atlas {
   visibility: hidden;

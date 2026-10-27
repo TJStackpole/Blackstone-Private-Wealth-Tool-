@@ -232,7 +232,8 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
             {quarter && <QuarterBox q={quarter} fund={toFundCode(layer.id)} />}
           </div>
         )}
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
+        {/* id: the tour's map steps open the live view here (/?view=breit&details=1#map-breit). */}
+        <div id={`map-${layer.id}`} className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_400px]">
           <section aria-label="Map" className="min-w-0">
             <div className="mb-4 space-y-3">
               <ThemeBar layerId={layer.id} sector={sector} onSector={changeSector} theme={theme} onTheme={setTheme} />

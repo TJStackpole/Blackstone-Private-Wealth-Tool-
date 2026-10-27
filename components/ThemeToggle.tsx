@@ -15,6 +15,7 @@ function subscribe(onChange: () => void) {
   return () => observer.disconnect();
 }
 
+/** Light / dark switch. Hidden inside the guided tour's live view, which follows the tour page's own switch. */
 export default function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, readTheme, () => "light" as Theme);
 
@@ -32,6 +33,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
+      data-hide-framed
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className="tap inline-flex h-9 items-center gap-2 rounded-full border border-line bg-bg-raised px-3 text-xs font-medium text-muted-strong transition-colors hover:text-ink"

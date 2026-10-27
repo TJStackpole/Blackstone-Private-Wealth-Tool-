@@ -1,10 +1,14 @@
 import Link from "next/link";
 
-/** The header's lead button: a short guided tour, filled in the page's accent so a first-time visitor can find it. */
+/**
+ * The header's lead button: a short guided tour, filled in the page's accent so a first-time visitor can find it.
+ * Hidden inside the tour's own live view, where it would only open the tour again.
+ */
 export default function TourButton() {
   return (
     <Link
       href="/demo"
+      data-hide-framed
       title="A six-step walkthrough of the maps and the Advisor Toolkit"
       className="tap inline-flex h-9 items-center gap-1.5 rounded-full bg-accent px-3.5 text-xs font-semibold text-accent-contrast shadow-sm ring-4 ring-accent/15 transition-opacity hover:opacity-90"
     >
