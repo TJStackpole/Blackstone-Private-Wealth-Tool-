@@ -4,6 +4,7 @@ import { checkRequest } from "@/netlify/functions/chat/validate";
 import { cleanAnswer, cleanSources, linksIn } from "@/netlify/functions/chat/sanitize";
 import { checkAndRecord, visitorKey, type LimitStore } from "@/netlify/functions/chat/rateLimit";
 import { DISCLAIMER, MAX_OUTPUT_TOKENS, MODEL, SYSTEM_PROMPT, TOOLS } from "@/netlify/functions/chat/policy";
+import { SAVE_HOURS, answerKey, normalizeQuestion, readSaved, saveAnswer, type AnswerStore } from "@/netlify/functions/chat/cache";
 
 describe("approved links", () => {
   it("allows Blackstone's sites and the four funds' own SEC filings, and nothing else", () => {
@@ -184,7 +185,52 @@ describe("model and tools", () => {
       "No investment advice or recommendations",
       "Politely decline anything else",
       DISCLAIMER,
+      // Plain, short answers, found with as few searches as will do.
+      "no finance background",
+      "under about 150 words",
+      "never make up example figures",
+      "One search is usually enough",
+      "explain your earlier answer more simply",
     ])
       expect(SYSTEM_PROMPT, rule).toContain(rule);
+  });
+});
+
+describe("saved answers", () => {
+  function memory(): AnswerStore & { data: Map<string, unknown> } {
+    const data = new Map<string, unknown>();
+    return {
+      data,
+      async get(key) {
+        return data.get(key) ?? null;
+      },
+      async setJSON(key, value) {
+        data.set(key, value);
+      },
+    };
+  }
+
+  it("treats the same question, typed differently, as the same, and starts afresh when the settings change", async () => {
+    expect(normalizeQuestion("  What  does BREIT pay?? ")).toBe("what does breit pay");
+    expect(await answerKey("What does BREIT pay?", "v1")).toBe(await answerKey("what does breit pay", "v1"));
+    expect(await answerKey("What does BREIT pay?", "v1")).not.toBe(await answerKey("What does BCRED pay?", "v1"));
+    expect(await answerKey("What does BREIT pay?", "v1")).not.toBe(await answerKey("What does BREIT pay?", "v2"));
+  });
+
+  it(`reuses an answer for ${SAVE_HOURS} hours, then asks again`, async () => {
+    const store = memory();
+    const now = Date.UTC(2026, 9, 27, 12);
+    await saveAnswer(store, "k", { text: "BREIT pays monthly.", sources: [{ url: "https://www.breit.com/", title: "BREIT" }] }, now);
+    expect((await readSaved(store, "k", now + 60_000))?.text).toBe("BREIT pays monthly.");
+    expect(await readSaved(store, "k", now + SAVE_HOURS * 3_600_000)).toBeNull();
+    expect(await readSaved(store, "missing", now)).toBeNull();
+  });
+
+  it("asks afresh if the store can't be read or holds something else", async () => {
+    const broken: AnswerStore = { get: async () => Promise.reject(new Error("down")), setJSON: async () => {} };
+    expect(await readSaved(broken, "k")).toBeNull();
+    const store = memory();
+    store.data.set("k", { text: 3 });
+    expect(await readSaved(store, "k")).toBeNull();
   });
 });

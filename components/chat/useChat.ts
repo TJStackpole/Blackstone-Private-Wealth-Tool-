@@ -8,6 +8,8 @@ export interface Message {
   role: "user" | "assistant";
   content: string;
   sources?: { url: string; title: string }[];
+  /** On a saved answer to the same question: when it was written (ms since 1970). */
+  savedAt?: number;
   /** On a question whose answer failed: what went wrong. */
   error?: string;
 }
@@ -136,7 +138,7 @@ export async function ask(question: string, base: Message[] = current().messages
         else if (e.t === "delta") setPending((p) => ({ status: "Writing the answer…", text: p.text + e.text }));
         else if (e.t === "reset") setPending((p) => ({ ...p, text: "" }));
         else if (e.t === "error") throw new Error(e.message);
-        else if (e.t === "done") finished = { id: newId(), role: "assistant", content: e.text, sources: e.sources };
+        else if (e.t === "done") finished = { id: newId(), role: "assistant", content: e.text, sources: e.sources, ...(e.savedAt ? { savedAt: e.savedAt } : {}) };
       }
       if (done) break;
     }
@@ -150,6 +152,9 @@ export async function ask(question: string, base: Message[] = current().messages
     if (controller === mine) controller = null;
   }
 }
+
+/** The follow-up the "Explain it more simply" button sends. */
+export const SIMPLER = "Explain that more simply, in everyday words.";
 
 /** Clears the conversation, stopping an answer that is still coming. */
 export function newChat() {

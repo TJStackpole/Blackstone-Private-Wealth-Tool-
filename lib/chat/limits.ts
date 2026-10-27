@@ -32,13 +32,14 @@ export const FUND_CIKS = ["1662972", "1803498", "1930054", "2030772"] as const;
 
 /**
  * One event in the server's answer stream: progress, answer text as it arrives (and `reset` when text so far was only
- * a lead-in to a search), the finished answer, or an error.
+ * a lead-in to a search), the finished answer (with `savedAt` when it's a saved answer to the same question), or an
+ * error.
  */
 export type ChatEvent =
   | { t: "status"; text: string }
   | { t: "delta"; text: string }
   | { t: "reset" }
-  | { t: "done"; text: string; sources: { url: string; title: string }[] }
+  | { t: "done"; text: string; sources: { url: string; title: string }[]; savedAt?: number }
   | { t: "error"; message: string };
 
 /** An earlier turn, as the panel keeps it and sends it back. */

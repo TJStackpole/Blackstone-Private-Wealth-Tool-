@@ -3,7 +3,7 @@
 import { useEffect, useRef, type ReactNode, type Ref } from "react";
 import { MAX_QUESTION_CHARS } from "@/lib/chat/limits";
 import Markdown from "./Markdown";
-import { ask, type Message, type Pending } from "./useChat";
+import { SIMPLER, ask, type Message, type Pending } from "./useChat";
 
 /**
  * The conversation: questions, answers with their sources, and the answer still coming. Used by the corner panel
@@ -29,7 +29,7 @@ export function ChatThread({ messages, pending, className, empty }: { messages: 
     <div ref={scroller} className={["relative space-y-4 overflow-y-auto", className].join(" ")} aria-live="polite" aria-busy={!!pending}>
       {messages.length === 0 && !pending && empty}
 
-      {messages.map((m) =>
+      {messages.map((m, i) =>
         m.role === "user" ? (
           <div key={m.id} className="flex flex-col items-end gap-1" data-chat-question>
             <p className="max-w-[85%] whitespace-pre-wrap break-words rounded-2xl rounded-br-md bg-accent px-3.5 py-2 text-sm leading-relaxed text-accent-contrast">{m.content}</p>
@@ -48,24 +48,7 @@ export function ChatThread({ messages, pending, className, empty }: { messages: 
             )}
           </div>
         ) : (
-          <article key={m.id} className="rounded-card border border-line bg-bg p-3.5 text-sm leading-relaxed text-ink" data-chat-answer>
-            <Markdown text={m.content} />
-            {m.sources && m.sources.length > 0 && (
-              <div className="mt-3 border-t border-line pt-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">Sources</p>
-                <ul className="mt-1 space-y-1">
-                  {m.sources.map((s) => (
-                    <li key={s.url} className="text-xs leading-snug">
-                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-muted-strong underline decoration-line underline-offset-2 hover:text-ink">
-                        {s.title}
-                      </a>
-                      <span className="text-muted"> · {new URL(s.url).hostname.replace(/^www\./, "")}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </article>
+          <Answer key={m.id} m={m} offerSimpler={i === messages.length - 1 && !pending && !!m.sources?.length && messages[i - 1]?.content !== SIMPLER} />
         ),
       )}
 
@@ -84,6 +67,51 @@ export function ChatThread({ messages, pending, className, empty }: { messages: 
       )}
     </div>
   );
+}
+
+/**
+ * One answer: its text, its sources, and under the newest sourced one an offer to explain it more simply (not under
+ * an answer that already is the simpler version, or a decline). A saved answer says when it was written.
+ */
+function Answer({ m, offerSimpler }: { m: Message; offerSimpler: boolean }) {
+  return (
+    <article className="rounded-card border border-line bg-bg p-3.5 text-sm leading-relaxed text-ink" data-chat-answer>
+      <Markdown text={m.content} />
+      {m.sources && m.sources.length > 0 && (
+        <div className="mt-3 border-t border-line pt-2">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">Sources</p>
+          <ul className="mt-1 space-y-1">
+            {m.sources.map((s) => (
+              <li key={s.url} className="text-xs leading-snug">
+                <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-muted-strong underline decoration-line underline-offset-2 hover:text-ink">
+                  {s.title}
+                </a>
+                <span className="text-muted"> · {new URL(s.url).hostname.replace(/^www\./, "")}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {(m.savedAt || offerSimpler) && (
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-line pt-2 text-xs">
+          {m.savedAt ? <span className="text-muted">Saved answer from {ago(m.savedAt)}, so it loaded at once.</span> : <span />}
+          {offerSimpler && (
+            <button type="button" onClick={() => ask(SIMPLER)} className="tap-sm font-medium text-ink underline decoration-line underline-offset-2 hover:decoration-ink">
+              Explain it more simply
+            </button>
+          )}
+        </div>
+      )}
+    </article>
+  );
+}
+
+/** "12 minutes ago", "3 hours ago". */
+function ago(at: number): string {
+  const minutes = Math.max(1, Math.round((Date.now() - at) / 60000));
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+  const hours = Math.round(minutes / 60);
+  return `${hours} hour${hours === 1 ? "" : "s"} ago`;
 }
 
 /** The question box: Enter sends, Shift+Enter starts a new line, and the counter shows the 1,000-character limit. */

@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import ChatAssistant from "@/components/chat/ChatAssistant";
 import InlineChat from "@/components/chat/InlineChat";
 import Markdown from "@/components/chat/Markdown";
-import { historyFor, resetChat } from "@/components/chat/useChat";
+import { SIMPLER, historyFor, resetChat } from "@/components/chat/useChat";
 import { MAX_QUESTION_CHARS } from "@/lib/chat/limits";
 
 afterEach(() => {
@@ -161,5 +161,34 @@ describe("chat on the opening page", () => {
     expect(screen.queryByRole("button", { name: "Ask AI" })).toBeNull();
     act(() => report!([{ isIntersecting: false }]));
     expect(screen.getByRole("button", { name: "Ask AI" })).toBeTruthy();
+  });
+});
+
+describe("simpler explanations and saved answers", () => {
+  it("offers to explain the newest answer more simply, sending it as a follow-up, and not again under the simpler one", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(streamed([{ t: "done", text: "BCRED's NAV is its value per share ([BCRED](https://www.bcred.com/x)).", sources: [{ url: "https://www.bcred.com/x", title: "BCRED" }] }]))
+      .mockResolvedValueOnce(streamed([{ t: "done", text: "It's what one share is worth ([BCRED](https://www.bcred.com/x)).", sources: [{ url: "https://www.bcred.com/x", title: "BCRED" }] }]));
+    vi.stubGlobal("fetch", fetchMock);
+    const { container } = render(<InlineChat />);
+    fireEvent.click(screen.getByRole("button", { name: "Can my client get money out of BCRED?" }));
+    await waitFor(() => expect(container.querySelectorAll("[data-chat-answer]").length).toBe(1));
+    fireEvent.click(screen.getByRole("button", { name: "Explain it more simply" }));
+    await waitFor(() => expect(container.querySelectorAll("[data-chat-answer]").length).toBe(2));
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body).messages).toEqual([
+      { role: "user", content: "Can my client get money out of BCRED?" },
+      { role: "assistant", content: "BCRED's NAV is its value per share ([BCRED](https://www.bcred.com/x))." },
+      { role: "user", content: SIMPLER },
+    ]);
+    expect(screen.queryByRole("button", { name: "Explain it more simply" })).toBeNull();
+  });
+
+  it("says when an answer is a saved one", async () => {
+    const savedAt = Date.now() - 2 * 3_600_000;
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(streamed([{ t: "done", text: "BREIT pays monthly ([BREIT](https://www.breit.com/)).", sources: [{ url: "https://www.breit.com/", title: "BREIT" }], savedAt }])));
+    const { container } = render(<InlineChat />);
+    fireEvent.click(screen.getByRole("button", { name: "What does BREIT pay?" }));
+    await waitFor(() => expect(container.querySelector("[data-chat-answer]")?.textContent).toContain("Saved answer from 2 hours ago"));
   });
 });

@@ -3,6 +3,7 @@ import type { Config, Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { QUESTIONS_PER_HOUR, type ChatEvent } from "../../../lib/chat/limits";
 import { DEADLINE_MS, EFFORT, MAX_OUTPUT_TOKENS, MODEL, SYSTEM_PROMPT, TOOLS, dateLine } from "./policy";
+import { answerKey, readSaved, saveAnswer, type AnswerStore } from "./cache";
 import { MAX_BODY_BYTES, checkRequest } from "./validate";
 import { cleanAnswer, cleanSources, linksIn, type Source } from "./sanitize";
 import { checkAndRecord, visitorKey } from "./rateLimit";
@@ -12,6 +13,7 @@ import { checkAndRecord, visitorKey } from "./rateLimit";
  * visitor's hourly limit, asks Claude with web search and web fetch locked to Blackstone's sites and the funds' SEC
  * filings, and streams back newline-delimited JSON events (progress, answer text, the cleaned final answer).
  * The Anthropic key is read here, from the ANTHROPIC_API_KEY environment variable, and never leaves the server.
+ * A first question asked again within 12 hours gets the saved answer at once (see cache.ts).
  */
 async function handler(req: Request, context: Context): Promise<Response> {
   if (req.method !== "POST") return json({ error: "Use POST." }, 405, { allow: "POST" });
@@ -27,6 +29,13 @@ async function handler(req: Request, context: Context): Promise<Response> {
   }
   const checked = checkRequest(body);
   if (!checked.ok) return json({ error: checked.message }, checked.status);
+
+  // A first question (no earlier conversation) asked again: answer at once from the saved answer. It costs nothing,
+  // so it doesn't count toward the hourly limit. A follow-up depends on the conversation, so it's never saved.
+  const answers = savedAnswers();
+  const key = answers && checked.turns.length === 1 ? await answerKey(checked.turns[0].content, SETTINGS) : null;
+  const saved = answers && key ? await readSaved(answers, key) : null;
+  if (saved) return ndjson([{ t: "done", text: saved.text, sources: saved.sources, savedAt: saved.at }]);
 
   const apiKey = Netlify.env.get("ANTHROPIC_API_KEY");
   if (!apiKey) {
@@ -67,6 +76,10 @@ async function handler(req: Request, context: Context): Promise<Response> {
         send({ t: "status", text: "Searching Blackstone's sites and the funds' filings…" });
         const result = await answer(client, checked.turns, abort.signal, started, send);
         send({ t: "done", text: result.text, sources: result.sources });
+        // Save only a complete, sourced answer: not one cut short, declined or not found.
+        if (answers && key && result.complete && result.sources.length > 0) {
+          context.waitUntil(saveAnswer(answers, key, { text: result.text, sources: result.sources }).catch((e) => console.error("chat: couldn't save the answer", e)));
+        }
       } catch (e) {
         send({ t: "error", message: friendlyError(e, abort.signal.aborted) });
       } finally {
@@ -92,7 +105,7 @@ async function answer(
   signal: AbortSignal,
   started: number,
   send: (e: ChatEvent) => void,
-): Promise<{ text: string; sources: Source[] }> {
+): Promise<{ text: string; sources: Source[]; complete: boolean }> {
   const messages: Anthropic.Beta.BetaMessageParam[] = turns.map((t) => ({ role: t.role, content: t.content }));
   const sources: Source[] = [];
   let text = "";
@@ -148,7 +161,7 @@ async function answer(
     const message = await stream.finalMessage();
 
     if (message.stop_reason === "refusal") {
-      return { text: cleanAnswer("I can't help with that one. I can answer questions about BREIT, BCRED, BXPE and BXINFRA from Blackstone's official sites and the funds' SEC filings."), sources: [] };
+      return { text: cleanAnswer("I can't help with that one. I can answer questions about BREIT, BCRED, BXPE and BXINFRA from Blackstone's official sites and the funds' SEC filings."), sources: [], complete: false };
     }
     if (message.stop_reason === "max_tokens") cut = true;
     // A long search turn can pause; send it back unchanged to continue, if there's time left.
@@ -161,6 +174,7 @@ async function answer(
     break;
   }
 
+  const complete = !!text.trim() && !cut;
   if (!text.trim()) {
     text = "I couldn't find that in Blackstone's official sites or the funds' SEC filings in the time available. Try asking it a narrower way, or see the fund's own site: [BREIT](https://www.breit.com), [BCRED](https://www.bcred.com), [BXPE](https://www.bxpe.com), [BX Infra](https://www.bxinfra.com).";
   } else if (cut) {
@@ -168,7 +182,7 @@ async function answer(
   }
   const cleaned = cleanAnswer(text);
   // The pages the answer links to first, under the names it gives them, then any other pages its searches cited.
-  return { text: cleaned, sources: cleanSources([...linksIn(cleaned), ...sources]) };
+  return { text: cleaned, sources: cleanSources([...linksIn(cleaned), ...sources]), complete };
 }
 
 /** A progress line for a search or page read, from the tool call's input. */
@@ -192,6 +206,28 @@ function friendlyError(e: unknown, timedOut: boolean): string {
   if (e instanceof Anthropic.BadRequestError) return "The assistant couldn't handle that request. Try rephrasing it.";
   if (e instanceof Anthropic.APIError) return "The assistant had a problem answering. Try again in a moment.";
   return "Something went wrong. Try again in a moment.";
+}
+
+/**
+ * What a saved answer depends on: if the model, its instructions or its tools change, earlier answers aren't reused.
+ */
+const SETTINGS = JSON.stringify({ MODEL, EFFORT, MAX_OUTPUT_TOKENS, SYSTEM_PROMPT, TOOLS });
+
+/** The saved-answers store, or null where Netlify Blobs isn't available (the assistant then just doesn't save). */
+function savedAnswers(): AnswerStore | null {
+  try {
+    return getStore({ name: "chat-answers" });
+  } catch (e) {
+    console.error("chat: saved answers unavailable", e);
+    return null;
+  }
+}
+
+/** A finished answer stream in one go (the same format the live stream uses). */
+function ndjson(events: ChatEvent[]): Response {
+  return new Response(events.map((e) => `${JSON.stringify(e)}\n`).join(""), {
+    headers: { "content-type": "application/x-ndjson; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" },
+  });
 }
 
 function json(data: unknown, status: number, headers: Record<string, string> = {}): Response {
