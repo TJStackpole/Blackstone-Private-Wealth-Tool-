@@ -189,7 +189,7 @@ describe("model and tools", () => {
       "no finance background",
       "under about 150 words",
       "never make up example figures",
-      "One search is usually enough",
+      "Put filing language into plain words",
       "explain your earlier answer more simply",
     ])
       expect(SYSTEM_PROMPT, rule).toContain(rule);
