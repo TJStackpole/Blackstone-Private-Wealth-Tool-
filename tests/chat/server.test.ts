@@ -179,6 +179,8 @@ describe("model and tools", () => {
       "never answer from memory",
       "Never use news articles, blogs, opinion pieces",
       "use only filings filed by BREIT, BCRED, BXPE or BXINFRA themselves",
+      'such as the European "ELTIF" versions',
+      "prefer the fund's own SEC filings and its own site",
       "Every answer needs at least one link",
       "Never link to YouTube",
       "If the official sources don't answer the question, say so",
