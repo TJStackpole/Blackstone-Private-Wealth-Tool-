@@ -40,6 +40,24 @@ export default function InlineChat() {
     };
   }, []);
 
+  // Asking, and the answer arriving, grow the conversation above the question box, which can push the question off
+  // screen (on a phone, tapping a question at the bottom); bring it back into view. Only then, not when a saved
+  // conversation appears on load.
+  const busy = !!pending;
+  const wasBusy = useRef(busy);
+  useEffect(() => {
+    if (wasBusy.current === busy) return;
+    wasBusy.current = busy;
+    const asked = root.current?.querySelectorAll<HTMLElement>("[data-chat-question]");
+    const q = asked?.[asked.length - 1];
+    if (!q) return;
+    const top = q.getBoundingClientRect().top;
+    if (top < 0 || top > window.innerHeight * 0.6) {
+      const still = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      q.scrollIntoView({ block: "start", behavior: still ? "auto" : "smooth" });
+    }
+  }, [busy]);
+
   function send(question: string) {
     setInput("");
     ask(question);

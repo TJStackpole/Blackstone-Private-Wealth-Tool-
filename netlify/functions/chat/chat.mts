@@ -167,9 +167,8 @@ async function answer(
     text += "\n\n(This answer was cut short. Ask a narrower question for the rest.)";
   }
   const cleaned = cleanAnswer(text);
-  // Search citations first, then the pages the answer links to (searches run inside the model's filtering step often
-  // come back without formal citations).
-  return { text: cleaned, sources: cleanSources([...sources, ...linksIn(cleaned)]) };
+  // The pages the answer links to first, under the names it gives them, then any other pages its searches cited.
+  return { text: cleaned, sources: cleanSources([...linksIn(cleaned), ...sources]) };
 }
 
 /** A progress line for a search or page read, from the tool call's input. */

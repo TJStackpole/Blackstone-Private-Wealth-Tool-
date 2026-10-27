@@ -87,6 +87,17 @@ describe("answer clean-up", () => {
       ]),
     ).toEqual([{ url: "https://www.breit.com/a", title: "BREIT" }]);
   });
+
+  it("replaces a raw page title, like 'Sec' or a shouted legal notice, with a plain name", () => {
+    expect(
+      cleanSources([
+        { url: "https://www.sec.gov/Archives/edgar/data/1803498/000121390026096935/ex99.htm", title: "Sec" },
+        { url: "https://www.bcred.com/bcred_brochure/", title: "NOT FOR DISTRIBUTION TO FINANCIAL ADVISORS OR INVESTORS IN THE" },
+        { url: "https://www.bxpe.com/", title: "" },
+        { url: "https://www.bcred.com/offering-terms/", title: "Offering Terms - BCRED" },
+      ]).map((s) => s.title),
+    ).toEqual(["SEC filing", "Bcred brochure", "Home page", "Offering Terms - BCRED"]);
+  });
 });
 
 /** An in-memory stand-in for the Netlify Blobs store. */
