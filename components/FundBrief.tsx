@@ -28,7 +28,7 @@ interface Props {
 
 /**
  * The client view: a fund in five plain answers, each dated and sourced, with copy, print and the fund's tools. The map
- * and the full numbers wait behind "See the details".
+ * and the full numbers follow below; "Hide the details" folds them away (and "See the details" brings them back).
  */
 export default function FundBrief({ layer, data, details, onDetails, detailsId }: Props) {
   const answers = useMemo(() => fundBrief(layer.id, data), [layer.id, data]);

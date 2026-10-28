@@ -82,17 +82,16 @@ function viewUrl(id: Screen, details: boolean): string {
 export default function Atlas({ start }: { start?: AtlasStart }) {
   const [viewId, setViewId] = useState<Screen>(start?.view ?? "start");
   const layerId: LayerId = viewId === "all" || viewId === "start" ? DEFAULT_LAYER_ID : viewId;
-  // A link that picks a sector, a region or a theme is about the map, so it opens with the details showing. Otherwise a
-  // fund opens the way the visitor last left the details (see viewPrefs), so they stay open from fund to fund.
-  const [details, setDetails] = useState(
-    () => !!(start?.details || start?.sector || start?.select || start?.theme) || (!!start && isFund(start.view) && readViewPrefs().details === true),
-  );
+  // Each fund opens with its details (map, sectors, numbers) showing below the five answers, unless the visitor last
+  // hid them (see viewPrefs); that holds for funds reached from the Start screen's tabs too. A link that picks a sector,
+  // a region or a theme is about the map, so it always shows them. (On the server, storage can't be read: open.)
+  const [details, setDetails] = useState(() => !!(start?.details || start?.sector || start?.select || start?.theme) || readViewPrefs().details !== false);
   const [sector, setSector] = useState<string | null>(start?.sector ?? null);
   const [selected, setSelected] = useState<string | null>(start?.select ?? null);
   const [sheetOpen, setSheetOpen] = useState(!!start?.select);
   // Credit funds' collapsible Geography section: open unless the visitor last closed it, and always when arriving with a
   // region picked.
-  const [geoOpen, setGeoOpen] = useState(() => !!start?.select || (!!start && readViewPrefs().map !== false));
+  const [geoOpen, setGeoOpen] = useState(() => !!start?.select || readViewPrefs().map !== false);
   const [theme, setTheme] = useState<ThemeState>(start?.theme ? { id: start.theme, before: null } : NO_THEME);
   const reduce = useReducedMotion();
   const desktop = useMediaQuery("(min-width: 1024px)");

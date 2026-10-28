@@ -15,7 +15,7 @@ async function noFallbacks(page: Page) {
   await expect(page.locator("[data-addon-unavailable]")).toHaveCount(0);
 }
 
-test("the site opens on Start here, and every fund opens with five answers and then its details", async ({ page }) => {
+test("the site opens on Start here, and every fund opens with five answers and then its details and map", async ({ page }) => {
   const problems = watch(page);
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
@@ -24,9 +24,8 @@ test("the site opens on Start here, and every fund opens with five answers and t
   for (const [tab, fund] of Object.entries(funds)) {
     await page.getByRole("tab", { name: new RegExp(tab) }).click();
     await expect(page.getByRole("heading", { level: 2, name: `${fund}, in five answers` })).toBeVisible();
-    await page.getByRole("button", { name: /See the details/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: `Where ${fund} invests` })).toBeVisible();
-    await page.getByRole("button", { name: /Hide the details/ }).click();
+    await expect(page.locator('section[aria-label="Map"] svg').first()).toBeVisible();
     await noFallbacks(page);
   }
   for (const tab of ["All funds", "Retirement"]) {
@@ -36,33 +35,34 @@ test("the site opens on Start here, and every fund opens with five answers and t
   expect(problems).toEqual([]);
 });
 
-test("once opened, the details (and BCRED's map) stay open on every fund, however it's reached", async ({ page }) => {
+test("hiding the details (or BCRED's map) is remembered on every fund, and showing them again too", async ({ page }) => {
   const problems = watch(page);
-  await page.goto("/?view=breit");
-  await expect(page.locator("[data-details]")).toHaveCount(0);
-  await page.getByRole("button", { name: /See the details/ }).click();
-  for (const [tab, fund] of [["Infrastructure", "BX Infra"], ["Private Equity", "BXPE"], ["Credit", "BCRED"]]) {
-    await page.getByRole("tab", { name: new RegExp(tab) }).click();
-    await expect(page.getByRole("heading", { level: 2, name: `Where ${fund} invests` })).toBeVisible();
-  }
-  // BCRED's map sits in its Geography section, which is open.
+  // A first visit: BCRED opens with its details and its Geography map open.
+  await page.goto("/?view=bcred");
+  await expect(page.getByRole("heading", { level: 2, name: "Where BCRED invests" })).toBeVisible();
   const geography = page.locator('section[aria-label="Map"] details');
   await expect(geography).toHaveAttribute("open", "");
   await expect(geography.locator("svg").first()).toBeVisible();
-  // From the Start screen, and on a new visit, a fund still opens with its details.
-  await page.getByRole("link", { name: "Private Markets Atlas" }).first().click();
-  await page.locator('[data-path="fund"] a').filter({ hasText: "BXPE" }).click();
-  await expect(page.getByRole("heading", { level: 2, name: "Where BXPE invests" })).toBeVisible();
-  await page.goto("/?view=bcred");
-  await expect(page.getByRole("heading", { level: 2, name: "Where BCRED invests" })).toBeVisible();
-  // Closing the map and the details is remembered too.
+  // Closing the map and hiding the details carry over to other funds, the Start screen's cards and a new visit.
   await geography.locator("summary").click();
   await expect(geography).not.toHaveAttribute("open", "");
   await page.getByRole("button", { name: /Hide the details/ }).click();
-  await page.goto("/?view=breit");
+  await page.getByRole("tab", { name: /Infrastructure/ }).click();
+  await expect(page.locator("[data-details]")).toHaveCount(0);
+  await page.getByRole("link", { name: "Private Markets Atlas" }).first().click();
+  await page.locator('[data-path="fund"] a').filter({ hasText: "BXPE" }).click();
+  await expect(page.getByRole("heading", { level: 2, name: "BXPE, in five answers" })).toBeVisible();
   await expect(page.locator("[data-details]")).toHaveCount(0);
   await page.goto("/?view=bcred&details=1");
   await expect(geography).not.toHaveAttribute("open", "");
+  // Showing them again is remembered as well.
+  await geography.locator("summary").click();
+  await page.goto("/?view=breit");
+  await expect(page.locator("[data-details]")).toHaveCount(0);
+  await page.getByRole("button", { name: /See the details/ }).click();
+  await page.goto("/?view=bcred");
+  await expect(page.getByRole("heading", { level: 2, name: "Where BCRED invests" })).toBeVisible();
+  await expect(geography).toHaveAttribute("open", "");
   expect(problems).toEqual([]);
 });
 

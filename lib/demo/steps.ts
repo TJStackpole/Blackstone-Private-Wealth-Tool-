@@ -30,14 +30,14 @@ export const STEPS: TourStep[] = [
       "Each fund opens with the five things a client asks first: what it is, what it pays, how to get money out, what changed lately and the main risk. Each answer has its date and a 'Sources' link to the filings.",
       "Words with a dotted underline, such as non-accrual or tender offer, open a plain definition with the filing's own words. 'Copy these answers' copies all five with their sources.",
     ],
-    tryThis: "Click a dotted word, then 'See the details'.",
+    tryThis: "Click a dotted word, then scroll down past the five answers to the map and the full numbers.",
     url: "/?view=bcred",
   },
   {
     chapter: "The map",
     title: "Real estate, down to the state",
     body: [
-      "'See the details' opens the map, the sector mix, the newest month's figures and the last quarter's. BREIT's filing names each investment with a city, so its map goes down to the state.",
+      "Below the five answers come the map, the sector mix, the newest month's figures and the last quarter's. BREIT's filing names each investment with a city, so its map goes down to the state.",
       "Here Nevada is selected: the panel lists the Nevada investments named in the filing, with units, occupancy and ownership.",
     ],
     tryThis: "Click another state, or use the Tab key to move between them.",
@@ -178,7 +178,7 @@ export const SHORT_STEPS: TourStep[] = [
       "What it is, what it pays, how to get money out, what changed lately and the main risk, each dated and sourced. The newest values come from the September 30 month-end filings; the rest from the 10-Q for the quarter ended June 30, 2026.",
       "Dotted words open a plain definition with the filing's own words.",
     ],
-    tryThis: "Click 'See the details' for the map and the full numbers.",
+    tryThis: "Scroll down past the five answers for the map and the full numbers.",
     url: "/?view=bcred",
   },
   {

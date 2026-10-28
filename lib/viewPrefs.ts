@@ -1,7 +1,7 @@
 /**
- * What a visitor last chose on the fund pages, kept in this browser: whether "See the details" was left open, and
- * whether the credit fund's Geography map was. A fund opened any way (its tab, a Start-screen card, Back, a new visit)
- * opens the same way; a link that asks for the details (?details=1) still opens them.
+ * What a visitor last chose on the fund pages, kept in this browser: whether they hid the details, and whether they
+ * closed the credit fund's Geography map. Both are open until then. A fund opened any way (its tab, a Start-screen
+ * card, Back, a new visit) opens the same way; a link that asks for the details (?details=1) always shows them.
  */
 const KEY = "pma-fund-view";
 
