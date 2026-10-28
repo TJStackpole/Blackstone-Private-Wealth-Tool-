@@ -21,6 +21,7 @@ import { useMediaQuery } from "./useMediaQuery";
 import QuarterBox from "./QuarterBox";
 import LatestBox from "./LatestBox";
 import { latestFor } from "@/lib/latest";
+import { readViewPrefs, saveViewPref } from "@/lib/viewPrefs";
 import HoldingsLead, { holdingsLead } from "./HoldingsLead";
 import LayerSwitcher from "./LayerSwitcher";
 import MapKey from "./MapKey";
@@ -81,13 +82,17 @@ function viewUrl(id: Screen, details: boolean): string {
 export default function Atlas({ start }: { start?: AtlasStart }) {
   const [viewId, setViewId] = useState<Screen>(start?.view ?? "start");
   const layerId: LayerId = viewId === "all" || viewId === "start" ? DEFAULT_LAYER_ID : viewId;
-  // A link that picks a sector, a region or a theme is about the map, so it opens with the details showing.
-  const [details, setDetails] = useState(!!(start?.details || start?.sector || start?.select || start?.theme));
+  // A link that picks a sector, a region or a theme is about the map, so it opens with the details showing. Otherwise a
+  // fund opens the way the visitor last left the details (see viewPrefs), so they stay open from fund to fund.
+  const [details, setDetails] = useState(
+    () => !!(start?.details || start?.sector || start?.select || start?.theme) || (!!start && isFund(start.view) && readViewPrefs().details === true),
+  );
   const [sector, setSector] = useState<string | null>(start?.sector ?? null);
   const [selected, setSelected] = useState<string | null>(start?.select ?? null);
   const [sheetOpen, setSheetOpen] = useState(!!start?.select);
-  // Credit funds' collapsible Geography section: open when arriving with a region picked.
-  const [geoOpen, setGeoOpen] = useState(!!start?.select);
+  // Credit funds' collapsible Geography section: open unless the visitor last closed it, and always when arriving with a
+  // region picked.
+  const [geoOpen, setGeoOpen] = useState(() => !!start?.select || (!!start && readViewPrefs().map !== false));
   const [theme, setTheme] = useState<ThemeState>(start?.theme ? { id: start.theme, before: null } : NO_THEME);
   const reduce = useReducedMotion();
   const desktop = useMediaQuery("(min-width: 1024px)");
@@ -108,6 +113,7 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
 
   function showDetails(open: boolean) {
     setDetails(open);
+    saveViewPref({ details: open });
     window.history.replaceState(window.history.state, "", viewUrl(viewId, open));
   }
 
@@ -256,10 +262,14 @@ export default function Atlas({ start }: { start?: AtlasStart }) {
             {lead ? (
               <div className="space-y-4">
                 <HoldingsLead data={data} sector={sector} />
-                {/* The map shrinks to a section you can open; picking a region (or arriving with one picked) opens it. */}
+                {/* The map is a section below the borrowers, open unless the visitor closed it; picking a region opens it. */}
                 <details
                   open={geoOpen}
-                  onToggle={(e) => setGeoOpen((e.currentTarget as HTMLDetailsElement).open)}
+                  onToggle={(e) => {
+                    const open = (e.currentTarget as HTMLDetailsElement).open;
+                    setGeoOpen(open);
+                    saveViewPref({ map: open });
+                  }}
                   className="group rounded-card border border-line bg-bg-raised"
                 >
                   <summary className="tap flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 sm:px-5 [&::-webkit-details-marker]:hidden">

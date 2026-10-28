@@ -36,6 +36,36 @@ test("the site opens on Start here, and every fund opens with five answers and t
   expect(problems).toEqual([]);
 });
 
+test("once opened, the details (and BCRED's map) stay open on every fund, however it's reached", async ({ page }) => {
+  const problems = watch(page);
+  await page.goto("/?view=breit");
+  await expect(page.locator("[data-details]")).toHaveCount(0);
+  await page.getByRole("button", { name: /See the details/ }).click();
+  for (const [tab, fund] of [["Infrastructure", "BX Infra"], ["Private Equity", "BXPE"], ["Credit", "BCRED"]]) {
+    await page.getByRole("tab", { name: new RegExp(tab) }).click();
+    await expect(page.getByRole("heading", { level: 2, name: `Where ${fund} invests` })).toBeVisible();
+  }
+  // BCRED's map sits in its Geography section, which is open.
+  const geography = page.locator('section[aria-label="Map"] details');
+  await expect(geography).toHaveAttribute("open", "");
+  await expect(geography.locator("svg").first()).toBeVisible();
+  // From the Start screen, and on a new visit, a fund still opens with its details.
+  await page.getByRole("link", { name: "Private Markets Atlas" }).first().click();
+  await page.locator('[data-path="fund"] a').filter({ hasText: "BXPE" }).click();
+  await expect(page.getByRole("heading", { level: 2, name: "Where BXPE invests" })).toBeVisible();
+  await page.goto("/?view=bcred");
+  await expect(page.getByRole("heading", { level: 2, name: "Where BCRED invests" })).toBeVisible();
+  // Closing the map and the details is remembered too.
+  await geography.locator("summary").click();
+  await expect(geography).not.toHaveAttribute("open", "");
+  await page.getByRole("button", { name: /Hide the details/ }).click();
+  await page.goto("/?view=breit");
+  await expect(page.locator("[data-details]")).toHaveCount(0);
+  await page.goto("/?view=bcred&details=1");
+  await expect(geography).not.toHaveAttribute("open", "");
+  expect(problems).toEqual([]);
+});
+
 test("Advisor Toolkit link opens the toolkit, and every enabled add-on opens", async ({ page }) => {
   const problems = watch(page);
   await page.goto("/");
